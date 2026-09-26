@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jigger-cyan.vercel.app/sitemap.xml

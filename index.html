@@ -143,6 +143,11 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
 .seemore svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6}
 .empty{grid-column:1/-1;padding:64px 20px;text-align:center;background:var(--surface);border:1px solid var(--line)}
 .empty p{margin:0 0 14px;font:400 24px var(--serif-ko);font-weight:600}
+.sitelinks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:24px;margin-top:64px;padding-top:20px;border-top:1px solid var(--ink)}
+.sitelinks h2{margin:0 0 8px;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.sitelinks ul{display:flex;flex-wrap:wrap;gap:4px 12px;margin:0;padding:0;list-style:none}
+.sitelinks a{font-size:13px;color:var(--mut);text-decoration:none}
+.sitelinks a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .foot{margin-top:36px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font:400 12px/1.6 var(--mono);color:var(--mut)}
 
 /* panel */
@@ -349,6 +354,15 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
   </main>
 
   <main id="qmain" hidden></main>
+
+  <!-- build:links (scripts/build.mjs가 자동으로 만들어요) -->
+  <nav class="sitelinks" aria-label="전체 페이지">
+    <div><h2>칵테일 레시피</h2><ul><li><a href="/cocktails/martini/">마티니</a></li><li><a href="/cocktails/negroni/">네그로니</a></li><li><a href="/cocktails/gin-tonic/">진 토닉</a></li><li><a href="/cocktails/tom-collins/">톰 콜린스</a></li><li><a href="/cocktails/gimlet/">김렛</a></li><li><a href="/cocktails/mojito/">모히토</a></li><li><a href="/cocktails/daiquiri/">다이키리</a></li><li><a href="/cocktails/pina-colada/">피냐 콜라다</a></li><li><a href="/cocktails/dark-n-stormy/">다크 앤 스토미</a></li><li><a href="/cocktails/old-fashioned/">올드 패션드</a></li><li><a href="/cocktails/manhattan/">맨해튼</a></li><li><a href="/cocktails/whiskey-sour/">위스키 사워</a></li><li><a href="/cocktails/mint-julep/">민트 줄렙</a></li><li><a href="/cocktails/moscow-mule/">모스코 뮬</a></li><li><a href="/cocktails/cosmopolitan/">코스모폴리탄</a></li><li><a href="/cocktails/espresso-martini/">에스프레소 마티니</a></li><li><a href="/cocktails/bloody-mary/">블러디 메리</a></li><li><a href="/cocktails/margarita/">마가리타</a></li><li><a href="/cocktails/paloma/">팔로마</a></li><li><a href="/cocktails/tequila-sunrise/">테킬라 선라이즈</a></li><li><a href="/cocktails/sidecar/">사이드카</a></li><li><a href="/cocktails/aperol-spritz/">아페롤 스프리츠</a></li><li><a href="/cocktails/mimosa/">미모사</a></li><li><a href="/cocktails/virgin-mojito/">버진 모히토</a></li><li><a href="/cocktails/shirley-temple/">셜리 템플</a></li><li><a href="/cocktails/cinderella/">신데렐라</a></li><li><a href="/cocktails/virgin-colada/">버진 피냐 콜라다</a></li><li><a href="/cocktails/arnold-palmer/">아놀드 파머</a></li><li><a href="/cocktails/ginger-mule/">진저 뮬</a></li><li><a href="/cocktails/virgin-mary/">버진 메리</a></li></ul></div>
+    <div><h2>주류 상식</h2><ul><li><a href="/spirits/beer/">맥주</a></li><li><a href="/spirits/wine/">와인</a></li><li><a href="/spirits/whisky/">위스키</a></li><li><a href="/spirits/brandy/">브랜디</a></li><li><a href="/spirits/gin/">진</a></li><li><a href="/spirits/vodka/">보드카</a></li><li><a href="/spirits/rum/">럼</a></li><li><a href="/spirits/tequila/">테킬라</a></li><li><a href="/spirits/takju/">막걸리(탁주)</a></li><li><a href="/spirits/yakju/">청주·약주</a></li><li><a href="/spirits/soju/">소주</a></li><li><a href="/spirits/liqueur/">혼성주(리큐르)</a></li></ul></div>
+    <div><h2>안주 레시피</h2><ul><li><a href="/food/french-fries/">감자튀김</a></li><li><a href="/food/wings/">양념 치킨윙</a></li><li><a href="/food/golbaengi/">골뱅이무침</a></li><li><a href="/food/pajeon/">김치파전</a></li><li><a href="/food/dried-snacks/">육포 &amp; 마른안주</a></li><li><a href="/food/nuts/">허니 로스트 넛츠</a></li><li><a href="/food/cheese/">치즈 플래터</a></li><li><a href="/food/olives/">마리네이드 올리브</a></li><li><a href="/food/nachos/">나초 &amp; 살사</a></li><li><a href="/food/steak/">스테이크</a></li><li><a href="/food/shrimp/">갈릭 버터 새우</a></li><li><a href="/food/dubukimchi/">두부김치</a></li><li><a href="/food/jokbal/">족발 플레이트</a></li><li><a href="/food/salmon/">훈제연어 카나페</a></li><li><a href="/food/chocolate/">다크초콜릿 &amp; 베리</a></li></ul></div>
+    <div><h2>조주기능사</h2><ul><li><a href="/quiz/">필기 예상문제 125개와 해설</a></li></ul></div>
+  </nav>
+  <!-- /build:links -->
 
   <footer class="foot">
     <span>도수는 얼음이 녹은 뒤를 기준으로 한 대략적인 추정치예요.</span>

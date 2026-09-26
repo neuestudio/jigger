@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /* 사이트 빌드 (커밋할 때 pre-commit 훅이 실행해요)
    - photos.js : images/ 에 있는 사진 목록. 없는 사진은 요청하지 않게 해요.
-   - --preview : 검색용 정적 페이지 미리보기 (네그로니, 조주기능사 필기)
-   데이터는 index.html의 데이터 구간과 quiz-questions.js에서 그대로 읽어요. */
+   - 검색용 정적 페이지 : /cocktails/<id>/, /spirits/<id>/, /food/<id>/, /quiz/
+   - sitemap.xml, robots.txt, index.html 하단의 전체 페이지 링크
+   데이터는 index.html의 데이터 구간과 quiz-questions.js에서 그대로 읽어요.
+   도메인을 바꾸면 아래 SITE 한 줄만 고치면 돼요. */
 import fs from 'fs';
 import path from 'path';
 import vm from 'vm';
@@ -21,7 +23,6 @@ for (const d of ['cocktails', 'spirits', 'food']) {
 }
 wr('photos.js', `/* scripts/build.mjs가 자동으로 만들어요. 직접 고치지 마세요. */\nwindow.PHOTOS = ${JSON.stringify(PHOTOS)};\n`);
 
-if (!process.argv.includes('--preview')) process.exit(0);
 
 /* ---------- 데이터 읽기 ---------- */
 const html = rd('index.html');
@@ -34,7 +35,7 @@ const code = cut('/* ---------- 데이터 ---------- */', '/* ---------- 유틸 
   + cut('/* ---------- 유리잔 SVG ---------- */', '/* ---------- 사진')
   + (html.match(/function plateSVG[\s\S]*?\n}\n/) || [''])[0];
 const D = vm.runInNewContext(`(function(){ ${code}
-  return {RECIPES, SPIRITS, FOOD, BASE_EN, DIFF, glassSVG, plateSVG}; })()`);
+  return {RECIPES, SPIRITS, FOOD, BASE_EN, CAT_EN, DIFF, glassSVG, plateSVG}; })()`);
 const qctx = {window:{}};
 vm.runInNewContext(rd('quiz-questions.js'), qctx);
 const QUIZ = qctx.window.QUIZ, QCATS = qctx.window.QUIZ_CATS;
@@ -47,11 +48,12 @@ const ALIAS = {
 };
 const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보드카':['vodka'], '테킬라':['tequila'], '브랜디':['brandy'], '와인·리큐어':['wine','liqueur']};
 const MARK = ['①','②','③','④'];
+const SPIRIT = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
 
 /* ---------- 공통 ---------- */
 const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g,'\\u003c')}</script>`;
-const FONT = 'https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap';
+const FONT = 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=optional';
 const NAV = [['/', '칵테일 레시피', 'cocktail'], ['/#spirits', '주류 상식', 'spirit'], ['/#food', '안주 레시피', 'food'], ['/quiz/', '조주기능사 필기', 'quiz']];
 
 function crumbs(items){
@@ -82,6 +84,9 @@ function page({url, title, desc, image, section, body, jsonld}){
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/dm-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/dm-mono-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${FONT}" media="print" onload="this.media='all'">
@@ -157,7 +162,8 @@ function cocktailPage(r){
           <div><dt>기법</dt><dd>${r.method}</dd></div>
           <div><dt>글라스</dt><dd>${r.glassName}</dd></div>
           <div><dt>난이도</dt><dd>${diff}</dd></div>
-          <div class="wide"><dt>가니시</dt><dd>${esc(r.garnish)}</dd></div>
+          <div><dt>베이스</dt><dd>${spirits.length ? spirits.map(id=>`<a href="/spirits/${id}/">${esc(SPIRIT[id].ko)}</a>`).join(' · ') : '논알콜'}</dd></div>
+          <div><dt>가니시</dt><dd>${esc(r.garnish)}</dd></div>
         </dl>
         <section class="sec">
           <div class="sec-h"><h2>재료</h2><span class="prog">1잔 기준</span></div>
@@ -247,12 +253,179 @@ function quizPage(){
 ${groups}
     <section class="more">
       <div class="sec-h"><h2>주류 상식으로 복습하기</h2></div>
-      <div class="cards">${D.SPIRITS.slice(0, 4).map(s=>card('spirits', s, s.ko)).join('')}</div>
+      <div class="cards">${D.SPIRITS.map(s=>card('spirits', s, s.ko)).join('')}</div>
     </section>`;
   return {url, html:page({url, title, desc, image:`${SITE}/og.jpg`, section:'quiz', body, jsonld:[c.list]})};
 }
 
+/* ---------- 주류 상식 페이지 ---------- */
+function spiritNames(sp){ return sp.ko.split(/[()·]/).map(t=>t.trim()).filter(Boolean); }
+function relatedQuiz(sp){
+  // "가진"의 "진", "처럼"의 "럼"처럼 다른 낱말 속 글자는 빼고, 조사가 붙은 경우만 인정해요
+  const res = spiritNames(sp).map(n=>new RegExp(`(^|[^가-힣])${n}(?=$|[^가-힣]|[은는이가의을를와과로에도])`));
+  return QUIZ.filter(q=>res.some(re=>re.test(q.q) || re.test(q.o[0]))).slice(0, 4);
+}
+function miniQuiz(qs){
+  return `<ol class="qlist">${qs.map((q, n)=>{ const order = perm(q.id); return `
+        <li class="qi"><p class="qq"><span class="qn">Q${n+1}</span>${esc(q.q)}</p>
+          <ol class="opts">${order.map((o, k)=>`<li${o===0?' class="ok"':''}><span class="mk">${MARK[k]}</span>${esc(q.o[o])}</li>`).join('')}</ol>
+          <details><summary>정답과 해설 보기</summary><p class="ans">정답 ${MARK[order.indexOf(0)]} ${esc(q.o[0])}</p><p class="ex">${esc(q.e)}</p></details></li>`; }).join('')}
+      </ol>`;
+}
+function spiritPage(sp){
+  const url = `/spirits/${sp.id}/`;
+  const photo = PHOTOS.spirits.includes(sp.id);
+  const image = photo ? `${SITE}/images/spirits/${sp.id}.webp` : `${SITE}/og.jpg`;
+  const title = `${sp.ko} 종류와 제조법 · 원료, 도수 정리 (${sp.en}) | Jigger`;
+  const desc = `${sp.ko}(${sp.en}) · ${sp.cat}. 원료 ${sp.material}, 도수 ${sp.abv}. 종류: ${sp.types}. 조주기능사 필기 대비 주류 상식 정리.`;
+  const c = crumbs([['Jigger','/'], ['주류 상식','/#spirits'], [sp.ko, url]]);
+  const bases = Object.entries(BASE_SPIRIT).filter(([, ids])=>ids.includes(sp.id)).map(([b])=>b);
+  const cocktails = D.RECIPES.filter(r=>bases.includes(r.base)).slice(0, 4);
+  const foods = D.FOOD.filter(f=>f.pairsWith.includes(sp.id)).slice(0, 4);
+  const qs = relatedQuiz(sp);
+  const same = D.SPIRITS.filter(x=>x.cat===sp.cat && x.id!==sp.id);
+  const body = `    ${c.nav}
+    <article class="item">
+      <div class="media" style="--liq:${sp.liquid}">${photo
+        ? `<img src="/images/spirits/${sp.id}.webp" alt="${esc(sp.ko)}" width="1000" height="1000" fetchpriority="high">`
+        : D.glassSVG(sp, 'hero')}</div>
+      <div class="body">
+        <span class="eyebrow">${D.CAT_EN[sp.cat]} · ${sp.cat}</span>
+        <h1>${esc(sp.ko)} <span class="en">${esc(sp.en)}</span></h1>
+        <p class="lead">${esc(sp.process)}</p>
+        <dl class="spec">
+          <div><dt>원료</dt><dd>${esc(sp.material)}</dd></div>
+          <div><dt>도수</dt><dd>${esc(sp.abv)}</dd></div>
+          <div><dt>종류</dt><dd>${esc(sp.types)}</dd></div>
+          <div><dt>분류</dt><dd>${sp.cat}</dd></div>
+        </dl>
+        <section class="sec">
+          <div class="sec-h"><h2>세부 종류</h2><span class="prog">${sp.sub.length}가지</span></div>
+          <ul class="subtypes">${sp.sub.map(x=>`<li><b>${esc(x.name)}</b>${esc(x.desc)}</li>`).join('')}</ul>
+        </section>
+        <section class="sec">
+          <div class="sec-h"><h2>조주기능사 시험 포인트</h2></div>
+          <p class="lead">${esc(sp.note)}</p>
+        </section>
+      </div>
+    </article>
+    ${qs.length ? `<section class="more">
+      <div class="sec-h"><h2>${esc(spiritNames(sp)[0])} 관련 필기 예상문제</h2><a class="prog" href="/quiz/">전체 ${QUIZ.length}문제 →</a></div>
+      ${miniQuiz(qs)}
+    </section>` : ''}
+    ${cocktails.length ? `<section class="more">
+      <div class="sec-h"><h2>${esc(spiritNames(sp)[0])}로 만드는 칵테일</h2></div>
+      <div class="cards">${cocktails.map(x=>card('cocktails', x, `${x.ko} 칵테일`)).join('')}</div>
+    </section>` : ''}
+    ${foods.length ? `<section class="more">
+      <div class="sec-h"><h2>어울리는 안주</h2></div>
+      <div class="cards">${foods.map(f=>card('food', f, f.ko)).join('')}</div>
+    </section>` : ''}
+    <section class="more">
+      <div class="sec-h"><h2>주류 상식 전체</h2><span class="prog">${same.length ? `같은 ${sp.cat} ${same.length}가지 포함` : ''}</span></div>
+      <ul class="alllinks">${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/"${x.id===sp.id?' aria-current="page"':''}>${esc(x.ko)}</a></li>`).join('')}</ul>
+    </section>`;
+  const article = {'@context':'https://schema.org', '@type':'Article', headline:`${sp.ko}(${sp.en}) 종류와 제조법`,
+    description:desc, image:[image], author:{'@type':'Organization', name:'Jigger', url:SITE+'/'}, inLanguage:'ko'};
+  return {url, html:page({url, title, desc, image, section:'spirit', body, jsonld:[article, c.list]})};
+}
+
+/* ---------- 안주 페이지 ---------- */
+function foodPage(f){
+  const url = `/food/${f.id}/`;
+  const photo = PHOTOS.food.includes(f.id);
+  const image = photo ? `${SITE}/images/food/${f.id}.webp` : `${SITE}/og.jpg`;
+  const pairs = f.pairsWith.map(id=>SPIRIT[id]);
+  const pairNames = pairs.map(x=>spiritNames(x)[0]);
+  const diff = D.DIFF[f.diff-1];
+  const title = `${f.ko} 만드는 법 · ${pairNames.join('·')} 안주 레시피 | Jigger`;
+  const desc = `${f.ko} 레시피. 조리 시간 ${f.time}, 난이도 ${diff}. 재료: ${f.material.join(', ')}. ${pairNames.join('·')}와 잘 어울리는 안주예요.`;
+  const c = crumbs([['Jigger','/'], ['안주 레시피','/#food'], [f.ko, url]]);
+  const bases = Object.entries(BASE_SPIRIT).filter(([, ids])=>ids.some(id=>f.pairsWith.includes(id))).map(([b])=>b);
+  const cocktails = D.RECIPES.filter(r=>bases.includes(r.base)).slice(0, 4);
+  const others = D.FOOD.filter(x=>x.id!==f.id && x.pairsWith.some(id=>f.pairsWith.includes(id))).slice(0, 4);
+  const body = `    ${c.nav}
+    <article class="item">
+      <div class="media" style="--liq:${f.color}">${photo
+        ? `<img src="/images/food/${f.id}.webp" alt="${esc(f.ko)}" width="1000" height="1000" fetchpriority="high">`
+        : D.plateSVG(f, 'hero')}</div>
+      <div class="body">
+        <span class="eyebrow">Food Pairing · 안주 레시피</span>
+        <h1>${esc(f.ko)} <span class="en">${esc(f.en)}</span></h1>
+        <div class="tags">${pairs.map(x=>`<a class="tag" href="/spirits/${x.id}/">${esc(x.ko)}</a>`).join('')}</div>
+        <p class="lead">${esc(f.note)}</p>
+        <dl class="spec">
+          <div><dt>조리 시간</dt><dd>${esc(f.time)}</dd></div>
+          <div><dt>난이도</dt><dd>${diff}</dd></div>
+          <div class="wide"><dt>어울리는 술</dt><dd>${pairs.map(x=>`<a href="/spirits/${x.id}/">${esc(x.ko)}</a>`).join(' · ')}</dd></div>
+        </dl>
+        <section class="sec">
+          <div class="sec-h"><h2>재료</h2></div>
+          <ul class="ings">${f.material.map(m=>`<li><span class="sw none"></span><span>${esc(m)}</span><span></span></li>`).join('')}</ul>
+        </section>
+        <section class="sec">
+          <div class="sec-h"><h2>만드는 법</h2></div>
+          <ol class="steps">${f.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
+        </section>
+        <a class="cta" href="/#${f.id}">Jigger에서 재료 체크하며 만들기 →</a>
+      </div>
+    </article>
+    ${cocktails.length ? `<section class="more">
+      <div class="sec-h"><h2>함께 마시기 좋은 칵테일</h2></div>
+      <div class="cards">${cocktails.map(x=>card('cocktails', x, `${x.ko} 칵테일`)).join('')}</div>
+    </section>` : ''}
+    ${others.length ? `<section class="more">
+      <div class="sec-h"><h2>비슷한 술에 어울리는 안주</h2></div>
+      <div class="cards">${others.map(x=>card('food', x, x.ko)).join('')}</div>
+    </section>` : ''}
+    <section class="more">
+      <div class="sec-h"><h2>안주 레시피 전체</h2><span class="prog">${D.FOOD.length}가지</span></div>
+      <ul class="alllinks">${D.FOOD.map(x=>`<li><a href="/food/${x.id}/"${x.id===f.id?' aria-current="page"':''}>${esc(x.ko)}</a></li>`).join('')}</ul>
+    </section>`;
+  const mins = /^(\d+)분$/.exec(f.time);
+  const recipe = {'@context':'https://schema.org', '@type':'Recipe', name:`${f.ko} (${f.en})`, image:[image], description:f.note,
+    author:{'@type':'Organization', name:'Jigger', url:SITE+'/'}, recipeCategory:'안주',
+    keywords:[`${f.ko} 만드는 법`, ...pairNames.map(n=>`${n} 안주`)].join(', '),
+    ...(mins ? {totalTime:`PT${mins[1]}M`} : {}),
+    recipeIngredient:f.material, recipeInstructions:f.steps.map(text=>({'@type':'HowToStep', text}))};
+  return {url, html:page({url, title, desc, image, section:'food', body, jsonld:[recipe, c.list]})};
+}
+
 /* ---------- 쓰기 ---------- */
-const pages = [cocktailPage(D.RECIPES.find(r=>r.id==='negroni')), quizPage()];
+const pages = [
+  quizPage(),
+  ...D.RECIPES.map(cocktailPage),
+  ...D.SPIRITS.map(spiritPage),
+  ...D.FOOD.map(foodPage)
+];
 for (const p of pages) wr(p.url.slice(1) + 'index.html', p.html);
-console.log('built', pages.map(p=>p.url).join(', '));
+
+// 데이터에서 지운 항목의 페이지 정리
+for (const [dir, list] of [['cocktails', D.RECIPES], ['spirits', D.SPIRITS], ['food', D.FOOD]]) {
+  const keep = new Set(list.map(x=>x.id));
+  for (const d of fs.readdirSync(path.join(ROOT, dir))) {
+    if (!keep.has(d) && fs.existsSync(path.join(ROOT, dir, d, 'index.html'))) fs.rmSync(path.join(ROOT, dir, d), {recursive:true});
+  }
+}
+
+wr('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${['/', ...pages.map(p=>p.url)].map(u=>`  <url><loc>${SITE}${u}</loc></url>`).join('\n')}
+</urlset>
+`);
+wr('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
+
+// index.html 하단: 검색엔진이 따라갈 수 있는 전체 페이지 링크
+const links = `<!-- build:links (scripts/build.mjs가 자동으로 만들어요) -->
+  <nav class="sitelinks" aria-label="전체 페이지">
+    <div><h2>칵테일 레시피</h2><ul>${D.RECIPES.map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
+    <div><h2>주류 상식</h2><ul>${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
+    <div><h2>안주 레시피</h2><ul>${D.FOOD.map(x=>`<li><a href="/food/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
+    <div><h2>조주기능사</h2><ul><li><a href="/quiz/">필기 예상문제 ${QUIZ.length}개와 해설</a></li></ul></div>
+  </nav>
+  <!-- /build:links -->`;
+const re = /<!-- build:links[\s\S]*?<!-- \/build:links -->/;
+if (!re.test(html)) throw new Error('index.html에 build:links 자리 표시가 없어요');
+const next = html.replace(re, links);
+if (next !== html) { wr('index.html', next); console.log('updated index.html links'); }
+console.log(`built ${pages.length} pages + sitemap.xml`);
