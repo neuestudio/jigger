@@ -48,6 +48,7 @@ const ALIAS = {
 };
 const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보드카':['vodka'], '테킬라':['tequila'], '브랜디':['brandy'], '와인·리큐어':['wine','liqueur']};
 const MARK = ['①','②','③','④'];
+const CONTACT = {email:'naanodesign@gmail.com', tel:'+82-10-5444-0168', telLabel:'010-5444-0168'};
 const SPIRIT = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
 
 /* ---------- 공통 ---------- */
@@ -102,7 +103,7 @@ ${body}
   </main>
   <footer class="foot">
     <span>Jigger · 집에서 만드는 칵테일 레시피와 조주기능사 필기 모의고사</span>
-    <span>음주는 성인만, 적당히 즐겨요.</span>
+    <span><a href="/about/">소개 · 문의</a> · 음주는 성인만, 적당히 즐겨요.</span>
   </footer>
 </div>
 `;
@@ -390,12 +391,62 @@ function foodPage(f){
   return {url, html:page({url, title, desc, image, section:'food', body, jsonld:[recipe, c.list]})};
 }
 
+/* ---------- 소개 · 문의 페이지 ---------- */
+function aboutPage(){
+  const url = '/about/';
+  const title = 'Jigger 소개 · 문의 | 칵테일 레시피와 조주기능사 필기';
+  const desc = `Jigger는 집에서 만드는 칵테일 레시피 ${D.RECIPES.length}가지, 주류 상식, 안주 레시피, 조주기능사 필기 예상문제 ${QUIZ.length}개를 모은 사이트예요. 콘텐츠 기준과 문의 방법을 안내해요.`;
+  const c = crumbs([['Jigger','/'], ['소개 · 문의', url]]);
+  const body = `    ${c.nav}
+    <section class="hero">
+      <span class="eyebrow">About · Contact</span>
+      <h1>Jigger 소개</h1>
+      <p class="lead">Jigger는 집에서 칵테일을 만들고, 술을 조금 더 알고 싶은 사람을 위한 사이트예요. 칵테일은 잔 수에 맞춰 계량할 수 있게, 술은 원료와 제조 방식부터, 조주기능사 필기는 해설과 함께 풀어볼 수 있게 정리했어요.</p>
+    </section>
+    <section class="sec">
+      <div class="sec-h"><h2>무엇을 담았나요</h2></div>
+      <dl class="spec">
+        <div><dt>칵테일 레시피</dt><dd><a href="/">${D.RECIPES.length}가지</a> · 재료, 비율, 만드는 법</dd></div>
+        <div><dt>주류 상식</dt><dd><a href="/#spirits">${D.SPIRITS.length}가지</a> · 원료, 제조법, 세부 종류</dd></div>
+        <div><dt>안주 레시피</dt><dd><a href="/#food">${D.FOOD.length}가지</a> · 어울리는 술과 함께</dd></div>
+        <div><dt>조주기능사 필기</dt><dd><a href="/quiz/">예상문제 ${QUIZ.length}개</a> · 모의고사, 오답노트</dd></div>
+      </dl>
+    </section>
+    <section class="sec">
+      <div class="sec-h"><h2>콘텐츠 기준</h2></div>
+      <ul class="subtypes">
+        <li><b>레시피 도수</b>얼음이 녹은 뒤를 기준으로 한 대략적인 추정치예요. 재료 브랜드와 만드는 방법에 따라 달라질 수 있어요.</li>
+        <li><b>조주기능사 필기 문제</b>출제 범위를 바탕으로 직접 만든 예상문제예요. 실제 기출문제가 아니며, 시험 준비의 방향을 잡는 용도로 활용해 주세요.</li>
+        <li><b>오류 제보</b>정답이나 레시피에 틀린 내용이 있으면 아래 연락처로 알려 주세요. 확인한 뒤 바로 고칠게요.</li>
+        <li><b>음주 안내</b>음주는 성인만, 적당히 즐겨 주세요. 음주 후에는 운전하지 마세요.</li>
+      </ul>
+    </section>
+    <section class="sec">
+      <div class="sec-h"><h2>개인정보</h2></div>
+      <p class="lead">Jigger는 회원가입이 없고 개인정보를 수집하지 않아요. 즐겨찾기, 오답노트, 모의고사 기록은 사용하는 브라우저 안에만 저장되고 서버로 전송되지 않아요. 브라우저의 사이트 데이터를 지우면 함께 삭제돼요.</p>
+    </section>
+    <section class="sec">
+      <div class="sec-h"><h2>문의</h2></div>
+      <dl class="spec">
+        <div><dt>이메일</dt><dd><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></dd></div>
+        <div><dt>전화</dt><dd><a href="tel:${CONTACT.tel.replace(/-/g,'')}">${CONTACT.telLabel}</a></dd></div>
+      </dl>
+      <p class="note">레시피·문제 오류 제보, 제휴 문의 모두 환영해요.</p>
+    </section>`;
+  const about = {'@context':'https://schema.org', '@type':'AboutPage', name:title, url:SITE+url, inLanguage:'ko',
+    mainEntity:{'@type':'Organization', name:'Jigger', url:SITE+'/', logo:SITE+'/apple-touch-icon.png',
+      email:CONTACT.email, telephone:CONTACT.tel,
+      contactPoint:{'@type':'ContactPoint', contactType:'customer support', email:CONTACT.email, telephone:CONTACT.tel, availableLanguage:['Korean']}}};
+  return {url, html:page({url, title, desc, image:`${SITE}/og.jpg`, section:null, body, jsonld:[about, c.list]})};
+}
+
 /* ---------- 쓰기 ---------- */
 const pages = [
   quizPage(),
   ...D.RECIPES.map(cocktailPage),
   ...D.SPIRITS.map(spiritPage),
-  ...D.FOOD.map(foodPage)
+  ...D.FOOD.map(foodPage),
+  aboutPage()
 ];
 for (const p of pages) wr(p.url.slice(1) + 'index.html', p.html);
 
@@ -457,6 +508,7 @@ const links = `<!-- build:links (scripts/build.mjs가 자동으로 만들어요)
     <div><h2>주류 상식</h2><ul>${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2>안주 레시피</h2><ul>${D.FOOD.map(x=>`<li><a href="/food/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2>조주기능사</h2><ul><li><a href="/quiz/">필기 예상문제 ${QUIZ.length}개와 해설</a></li></ul></div>
+    <div><h2>Jigger</h2><ul><li><a href="/about/">소개 · 문의</a></li></ul></div>
   </nav>
   <!-- /build:links -->`;
 const re = /<!-- build:links[\s\S]*?<!-- \/build:links -->/;
