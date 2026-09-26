@@ -23,12 +23,13 @@
 <link rel="preload" href="/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/dm-mono-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/dm-mono-500.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- 한글 폰트는 제때 도착할 때만 써서(optional) 글꼴이 바뀌며 화면이 밀리지 않게 해요 -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=optional" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=optional"></noscript>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<!-- 한글 산세리프: Pretendard (OFL) · 화면에 쓰인 글자 조각만 내려받아요 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript>
 <style>
+/* 한글 명조: 부크크 명조 Bold (ⓒ부크크 · 눈누에서 배포하는 웹폰트를 수정 없이 그대로 사용) */
+@font-face{font-family:'BookkMyungjo';font-style:normal;font-weight:700;font-display:swap;src:url(https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2) format('woff2')}
 /* 로고·숫자용 영문 폰트는 직접 호스팅하고 미리 불러와요 */
 @font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'DM Mono';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/dm-mono-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -37,10 +38,10 @@
   --bg:#E9E2D3; --surface:#FBF7EE; --surface2:#F1E9D8; --ink:#221D16; --mut:#8C8171; --line:#DBD0BB;
   --accent:#B3492E; --accent-ink:#FFF6EA; --scrim:rgba(34,29,22,.45); --ice:rgba(255,255,255,.4);
   --glow:18%; --ok:#2F6B45; --bad:#B0322A;
-  --serif-en:'Instrument Serif','Times New Roman',serif;
-  --serif-ko:'Noto Serif KR','Apple SD Gothic Neo','Nanum Myeongjo',serif;
-  --sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
-  --mono:'DM Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --serif-en:'Instrument Serif','Times New Roman','BookkMyungjo','AppleMyungjo','Nanum Myeongjo',serif;
+  --serif-ko:'BookkMyungjo','AppleMyungjo','Nanum Myeongjo','Batang',serif;
+  --sans:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+  --mono:'DM Mono',ui-monospace,'SF Mono',Menlo,'Pretendard Variable',monospace;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){

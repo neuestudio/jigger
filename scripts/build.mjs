@@ -48,13 +48,13 @@ const ALIAS = {
 };
 const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보드카':['vodka'], '테킬라':['tequila'], '브랜디':['brandy'], '와인·리큐어':['wine','liqueur']};
 const MARK = ['①','②','③','④'];
-const CONTACT = {email:'naanodesign@gmail.com', tel:'+82-10-5444-0168', telLabel:'010-5444-0168'};
+const CONTACT = {email:'naanodesign@gmail.com'};
 const SPIRIT = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
 
 /* ---------- 공통 ---------- */
 const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g,'\\u003c')}</script>`;
-const FONT = 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=optional';
+const FONT = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
 const NAV = [['/', '칵테일 레시피', 'cocktail'], ['/#spirits', '주류 상식', 'spirit'], ['/#food', '안주 레시피', 'food'], ['/quiz/', '조주기능사 필기', 'quiz']];
 
 function crumbs(items){
@@ -87,8 +87,7 @@ ${url ? `<meta property="og:url" content="${SITE}${url}">\n` : ''}<meta property
 <link rel="preload" href="/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/dm-mono-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/dm-mono-500.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="${FONT}" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="${FONT}"></noscript>
 <link rel="stylesheet" href="/page.css">
@@ -428,15 +427,18 @@ function aboutPage(){
     <section class="sec">
       <div class="sec-h"><h2>문의</h2></div>
       <dl class="spec">
-        <div><dt>이메일</dt><dd><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></dd></div>
-        <div><dt>전화</dt><dd><a href="tel:${CONTACT.tel.replace(/-/g,'')}">${CONTACT.telLabel}</a></dd></div>
+        <div class="wide"><dt>이메일</dt><dd><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></dd></div>
       </dl>
       <p class="note">레시피·문제 오류 제보, 제휴 문의 모두 환영해요.</p>
+    </section>
+    <section class="sec">
+      <div class="sec-h"><h2>사용한 글꼴</h2></div>
+      <p class="note">부크크 명조 ⓒ부크크 · Pretendard (SIL Open Font License) · Instrument Serif, DM Mono (SIL Open Font License)</p>
     </section>`;
   const about = {'@context':'https://schema.org', '@type':'AboutPage', name:title, url:SITE+url, inLanguage:'ko',
     mainEntity:{'@type':'Organization', name:'Jigger', url:SITE+'/', logo:SITE+'/apple-touch-icon.png',
-      email:CONTACT.email, telephone:CONTACT.tel,
-      contactPoint:{'@type':'ContactPoint', contactType:'customer support', email:CONTACT.email, telephone:CONTACT.tel, availableLanguage:['Korean']}}};
+      email:CONTACT.email,
+      contactPoint:{'@type':'ContactPoint', contactType:'customer support', email:CONTACT.email, availableLanguage:['Korean']}}};
   return {url, html:page({url, title, desc, image:`${SITE}/og.jpg`, section:null, body, jsonld:[about, c.list]})};
 }
 
