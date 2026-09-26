@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jigger</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap">
+<style>
+:root{
+  --bg:#E9E2D3; --surface:#FBF7EE; --surface2:#F1E9D8; --ink:#221D16; --mut:#8C8171; --line:#DBD0BB;
+  --accent:#B3492E; --accent-ink:#FFF6EA; --scrim:rgba(34,29,22,.45); --ice:rgba(255,255,255,.4);
+  --glow:18%;
+  --serif-en:'Instrument Serif','Times New Roman',serif;
+  --serif-ko:'Noto Serif KR','Apple SD Gothic Neo','Nanum Myeongjo',serif;
+  --sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+  --mono:'DM Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#17110C; --surface:#221A13; --surface2:#2C221A; --ink:#F1E6D4; --mut:#A89A85; --line:#382B20;
+    --accent:#DFA35D; --accent-ink:#17110C; --scrim:rgba(0,0,0,.6); --ice:rgba(255,255,255,.14);
+    --glow:10%;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17110C; --surface:#221A13; --surface2:#2C221A; --ink:#F1E6D4; --mut:#A89A85; --line:#382B20;
+  --accent:#DFA35D; --accent-ink:#17110C; --scrim:rgba(0,0,0,.6); --ice:rgba(255,255,255,.14);
+  --glow:10%;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{
+  background:
+    radial-gradient(ellipse 900px 520px at 88% -8%, color-mix(in srgb,var(--accent) var(--glow),transparent), transparent 62%),
+    radial-gradient(ellipse 700px 500px at -10% 30%, color-mix(in srgb,var(--accent) 8%,transparent), transparent 60%),
+    var(--bg);
+  color:var(--ink);font:400 15px/1.6 var(--sans);padding-inline:clamp(16px,4vw,40px);-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1180px;margin-inline:auto;padding-block:24px 56px}
+
+/* masthead */
+.mast-top{display:flex;justify-content:space-between;gap:12px;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.wordmark{font:400 clamp(88px,19vw,208px)/.8 var(--serif-en);letter-spacing:-.035em;margin:28px 0 0;padding-bottom:.2em}
+.mast-row{display:grid;gap:18px;margin-top:0}
+@media (min-width:820px){.mast-row{grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:48px}}
+.lede{margin:0;max-width:40ch;font-size:17px;line-height:1.65;text-wrap:pretty}
+.legend{margin:0;display:grid;gap:4px;font:400 12px/1.5 var(--mono);color:var(--mut)}
+.legend b{color:var(--ink);font-weight:500}
+.ruler{height:14px;margin-top:22px;border-bottom:1px solid var(--ink);
+  background:
+   repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 40px) left bottom/100% 14px no-repeat,
+   repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 8px) left bottom/100% 6px no-repeat}
+.viewtabs{display:flex;gap:6px;margin-top:20px}
+.vtab{padding:10px 4px;background:none;border:0;border-bottom:2px solid transparent;font:500 14px var(--sans);color:var(--mut)}
+.vtab[aria-selected="true"]{color:var(--ink);border-color:var(--accent)}
+.vtab:hover{color:var(--ink)}
+.vtab + .vtab{margin-left:14px}
+
+/* controls */
+.controls{display:grid;gap:18px;padding-block:26px 6px}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.search{position:relative;flex:1 1 280px}
+.search svg{position:absolute;left:14px;top:50%;translate:0 -50%;width:17px;height:17px;stroke:var(--mut);fill:none;stroke-width:1.8;pointer-events:none}
+.search input{width:100%;height:46px;padding:0 14px 0 42px;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:2px}
+.search input::placeholder{color:var(--mut)}
+.btn{height:46px;padding:0 16px;display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--line);border-radius:2px;font-weight:500;font-size:14px}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn .n{font:400 12px var(--mono);opacity:.75}
+.btn svg,.fav svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7}
+.btn[aria-pressed="true"] svg{fill:var(--accent);stroke:var(--accent)}
+select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
+.group{display:grid;gap:8px 18px;align-items:start}
+@media (min-width:700px){.group{grid-template-columns:56px 1fr}}
+.glabel{font:500 11px/32px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:6px 12px;min-height:32px;background:transparent;border:1px solid var(--line);border-radius:2px;font-size:13.5px;font-weight:500}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip .n{font:400 10.5px var(--mono);margin-left:6px;opacity:.6}
+.status{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:14px 12px;font:400 12px var(--mono);letter-spacing:.06em;color:var(--mut)}
+.link{background:none;border:0;padding:4px 0;font:inherit;letter-spacing:inherit;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:32px 28px;padding-top:2px}
+.tile{position:relative;display:flex;flex-direction:column}
+.thumb{position:relative;aspect-ratio:1/1;display:grid;place-items:center;background:var(--surface2);color:var(--ink);overflow:hidden}
+.thumb svg{height:76%;width:auto;max-width:100%}
+.thumb img{width:100%;height:100%;object-fit:contain;display:block}
+.eyebrow{position:absolute;z-index:2;top:10px;left:10px;padding:4px 8px;background:var(--surface);font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.fav{position:absolute;z-index:2;top:8px;right:8px;width:34px;height:34px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line);color:var(--mut)}
+.fav:hover{color:var(--ink)}
+.fav[aria-pressed="true"]{color:var(--accent);border-color:var(--accent)}
+.fav[aria-pressed="true"] svg{fill:var(--accent)}
+.cbody{padding-top:14px;border-top:1px solid var(--ink)}
+.tile h3{margin:0;font:700 21px/1.25 var(--serif-en);letter-spacing:-.01em}
+.open{padding:0;background:none;border:0;text-align:left;font:inherit;color:inherit}
+.open::after{content:"";position:absolute;inset:0}
+.open:focus-visible{outline:none}
+.tile:has(.open:focus-visible) .thumb{outline:2px solid var(--accent);outline-offset:-2px}
+.ko{margin:3px 0 0;font-size:13px;color:var(--mut)}
+.dots{display:inline-flex;gap:3px;vertical-align:middle}
+.dots i{width:6px;height:6px;border-radius:50%;border:1px solid var(--mut)}
+.dots i.on{background:var(--ink);border-color:var(--ink)}
+.cspecs{margin:12px 0 0}
+.cspecs .item{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.cspecs dt{margin:0;font:400 12.5px var(--sans);color:var(--mut)}
+.cspecs dd{margin:0;font-size:13px;text-align:right;color:var(--ink)}
+.seemore{pointer-events:none;display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-top:10px;font:400 12.5px var(--sans);color:var(--mut)}
+.seemore svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6}
+.empty{grid-column:1/-1;padding:64px 20px;text-align:center;background:var(--surface);border:1px solid var(--line)}
+.empty p{margin:0 0 14px;font:400 24px var(--serif-ko);font-weight:600}
+.foot{margin-top:36px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font:400 12px/1.6 var(--mono);color:var(--mut)}
+
+/* panel */
+.overlay{position:fixed;inset:0;z-index:50;display:flex;justify-content:flex-end}
+.scrim{position:absolute;inset:0;background:var(--scrim)}
+.panel{position:relative;width:min(560px,100%);height:100%;overflow-y:auto;overscroll-behavior:contain;background:var(--surface);border-left:1px solid var(--ink);animation:slide .26s cubic-bezier(.2,.7,.2,1)}
+@keyframes slide{from{transform:translateX(28px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.panel{animation:none}.tile{transition:none}}
+.ptop{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:6px;padding:10px 14px 10px 20px;background:var(--surface);border-bottom:1px solid var(--line)}
+.pos{margin-right:auto;font:400 12px var(--mono);letter-spacing:.08em;color:var(--mut)}
+.ib{width:40px;height:40px;display:grid;place-items:center;background:none;border:1px solid transparent;border-radius:2px}
+.ib:hover{border-color:var(--line)}
+.ib svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7}
+.ib.fav{position:static;margin:0;color:var(--mut)}
+.ib.fav[aria-pressed="true"]{color:var(--accent)}
+.pbody{padding:24px 20px 40px}
+.pthumb{aspect-ratio:1/1;display:grid;place-items:center;background:color-mix(in srgb,var(--liq) 16%,var(--surface2));color:var(--ink);overflow:hidden}
+.pthumb svg{height:72%;width:auto;max-width:100%}
+.pthumb img{width:100%;height:100%;object-fit:contain;display:block}
+.phead{display:flex;flex-direction:column}
+.phead .eyebrow{position:static;padding:0;background:none}
+.phead h2{margin:8px 0 0;font:700 32px/1.2 var(--serif-en);letter-spacing:-.015em;text-wrap:balance}
+.phead .ko{font-size:15px;margin-top:4px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{padding:2px 9px;border:1px solid var(--line);border-radius:2px;font-size:12.5px;color:var(--mut)}
+.note{margin:22px 0 0;max-width:60ch;color:var(--mut);font-size:14.5px;text-wrap:pretty}
+.sec{margin-top:32px}
+.sec-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--ink)}
+.sec-h h3{margin:0;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:2px}
+.stepper button{width:36px;height:36px;background:none;border:0;font:500 18px/1 var(--mono)}
+.stepper button:hover:not(:disabled){background:var(--bg)}
+.stepper button:disabled{opacity:.35;cursor:default}
+.stepper output{min-width:64px;text-align:center;font:500 13px var(--mono)}
+.bar{display:flex;height:14px;margin-top:16px;border:1px solid var(--ink);overflow:hidden}
+.bar span{min-width:2px;box-shadow:inset -1px 0 0 var(--surface)}
+.barlabel{display:flex;justify-content:space-between;margin-top:6px;font:400 11.5px var(--mono);color:var(--mut)}
+.ings{list-style:none;margin:8px 0 0;padding:0}
+.ing label{display:grid;grid-template-columns:18px 12px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.ing input{width:18px;height:18px;margin:0;accent-color:var(--accent)}
+.sw{width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}
+.sw.none{background:transparent;box-shadow:none;border:1px solid var(--mut)}
+.amt{font:500 13px var(--mono);text-align:right;white-space:nowrap}
+.amt i{margin-left:8px;font-style:normal;font-weight:400;color:var(--mut)}
+.ing.on .nm{text-decoration:line-through;color:var(--mut)}
+.hint{margin:12px 0 0;padding:10px 12px;border:1px solid var(--accent);border-radius:2px;font-size:13px;color:var(--ink)}
+.prog{font:400 12px var(--mono);color:var(--mut);letter-spacing:.04em}
+.steps{counter-reset:s;list-style:none;margin:8px 0 0;padding:0}
+.steps li{counter-increment:s;display:grid;grid-template-columns:30px minmax(0,1fr);gap:8px;padding:13px 0;border-bottom:1px solid var(--line);text-wrap:pretty}
+.steps li::before{content:counter(s,decimal-leading-zero);padding-top:3px;font:500 12px var(--mono);color:var(--accent)}
+.subtypes{list-style:none;margin:8px 0 0;padding:0}
+.subtypes li{padding:13px 0;border-bottom:1px solid var(--line);font-size:13.5px;color:var(--mut);text-wrap:pretty}
+.subtypes li b{display:block;margin-bottom:3px;font:500 14.5px var(--sans);color:var(--ink)}
+.spec{display:grid;grid-template-columns:1fr 1fr;margin:8px 0 0;border-left:1px solid var(--line)}
+.spec div{padding:12px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.spec dt{font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.spec dd{margin:6px 0 0;font-size:14.5px}
+
+/* spec card (taste profile) */
+.speccard{margin-top:20px;padding:16px 18px;background:var(--surface2);border:1px solid var(--line)}
+.specrows{display:grid;gap:10px}
+.specrow{display:grid;grid-template-columns:56px 1fr;align-items:center;gap:12px;font:400 10.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.specrow .track{position:relative;height:1px;background:var(--line)}
+.specrow .track::before,.specrow .track::after{content:"";position:absolute;top:50%;translate:0 -50%;width:1px;height:7px;background:var(--line)}
+.specrow .track::before{left:0}
+.specrow .track::after{right:0}
+.specrow .dot{position:absolute;top:50%;width:6px;height:6px;border-radius:50%;background:var(--accent);translate:-50% -50%;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
+.specfoot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font:500 11.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.specfoot .specprice{color:var(--accent);font-weight:600;font-size:13px}
+</style>
+
+<div class="wrap" id="app">
+  <header>
+    <div class="mast-top"><span id="mastLabel">Cocktail Recipes</span><span id="mastCount">30 drinks</span></div>
+    <h1 class="wordmark">Jigger</h1>
+    <div class="mast-row">
+      <p class="lede">집에서 만들 수 있는 칵테일 30가지. 베이스와 맛으로 고르고, 잔 수에 맞춰 계량하세요.</p>
+      <p class="legend"><span><b>1 oz ≈ 30 ml</b></span><span>지거 한 번 = 30 ml (1 oz) 또는 45 ml (1½ oz)</span></p>
+    </div>
+    <div class="ruler" aria-hidden="true"></div>
+    <nav class="viewtabs" role="tablist">
+      <button class="vtab" type="button" role="tab" data-view="cocktail" aria-selected="true">칵테일 레시피</button>
+      <button class="vtab" type="button" role="tab" data-view="spirits" aria-selected="false">주류 상식</button>
+      <button class="vtab" type="button" role="tab" data-view="food" aria-selected="false">안주 레시피</button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="controls">
+      <div class="row">
+        <div class="search">
+          <label class="vh" for="q">칵테일 검색</label>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5" stroke-linecap="round"/></svg>
+          <input id="q" type="search" placeholder="이름이나 재료로 검색 (예: 라임, 민트, Negroni)" autocomplete="off">
+        </div>
+        <button class="btn" id="favToggle" type="button" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.8a4.3 4.3 0 0 1 7.5 2.7c0 5.4-7.5 10-7.5 10z" stroke-linejoin="round"/></svg>
+          즐겨찾기 <span class="n" id="favCount">0</span>
+        </button>
+        <label class="vh" for="sort">정렬</label>
+        <select class="btn" id="sort">
+          <option value="default">기본 정렬</option>
+          <option value="abv-asc">도수 낮은 순</option>
+          <option value="abv-desc">도수 높은 순</option>
+        </select>
+      </div>
+      <div class="group"><span class="glabel" id="lbBase">베이스</span><div class="chips" id="baseChips" role="group" aria-labelledby="lbBase"></div></div>
+      <div class="group"><span class="glabel" id="lbFlav">맛</span><div class="chips" id="flavChips" role="group" aria-labelledby="lbFlav"></div></div>
+    </div>
+    <div class="status"><span id="status" role="status" aria-live="polite"></span><button class="link" id="reset" type="button" hidden>필터 초기화</button></div>
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <main id="smain" hidden>
+    <p class="lede" style="margin:22px 0 0">조주기능사 필기시험의 주류학 범위를 기준으로 정리했어요. 양조주 · 증류주 · 전통주 · 혼성주로 나눠서 원료와 제조 공정, 도수를 확인하세요.</p>
+    <div class="controls">
+      <div class="group"><span class="glabel" id="lbCat">분류</span><div class="chips" id="catChips" role="group" aria-labelledby="lbCat"></div></div>
+    </div>
+    <div class="status"><span id="sStatus" role="status" aria-live="polite"></span></div>
+    <div class="grid" id="sgrid"></div>
+  </main>
+
+  <main id="fmain" hidden>
+    <p class="lede" style="margin:22px 0 0">술 종류에 어울리는 안주를 모았어요. 어떤 술과 곁들이면 좋을지 분류로 필터링해 보세요.</p>
+    <div class="controls">
+      <div class="group"><span class="glabel" id="lbFcat">어울리는 술</span><div class="chips" id="fCatChips" role="group" aria-labelledby="lbFcat"></div></div>
+    </div>
+    <div class="status"><span id="fStatus" role="status" aria-live="polite"></span></div>
+    <div class="grid" id="fgrid"></div>
+  </main>
+
+  <footer class="foot">
+    <span>도수는 얼음이 녹은 뒤를 기준으로 한 대략적인 추정치예요.</span>
+    <span>음주는 성인만, 적당히 즐겨요.</span>
+  </footer>
+</div>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="scrim" id="scrim"></div>
+  <aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="pTitle"></aside>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ---------- 데이터 ---------- */
+const C = {
+  gin:'#b7d3ce', vodka:'#c5d5e3', rum:'#dad9bd', dkrum:'#7a3f1a', tequila:'#dcd39b', whisky:'#c07a2b', cognac:'#b8621f',
+  dryv:'#e4dc9c', sweetv:'#7d2a24', campari:'#c4202f', aperol:'#f2662b', cointreau:'#f2b962', coffeeliq:'#3b2319', espresso:'#2b1a12',
+  lime:'#bfd85a', lemon:'#f0e070', syrup:'#e8dcc0', soda:'#cde4ee', tonic:'#d3e7ec', gingerbeer:'#e2c25f', gingerale:'#e6c75a',
+  cranberry:'#c72c4c', pineapple:'#f1cd47', orange:'#f5992a', coconut:'#f4efe2', grenadine:'#c4142c', tomato:'#c73a25',
+  prosecco:'#f0e2a0', grapefruit:'#f0a49a', tea:'#a4622a', sparkling:'#f0e2a0'
+};
+const BASES = ['진','럼','위스키','보드카','테킬라','브랜디','와인·리큐어','논알콜'];
+const BASE_EN = {'진':'Gin','럼':'Rum','위스키':'Whiskey','보드카':'Vodka','테킬라':'Tequila','브랜디':'Brandy','와인·리큐어':'Wine & Liqueur','논알콜':'Zero Proof'};
+const FLAVORS = ['상큼','달콤','쌉쌀','청량','부드러운','스트롱','감칠맛'];
+const DIFF = ['쉬움','보통','어려움'];
+
+const GLASS = {
+  martini:{name:'마티니 글라스', d:'M6 10H74L40 62Z', level:20, bottom:62, extra:'M40 62V108M24 110H56'},
+  coupe:{name:'쿠페 글라스', d:'M6 26H74C74 48 58 62 40 62C22 62 6 48 6 26Z', level:33, bottom:62, extra:'M40 62V106M24 108H56'},
+  rocks:{name:'락 글라스', d:'M12 40H68L64 104Q64 108 60 108H20Q16 108 16 104Z', level:54, bottom:108, extra:'',
+    ice:[[22,52,15,-8],[40,60,15,10],[27,78,15,6]]},
+  highball:{name:'하이볼 글라스', d:'M22 14H58L55 108Q55 112 51 112H29Q25 112 25 108Z', level:30, bottom:112, extra:'',
+    ice:[[29,34,15,-6],[34,54,15,8],[28,76,15,-4],[33,94,14,5]]},
+  flute:{name:'플루트 글라스', d:'M28 10H52L50 74Q50 82 40 84Q30 82 30 74Z', level:22, bottom:84, extra:'M40 84V108M26 110H54'},
+  mug:{name:'코퍼 머그', d:'M14 26H58V100Q58 106 52 106H20Q14 106 14 100Z', level:38, bottom:106, extra:'M58 40H68Q76 40 76 50V68Q76 78 68 78H58',
+    ice:[[22,42,15,-6],[35,60,15,8],[24,80,15,4]]},
+  wine:{name:'와인 글라스', d:'M20 12H60C60 42 54 58 40 58C26 58 20 42 20 12Z', level:26, bottom:58, extra:'M40 58V106M24 108H56',
+    ice:[[28,30,11,-8],[38,40,10,10]]},
+  hurricane:{name:'허리케인 글라스', d:'M24 10H56C56 28 68 38 68 58C68 74 54 82 46 86H34C26 82 12 74 12 58C12 38 24 28 24 10Z', level:24, bottom:86, extra:'M40 86V104M26 106H54'}
+};
+
+const RECIPES = [
+/* ---- 진 ---- */
+{id:'martini', ko:'마티니', en:'Dry Martini', base:'진', flav:['스트롱'], abv:28, glass:'martini', liquid:'#d3e6e3', method:'스터', diff:2,
+ ing:[['진',60,'ml',C.gin],['드라이 베르무트',10,'ml',C.dryv]],
+ steps:['믹싱 글라스에 얼음을 가득 채우고 진과 드라이 베르무트를 넣어요.','바 스푼으로 30초쯤 저어 충분히 차갑게 식혀요.','미리 얼려 둔 마티니 글라스에 걸러 따라요.','레몬 껍질을 비틀어 향을 입히고 잔에 올려요.'],
+ garnish:'레몬 트위스트 또는 올리브', note:'얼음물에 희석되는 정도까지 계산에 넣는 칵테일이에요. 흔들지 않고 저어야 맑고 묵직한 질감이 살아요.'},
+{id:'negroni', ko:'네그로니', en:'Negroni', base:'진', flav:['쌉쌀','스트롱'], abv:22, glass:'rocks', liquid:'#b8232e', method:'빌드', diff:1, ice:true,
+ ing:[['진',30,'ml',C.gin],['캄파리',30,'ml',C.campari],['스위트 베르무트',30,'ml',C.sweetv]],
+ steps:['락 글라스에 큰 얼음을 넣어요.','진, 캄파리, 스위트 베르무트를 같은 양으로 넣어요.','바 스푼으로 10~15회 가볍게 저어요.','오렌지 껍질을 비틀어 향을 입히고 올려요.'],
+ garnish:'오렌지 필', note:'1:1:1 비율만 지키면 실패하기 어려운 칵테일이에요. 1919년 피렌체에서 네그로니 백작이 주문한 데서 유래했다고 전해져요.'},
+{id:'gin-tonic', ko:'진 토닉', en:'Gin & Tonic', base:'진', flav:['청량','쌉쌀'], abv:12, glass:'highball', liquid:'#dcecf0', method:'빌드', diff:1, ice:true,
+ ing:[['진',50,'ml',C.gin],['토닉워터',100,'ml',C.tonic]],
+ steps:['하이볼 글라스에 얼음을 가득 채워요.','진을 붓고 차갑게 식힌 토닉워터를 잔 벽을 따라 부어요.','바 스푼으로 아래에서 위로 한 번만 저어요.','라임 웨지를 짜 넣고 올려요.'],
+ garnish:'라임 웨지', note:'토닉워터는 새로 딴 차가운 병을 쓰는 게 탄산이 오래 가요. 토닉을 세게 저으면 김이 빠져요.'},
+{id:'tom-collins', ko:'톰 콜린스', en:'Tom Collins', base:'진', flav:['상큼','청량'], abv:12, glass:'highball', liquid:'#eeeec4', method:'빌드', diff:1, ice:true,
+ ing:[['진',50,'ml',C.gin],['레몬주스',25,'ml',C.lemon],['심플 시럽',15,'ml',C.syrup],['탄산수',60,'ml',C.soda]],
+ steps:['콜린스(하이볼) 글라스에 진, 레몬주스, 심플 시럽을 넣어요.','얼음을 채우고 잘 저어요.','탄산수를 잔 끝까지 채우고 가볍게 저어요.','레몬 슬라이스와 체리를 올려요.'],
+ garnish:'레몬 슬라이스, 체리', note:'진 사워에 탄산수를 더한 형태예요. 레몬을 생과로 짜면 맛 차이가 확실히 나요.'},
+{id:'gimlet', ko:'김렛', en:'Gimlet', base:'진', flav:['상큼'], abv:17, glass:'coupe', liquid:'#dfe8b0', method:'셰이크', diff:1,
+ ing:[['진',50,'ml',C.gin],['라임주스',25,'ml',C.lime],['심플 시럽',15,'ml',C.syrup]],
+ steps:['셰이커에 얼음과 모든 재료를 넣어요.','10~12초 강하게 흔들어요.','차갑게 식힌 쿠페 글라스에 걸러 따라요.','라임 휠을 올려요.'],
+ garnish:'라임 휠', note:'전통 레시피는 라임 코디얼을 쓰지만, 생라임과 시럽으로도 충분히 깔끔하게 만들 수 있어요.'},
+
+/* ---- 럼 ---- */
+{id:'mojito', ko:'모히토', en:'Mojito', base:'럼', flav:['상큼','청량'], abv:10, glass:'highball', liquid:'#d6e8ac', method:'빌드', diff:2, ice:true,
+ ing:[['화이트 럼',40,'ml',C.rum],['라임주스',30,'ml',C.lime],['심플 시럽',15,'ml',C.syrup],['민트 잎',8,'잎','#5aa469'],['탄산수',60,'ml',C.soda]],
+ steps:['하이볼 글라스에 라임주스, 시럽, 민트 잎을 넣고 향이 올라올 만큼만 가볍게 눌러요. 세게 으깨면 쓴맛이 나요.','럼을 붓고 잘게 부순 얼음을 가득 채워요.','바 스푼으로 아래에서 위로 저어 섞어요.','탄산수를 채우고 민트 가지를 올려요.'],
+ garnish:'민트 가지, 라임 웨지', note:'쿠바 하바나에서 사랑받은 칵테일이에요. 민트는 손바닥에 톡 쳐서 올리면 향이 더 살아나요.'},
+{id:'daiquiri', ko:'다이키리', en:'Daiquiri', base:'럼', flav:['상큼'], abv:18, glass:'coupe', liquid:'#eef0c8', method:'셰이크', diff:1,
+ ing:[['화이트 럼',45,'ml',C.rum],['라임주스',25,'ml',C.lime],['심플 시럽',10,'ml',C.syrup]],
+ steps:['셰이커에 얼음과 모든 재료를 넣어요.','10~12초 강하게 흔들어요.','차갑게 식힌 쿠페 글라스에 걸러 따라요.','라임 휠을 잔 가장자리에 걸어요.'],
+ garnish:'라임 휠', note:'럼, 라임, 설탕 세 가지로 이루어진 단순한 구성이라 바텐더의 기본기를 볼 때 자주 쓰여요.'},
+{id:'pina-colada', ko:'피냐 콜라다', en:'Piña Colada', base:'럼', flav:['달콤','부드러운'], abv:10, glass:'hurricane', liquid:'#f4ecd0', method:'블렌드', diff:2,
+ ing:[['화이트 럼',50,'ml',C.rum],['코코넛 크림',50,'ml',C.coconut],['파인애플 주스',50,'ml',C.pineapple]],
+ steps:['블렌더에 럼, 코코넛 크림, 파인애플 주스를 넣어요.','얼음 한 컵(약 150 g)을 넣고 곱게 갈아요.','허리케인 글라스에 따라요.','파인애플 조각과 체리로 장식해요.'],
+ garnish:'파인애플 조각, 체리', note:'푸에르토리코를 대표하는 칵테일이에요. 얼음은 재료 비율에서 제외했어요.'},
+{id:'dark-n-stormy', ko:'다크 앤 스톰리', en:"Dark 'n' Stormy", base:'럼', flav:['청량','상큼'], abv:12, glass:'highball', liquid:'#7a3f1a', liquid2:'#d9b552', method:'빌드', diff:1, ice:true,
+ ing:[['다크 럼',50,'ml',C.dkrum],['진저비어',100,'ml',C.gingerbeer],['라임주스',10,'ml',C.lime]],
+ steps:['하이볼 글라스에 얼음을 채우고 라임주스와 진저비어를 넣어요.','다크 럼을 숟가락 뒷면을 타고 천천히 부어 위에 띄워요.','라임 웨지를 올려요.'],
+ garnish:'라임 웨지', note:'폭풍우 치는 구름 같은 층이 이름의 유래예요. 버뮤다에서 시작된 칵테일로 알려져 있어요.'},
+
+/* ---- 위스키 ---- */
+{id:'old-fashioned', ko:'올드 패션드', en:'Old Fashioned', base:'위스키', flav:['스트롱','쌉쌀'], abv:27, glass:'rocks', liquid:'#b8651b', method:'빌드', diff:2, ice:true,
+ ing:[['버번 위스키',45,'ml',C.whisky],['각설탕',1,'개','#f1ead8'],['앙고스투라 비터스',2,'dash',null],['물','몇 방울','',null]],
+ steps:['락 글라스에 각설탕과 앙고스투라 비터스를 넣고 물을 몇 방울 떨어뜨려요.','설탕이 녹을 때까지 으깨며 저어요.','버번을 붓고 큰 얼음을 넣어요.','바 스푼으로 20~30초 저어 차갑게 만들어요.','오렌지 껍질로 향을 입히고 올려요.'],
+ garnish:'오렌지 필', note:'설탕, 비터스, 물, 위스키. 칵테일의 원형에 가깝다고 이야기되는 가장 오래된 레시피 중 하나예요.'},
+{id:'manhattan', ko:'맨해튼', en:'Manhattan', base:'위스키', flav:['스트롱','달콤'], abv:28, glass:'coupe', liquid:'#8b2a1e', method:'스터', diff:2,
+ ing:[['라이 위스키',50,'ml',C.whisky],['스위트 베르무트',20,'ml',C.sweetv],['앙고스투라 비터스',1,'dash',null]],
+ steps:['믹싱 글라스에 얼음과 모든 재료를 넣어요.','30초 정도 저어 차갑게 만들어요.','차갑게 식힌 쿠페 글라스에 걸러 따라요.','체리를 올려요.'],
+ garnish:'칵테일 체리', note:'라이 위스키의 매콤함과 베르무트의 달콤함이 균형을 이뤄요. 라이가 없으면 버번으로 대체해도 좋아요.'},
+{id:'whiskey-sour', ko:'위스키 사워', en:'Whiskey Sour', base:'위스키', flav:['상큼','달콤'], abv:17, glass:'rocks', liquid:'#eab558', method:'셰이크', diff:1, ice:true,
+ ing:[['버번 위스키',45,'ml',C.whisky],['레몬주스',25,'ml',C.lemon],['심플 시럽',20,'ml',C.syrup]],
+ steps:['셰이커에 얼음과 모든 재료를 넣어요.','10~12초 강하게 흔들어요.','얼음을 채운 락 글라스에 걸러 따라요.','오렌지 슬라이스와 체리를 올려요.'],
+ garnish:'오렌지 슬라이스, 체리', note:'부드러운 거품을 원하면 계란 흰자 한 개를 더해 먼저 얼음 없이 한 번 흔든 뒤 다시 흔들어 보세요.'},
+{id:'mint-julep', ko:'민트 줄렙', en:'Mint Julep', base:'위스키', flav:['청량','스트롱'], abv:25, glass:'rocks', liquid:'#d9d6a0', method:'빌드', diff:2, ice:true,
+ ing:[['버번 위스키',60,'ml',C.whisky],['심플 시럽',10,'ml',C.syrup],['민트 잎',8,'잎','#5aa469']],
+ steps:['잔에 시럽과 민트 잎을 넣고 살살 눌러요.','버번을 붓고 부순 얼음을 반쯤 채워요.','잔 표면에 서리가 낄 때까지 저어요.','부순 얼음을 봉긋하게 더 얹고 민트 가지로 장식해요.'],
+ garnish:'민트 가지 한 다발', note:'미국 켄터키 더비의 공식 음료로 유명해요. 얼음을 곱게 부술수록 차갑게 즐길 수 있어요.'},
+
+/* ---- 보드카 ---- */
+{id:'moscow-mule', ko:'모스코 뮬', en:'Moscow Mule', base:'보드카', flav:['청량','상큼'], abv:9, glass:'mug', liquid:'#e6cc70', method:'빌드', diff:1, ice:true,
+ ing:[['보드카',45,'ml',C.vodka],['라임주스',15,'ml',C.lime],['진저비어',120,'ml',C.gingerbeer]],
+ steps:['구리 머그에 얼음을 가득 채워요.','보드카와 라임주스를 넣어요.','진저비어를 채워 가볍게 저어요.','라임 웨지와 민트 가지를 올려요.'],
+ garnish:'라임 웨지, 민트 가지', note:'구리 머그는 차가운 온도를 오래 유지해 줘요. 없으면 하이볼 글라스로도 충분해요.'},
+{id:'cosmopolitan', ko:'코스모폴리탄', en:'Cosmopolitan', base:'보드카', flav:['상큼','달콤'], abv:18, glass:'martini', liquid:'#e0507a', method:'셰이크', diff:2,
+ ing:[['보드카',40,'ml',C.vodka],['쿠앵트로',15,'ml',C.cointreau],['크랜베리 주스',30,'ml',C.cranberry],['라임주스',15,'ml',C.lime]],
+ steps:['셰이커에 얼음과 모든 재료를 넣어요.','10초 흔들어 차갑게 만들어요.','차가운 마티니 글라스에 걸러 따라요.','오렌지 껍질로 향을 입히고 장식해요.'],
+ garnish:'오렌지 필', note:'크랜베리 주스는 무가당을 쓰면 더 산뜻하고, 가당이면 달콤하게 돼요. 취향에 맞춰 골라 보세요.'},
+{id:'espresso-martini', ko:'에스프레소 마티니', en:'Espresso Martini', base:'보드카', flav:['쌉쌀','달콤'], abv:17, glass:'martini', liquid:'#b58a5a', liquid2:'#2a1a12', method:'셰이크', diff:2,
+ ing:[['보드카',50,'ml',C.vodka],['커피 리큐어',10,'ml',C.coffeeliq],['심플 시럽',10,'ml',C.syrup],['에스프레소',30,'ml',C.espresso]],
+ steps:['에스프레소를 뽑아 식혀 두어요. 뜨거우면 얼음이 너무 녹아요.','셰이커에 얼음과 모든 재료를 넣어요.','15초 이상 아주 강하게 흔들어 고운 거품을 만들어요.','차가운 마티니 글라스에 걸러 따르고 커피콩 3알을 올려요.'],
+ garnish:'커피콩 3알', note:'윗부분의 갈색 크레마가 이 칵테일의 얼굴이에요. 세게, 오래 흔들수록 거품이 촘촘해져요.'},
+{id:'bloody-mary', ko:'블러디 메리', en:'Bloody Mary', base:'보드카', flav:['감칠맛'], abv:10, glass:'highball', liquid:'#c0331f', method:'빌드', diff:1, ice:true,
+ ing:[['보드카',45,'ml',C.vodka],['토마토 주스',90,'ml',C.tomato],['레몬주스',15,'ml',C.lemon],['우스터 소스',2,'dash',null],['타바스코',2,'dash',null],['소금·후추','한 꼬집','',null]],
+ steps:['하이볼 글라스에 얼음을 채워요.','보드카, 토마토 주스, 레몬주스를 넣어요.','우스터 소스, 타바스코, 소금, 후추를 더해요.','바 스푼으로 아래에서 위로 부드럽게 저어요.','셀러리 스틱과 레몬 웨지로 장식해요.'],
+ garnish:'셀러리 스틱, 레몬 웨지', note:'짭짤하고 매콤한 맛이라 브런치나 해장 칵테일로 자주 언급돼요. 타바스코는 조금씩 추가하며 맞추세요.'},
+
+/* ---- 테킬라 ---- */
+{id:'margarita', ko:'마가리타', en:'Margarita', base:'테킬라', flav:['상큼'], abv:25, glass:'coupe', liquid:'#e4ecb0', method:'셰이크', diff:2,
+ ing:[['테킬라',50,'ml',C.tequila],['쿠앵트로',20,'ml',C.cointreau],['라임주스',15,'ml',C.lime]],
+ steps:['잔 가장자리에 라임을 문질러 소금을 묻혀요. 취향에 따라 생략해도 돼요.','셰이커에 얼음과 재료를 넣고 강하게 흔들어요.','차갑게 식힌 잔에 걸러 따라요.','라임 휠로 장식해요.'],
+ garnish:'소금 림, 라임 휠', note:'소금이 신맛과 단맛을 또렷하게 잡아줘요. 잔 바깥쪽만 묻히면 음료에 소금이 섞이지 않아요.'},
+{id:'paloma', ko:'팔로마', en:'Paloma', base:'테킬라', flav:['청량','상큼'], abv:11, glass:'highball', liquid:'#f1a39a', method:'빌드', diff:1, ice:true,
+ ing:[['테킬라',50,'ml',C.tequila],['라임주스',15,'ml',C.lime],['자몽 소다',100,'ml',C.grapefruit]],
+ steps:['하이볼 글라스 가장자리에 소금을 묻히고 얼음을 채워요.','테킬라와 라임주스를 넣어요.','자몽 소다를 채워 가볍게 저어요.','자몽 슬라이스나 라임으로 장식해요.'],
+ garnish:'자몽 슬라이스, 소금 림', note:'멕시코에서 가장 즐겨 마신다고 알려진 테킬라 칵테일이에요. 재료가 단순해 집에서 만들기 좋아요.'},
+{id:'tequila-sunrise', ko:'테킬라 선라이즈', en:'Tequila Sunrise', base:'테킬라', flav:['달콤','상큼'], abv:11, glass:'highball', liquid:'#f5b02f', liquid2:'#c4142c', method:'빌드', diff:1, ice:true,
+ ing:[['테킬라',45,'ml',C.tequila],['오렌지주스',90,'ml',C.orange],['그레나딘',15,'ml',C.grenadine]],
+ steps:['하이볼 글라스에 얼음을 채우고 테킬라와 오렌지주스를 넣어 저어요.','그레나딘을 잔 벽을 따라 천천히 부어 바닥에 가라앉혀요.','젓지 말고 그라데이션을 그대로 살려요.','오렌지 슬라이스와 체리를 올려요.'],
+ garnish:'오렌지 슬라이스, 체리', note:'해가 뜨는 하늘을 닮은 층이 매력이에요. 저으면 색이 섞이니 마지막엔 손대지 마세요.'},
+
+/* ---- 브랜디 ---- */
+{id:'sidecar', ko:'사이드카', en:'Sidecar', base:'브랜디', flav:['상큼','스트롱'], abv:24, glass:'coupe', liquid:'#e3a13f', method:'셰이크', diff:2,
+ ing:[['코냑',50,'ml',C.cognac],['쿠앵트로',20,'ml',C.cointreau],['레몬주스',20,'ml',C.lemon]],
+ steps:['셰이커에 얼음과 모든 재료를 넣어요.','10초 흔들어요.','차가운 쿠페 글라스에 걸러 따라요.','오렌지 껍질로 장식해요. 취향에 따라 잔 가장자리에 설탕을 묻혀요.'],
+ garnish:'오렌지 필', note:'브랜디 베이스 칵테일의 대표 주자예요. 코냑 대신 일반 브랜디를 써도 좋아요.'},
+
+/* ---- 와인·리큐어 ---- */
+{id:'aperol-spritz', ko:'아페롤 스프리츠', en:'Aperol Spritz', base:'와인·리큐어', flav:['쌉쌀','청량'], abv:8, glass:'wine', liquid:'#f2662b', method:'빌드', diff:1, ice:true,
+ ing:[['프로세코',60,'ml',C.prosecco],['아페롤',40,'ml',C.aperol],['탄산수',20,'ml',C.soda]],
+ steps:['와인 글라스에 얼음을 채워요.','프로세코, 아페롤 순으로 부어요.','탄산수를 살짝 넣고 한 번만 저어요.','오렌지 슬라이스를 올려요.'],
+ garnish:'오렌지 슬라이스', note:'도수가 낮고 쌉쌀해서 식전주로 인기가 많아요. 3:2:1 비율로 기억해도 좋아요.'},
+{id:'mimosa', ko:'미모사', en:'Mimosa', base:'와인·리큐어', flav:['상큼','청량'], abv:6, glass:'flute', liquid:'#f6c25a', method:'빌드', diff:1,
+ ing:[['스파클링 와인',75,'ml',C.sparkling],['오렌지주스',75,'ml',C.orange]],
+ steps:['차가운 플루트 글라스에 스파클링 와인을 먼저 반쯤 따라요.','차게 식힌 오렌지주스를 부어요.','저으면 기포가 사라지니 그대로 내요.'],
+ garnish:'없음 (오렌지 필 선택)', note:'브런치의 단골 메뉴예요. 재료를 모두 충분히 차게 준비하면 기포가 오래 가요.'},
+
+/* ---- 논알콜 ---- */
+{id:'virgin-mojito', ko:'버진 모히토', en:'Virgin Mojito', base:'논알콜', flav:['상큼','청량'], abv:0, glass:'highball', liquid:'#d6e8ae', method:'빌드', diff:1, ice:true,
+ ing:[['라임주스',30,'ml',C.lime],['심플 시럽',20,'ml',C.syrup],['민트 잎',8,'잎','#5aa469'],['탄산수',100,'ml',C.soda]],
+ steps:['하이볼 글라스에 라임주스, 시럽, 민트 잎을 넣고 가볍게 눌러요.','부순 얼음을 가득 채워요.','탄산수를 부어 아래에서 위로 저어요.','민트 가지와 라임 슬라이스로 장식해요.'],
+ garnish:'민트 가지, 라임 슬라이스', note:'럼만 뺀 모히토예요. 술 대신 진저에일을 조금 더하면 깊은 맛이 살아나요.'},
+{id:'shirley-temple', ko:'셜리 템플', en:'Shirley Temple', base:'논알콜', flav:['달콤','청량'], abv:0, glass:'highball', liquid:'#e6c75a', liquid2:'#c4142c', method:'빌드', diff:1, ice:true,
+ ing:[['진저에일',150,'ml',C.gingerale],['그레나딘',15,'ml',C.grenadine],['라임주스',10,'ml',C.lime]],
+ steps:['잔에 얼음을 채우고 진저에일을 부어요.','그레나딘을 넣어 가라앉혀요. 저으면 색이 섞여요.','라임주스를 살짝 더해요.','체리를 올려요.'],
+ garnish:'칵테일 체리', note:'아이들도 즐길 수 있는 논알콜 칵테일의 대명사예요. 그레나딘의 양으로 단맛을 조절하세요.'},
+{id:'cinderella', ko:'신데렐라', en:'Cinderella', base:'논알콜', flav:['상큼','달콤'], abv:0, glass:'highball', liquid:'#f6b444', method:'셰이크', diff:1, ice:true,
+ ing:[['오렌지주스',40,'ml',C.orange],['파인애플 주스',40,'ml',C.pineapple],['레몬주스',20,'ml',C.lemon],['그레나딘',1,'dash',null]],
+ steps:['셰이커에 얼음과 세 가지 주스를 넣어요.','10초 흔들어요.','얼음을 채운 잔에 걸러 따르고 그레나딘을 더해요.'],
+ garnish:'오렌지 슬라이스', note:'가장 유명한 논알콜 칵테일 중 하나예요. 레시피는 바마다 조금씩 달라요.'},
+{id:'virgin-colada', ko:'버진 피냐 콜라다', en:'Virgin Piña Colada', base:'논알콜', flav:['달콤','부드러운'], abv:0, glass:'hurricane', liquid:'#f4ecd0', method:'블렌드', diff:1,
+ ing:[['파인애플 주스',90,'ml',C.pineapple],['코코넛 크림',30,'ml',C.coconut]],
+ steps:['블렌더에 파인애플 주스와 코코넛 크림을 넣어요.','얼음 한 컵을 넣고 곱게 갈아요.','허리케인 글라스에 따르고 파인애플 조각으로 장식해요.'],
+ garnish:'파인애플 조각', note:'얼린 파인애플을 쓰면 얼음이 적어도 시원하고 진하게 만들 수 있어요.'},
+{id:'arnold-palmer', ko:'아놀드 파머', en:'Arnold Palmer', base:'논알콜', flav:['상큼','쌉쌀'], abv:0, glass:'highball', liquid:'#c98a3a', liquid2:'#e8d16a', method:'빌드', diff:1, ice:true,
+ ing:[['홍차(차갑게)',120,'ml',C.tea],['레몬주스',30,'ml',C.lemon],['심플 시럽',25,'ml',C.syrup]],
+ steps:['홍차를 진하게 우려 식혀 두어요.','잔에 얼음을 채우고 차, 레몬주스, 시럽을 넣어요.','잘 저어 섞어요.','레몬 슬라이스로 장식해요.'],
+ garnish:'레몬 슬라이스', note:'아이스티와 레모네이드를 반씩 섞은 음료로, 골프 선수 아놀드 파머가 즐겨 마셨던 데서 이름이 붙었다고 알려져 있어요.'},
+{id:'ginger-mule', ko:'진저 뮬', en:'Ginger Mule', base:'논알콜', flav:['청량','상큼'], abv:0, glass:'mug', liquid:'#e6cc70', method:'빌드', diff:1, ice:true,
+ ing:[['진저비어',150,'ml',C.gingerbeer],['라임주스',20,'ml',C.lime]],
+ steps:['머그에 얼음을 가득 채워요.','라임주스를 넣고 진저비어를 부어요.','가볍게 저어 라임 웨지와 민트로 장식해요.'],
+ garnish:'라임 웨지, 민트 가지', note:'모스코 뮬에서 보드카만 뺀 논알콜 버전이에요. 매운 진저비어를 고르면 술 없이도 알싸한 맛이 살아요.'},
+{id:'virgin-mary', ko:'버진 메리', en:'Virgin Mary', base:'논알콜', flav:['감칠맛'], abv:0, glass:'highball', liquid:'#c0331f', method:'빌드', diff:1, ice:true,
+ ing:[['토마토 주스',120,'ml',C.tomato],['레몬주스',15,'ml',C.lemon],['우스터 소스',2,'dash',null],['타바스코',2,'dash',null],['소금·후추','한 꼬집','',null]],
+ steps:['하이볼 글라스에 얼음을 채워요.','토마토 주스와 레몬주스를 넣어요.','우스터 소스, 타바스코, 소금, 후추를 더하고 저어요.','셀러리 스틱으로 장식해요.'],
+ garnish:'셀러리 스틱', note:'블러디 메리에서 보드카만 뺀 음료예요. 토마토 주스 자체의 맛이 중요하니 좋은 제품을 고르세요.'}
+];
+const BY_ID = Object.fromEntries(RECIPES.map(r=>[r.id,r]));
+RECIPES.forEach(r=>{
+  r.glassName = GLASS[r.glass].name;
+  r.hay = [r.ko,r.en,r.base,BASE_EN[r.base],r.glassName,...r.flav,...r.ing.map(i=>i[0])].join(' ').toLowerCase();
+});
+
+/* ---------- 주류 상식 (조주기능사 필기 대비) ---------- */
+const CATS = ['양조주','증류주','전통주','혼성주'];
+const SPIRITS = [
+{id:'beer', ko:'맥주', en:'Beer', cat:'양조주', material:'맥아, 홉, 물, 효모', process:'맥아를 당화해 맥즙을 만들고 홉을 더해 끓인 뒤 효모로 발효, 숙성·여과해요.', abv:'4–6%', types:'에일(상면발효) · 라거(하면발효)', note:'홉이 쓴맛과 향을 담당하고, 발효 온도·효모 종류로 에일과 라거가 갈려요.', glass:'highball', liquid:'#e9c86b',
+ sub:[
+   {name:'에일 Ale', desc:'상면발효 효모로 상온(15–25℃)에서 발효. 향이 풍부하고 과일향이 도드라져요.'},
+   {name:'라거 Lager', desc:'하면발효 효모로 저온(7–15℃)에서 발효 후 저온 숙성. 깔끔하고 청량한 맛, 전 세계 생산량의 대부분을 차지해요.'},
+   {name:'스타우트·포터 (흑맥주)', desc:'볶은 맥아(로스티드 몰트)를 써서 짙은 색과 커피·초콜릿 향의 로스팅 풍미가 나요.'},
+   {name:'밀맥주 Weizen', desc:'맥아의 일부를 밀로 대체. 부드러운 질감과 바나나·정향 같은 과일·향신료 향이 특징이에요.'}
+ ]},
+{id:'wine', ko:'와인', en:'Wine', cat:'양조주', material:'포도', process:'포도를 으깬 뒤 껍질과 함께(레드) 또는 즙만(화이트) 발효시키고 오크통·병에서 숙성해요.', abv:'9–15%', types:'레드 · 화이트 · 로제 · 스파클링 · 주정강화(포트·셰리)', note:'껍질을 함께 발효하면 레드, 즙만 발효하면 화이트가 돼요.', glass:'wine', liquid:'#7a1f2b',
+ sub:[
+   {name:'스틸 와인', desc:'탄산이 없는 일반 와인. 레드·화이트·로제로 나뉘어요.'},
+   {name:'스파클링 와인', desc:'병 또는 탱크에서 2차 발효로 탄산을 담은 와인. 샴페인은 프랑스 샹파뉴 지역산만 쓸 수 있는 명칭이에요.'},
+   {name:'주정강화 와인 (포티파이드)', desc:'발효 중 브랜디를 더해 도수를 높인 와인. 포트, 셰리, 마데이라가 대표적이에요.'},
+   {name:'아로마타이즈드 와인', desc:'허브·향료를 가미한 와인. 베르무트가 대표적이며 칵테일 부재료로 많이 쓰여요.'}
+ ]},
+
+{id:'whisky', ko:'위스키', en:'Whisky', cat:'증류주', material:'보리·호밀·옥수수 등 곡물', process:'곡물을 맥아화·당화한 뒤 발효, 단식 또는 연속식으로 증류하고 오크통에서 숙성해요.', abv:'40–50%', types:'스카치 · 버번 · 아이리시 · 캐나디안 · 재패니즈', note:'스카치 위스키는 오크통 최소 3년 숙성이 법적 요건이에요.', glass:'rocks', liquid:'#b1671f',
+ sub:[
+   {name:'싱글몰트 Single Malt', desc:'한 증류소에서, 발아시킨 보리(몰트)만으로 단식 증류해 만든 위스키.'},
+   {name:'싱글그레인 Single Grain', desc:'한 증류소에서, 옥수수 등 그레인을 주원료로 연속식 증류해 만든 위스키.'},
+   {name:'블렌디드 몰트 Blended Malt', desc:'여러 증류소의 싱글몰트 위스키들을 섞은 것 (옛 명칭: 배티드 몰트).'},
+   {name:'블렌디드 그레인 Blended Grain', desc:'여러 증류소의 싱글그레인 위스키들을 섞은 것.'},
+   {name:'블렌디드 위스키 Blended', desc:'몰트 원액과 그레인 원액을 섞은 위스키. 유통량이 가장 많은 대중적인 형태예요.'}
+ ]},
+{id:'brandy', ko:'브랜디', en:'Brandy', cat:'증류주', material:'과일(주로 포도)', process:'과일 발효주(와인)를 증류한 뒤 오크통에서 숙성해요.', abv:'40–45%', types:'코냑 · 아르마냑 · 칼바도스(사과 브랜디)', note:'코냑은 프랑스 코냑 지역 포도로만 만들고 VS·VSOP·XO 등급으로 나뉘어요.', glass:'rocks', liquid:'#a1521c',
+ sub:[
+   {name:'코냑 Cognac', desc:'프랑스 코냑 지방 포도로 만든 브랜디. 2회 단식 증류 후 오크통 숙성, VS·VSOP·XO 등급으로 나뉘어요.'},
+   {name:'아르마냑 Armagnac', desc:'프랑스 아르마냑 지방산. 대부분 단식(연속) 증류를 1회만 거쳐 코냑보다 풍미가 진해요.'},
+   {name:'칼바도스 Calvados', desc:'사과(또는 배)를 발효·증류한 브랜디. 프랑스 노르망디 지역이 대표 산지예요.'},
+   {name:'마르·그라파 Marc·Grappa', desc:'와인을 짜고 남은 포도 껍질·씨(포마스)를 증류한 브랜디.'}
+ ]},
+{id:'gin', ko:'진', en:'Gin', cat:'증류주', material:'곡물 증류주 + 주니퍼베리 등 식물성 재료', process:'중성 곡물 증류주에 주니퍼베리와 여러 보태니컬을 넣어 재증류해요.', abv:'37.5–47%', types:'런던 드라이 · 올드 톰 · 플리머스', note:'주니퍼베리 향이 핵심이며, 칵테일 베이스로 가장 많이 쓰이는 증류주예요.', glass:'martini', liquid:'#d8e3c0',
+ sub:[
+   {name:'런던 드라이 진', desc:'증류 후 인공 향료나 당분을 첨가하지 않는 드라이한 스타일. 가장 대중적인 진이에요.'},
+   {name:'올드 톰 진', desc:'런던 드라이보다 살짝 단맛을 더한 전통 스타일. 진의 옛 형태에 가까워요.'},
+   {name:'플리머스 진', desc:'영국 플리머스 지역에서만 생산되는 원산지 명칭 보호 진. 흙 내음이 도는 부드러운 향.'},
+   {name:'제네버 Jenever', desc:'네덜란드·벨기에의 진의 원형. 몰트 와인 베이스라 곡물 향이 진하게 남아있어요.'}
+ ]},
+{id:'vodka', ko:'보드카', en:'Vodka', cat:'증류주', material:'감자 또는 곡물', process:'발효 후 연속식으로 여러 번 증류하고 활성탄으로 여과해요.', abv:'40% 내외', types:'플레인 · 플레이버드', note:'무색·무취·무미에 가깝게 만드는 것이 특징으로, 활성탄 여과가 핵심 공정이에요.', glass:'martini', liquid:'#eef2ee',
+ sub:[
+   {name:'플레인 보드카', desc:'향을 더하지 않은 기본형. 여과를 거듭할수록 순수하고 부드러워져요.'},
+   {name:'플레이버드 보드카', desc:'레몬·베리·허브 등의 향을 더한 보드카. 칵테일에 바로 개성을 더할 때 써요.'}
+ ]},
+{id:'rum', ko:'럼', en:'Rum', cat:'증류주', material:'사탕수수 또는 당밀', process:'당밀을 발효한 뒤 증류하고, 오크통 숙성 여부·기간으로 종류를 나눠요.', abv:'40% 내외', types:'화이트(라이트) · 골드 · 다크 · 스파이스드', note:'카리브해 지역이 주산지이고, 숙성 기간이 길수록 색이 짙어져요.', glass:'rocks', liquid:'#8a4a1e',
+ sub:[
+   {name:'화이트(라이트) 럼', desc:'짧은 숙성 또는 여과로 무색에 가깝게 만들어요. 모히토·다이키리 등 칵테일 베이스로 많이 써요.'},
+   {name:'골드 럼', desc:'단기 오크통 숙성으로 옅은 금색과 은은한 풍미가 생겨요.'},
+   {name:'다크 럼', desc:'장기 숙성으로 짙은 색과 진한 캐러멜·당밀 향이 나요.'},
+   {name:'스파이스드 럼', desc:'바닐라·계피 등 향신료를 더해 풍미를 강화한 럼.'}
+ ]},
+{id:'tequila', ko:'테킬라', en:'Tequila', cat:'증류주', material:'블루 아가베', process:'아가베를 쪄서 당화한 뒤 발효, 2회 증류해요.', abv:'35–55%', types:'블랑코(무숙성) · 레포사도(단기 숙성) · 아녜호(장기 숙성)', note:'멕시코 특정 지역에서만 생산 가능한 원산지 명칭 보호 품목이에요.', glass:'rocks', liquid:'#e4d9a0',
+ sub:[
+   {name:'블랑코(실버) Blanco', desc:'숙성 없이 바로 병입. 아가베 본연의 풋풋한 향이 살아있어요.'},
+   {name:'레포사도 Reposado', desc:'오크통에서 2개월~1년 숙성. 부드러운 오크 향이 더해져요.'},
+   {name:'아녜호 Añejo', desc:'오크통에서 1~3년 숙성. 위스키·브랜디에 가까운 깊은 풍미.'},
+   {name:'엑스트라 아녜호', desc:'3년 이상 장기 숙성한 최고급 등급.'}
+ ]},
+
+{id:'takju', ko:'막걸리(탁주)', en:'Takju', cat:'전통주', material:'쌀, 누룩, 물', process:'찐 쌀에 누룩과 물을 더해 발효시킨 뒤 거르지 않고 탁하게 마무리해요.', abv:'6–8%', types:'생막걸리 · 살균 막걸리', note:'당화와 발효가 동시에 일어나는 한국 고유의 병행복발효 방식이에요.', glass:'highball', liquid:'#eef0e4',
+ sub:[
+   {name:'생막걸리', desc:'열처리를 하지 않아 효모가 살아있어요. 유통기한이 짧고 시간이 지날수록 맛이 변해요.'},
+   {name:'살균 막걸리', desc:'열처리로 발효를 멈춰 유통기한을 늘린 막걸리.'}
+ ]},
+{id:'yakju', ko:'청주·약주', en:'Cheongju', cat:'전통주', material:'쌀, 누룩, 물', process:'막걸리와 같은 방식으로 빚은 뒤 맑게 걸러내요.', abv:'13–16%', types:'청주 · 약주', note:'탁주를 여과·숙성해 맑게 만든 술이에요.', glass:'flute', liquid:'#e8dfb8',
+ sub:[
+   {name:'청주', desc:'쌀·누룩·물만으로 빚어 맑게 거른 술.'},
+   {name:'약주', desc:'청주에 한약재 등의 부재료를 더해 빚은 술.'}
+ ]},
+{id:'soju', ko:'소주', en:'Soju', cat:'전통주', material:'쌀·보리 등 곡물, 또는 주정', process:'전통 소주는 곡물을 발효한 뒤 단식 증류해요.', abv:'17–45%', types:'증류식 소주 · 희석식 소주', note:'희석식은 주정에 물을 타 만든 대중 소주로, 증류식 소주와 구분돼요.', glass:'rocks', liquid:'#f2f2ea',
+ sub:[
+   {name:'증류식 소주', desc:'곡물을 발효한 뒤 단식 증류해, 원료 고유의 향이 살아있어요. 안동소주가 대표적이에요.'},
+   {name:'희석식 소주', desc:'연속식 증류로 만든 주정에 물과 감미료를 더한, 시중에 가장 흔한 소주.'}
+ ]},
+
+{id:'liqueur', ko:'혼성주(리큐르)', en:'Liqueur', cat:'혼성주', material:'증류주 + 과일·허브·향신료 + 당분', process:'증류주에 원료를 침출하거나 함께 증류해 향을 더하고 설탕을 넣어요.', abv:'15–55%', types:'오렌지계(쿠앵트로) · 허브계(캄파리) · 커피계(깔루아) · 크림계(베일리스)', note:'"증류주 + 당분 + 향료"라는 정의가 혼성주의 핵심이에요.', glass:'coupe', liquid:'#d98a2e',
+ sub:[
+   {name:'오렌지 리큐르', desc:'쿠앵트로, 트리플섹, 그랑 마르니에 등. 마가리타·코스모폴리탄 등에 두루 쓰여요.'},
+   {name:'허브·비터 리큐르', desc:'캄파리, 아페롤, 샤르트뢰즈, 베네딕틴 등. 쌉쌀한 맛으로 식전주 칵테일에 많이 써요.'},
+   {name:'커피 리큐르', desc:'깔루아, 티아 마리아 등. 에스프레소 마티니의 핵심 재료.'},
+   {name:'크림 리큐르', desc:'베일리스 등. 유제품을 더해 부드럽고 달콤해요.'},
+   {name:'견과·과일 리큐르', desc:'아마레토(아몬드향), 미도리(멜론), 크렘 드 카시스(블랙커런트) 등 향을 강조한 리큐르.'}
+ ]}
+];
+const CAT_EN = {'양조주':'Fermented','증류주':'Distilled','전통주':'Korean Traditional','혼성주':'Liqueur'};
+const SPIRIT_BY_ID = Object.fromEntries(SPIRITS.map(s=>[s.id,s]));
+
+/* ---------- 안주 레시피 ---------- */
+const FOOD = [
+{id:'french-fries', ko:'감자튀김', en:'French Fries', time:'20분', diff:1, color:'#e0a83e', pairsWith:['beer','vodka'],
+ material:['감자 2개','식용유 (튀김용)','소금','파프리카 파우더(선택)'],
+ steps:['감자를 껍질째 씻어 1cm 두께로 길게 썰어요.','찬물에 10분쯤 담가 전분기를 빼고 물기를 완전히 제거해요.','160℃ 기름에서 한 번 초벌 튀기고, 건져서 식혀요.','190℃로 온도를 올려 겉이 바삭해질 때까지 한 번 더 튀긴 뒤 소금을 뿌려요.'],
+ note:'짭짤하고 바삭한 튀김은 맥주의 탄산·청량감과, 보드카의 깔끔한 목넘김과 잘 어울려요.'},
+{id:'wings', ko:'양념 치킨윙', en:'Spicy Chicken Wings', time:'35분', diff:2, color:'#c23a1f', pairsWith:['beer','whisky'],
+ material:['닭날개 10개','튀김가루 1컵','고추장 2큰술','케찹 2큰술','꿀 1큰술','다진 마늘 1작은술'],
+ steps:['닭날개에 튀김가루를 고루 묻혀 170℃ 기름에서 노릇하게 튀겨요.','작은 팬에 고추장·케찹·꿀·다진 마늘을 넣고 약불에서 걸쭉하게 졸여 소스를 만들어요.','튀긴 닭날개를 소스에 버무려요.','통깨를 뿌려 마무리해요.'],
+ note:'매콤달콤한 양념이 맥주의 청량감을 살리고, 스모키한 위스키와는 맵싸한 맛이 잘 어울려요.'},
+{id:'golbaengi', ko:'골뱅이무침', en:'Golbaengi Muchim', time:'20분', diff:2, color:'#c94d3a', pairsWith:['soju','takju'],
+ material:['골뱅이 통조림 1개','오이·당근 약간씩','양파 ½개','고춧가루 2큰술','식초·설탕 1큰술씩','소면(선택)'],
+ steps:['골뱅이는 한입 크기로 썰고, 채소는 얇게 채 썰어요.','고춧가루·식초·설탕·다진 마늘로 양념장을 만들어요.','골뱅이와 채소를 양념장에 버무려요.','삶은 소면과 함께 곁들여 내요.'],
+ note:'새콤달콤 매콤한 맛이 소주의 쓴맛을 깔끔하게 씻어주고, 막걸리의 단맛과도 궁합이 좋아요.'},
+{id:'pajeon', ko:'김치파전', en:'Kimchi Pajeon', time:'25분', diff:2, color:'#d9c25a', pairsWith:['takju','yakju'],
+ material:['부침가루 1컵','물 1컵','신김치 1컵(다진 것)','쪽파 한 줌','식용유'],
+ steps:['부침가루와 물을 섞어 반죽을 만들어요.','다진 김치와 쪽파를 반죽에 섞어요.','달군 팬에 기름을 두르고 반죽을 얇게 펴 부쳐요.','앞뒤로 노릇하게 구워 한입 크기로 잘라요.'],
+ note:'기름지고 고소한 전은 막걸리의 은은한 단맛, 청주의 깔끔함과 클래식하게 어울려요.'},
+{id:'dried-snacks', ko:'육포 & 마른안주', en:'Beef Jerky Plate', time:'10분', diff:1, color:'#8a5a3a', pairsWith:['whisky','brandy'],
+ material:['육포 한 줌','땅콩·아몬드 등 견과류','건포도(선택)'],
+ steps:['육포를 먹기 좋은 크기로 잘라 접시에 담아요.','견과류를 곁들여요.','취향에 따라 버터나 마요네즈 소스를 곁들여도 좋아요.'],
+ note:'육포의 짭짤하고 쫄깃한 감칠맛이 위스키·브랜디의 진한 풍미와 무게감 있게 어울려요.'},
+{id:'nuts', ko:'허니 로스트 넛츠', en:'Honey Roasted Nuts', time:'15분', diff:1, color:'#b98a4a', pairsWith:['wine','whisky','brandy'],
+ material:['아몬드·캐슈넛 1컵','꿀 2큰술','버터 1큰술','소금 한 꼬집'],
+ steps:['팬에 버터를 녹이고 견과류를 넣어 약불에서 볶아요.','꿀을 둘러 골고루 코팅해요.','소금을 살짝 뿌려 한 김 식혀요.'],
+ note:'고소하고 달콤한 견과류는 와인의 탄닌, 위스키·브랜디의 오크 풍미와 자연스럽게 어울려요.'},
+{id:'cheese', ko:'치즈 플래터', en:'Cheese Platter', time:'10분', diff:1, color:'#e8c96a', pairsWith:['wine','brandy','whisky'],
+ material:['치즈 2~3종','크래커','꿀 또는 잼','포도·무화과 등 과일'],
+ steps:['치즈를 먹기 좋은 크기로 잘라요.','크래커와 과일을 곁들여 접시에 담아요.','꿀이나 잼을 곁들여 내요.'],
+ note:'치즈의 짠맛·감칠맛이 와인의 산미, 브랜디·위스키의 깊은 향과 두루 잘 맞아요.'},
+{id:'olives', ko:'마리네이드 올리브', en:'Marinated Olives', time:'10분(+숙성)', diff:1, color:'#7a8c4a', pairsWith:['gin','vodka','wine'],
+ material:['올리브 1컵','올리브유 3큰술','레몬 제스트','마늘 1쪽','허브(로즈마리·타임)'],
+ steps:['올리브유에 으깬 마늘과 허브를 넣고 약불에서 향을 우려요.','올리브와 레몬 제스트를 넣어 버무려요.','냉장고에서 30분 이상 재워 향이 배게 해요.'],
+ note:'올리브의 짭짤한 감칠맛이 진의 주니퍼 향, 보드카의 깔끔함과 산뜻하게 어울려요.'},
+{id:'nachos', ko:'나초 & 살사', en:'Nachos & Salsa', time:'20분', diff:2, color:'#d99a3a', pairsWith:['tequila','beer'],
+ material:['나초칩 한 봉지','토마토 2개','양파 ¼개','라임즙','슈레드 치즈','할라피뇨(선택)'],
+ steps:['토마토·양파를 잘게 다져 라임즙·소금으로 살사를 만들어요.','나초칩 위에 치즈를 듬뿍 올려 오븐에서 녹여요.','살사와 할라피뇨를 올려 내요.'],
+ note:'짭짤하고 매콤한 멕시칸 안주는 테킬라와 클래식한 짝이고, 맥주와도 잘 어울려요.'},
+{id:'steak', ko:'스테이크', en:'Grilled Steak', time:'25분', diff:2, color:'#8a3a2a', pairsWith:['wine','whisky','brandy'],
+ material:['스테이크용 고기 200g','소금·후추','버터 1큰술','마늘 2쪽','로즈마리(선택)'],
+ steps:['고기를 실온에 20분쯤 꺼내두고 소금·후추로 간해요.','달군 팬에 센 불로 양면을 짧게 구워 겉면을 익혀요.','버터·마늘·로즈마리를 넣고 불을 줄여 속까지 익혀요.','5분쯤 레스팅 후 썰어 내요.'],
+ note:'묵직한 육즙과 풍미는 레드 와인의 탄닌, 위스키·브랜디의 깊은 향과 잘 어우러져요.'},
+{id:'shrimp', ko:'갈릭 버터 새우', en:'Garlic Butter Shrimp', time:'15분', diff:2, color:'#d97a5a', pairsWith:['vodka','wine','liqueur'],
+ material:['새우 12마리','버터 2큰술','다진 마늘 3쪽','레몬즙','파슬리'],
+ steps:['새우는 껍질을 벗기고 내장을 제거해요.','팬에 버터를 녹이고 다진 마늘을 볶아 향을 내요.','새우를 넣고 속까지 익도록 볶아요.','레몬즙과 파슬리를 뿌려 마무리해요.'],
+ note:'버터와 마늘의 고소한 향이 보드카의 깔끔함, 화이트 와인의 산미와 잘 어울려요.'},
+{id:'dubukimchi', ko:'두부김치', en:'Dubu Kimchi', time:'25분', diff:2, color:'#c94a3a', pairsWith:['soju','takju'],
+ material:['두부 1모','신김치 1컵','돼지고기(선택) 100g','참기름·설탕'],
+ steps:['두부는 통째로 데쳐 먹기 좋게 썰어요.','팬에 김치와 돼지고기를 볶아요. 설탕과 참기름으로 간을 맞춰요.','볶은 김치를 두부 옆에 곁들여 내요.'],
+ note:'익힌 두부의 담백함과 볶음김치의 매콤함이 소주·막걸리의 목넘김과 잘 맞아요.'},
+{id:'jokbal', ko:'족발 플레이트', en:'Jokbal Plate', time:'15분(완제품 활용)', diff:1, color:'#c9926a', pairsWith:['soju'],
+ material:['시판 족발 1팩','쌈장·마늘·쪽파','상추·깻잎'],
+ steps:['족발을 먹기 좋게 슬라이스해요.','쌈채소·마늘·쪽파와 함께 접시에 담아요.','쌈장을 곁들여 내요.'],
+ note:'쫄깃하고 기름진 족발은 소주의 깔끔한 목넘김과 클래식하게 어울려요.'},
+{id:'salmon', ko:'훈제연어 카나페', en:'Smoked Salmon Canapé', time:'15분', diff:1, color:'#e0836a', pairsWith:['wine','vodka','gin'],
+ material:['훈제연어 100g','바게트 슬라이스','크림치즈','딜(또는 파슬리)','케이퍼(선택)'],
+ steps:['바게트에 크림치즈를 발라요.','훈제연어를 올려요.','딜과 케이퍼로 장식해요.'],
+ note:'훈제연어의 스모키하고 짭짤한 풍미가 스파클링 와인, 보드카·진의 깔끔함과 잘 어울려요.'},
+{id:'chocolate', ko:'다크초콜릿 & 베리', en:'Dark Chocolate & Berries', time:'10분', diff:1, color:'#4a2e22', pairsWith:['liqueur','wine','brandy'],
+ material:['다크초콜릿 100g','딸기·블루베리 등 베리류','견과류(선택)'],
+ steps:['초콜릿을 한입 크기로 잘라요.','베리류를 씻어 물기를 제거해요.','접시에 초콜릿과 베리를 함께 담아요.'],
+ note:'다크초콜릿의 쌉쌀함이 혼성주의 단맛, 포트와인·브랜디의 진한 풍미와 디저트처럼 잘 어울려요.'}
+];
+const FOOD_BY_ID = Object.fromEntries(FOOD.map(f=>[f.id,f]));
+
+/* ---------- 유틸 ---------- */
+const $ = s => document.querySelector(s);
+const fmt = n => String(Math.round(n*100)/100);
+const FR = {0:'',0.25:'¼',0.5:'½',0.75:'¾'};
+function ozText(ml){
+  const x = Math.round(ml/30*4)/4; if(!x) return '';
+  const w = Math.floor(x), f = FR[Math.round((x-w)*100)/100];
+  return '≈ ' + (w? w : '') + f + ' oz';
+}
+function amountHTML(ing, s){
+  const [,q,u] = ing;
+  if(typeof q === 'string') return q;
+  const v = q*s;
+  if(u==='ml') return `${fmt(v)} ml<i>${ozText(v)}</i>`;
+  if(u==='dash') return `${fmt(v)} dash`;
+  return `${fmt(v)}${u}`;
+}
+const store = {
+  get(k,d){ try{ const v = localStorage.getItem(k); return v==null? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ---------- 유리잔 SVG ---------- */
+function glassSVG(r, uid){
+  const g = GLASS[r.glass];
+  const fill = r.liquid2 ? `url(#g${uid})` : r.liquid;
+  const grad = r.liquid2 ? `<linearGradient id="g${uid}" gradientUnits="userSpaceOnUse" x1="0" y1="${g.level}" x2="0" y2="${g.bottom}"><stop offset="0" stop-color="${r.liquid}"/><stop offset="1" stop-color="${r.liquid2}"/></linearGradient>` : '';
+  const ice = r.ice && g.ice ? g.ice.map(([x,y,s,a])=>`<rect x="${x}" y="${y}" width="${s}" height="${s}" rx="2.5" transform="rotate(${a} ${x+s/2} ${y+s/2})" fill="var(--ice)" stroke="currentColor" stroke-opacity=".4" stroke-width="1"/>`).join('') : '';
+  const extra = g.extra ? `<path d="${g.extra}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>` : '';
+  return `<svg viewBox="0 0 80 120" role="img" aria-label="${g.name}">
+    <defs>${grad}<clipPath id="c${uid}"><path d="${g.d}"/></clipPath></defs>
+    <rect x="0" y="${g.level}" width="80" height="120" fill="${fill}" opacity=".95" clip-path="url(#c${uid})"/>
+    ${ice}
+    <path d="${g.d}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+    ${extra}
+  </svg>`;
+}
+
+/* ---------- 사진 (있으면 사용, 없으면 일러스트로 대체) ----------
+   images/ 폴더에 레시피 id로 이름 붙인 파일(예: images/martini.jpg)을 넣으면
+   자동으로 인식돼요. jpg/jpeg/png/webp 중 아무 확장자나 가능하고,
+   파일이 없는 칵테일은 계속 SVG 잔 일러스트로 보여요. */
+const PHOTO_EXT = ['jpg','jpeg','png','webp'];
+window.__mediaFallback = function(img){
+  const ei = (+img.dataset.ei||0) + 1;
+  if(ei < PHOTO_EXT.length){
+    img.dataset.ei = ei;
+    img.src = `images/${img.dataset.rid}.${PHOTO_EXT[ei]}`;
+  } else {
+    img.replaceWith(new Range().createContextualFragment(glassSVG(BY_ID[img.dataset.rid], img.dataset.uid)));
+  }
+};
+function mediaHTML(r, uid){
+  return `<img src="images/${r.id}.${PHOTO_EXT[0]}" data-rid="${r.id}" data-uid="${uid}" data-ei="0" alt="${r.ko}" loading="lazy" onerror="window.__mediaFallback(this)">`;
+}
+
+/* ---------- 상태 ---------- */
+const state = {
+  q:'', base:'전체', flav:'전체', sort:'default', favOnly:false,
+  favs:new Set(store.get('jigger.favs', [])),
+  open:null, openKind:'cocktail', serv:1, checked:{}, lastFocus:null,
+  view:'cocktail', scat:'전체', fcat:'전체'
+};
+const HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.8a4.3 4.3 0 0 1 7.5 2.7c0 5.4-7.5 10-7.5 10z" stroke-linejoin="round"/></svg>';
+
+function visible(){
+  const q = state.q.trim().toLowerCase();
+  let list = RECIPES.filter(r =>
+    (state.base==='전체' || r.base===state.base) &&
+    (state.flav==='전체' || r.flav.includes(state.flav)) &&
+    (!state.favOnly || state.favs.has(r.id)) &&
+    (!q || r.hay.includes(q)));
+  if(state.sort==='abv-asc') list = list.slice().sort((a,b)=>a.abv-b.abv);
+  if(state.sort==='abv-desc') list = list.slice().sort((a,b)=>b.abv-a.abv);
+  return list;
+}
+
+/* ---------- 목록 렌더 ---------- */
+function chipHTML(v, label, count, pressed){
+  return `<button class="chip" type="button" data-v="${v}" aria-pressed="${pressed}">${label}${count!=null?`<span class="n">${count}</span>`:''}</button>`;
+}
+function buildChips(){
+  $('#baseChips').innerHTML = chipHTML('전체','전체',RECIPES.length,true) +
+    BASES.map(b=>chipHTML(b,b,RECIPES.filter(r=>r.base===b).length,false)).join('');
+  $('#flavChips').innerHTML = chipHTML('전체','전체',null,true) +
+    FLAVORS.map(f=>chipHTML(f,f,RECIPES.filter(r=>r.flav.includes(f)).length,false)).join('');
+  $('#catChips').innerHTML = chipHTML('전체','전체',SPIRITS.length,true) +
+    CATS.map(c=>chipHTML(c,c,SPIRITS.filter(s=>s.cat===c).length,false)).join('');
+  $('#fCatChips').innerHTML = chipHTML('전체','전체',FOOD.length,true) +
+    CATS.map(c=>chipHTML(c,c,FOOD.filter(f=>f.pairsWith.some(id=>SPIRIT_BY_ID[id].cat===c)).length,false)).join('');
+}
+function sVisible(){
+  return state.scat==='전체' ? SPIRITS : SPIRITS.filter(s=>s.cat===state.scat);
+}
+function spiritTileHTML(s){
+  return `<article class="tile" style="--liq:${s.liquid}">
+    <div class="thumb">
+      <span class="eyebrow">${s.cat}</span>
+      ${glassSVG(s,'st'+s.id)}
+    </div>
+    <div class="cbody">
+      <h3><button class="open" type="button" data-sopen="${s.id}">${s.en}</button></h3>
+      <p class="ko">${s.ko}</p>
+      <dl class="cspecs">
+        <div class="item"><dt>원료</dt><dd>${s.material}</dd></div>
+        <div class="item"><dt>도수</dt><dd>${s.abv}</dd></div>
+        <div class="item"><dt>종류</dt><dd>${s.types}</dd></div>
+      </dl>
+      <p class="seemore">자세히 보기 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+    </div>
+  </article>`;
+}
+function renderSGrid(){
+  const list = sVisible();
+  $('#sgrid').innerHTML = list.map(spiritTileHTML).join('');
+  $('#sStatus').textContent = state.scat==='전체' ? `전체 ${SPIRITS.length}개` : `${state.scat} ${list.length}개`;
+  document.querySelectorAll('#catChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===state.scat)));
+}
+function plateSVG(f, uid){
+  return `<svg viewBox="0 0 80 80" role="img" aria-label="${f.ko}">
+    <circle cx="40" cy="40" r="31" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="40" cy="40" r="23" fill="none" stroke="currentColor" stroke-width="1" opacity=".45"/>
+    <circle cx="40" cy="40" r="14" fill="${f.color}"/>
+  </svg>`;
+}
+function fVisible(){
+  return state.fcat==='전체' ? FOOD : FOOD.filter(f=>f.pairsWith.some(id=>SPIRIT_BY_ID[id].cat===state.fcat));
+}
+function foodTileHTML(f){
+  const dots = [0,1,2].map(i=>`<i class="${i<f.diff?'on':''}"></i>`).join('');
+  return `<article class="tile" style="--liq:${f.color}">
+    <div class="thumb">
+      <span class="eyebrow">${f.time}</span>
+      ${plateSVG(f,'ft'+f.id)}
+    </div>
+    <div class="cbody">
+      <h3><button class="open" type="button" data-fopen="${f.id}">${f.en}</button></h3>
+      <p class="ko">${f.ko}</p>
+      <dl class="cspecs">
+        <div class="item"><dt>조리 시간</dt><dd>${f.time}</dd></div>
+        <div class="item"><dt>난이도</dt><dd><span class="dots" title="난이도 ${DIFF[f.diff-1]}" aria-label="난이도 ${DIFF[f.diff-1]}">${dots}</span> ${DIFF[f.diff-1]}</dd></div>
+        <div class="item"><dt>어울리는 술</dt><dd>${f.pairsWith.map(id=>SPIRIT_BY_ID[id].ko).join(' · ')}</dd></div>
+      </dl>
+      <p class="seemore">레시피 보기 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+    </div>
+  </article>`;
+}
+function renderFGrid(){
+  const list = fVisible();
+  $('#fgrid').innerHTML = list.map(foodTileHTML).join('');
+  $('#fStatus').textContent = state.fcat==='전체' ? `전체 ${FOOD.length}개` : `${state.fcat}와 어울리는 안주 ${list.length}개`;
+  document.querySelectorAll('#fCatChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===state.fcat)));
+}
+function switchView(view){
+  state.view = view;
+  document.querySelectorAll('.vtab').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.view===view)));
+  $('#main').hidden = view!=='cocktail';
+  $('#smain').hidden = view!=='spirits';
+  $('#fmain').hidden = view!=='food';
+  $('#mastLabel').textContent = view==='cocktail' ? 'Cocktail Recipes' : view==='spirits' ? 'Spirits Guide' : 'Food Pairing';
+  $('#mastCount').textContent = view==='cocktail' ? `${RECIPES.length} drinks` : view==='spirits' ? `${SPIRITS.length} spirits` : `${FOOD.length} snacks`;
+}
+function syncChips(){
+  document.querySelectorAll('#baseChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===state.base)));
+  document.querySelectorAll('#flavChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===state.flav)));
+  $('#favToggle').setAttribute('aria-pressed', String(state.favOnly));
+  $('#favCount').textContent = state.favs.size;
+}
+function tileHTML(r){
+  const fav = state.favs.has(r.id);
+  const dots = [0,1,2].map(i=>`<i class="${i<r.diff?'on':''}"></i>`).join('');
+  const abv = r.abv? `${r.abv}%` : '0%';
+  return `<article class="tile" style="--liq:${r.liquid}">
+    <div class="thumb">
+      <span class="eyebrow">${BASE_EN[r.base]}</span>
+      <button class="fav" type="button" data-fav="${r.id}" aria-pressed="${fav}" aria-label="${r.ko} 즐겨찾기">${HEART}</button>
+      ${mediaHTML(r,'t'+r.id)}
+    </div>
+    <div class="cbody">
+      <h3><button class="open" type="button" data-open="${r.id}">${r.en}</button></h3>
+      <p class="ko">${r.ko}</p>
+      <dl class="cspecs">
+        <div class="item"><dt>도수</dt><dd>${abv}</dd></div>
+        <div class="item"><dt>방법</dt><dd>${r.method}</dd></div>
+        <div class="item"><dt>난이도</dt><dd><span class="dots" title="난이도 ${DIFF[r.diff-1]}" aria-label="난이도 ${DIFF[r.diff-1]}">${dots}</span> ${DIFF[r.diff-1]}</dd></div>
+        <div class="item"><dt>맛</dt><dd>${r.flav.join(' · ')}</dd></div>
+      </dl>
+      <p class="seemore">레시피 보기 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+    </div>
+  </article>`;
+}
+function renderGrid(){
+  const list = visible();
+  $('#grid').innerHTML = list.length ? list.map(tileHTML).join('') :
+    `<div class="empty"><p>맞는 칵테일이 없어요</p><button class="btn" type="button" data-reset>필터 초기화</button></div>`;
+  const filtered = state.q || state.base!=='전체' || state.flav!=='전체' || state.favOnly;
+  $('#status').textContent = filtered ? `${list.length}개의 레시피 / 전체 ${RECIPES.length}개` : `전체 ${RECIPES.length}개의 레시피`;
+  $('#reset').hidden = !filtered;
+  syncChips();
+}
+function resetAll(){
+  state.q=''; state.base='전체'; state.flav='전체'; state.favOnly=false;
+  $('#q').value=''; renderGrid();
+}
+
+/* ---------- 즐겨찾기 ---------- */
+function toggleFav(id){
+  if(state.favs.has(id)) state.favs.delete(id); else state.favs.add(id);
+  store.set('jigger.favs', [...state.favs]);
+  document.querySelectorAll(`[data-fav="${id}"]`).forEach(b=>b.setAttribute('aria-pressed', String(state.favs.has(id))));
+  $('#favCount').textContent = state.favs.size;
+  if(state.favOnly && !state.open) renderGrid();
+}
+
+/* ---------- 상세 패널 ---------- */
+function pool(id){ const v = visible(); return v.some(r=>r.id===id) ? v : RECIPES; }
+function ingHTML(r){
+  const s = state.serv;
+  const chk = state.checked[r.id] || (state.checked[r.id] = new Set());
+  const ml = r.ing.filter(i=>i[2]==='ml');
+  const total = ml.reduce((a,i)=>a+i[1]*s,0);
+  const bar = ml.map(i=>`<span style="flex:${i[1]} 1 0;background:${i[3]}" title="${i[0]} ${fmt(i[1]*s)} ml"></span>`).join('');
+  const rows = r.ing.map((i,idx)=>`<li class="ing ${chk.has(idx)?'on':''}"><label>
+      <input type="checkbox" data-i="${idx}" ${chk.has(idx)?'checked':''}>
+      <span class="sw ${i[3]?'':'none'}" ${i[3]?`style="--c:${i[3]}"`:''}></span>
+      <span class="nm">${i[0]}</span><span class="amt">${amountHTML(i,s)}</span></label></li>`).join('');
+  const hint = (s>2 && (r.method==='셰이크' || r.method==='블렌드'))
+    ? `<p class="hint">${r.method==='셰이크'?'셰이커':'블렌더'} 하나에 3잔 이상은 섞기 어려워요. 2잔씩 나눠서 만들어 주세요.</p>` : '';
+  return `<div class="bar" aria-hidden="true">${bar}</div>
+    <div class="barlabel"><span>재료 비율 (얼음 제외)</span><span>총 ${fmt(total)} ml</span></div>
+    <ul class="ings">${rows}</ul>${hint}`;
+}
+function specHTML(r){
+  const rows = [
+    ['도수', Math.max(.04, Math.min(1, r.abv/35))],
+    ['단맛', r.flav.includes('달콤') ? .85 : r.flav.includes('부드러운') ? .55 : .18],
+    ['상큼', r.flav.includes('상큼') ? .85 : .18],
+    ['쌉쌀', r.flav.includes('쌉쌀') ? .85 : r.flav.includes('감칠맛') ? .55 : .15]
+  ];
+  return `<div class="speccard">
+    <div class="specrows">${rows.map(([l,v])=>`
+      <div class="specrow"><span class="sl">${l}</span><span class="track"><span class="dot" style="left:${Math.round(v*100)}%"></span></span></div>`).join('')}
+    </div>
+    <div class="specfoot"><span>${r.flav.join(' · ')}</span><span class="specprice">${r.abv? r.abv+'%' : '논알콜'}</span></div>
+  </div>`;
+}
+function panelHTML(r){
+  const p = pool(r.id), i = p.findIndex(x=>x.id===r.id);
+  const prev = p[(i-1+p.length)%p.length], next = p[(i+1)%p.length];
+  const abv = r.abv? `약 ${r.abv}%` : '논알콜 (0%)';
+  const chk = state.checked[r.id] || new Set();
+  return `<div class="ptop">
+      <span class="pos">${i+1} / ${p.length}</span>
+      <button class="ib" type="button" data-act="prev" aria-label="이전: ${prev.ko}"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="ib" type="button" data-act="next" aria-label="다음: ${next.ko}"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="ib fav" type="button" data-fav="${r.id}" aria-pressed="${state.favs.has(r.id)}" aria-label="${r.ko} 즐겨찾기">${HEART}</button>
+      <button class="ib" type="button" data-act="close" aria-label="닫기"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="pthumb" style="--liq:${r.liquid}">${mediaHTML(r,'p'+r.id)}</div>
+    <div class="pbody">
+      <div class="phead">
+        <span class="eyebrow">${BASE_EN[r.base]}</span>
+        <h2 id="pTitle">${r.en}</h2>
+        <p class="ko">${r.ko}</p>
+        <div class="tags">${r.flav.map(f=>`<span class="tag">${f}</span>`).join('')}</div>
+      </div>
+      <p class="note">${r.note}</p>
+      ${specHTML(r)}
+      <section class="sec">
+        <div class="sec-h"><h3>Ingredients</h3>
+          <div class="stepper" role="group" aria-label="인분 조절">
+            <button type="button" data-act="dec" aria-label="한 잔 줄이기" ${state.serv<=1?'disabled':''}>−</button>
+            <output id="servOut" aria-live="polite">${state.serv}잔</output>
+            <button type="button" data-act="inc" aria-label="한 잔 늘리기" ${state.serv>=8?'disabled':''}>+</button>
+          </div>
+        </div>
+        <div id="ingWrap">${ingHTML(r)}</div>
+        <p class="prog" id="prog" style="margin:10px 0 0">${chk.size} / ${r.ing.length} 챙김</p>
+      </section>
+      <section class="sec">
+        <div class="sec-h"><h3>Method</h3><span class="prog">${r.method}</span></div>
+        <ol class="steps">${r.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+      </section>
+      <section class="sec">
+        <div class="sec-h"><h3>Spec</h3></div>
+        <dl class="spec">
+          <div><dt>글라스</dt><dd>${r.glassName}</dd></div>
+          <div><dt>가니시</dt><dd>${r.garnish}</dd></div>
+          <div><dt>도수</dt><dd>${abv}</dd></div>
+          <div><dt>난이도</dt><dd>${DIFF[r.diff-1]}</dd></div>
+        </dl>
+      </section>
+    </div>`;
+}
+function spool(id){ const v = sVisible(); return v.some(x=>x.id===id) ? v : SPIRITS; }
+function spiritPanelHTML(s){
+  const p = spool(s.id), i = p.findIndex(x=>x.id===s.id);
+  const prev = p[(i-1+p.length)%p.length], next = p[(i+1)%p.length];
+  return `<div class="ptop">
+      <span class="pos">${i+1} / ${p.length}</span>
+      <button class="ib" type="button" data-act="prev" aria-label="이전: ${prev.ko}"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="ib" type="button" data-act="next" aria-label="다음: ${next.ko}"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="ib" type="button" data-act="close" aria-label="닫기"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="pthumb" style="--liq:${s.liquid}">${glassSVG(s,'sp'+s.id)}</div>
+    <div class="pbody">
+      <div class="phead">
+        <span class="eyebrow">${s.cat}</span>
+        <h2 id="pTitle">${s.en}</h2>
+        <p class="ko">${s.ko}</p>
+      </div>
+      <p class="note">${s.process}</p>
+      <section class="sec">
+        <div class="sec-h"><h3>Spec</h3></div>
+        <dl class="spec">
+          <div><dt>원료</dt><dd>${s.material}</dd></div>
+          <div><dt>도수</dt><dd>${s.abv}</dd></div>
+          <div><dt>종류</dt><dd>${s.types}</dd></div>
+          <div><dt>분류</dt><dd>${s.cat}</dd></div>
+        </dl>
+      </section>
+      <section class="sec">
+        <div class="sec-h"><h3>세부 종류</h3><span class="prog">${s.sub.length}가지</span></div>
+        <ul class="subtypes">${s.sub.map(x=>`<li><b>${x.name}</b>${x.desc}</li>`).join('')}</ul>
+      </section>
+      <section class="sec">
+        <div class="sec-h"><h3>시험 포인트</h3></div>
+        <p class="note" style="margin-top:10px">${s.note}</p>
+      </section>
+    </div>`;
+}
+function fpool(id){ const v = fVisible(); return v.some(x=>x.id===id) ? v : FOOD; }
+function foodPanelHTML(f){
+  const p = fpool(f.id), i = p.findIndex(x=>x.id===f.id);
+  const prev = p[(i-1+p.length)%p.length], next = p[(i+1)%p.length];
+  const chk = state.checked['food_'+f.id] || new Set();
+  const ings = f.material.map((m,idx)=>`<li class="ing ${chk.has(idx)?'on':''}"><label>
+      <input type="checkbox" data-fi="${idx}" ${chk.has(idx)?'checked':''}>
+      <span class="sw none"></span>
+      <span class="nm">${m}</span><span class="amt"></span></label></li>`).join('');
+  return `<div class="ptop">
+      <span class="pos">${i+1} / ${p.length}</span>
+      <button class="ib" type="button" data-act="prev" aria-label="이전: ${prev.ko}"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="ib" type="button" data-act="next" aria-label="다음: ${next.ko}"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="ib" type="button" data-act="close" aria-label="닫기"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="pthumb" style="--liq:${f.color}">${plateSVG(f,'fp'+f.id)}</div>
+    <div class="pbody">
+      <div class="phead">
+        <span class="eyebrow">${f.time} · ${DIFF[f.diff-1]}</span>
+        <h2 id="pTitle">${f.en}</h2>
+        <p class="ko">${f.ko}</p>
+        <div class="tags">${f.pairsWith.map(id=>`<span class="tag">${SPIRIT_BY_ID[id].ko}</span>`).join('')}</div>
+      </div>
+      <p class="note">${f.note}</p>
+      <section class="sec">
+        <div class="sec-h"><h3>Ingredients</h3></div>
+        <ul class="ings">${ings}</ul>
+      </section>
+      <section class="sec">
+        <div class="sec-h"><h3>Method</h3></div>
+        <ol class="steps">${f.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+      </section>
+    </div>`;
+}
+function renderPanel(){
+  const panel = $('#panel');
+  const top = panel.scrollTop;
+  panel.innerHTML = state.openKind==='spirit' ? spiritPanelHTML(SPIRIT_BY_ID[state.open])
+    : state.openKind==='food' ? foodPanelHTML(FOOD_BY_ID[state.open])
+    : panelHTML(BY_ID[state.open]);
+  panel.scrollTop = top;
+}
+function openPanel(id, kind, keepServ){
+  kind = kind || 'cocktail';
+  const wasOpen = !!state.open;
+  if(!wasOpen) state.lastFocus = document.activeElement;
+  state.open = id;
+  state.openKind = kind;
+  if(!keepServ) state.serv = 1;
+  renderPanel();
+  $('#panel').scrollTop = 0;
+  $('#overlay').hidden = false;
+  document.documentElement.style.overflow = 'hidden';
+  const mainSel = state.view==='spirits' ? '#smain' : state.view==='food' ? '#fmain' : '#main';
+  try{ $(mainSel).inert = true; }catch(e){}
+  try{ history.replaceState(null,'','#'+id); }catch(e){}
+  const c = $('#panel [data-act="close"]'); if(c) c.focus();
+}
+function closePanel(){
+  if(!state.open) return;
+  const kind = state.openKind;
+  state.open = null;
+  $('#overlay').hidden = true;
+  document.documentElement.style.overflow = '';
+  try{ $('#main').inert = false; $('#smain').inert = false; $('#fmain').inert = false; }catch(e){}
+  try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){}
+  if(kind==='cocktail') renderGrid();
+  if(state.lastFocus && document.contains(state.lastFocus)) try{ state.lastFocus.focus(); }catch(e){}
+}
+function step(dir){
+  if(state.openKind==='spirit'){
+    const p = spool(state.open), i = p.findIndex(x=>x.id===state.open);
+    openPanel(p[(i+dir+p.length)%p.length].id, 'spirit');
+  } else if(state.openKind==='food'){
+    const p = fpool(state.open), i = p.findIndex(x=>x.id===state.open);
+    openPanel(p[(i+dir+p.length)%p.length].id, 'food');
+  } else {
+    const p = pool(state.open), i = p.findIndex(x=>x.id===state.open);
+    openPanel(p[(i+dir+p.length)%p.length].id, 'cocktail');
+  }
+}
+
+/* ---------- 이벤트 ---------- */
+buildChips();
+renderGrid();
+renderSGrid();
+renderFGrid();
+
+$('#q').addEventListener('input', e=>{ state.q = e.target.value; renderGrid(); });
+$('#sort').addEventListener('change', e=>{ state.sort = e.target.value; renderGrid(); });
+$('#favToggle').addEventListener('click', ()=>{ state.favOnly = !state.favOnly; renderGrid(); });
+$('#reset').addEventListener('click', resetAll);
+$('#baseChips').addEventListener('click', e=>{ const b = e.target.closest('.chip'); if(b){ state.base = b.dataset.v; renderGrid(); } });
+$('#flavChips').addEventListener('click', e=>{ const b = e.target.closest('.chip'); if(b){ state.flav = b.dataset.v; renderGrid(); } });
+$('#grid').addEventListener('click', e=>{
+  const f = e.target.closest('[data-fav]'); if(f){ toggleFav(f.dataset.fav); return; }
+  const o = e.target.closest('[data-open]'); if(o){ openPanel(o.dataset.open, 'cocktail'); return; }
+  if(e.target.closest('[data-reset]')) resetAll();
+});
+$('.viewtabs').addEventListener('click', e=>{
+  const b = e.target.closest('.vtab'); if(b) switchView(b.dataset.view);
+});
+$('#catChips').addEventListener('click', e=>{ const b = e.target.closest('.chip'); if(b){ state.scat = b.dataset.v; renderSGrid(); } });
+$('#sgrid').addEventListener('click', e=>{
+  const o = e.target.closest('[data-sopen]'); if(o) openPanel(o.dataset.sopen, 'spirit');
+});
+$('#fCatChips').addEventListener('click', e=>{ const b = e.target.closest('.chip'); if(b){ state.fcat = b.dataset.v; renderFGrid(); } });
+$('#fgrid').addEventListener('click', e=>{
+  const o = e.target.closest('[data-fopen]'); if(o) openPanel(o.dataset.fopen, 'food');
+});
+$('#scrim').addEventListener('click', closePanel);
+$('#panel').addEventListener('click', e=>{
+  const f = e.target.closest('[data-fav]'); if(f){ toggleFav(f.dataset.fav); return; }
+  const a = e.target.closest('[data-act]'); if(!a) return;
+  const act = a.dataset.act;
+  if(act==='close') closePanel();
+  else if(act==='prev') step(-1);
+  else if(act==='next') step(1);
+  else if(act==='inc' || act==='dec'){
+    state.serv = Math.min(8, Math.max(1, state.serv + (act==='inc'?1:-1)));
+    const r = BY_ID[state.open];
+    $('#ingWrap').innerHTML = ingHTML(r);
+    $('#servOut').textContent = state.serv + '잔';
+    $('#panel [data-act="dec"]').disabled = state.serv<=1;
+    $('#panel [data-act="inc"]').disabled = state.serv>=8;
+  }
+});
+$('#panel').addEventListener('change', e=>{
+  const cb = e.target.closest('input[type="checkbox"][data-i]');
+  if(cb){
+    const r = BY_ID[state.open];
+    const chk = state.checked[r.id] || (state.checked[r.id] = new Set());
+    const i = +cb.dataset.i;
+    if(cb.checked) chk.add(i); else chk.delete(i);
+    cb.closest('.ing').classList.toggle('on', cb.checked);
+    $('#prog').textContent = `${chk.size} / ${r.ing.length} 챙김`;
+    return;
+  }
+  const fb = e.target.closest('input[type="checkbox"][data-fi]');
+  if(fb){
+    const key = 'food_'+state.open;
+    const chk = state.checked[key] || (state.checked[key] = new Set());
+    const i = +fb.dataset.fi;
+    if(fb.checked) chk.add(i); else chk.delete(i);
+    fb.closest('.ing').classList.toggle('on', fb.checked);
+  }
+});
+document.addEventListener('keydown', e=>{
+  if(!state.open) return;
+  if(e.key==='Escape'){ e.preventDefault(); closePanel(); return; }
+  if(e.key==='Tab'){
+    const f = [...$('#panel').querySelectorAll('button:not(:disabled),input,[href]')];
+    if(!f.length) return;
+    const first = f[0], last = f[f.length-1];
+    if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+  }
+  if((e.key==='ArrowLeft' || e.key==='ArrowRight') && !/INPUT|SELECT/.test(document.activeElement.tagName)){
+    step(e.key==='ArrowLeft'?-1:1);
+  }
+});
+
+/* 주소 해시로 바로 열기 */
+try{
+  const h = decodeURIComponent(location.hash.slice(1));
+  if(BY_ID[h]) openPanel(h, 'cocktail');
+  else if(SPIRIT_BY_ID[h]){ switchView('spirits'); openPanel(h, 'spirit'); }
+  else if(FOOD_BY_ID[h]){ switchView('food'); openPanel(h, 'food'); }
+}catch(e){}
+})();
+</script>
