@@ -7,7 +7,7 @@
 :root{
   --bg:#E9E2D3; --surface:#FBF7EE; --surface2:#F1E9D8; --ink:#221D16; --mut:#8C8171; --line:#DBD0BB;
   --accent:#B3492E; --accent-ink:#FFF6EA; --scrim:rgba(34,29,22,.45); --ice:rgba(255,255,255,.4);
-  --glow:18%;
+  --glow:18%; --ok:#2F6B45; --bad:#B0322A;
   --serif-en:'Instrument Serif','Times New Roman',serif;
   --serif-ko:'Noto Serif KR','Apple SD Gothic Neo','Nanum Myeongjo',serif;
   --sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
@@ -17,13 +17,13 @@
   :root:not([data-theme="light"]){
     --bg:#17110C; --surface:#221A13; --surface2:#2C221A; --ink:#F1E6D4; --mut:#A89A85; --line:#382B20;
     --accent:#DFA35D; --accent-ink:#17110C; --scrim:rgba(0,0,0,.6); --ice:rgba(255,255,255,.14);
-    --glow:10%;
+    --glow:10%; --ok:#8CC79A; --bad:#EE8577;
   }
 }
 :root[data-theme="dark"]{
   --bg:#17110C; --surface:#221A13; --surface2:#2C221A; --ink:#F1E6D4; --mut:#A89A85; --line:#382B20;
   --accent:#DFA35D; --accent-ink:#17110C; --scrim:rgba(0,0,0,.6); --ice:rgba(255,255,255,.14);
-  --glow:10%;
+  --glow:10%; --ok:#8CC79A; --bad:#EE8577;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -55,6 +55,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .vtab[aria-selected="true"]{color:var(--ink);border-color:var(--accent)}
 .vtab:hover{color:var(--ink)}
 .vtab + .vtab{margin-left:14px}
+.viewtabs{overflow-x:auto;scrollbar-width:none}
+.vtab{white-space:nowrap;flex:none}
+@media (max-width:480px){.vtab + .vtab{margin-left:6px}}
 
 /* controls */
 .controls{display:grid;gap:18px;padding-block:26px 6px}
@@ -178,6 +181,76 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
 .specrow .dot{position:absolute;top:50%;width:6px;height:6px;border-radius:50%;background:var(--accent);translate:-50% -50%;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 25%,transparent)}
 .specfoot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font:500 11.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
 .specfoot .specprice{color:var(--accent);font-weight:600;font-size:13px}
+/* 필기 테스트 */
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+.qlede{margin:22px 0 0;max-width:62ch}
+.qmodes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;margin-top:28px}
+.qcard{display:flex;flex-direction:column;gap:14px;padding:20px;background:var(--surface);border:1px solid var(--line);border-top:2px solid var(--ink)}
+.qcard .en{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.qcard h3{margin:-6px 0 0;font:700 22px/1.3 var(--serif-ko)}
+.qcard p{margin:0;color:var(--mut);font-size:14px;text-wrap:pretty}
+.qcard .acts{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px;padding-top:6px}
+.qstat{font:400 12.5px var(--mono)!important;letter-spacing:.02em}
+.qstat b{color:var(--ink);font-weight:500}
+.qtop{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin-top:18px;padding:14px 0 12px;background:var(--bg);border-bottom:1px solid var(--ink);font:400 12px var(--mono);letter-spacing:.06em;color:var(--mut)}
+.qtop .lbl{color:var(--ink);font:500 13px var(--sans);letter-spacing:0}
+.qtop .pos{margin-right:auto}
+.qtimer{font:500 15px var(--mono);color:var(--ink)}
+.qtimer.low{color:var(--bad)}
+.qprog{height:3px;background:var(--line)}
+.qprog i{display:block;height:100%;background:var(--accent);transition:width .2s}
+.qwrap{max-width:760px;margin:30px auto 0}
+.qnum{font:500 11.5px var(--mono);letter-spacing:.12em;color:var(--accent)}
+.qtext{margin:10px 0 0;font:700 20px/1.6 var(--serif-ko);text-wrap:pretty;word-break:keep-all}
+.qopts{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:10px}
+.qopt{width:100%;display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:start;padding:14px 16px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:2px;font-size:15px;line-height:1.55;word-break:keep-all}
+.qopt:hover:not(:disabled){border-color:var(--ink)}
+.qopt .mk{font:500 15px/1.55 var(--mono);color:var(--mut)}
+.qopt .st{font:500 11.5px/1.9 var(--mono);letter-spacing:.06em;white-space:nowrap}
+.qopt.sel{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.qopt.sel .mk{color:var(--accent)}
+.qopt.ok{border-color:var(--ok);box-shadow:inset 0 0 0 1px var(--ok)}
+.qopt.ok .mk,.qopt.ok .st{color:var(--ok)}
+.qopt.bad{border-color:var(--bad);box-shadow:inset 0 0 0 1px var(--bad)}
+.qopt.bad .mk,.qopt.bad .st{color:var(--bad)}
+.qopt:disabled{cursor:default}
+.qopt:disabled:not(.ok):not(.bad){opacity:.55}
+.qexp{margin-top:18px;padding:16px 18px;background:var(--surface2);border-left:3px solid var(--ok)}
+.qexp.bad{border-left-color:var(--bad)}
+.qexp h4{margin:0 0 6px;font:700 15px var(--sans);color:var(--ok)}
+.qexp.bad h4{color:var(--bad)}
+.qexp p{margin:0;font-size:14.5px;text-wrap:pretty;word-break:keep-all}
+.qnav{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.qnav .end{margin-left:auto}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px;margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}
+.qgrid button{height:36px;background:transparent;border:1px solid var(--line);border-radius:2px;font:400 12px var(--mono);color:var(--mut)}
+.qgrid button.done{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.qgrid button[aria-current="true"]{outline:2px solid var(--accent);outline-offset:1px}
+.qconfirm{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:16px;padding:14px 16px;border:1px solid var(--accent);background:var(--surface)}
+.qconfirm p{margin:0;flex:1 1 220px}
+.qscore{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;padding-bottom:20px;border-bottom:1px solid var(--ink)}
+.qscore .big{font:400 clamp(80px,16vw,128px)/.85 var(--serif-en);letter-spacing:-.03em}
+.qscore .unit{font:400 22px var(--serif-en);color:var(--mut)}
+.qscore .sub{flex-basis:100%;margin:6px 0 0;color:var(--mut);font-size:14px}
+.qbadge{align-self:center;padding:5px 10px;font:700 13px var(--sans);border:1px solid currentColor;border-radius:2px}
+.qbadge.pass{color:var(--ok)}
+.qbadge.fail{color:var(--bad)}
+.qcatrows{display:grid;gap:10px;margin-top:14px}
+.qcatrow{display:grid;grid-template-columns:104px minmax(0,1fr) 52px;gap:12px;align-items:center;font-size:13px}
+.qcatrow .tr{height:6px;background:var(--line)}
+.qcatrow .tr i{display:block;height:100%;background:var(--ink)}
+.qcatrow .v{font:400 12px var(--mono);text-align:right;color:var(--mut)}
+.qreview{list-style:none;margin:6px 0 0;padding:0}
+.qreview li{padding:18px 0;border-bottom:1px solid var(--line)}
+.qreview .qq{margin:6px 0 10px;font:700 16px/1.6 var(--serif-ko);word-break:keep-all}
+.qreview dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;font-size:14px}
+.qreview dt{color:var(--mut);font-size:12.5px;line-height:1.7}
+.qreview dd{margin:0}
+.qreview .ans{color:var(--ok);font-weight:500}
+.qreview .mine{color:var(--bad)}
+.qreview .ex{margin:10px 0 0;color:var(--mut);font-size:14px;text-wrap:pretty;word-break:keep-all}
+.qempty{margin:18px 0 0;color:var(--mut)}
 </style>
 
 <div class="wrap" id="app">
@@ -193,6 +266,7 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
       <button class="vtab" type="button" role="tab" data-view="cocktail" aria-selected="true">칵테일 레시피</button>
       <button class="vtab" type="button" role="tab" data-view="spirits" aria-selected="false">주류 상식</button>
       <button class="vtab" type="button" role="tab" data-view="food" aria-selected="false">안주 레시피</button>
+      <button class="vtab" type="button" role="tab" data-view="quiz" aria-selected="false">필기 테스트</button>
     </nav>
   </header>
 
@@ -240,6 +314,8 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
     <div class="grid" id="fgrid"></div>
   </main>
 
+  <main id="qmain" hidden></main>
+
   <footer class="foot">
     <span>도수는 얼음이 녹은 뒤를 기준으로 한 대략적인 추정치예요.</span>
     <span>음주는 성인만, 적당히 즐겨요.</span>
@@ -251,6 +327,7 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
   <aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="pTitle"></aside>
 </div>
 
+<script src="quiz-questions.js"></script>
 <script>
 (function(){
 'use strict';
@@ -743,8 +820,9 @@ function switchView(view){
   $('#main').hidden = view!=='cocktail';
   $('#smain').hidden = view!=='spirits';
   $('#fmain').hidden = view!=='food';
-  $('#mastLabel').textContent = view==='cocktail' ? 'Cocktail Recipes' : view==='spirits' ? 'Spirits Guide' : 'Food Pairing';
-  $('#mastCount').textContent = view==='cocktail' ? `${RECIPES.length} drinks` : view==='spirits' ? `${SPIRITS.length} spirits` : `${FOOD.length} snacks`;
+  $('#qmain').hidden = view!=='quiz';
+  $('#mastLabel').textContent = view==='cocktail' ? 'Cocktail Recipes' : view==='spirits' ? 'Spirits Guide' : view==='food' ? 'Food Pairing' : 'Written Exam';
+  $('#mastCount').textContent = view==='cocktail' ? `${RECIPES.length} drinks` : view==='spirits' ? `${SPIRITS.length} spirits` : view==='food' ? `${FOOD.length} snacks` : `${QUIZ.length} questions`;
 }
 function syncChips(){
   document.querySelectorAll('#baseChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===state.base)));
@@ -998,8 +1076,218 @@ function step(dir){
   }
 }
 
+/* ---------- 필기 테스트 ----------
+   문제는 quiz-questions.js에 있어요. 보기의 첫 번째가 항상 정답이고(원래 인덱스 0),
+   화면에는 문제마다 섞은 순서(orders)로 보여줘요. picks에는 원래 인덱스를 저장해요. */
+const QUIZ = window.QUIZ || [], QCATS = window.QUIZ_CATS || [];
+const Q_BY_ID = Object.fromEntries(QUIZ.map(q=>[q.id,q]));
+const MOCK_N = 60, MOCK_MIN = 60, PASS = 60;
+const MARK = ['①','②','③','④'];
+const qz = {
+  screen:'home', mode:null, label:'', cat:'전체', ids:[], orders:{}, i:0, picks:{},
+  confirm:false, deadline:0, timer:null, result:null,
+  wrong:new Set(store.get('jigger.quiz.wrong', []).filter(id=>Q_BY_ID[id])),
+  history:store.get('jigger.quiz.history', [])
+};
+function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function shuffle(a){ a = a.slice(); for(let i=a.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+function markResult(id, ok){
+  if(ok) qz.wrong.delete(id); else qz.wrong.add(id);
+  store.set('jigger.quiz.wrong', [...qz.wrong]);
+}
+function fmtTime(ms){ const s = Math.ceil(ms/1000); return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+function qCount(c){ return c==='전체' ? QUIZ.length : QUIZ.filter(q=>q.cat===c).length; }
+
+function qHomeHTML(){
+  const chips = ['전체',...QCATS].map(c=>chipHTML(c,c,qCount(c),c===qz.cat)).join('');
+  const h = qz.history, n = qz.wrong.size;
+  const best = h.length ? Math.max(...h.map(x=>x.score)) : 0;
+  return `<p class="lede qlede">조주기능사 필기시험 출제 범위를 바탕으로 직접 만든 <b>예상문제 ${QUIZ.length}개</b>예요. 실제 기출문제는 아니니 공부 방향을 잡는 용도로 써 주세요. 실제 필기시험은 4지선다 60문항을 60분 동안 풀고, 100점 만점에 60점 이상이면 합격이에요.</p>
+  <div class="qmodes">
+    <section class="qcard">
+      <span class="en">Practice</span><h3>연습 모드</h3>
+      <p>한 문제씩 풀고 바로 정답과 해설을 확인해요. 분야를 골라 집중해서 풀 수도 있어요.</p>
+      <div class="chips" id="qCatChips" role="group" aria-label="분야">${chips}</div>
+      <div class="acts"><button class="btn primary" type="button" data-qact="practice">${qz.cat} ${qCount(qz.cat)}문제 풀기</button></div>
+    </section>
+    <section class="qcard">
+      <span class="en">Mock Exam</span><h3>모의고사</h3>
+      <p>실제 시험처럼 ${Math.min(MOCK_N,QUIZ.length)}문항을 ${MOCK_MIN}분 안에 풀고, 끝나면 한꺼번에 채점해요. 매번 문제가 무작위로 뽑혀요.</p>
+      <p class="qstat">${h.length ? `최근 <b>${h[0].score}점</b> · 최고 <b>${best}점</b> · 응시 ${h.length}회` : '아직 응시 기록이 없어요.'}</p>
+      <div class="acts"><button class="btn primary" type="button" data-qact="mock">모의고사 시작</button></div>
+    </section>
+    <section class="qcard">
+      <span class="en">Wrong Answers</span><h3>오답노트</h3>
+      <p>틀린 문제가 자동으로 모여요. 다시 풀어서 맞히면 노트에서 빠져요. 이 브라우저에만 저장돼요.</p>
+      <p class="qstat">모인 문제 <b>${n}개</b></p>
+      <div class="acts">
+        <button class="btn primary" type="button" data-qact="wrong" ${n?'':'disabled'}>오답 다시 풀기</button>
+        <button class="btn" type="button" data-qact="notes" ${n?'':'disabled'}>목록 보기</button>
+      </div>
+    </section>
+  </div>`;
+}
+
+function qRunHTML(){
+  const n = qz.ids.length, id = qz.ids[qz.i], q = Q_BY_ID[id], pick = qz.picks[id];
+  const mock = qz.mode==='mock', shown = !mock && pick!=null, last = qz.i===n-1;
+  const answered = qz.ids.filter(x=>qz.picks[x]!=null).length;
+  const right = qz.ids.filter(x=>qz.picks[x]===0).length;
+  const order = qz.orders[id];
+  const opts = order.map((orig,k)=>{
+    let cls = '', st = '';
+    if(mock){ if(orig===pick) cls = 'sel'; }
+    else if(shown){ if(orig===0){ cls = 'ok'; st = '정답'; } else if(orig===pick){ cls = 'bad'; st = '내 답'; } }
+    return `<li><button class="qopt ${cls}" type="button" data-opt="${orig}" ${shown?'disabled':''} ${mock?`aria-pressed="${orig===pick}"`:''}>
+      <span class="mk">${MARK[k]}</span><span>${esc(q.o[orig])}</span><span class="st">${st}</span></button></li>`;
+  }).join('');
+  const exp = shown ? `<div class="qexp ${pick===0?'':'bad'}" role="status">
+      <h4>${pick===0 ? '✓ 정답이에요' : `✗ 틀렸어요 · 정답은 ${MARK[order.indexOf(0)]}`}</h4><p>${esc(q.e)}</p></div>` : '';
+  const nav = mock ? `<div class="qnav">
+      <button class="btn" type="button" data-qact="prev" ${qz.i?'':'disabled'}>← 이전</button>
+      <button class="btn" type="button" data-qact="next" ${last?'disabled':''}>다음 →</button>
+      <button class="btn primary end" type="button" data-qact="submit">제출하기</button>
+    </div>
+    ${qz.confirm ? `<div class="qconfirm" role="alert"><p>아직 풀지 않은 문제가 <b>${n-answered}개</b> 있어요. 그래도 제출할까요?</p>
+      <button class="btn primary" type="button" data-qact="submit-yes">제출</button><button class="btn" type="button" data-qact="submit-no">계속 풀기</button></div>` : ''}
+    <div class="qgrid" aria-label="문항 이동">${qz.ids.map((x,k)=>`<button type="button" data-jump="${k}" class="${qz.picks[x]!=null?'done':''}" aria-current="${k===qz.i}" aria-label="${k+1}번${qz.picks[x]!=null?' (답함)':''}">${k+1}</button>`).join('')}</div>`
+    : shown ? `<div class="qnav"><button class="btn primary end" type="button" data-qact="next">${last?'결과 보기':'다음 문제 →'}</button></div>` : '';
+  const prog = (mock ? answered : qz.i + (shown?1:0)) / n * 100;
+  return `<div class="qtop">
+      <span class="lbl">${esc(qz.label)}</span><span class="pos">${qz.i+1} / ${n}</span>
+      ${mock ? `<span class="qtimer" id="qTimer" aria-label="남은 시간">${fmtTime(qz.deadline-Date.now())}</span>` : `<span>맞힘 ${right} / ${answered}</span>`}
+      <button class="link" type="button" data-qact="quit">${mock?'그만두기':'끝내기'}</button>
+    </div>
+    <div class="qprog"><i style="width:${prog}%"></i></div>
+    <div class="qwrap">
+      <span class="qnum">Q${qz.i+1} · ${esc(q.cat)}</span>
+      <p class="qtext">${esc(q.q)}</p>
+      <ol class="qopts">${opts}</ol>
+      ${exp}${nav}
+    </div>`;
+}
+
+function reviewHTML(id, num, withMine){
+  const q = Q_BY_ID[id], pick = qz.picks[id];
+  return `<li><span class="qnum">${num?`Q${num} · `:''}${esc(q.cat)}</span>
+    <p class="qq">${esc(q.q)}</p>
+    <dl>${withMine?`<dt>내 답</dt><dd class="mine">${pick==null?'풀지 않음':esc(q.o[pick])}</dd>`:''}<dt>정답</dt><dd class="ans">${esc(q.o[0])}</dd></dl>
+    <p class="ex">${esc(q.e)}</p></li>`;
+}
+function qResultHTML(){
+  const r = qz.result, mock = qz.mode==='mock';
+  if(!r.ids.length) return `<div class="qwrap"><p class="qempty">푼 문제가 없어요.</p><div class="qnav"><button class="btn primary" type="button" data-qact="home">처음으로</button></div></div>`;
+  const wrongIds = r.ids.filter(id=>qz.picks[id]!==0);
+  const cats = QCATS.map(c=>{ const ids = r.ids.filter(id=>Q_BY_ID[id].cat===c); return [c, ids.length, ids.filter(id=>qz.picks[id]===0).length]; }).filter(x=>x[1]);
+  return `<div class="qwrap">
+    <div class="qscore">
+      <span class="big">${r.score}</span><span class="unit">/ 100</span>
+      ${mock ? `<span class="qbadge ${r.score>=PASS?'pass':'fail'}">${r.score>=PASS?'합격':'불합격'}</span>` : ''}
+      <p class="sub">${esc(qz.label)} · ${r.ids.length}문제 중 ${r.right}개 맞힘${r.timeout?' · 시간이 끝나 자동으로 제출했어요':''}</p>
+    </div>
+    <section class="sec"><div class="sec-h"><h3>분야별 정답률</h3></div>
+      <div class="qcatrows">${cats.map(([c,t,ok])=>`<div class="qcatrow"><span>${c}</span><span class="tr"><i style="width:${ok/t*100}%"></i></span><span class="v">${ok} / ${t}</span></div>`).join('')}</div>
+    </section>
+    <div class="qnav">
+      ${wrongIds.length ? `<button class="btn primary" type="button" data-qact="retry">틀린 문제 다시 풀기 (${wrongIds.length})</button>` : ''}
+      <button class="btn" type="button" data-qact="home">처음으로</button>
+    </div>
+    <section class="sec"><div class="sec-h"><h3>틀린 문제 해설</h3><span class="prog">${wrongIds.length}개</span></div>
+      ${wrongIds.length ? `<ul class="qreview">${wrongIds.map(id=>reviewHTML(id, qz.ids.indexOf(id)+1, true)).join('')}</ul>` : '<p class="qempty">모두 맞혔어요!</p>'}
+    </section>
+  </div>`;
+}
+function qNotesHTML(){
+  const ids = QUIZ.filter(q=>qz.wrong.has(q.id)).map(q=>q.id);
+  return `<div class="qwrap">
+    <div class="qnav" style="margin-top:0">
+      <button class="btn" type="button" data-qact="home">← 처음으로</button>
+      <button class="btn primary" type="button" data-qact="wrong" ${ids.length?'':'disabled'}>오답 다시 풀기</button>
+      <button class="btn end" type="button" data-qact="clear" ${ids.length?'':'disabled'}>오답노트 비우기</button>
+    </div>
+    <section class="sec"><div class="sec-h"><h3>오답노트</h3><span class="prog">${ids.length}개</span></div>
+      ${ids.length ? `<ul class="qreview">${ids.map(id=>reviewHTML(id, 0, false)).join('')}</ul>` : '<p class="qempty">오답노트가 비어 있어요.</p>'}
+    </section>
+  </div>`;
+}
+
+function renderQuiz(focusSel){
+  const el = $('#qmain');
+  el.innerHTML = qz.screen==='run' ? qRunHTML() : qz.screen==='result' ? qResultHTML() : qz.screen==='notes' ? qNotesHTML() : qHomeHTML();
+  if(focusSel){ const f = el.querySelector(focusSel); if(f) f.focus({preventScroll:true}); }
+}
+function qTop(force){
+  const top = $('#qmain').getBoundingClientRect().top;
+  if(top < 0 || force) window.scrollTo({top: window.scrollY + top - 8});
+}
+function qShow(screen){ qz.screen = screen; renderQuiz(); qTop(screen!=='home'); }
+function tick(){
+  const ms = Math.max(0, qz.deadline - Date.now()), t = $('#qTimer');
+  if(t){ t.textContent = fmtTime(ms); t.classList.toggle('low', ms < 5*60000); }
+  if(ms <= 0) finishQuiz(true);
+}
+function startQuiz(mode, ids, label){
+  if(!ids.length) return;
+  clearInterval(qz.timer);
+  qz.mode = mode; qz.label = label; qz.i = 0; qz.picks = {}; qz.confirm = false; qz.result = null;
+  qz.ids = shuffle(ids).slice(0, mode==='mock' ? MOCK_N : ids.length);
+  qz.orders = Object.fromEntries(qz.ids.map(id=>[id, shuffle([0,1,2,3])]));
+  if(mode==='mock'){ qz.deadline = Date.now() + MOCK_MIN*60000; qz.timer = setInterval(tick, 1000); }
+  qShow('run');
+}
+function finishQuiz(timeout){
+  clearInterval(qz.timer); qz.timer = null;
+  const mock = qz.mode==='mock';
+  const ids = mock ? qz.ids : qz.ids.filter(id=>qz.picks[id]!=null);
+  const right = ids.filter(id=>qz.picks[id]===0).length;
+  const score = ids.length ? Math.round(right/ids.length*100) : 0;
+  if(mock){
+    ids.filter(id=>qz.picks[id]!=null).forEach(id=>markResult(id, qz.picks[id]===0));
+    qz.history = [{d:Date.now(), score, right, n:ids.length}, ...qz.history].slice(0, 20);
+    store.set('jigger.quiz.history', qz.history);
+  }
+  qz.result = {ids, right, score, timeout:!!timeout};
+  qShow('result');
+}
+function pickOpt(orig){
+  const id = qz.ids[qz.i];
+  if(qz.mode==='mock'){ qz.picks[id] = orig; renderQuiz(`[data-opt="${orig}"]`); return; }
+  if(qz.picks[id]!=null) return;
+  qz.picks[id] = orig;
+  markResult(id, orig===0);
+  renderQuiz('[data-qact="next"]');
+  const nav = $('#qmain .qnav'); if(nav) nav.scrollIntoView({block:'nearest'});
+}
+function qAct(act){
+  const n = qz.ids.length;
+  if(act==='practice') startQuiz('practice', QUIZ.filter(q=>qz.cat==='전체' || q.cat===qz.cat).map(q=>q.id), `연습 · ${qz.cat}`);
+  else if(act==='mock') startQuiz('mock', QUIZ.map(q=>q.id), '모의고사');
+  else if(act==='wrong') startQuiz('practice', [...qz.wrong], '오답 다시 풀기');
+  else if(act==='retry') startQuiz('practice', qz.result.ids.filter(id=>qz.picks[id]!==0), '틀린 문제 다시 풀기');
+  else if(act==='notes' || act==='home') qShow(act);
+  else if(act==='clear'){ if(confirm('오답노트를 모두 비울까요?')){ qz.wrong.clear(); store.set('jigger.quiz.wrong', []); qShow('home'); } }
+  else if(act==='quit'){
+    if(qz.mode==='mock'){
+      if(!confirm('모의고사를 그만둘까요? 지금까지 푼 답안은 채점되지 않아요.')) return;
+      clearInterval(qz.timer); qShow('home');
+    } else finishQuiz();
+  }
+  else if(act==='next'){
+    if(qz.i < n-1){ qz.i++; qz.confirm = false; renderQuiz(); qTop(); }
+    else if(qz.mode!=='mock') finishQuiz();
+  }
+  else if(act==='prev' && qz.i > 0){ qz.i--; qz.confirm = false; renderQuiz(); qTop(); }
+  else if(act==='submit'){
+    if(qz.ids.some(id=>qz.picks[id]==null)){ qz.confirm = true; renderQuiz('[data-qact="submit-yes"]'); }
+    else finishQuiz();
+  }
+  else if(act==='submit-yes') finishQuiz();
+  else if(act==='submit-no'){ qz.confirm = false; renderQuiz(); }
+}
+
 /* ---------- 이벤트 ---------- */
 buildChips();
+renderQuiz();
 renderGrid();
 renderSGrid();
 renderFGrid();
@@ -1025,6 +1313,22 @@ $('#sgrid').addEventListener('click', e=>{
 $('#fCatChips').addEventListener('click', e=>{ const b = e.target.closest('.chip'); if(b){ state.fcat = b.dataset.v; renderFGrid(); } });
 $('#fgrid').addEventListener('click', e=>{
   const o = e.target.closest('[data-fopen]'); if(o) openPanel(o.dataset.fopen, 'food');
+});
+$('#qmain').addEventListener('click', e=>{
+  const c = e.target.closest('#qCatChips .chip'); if(c){ qz.cat = c.dataset.v; renderQuiz(`#qCatChips [data-v="${c.dataset.v}"]`); return; }
+  const o = e.target.closest('[data-opt]'); if(o){ pickOpt(+o.dataset.opt); return; }
+  const j = e.target.closest('[data-jump]'); if(j){ qz.i = +j.dataset.jump; qz.confirm = false; renderQuiz(); qTop(); return; }
+  const a = e.target.closest('[data-qact]'); if(a) qAct(a.dataset.qact);
+});
+/* 문제 풀이 키보드: 1~4 보기 선택, ←/→ 이전·다음 */
+document.addEventListener('keydown', e=>{
+  if(state.view!=='quiz' || state.open || qz.screen!=='run' || e.metaKey || e.ctrlKey || e.altKey) return;
+  if(/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  const k = '1234'.indexOf(e.key);
+  if(k >= 0 && e.key.length===1){ e.preventDefault(); pickOpt(qz.orders[qz.ids[qz.i]][k]); return; }
+  const revealed = qz.mode==='mock' || qz.picks[qz.ids[qz.i]]!=null;
+  if(e.key==='ArrowRight' && revealed){ e.preventDefault(); qAct('next'); }
+  if(e.key==='ArrowLeft' && qz.mode==='mock'){ e.preventDefault(); qAct('prev'); }
 });
 $('#scrim').addEventListener('click', closePanel);
 $('#panel').addEventListener('click', e=>{
@@ -1084,6 +1388,7 @@ try{
   if(BY_ID[h]) openPanel(h, 'cocktail');
   else if(SPIRIT_BY_ID[h]){ switchView('spirits'); openPanel(h, 'spirit'); }
   else if(FOOD_BY_ID[h]){ switchView('food'); openPanel(h, 'food'); }
+  else if(h==='quiz') switchView('quiz');
 }catch(e){}
 })();
 </script>
