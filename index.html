@@ -618,21 +618,25 @@ function glassSVG(r, uid){
 }
 
 /* ---------- 사진 (있으면 사용, 없으면 일러스트로 대체) ----------
-   images/ 폴더에 레시피 id로 이름 붙인 파일(예: images/martini.jpg)을 넣으면
-   자동으로 인식돼요. jpg/jpeg/png/webp 중 아무 확장자나 가능하고,
-   파일이 없는 칵테일은 계속 SVG 잔 일러스트로 보여요. */
+   images/cocktails, images/spirits, images/food 폴더에 각 항목 id로 이름 붙인
+   파일(예: images/cocktails/martini.jpg)을 넣으면 자동으로 인식돼요.
+   jpg/jpeg/png/webp 중 아무 확장자나 가능하고, 파일이 없으면 계속 SVG 일러스트로 보여요. */
 const PHOTO_EXT = ['jpg','jpeg','png','webp'];
+const BY_KIND = {cocktail:BY_ID, spirit:SPIRIT_BY_ID, food:FOOD_BY_ID};
 window.__mediaFallback = function(img){
   const ei = (+img.dataset.ei||0) + 1;
   if(ei < PHOTO_EXT.length){
     img.dataset.ei = ei;
-    img.src = `images/${img.dataset.rid}.${PHOTO_EXT[ei]}`;
+    img.src = `images/${img.dataset.dir}/${img.dataset.rid}.${PHOTO_EXT[ei]}`;
   } else {
-    img.replaceWith(new Range().createContextualFragment(glassSVG(BY_ID[img.dataset.rid], img.dataset.uid)));
+    const kind = img.dataset.kind;
+    const item = BY_KIND[kind][img.dataset.rid];
+    const svgHTML = kind==='food' ? plateSVG(item, img.dataset.uid) : glassSVG(item, img.dataset.uid);
+    img.replaceWith(new Range().createContextualFragment(svgHTML));
   }
 };
-function mediaHTML(r, uid){
-  return `<img src="images/${r.id}.${PHOTO_EXT[0]}" data-rid="${r.id}" data-uid="${uid}" data-ei="0" alt="${r.ko}" loading="lazy" onerror="window.__mediaFallback(this)">`;
+function mediaHTML(item, uid, dir, kind){
+  return `<img src="images/${dir}/${item.id}.${PHOTO_EXT[0]}" data-rid="${item.id}" data-uid="${uid}" data-dir="${dir}" data-kind="${kind}" data-ei="0" alt="${item.ko}" loading="lazy" onerror="window.__mediaFallback(this)">`;
 }
 
 /* ---------- 상태 ---------- */
@@ -677,7 +681,7 @@ function spiritTileHTML(s){
   return `<article class="tile" style="--liq:${s.liquid}">
     <div class="thumb">
       <span class="eyebrow">${s.cat}</span>
-      ${glassSVG(s,'st'+s.id)}
+      ${mediaHTML(s,'st'+s.id,'spirits','spirit')}
     </div>
     <div class="cbody">
       <h3><button class="open" type="button" data-sopen="${s.id}">${s.en}</button></h3>
@@ -712,7 +716,7 @@ function foodTileHTML(f){
   return `<article class="tile" style="--liq:${f.color}">
     <div class="thumb">
       <span class="eyebrow">${f.time}</span>
-      ${plateSVG(f,'ft'+f.id)}
+      ${mediaHTML(f,'ft'+f.id,'food','food')}
     </div>
     <div class="cbody">
       <h3><button class="open" type="button" data-fopen="${f.id}">${f.en}</button></h3>
@@ -755,7 +759,7 @@ function tileHTML(r){
     <div class="thumb">
       <span class="eyebrow">${BASE_EN[r.base]}</span>
       <button class="fav" type="button" data-fav="${r.id}" aria-pressed="${fav}" aria-label="${r.ko} 즐겨찾기">${HEART}</button>
-      ${mediaHTML(r,'t'+r.id)}
+      ${mediaHTML(r,'t'+r.id,'cocktails','cocktail')}
     </div>
     <div class="cbody">
       <h3><button class="open" type="button" data-open="${r.id}">${r.en}</button></h3>
@@ -837,7 +841,7 @@ function panelHTML(r){
       <button class="ib fav" type="button" data-fav="${r.id}" aria-pressed="${state.favs.has(r.id)}" aria-label="${r.ko} 즐겨찾기">${HEART}</button>
       <button class="ib" type="button" data-act="close" aria-label="닫기"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg></button>
     </div>
-    <div class="pthumb" style="--liq:${r.liquid}">${mediaHTML(r,'p'+r.id)}</div>
+    <div class="pthumb" style="--liq:${r.liquid}">${mediaHTML(r,'p'+r.id,'cocktails','cocktail')}</div>
     <div class="pbody">
       <div class="phead">
         <span class="eyebrow">${BASE_EN[r.base]}</span>
@@ -883,7 +887,7 @@ function spiritPanelHTML(s){
       <button class="ib" type="button" data-act="next" aria-label="다음: ${next.ko}"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button class="ib" type="button" data-act="close" aria-label="닫기"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg></button>
     </div>
-    <div class="pthumb" style="--liq:${s.liquid}">${glassSVG(s,'sp'+s.id)}</div>
+    <div class="pthumb" style="--liq:${s.liquid}">${mediaHTML(s,'sp'+s.id,'spirits','spirit')}</div>
     <div class="pbody">
       <div class="phead">
         <span class="eyebrow">${s.cat}</span>
@@ -925,7 +929,7 @@ function foodPanelHTML(f){
       <button class="ib" type="button" data-act="next" aria-label="다음: ${next.ko}"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <button class="ib" type="button" data-act="close" aria-label="닫기"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg></button>
     </div>
-    <div class="pthumb" style="--liq:${f.color}">${plateSVG(f,'fp'+f.id)}</div>
+    <div class="pthumb" style="--liq:${f.color}">${mediaHTML(f,'fp'+f.id,'food','food')}</div>
     <div class="pbody">
       <div class="phead">
         <span class="eyebrow">${f.time} · ${DIFF[f.diff-1]}</span>
