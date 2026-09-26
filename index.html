@@ -965,13 +965,14 @@ function openPanel(id, kind, keepServ){
   state.openKind = kind;
   if(!keepServ) state.serv = 1;
   renderPanel();
-  $('#panel').scrollTop = 0;
   $('#overlay').hidden = false;
+  // 숨겨진 상태에서는 scrollTop이 적용되지 않아 이전 스크롤 위치가 남으므로, 보이게 한 뒤 초기화
+  $('#panel').scrollTop = 0;
   document.documentElement.style.overflow = 'hidden';
   const mainSel = state.view==='spirits' ? '#smain' : state.view==='food' ? '#fmain' : '#main';
   try{ $(mainSel).inert = true; }catch(e){}
   try{ history.replaceState(null,'','#'+id); }catch(e){}
-  const c = $('#panel [data-act="close"]'); if(c) c.focus();
+  const c = $('#panel [data-act="close"]'); if(c) c.focus({preventScroll:true});
 }
 function closePanel(){
   if(!state.open) return;
