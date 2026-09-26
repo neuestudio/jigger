@@ -434,10 +434,6 @@ function aboutPage(){
         <div class="wide"><dt>이메일</dt><dd><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></dd></div>
       </dl>
       <p class="note">레시피·문제 오류 제보, 제휴 문의 모두 환영해요.</p>
-    </section>
-    <section class="sec">
-      <div class="sec-h"><h2>사용한 글꼴</h2></div>
-      <p class="note">부크크 명조 ⓒ부크크 · Pretendard (SIL Open Font License) · Instrument Serif, DM Mono (SIL Open Font License)</p>
     </section>`;
   const about = {'@context':'https://schema.org', '@type':'AboutPage', name:title, url:SITE+url, inLanguage:'ko',
     mainEntity:{'@type':'Organization', name:'Jigger', url:SITE+'/', logo:SITE+'/apple-touch-icon.png',
