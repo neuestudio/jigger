@@ -1,8 +1,29 @@
 <!DOCTYPE html>
+<html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jigger</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap">
+<title>Jigger | 집에서 만드는 칵테일 레시피 · 조주기능사 필기 모의고사</title>
+<meta name="description" content="칵테일 30가지 레시피를 잔 수에 맞춰 계량하고, 술 종류별 상식과 어울리는 안주, 조주기능사 필기 예상문제 125개로 모의고사까지 풀어보세요.">
+<link rel="canonical" href="https://jigger-cyan.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jigger">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="Jigger | 칵테일 레시피 · 조주기능사 필기 모의고사">
+<meta property="og:description" content="칵테일 30가지 레시피, 주류 상식, 안주 레시피, 조주기능사 필기 예상문제 125개를 한곳에서.">
+<meta property="og:url" content="https://jigger-cyan.vercel.app/">
+<meta property="og:image" content="https://jigger-cyan.vercel.app/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#E9E2D3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17110C" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap"></noscript>
 <style>
 :root{
   --bg:#E9E2D3; --surface:#FBF7EE; --surface2:#F1E9D8; --ink:#221D16; --mut:#8C8171; --line:#DBD0BB;
@@ -293,6 +314,7 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
       <div class="group"><span class="glabel" id="lbFlav">맛</span><div class="chips" id="flavChips" role="group" aria-labelledby="lbFlav"></div></div>
     </div>
     <div class="status"><span id="status" role="status" aria-live="polite"></span><button class="link" id="reset" type="button" hidden>필터 초기화</button></div>
+    <h2 class="vh">칵테일 레시피 목록</h2>
     <div class="grid" id="grid"></div>
   </main>
 
@@ -302,6 +324,7 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
       <div class="group"><span class="glabel" id="lbCat">분류</span><div class="chips" id="catChips" role="group" aria-labelledby="lbCat"></div></div>
     </div>
     <div class="status"><span id="sStatus" role="status" aria-live="polite"></span></div>
+    <h2 class="vh">주류 상식 목록</h2>
     <div class="grid" id="sgrid"></div>
   </main>
 
@@ -311,6 +334,7 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
       <div class="group"><span class="glabel" id="lbFcat">어울리는 술</span><div class="chips" id="fCatChips" role="group" aria-labelledby="lbFcat"></div></div>
     </div>
     <div class="status"><span id="fStatus" role="status" aria-live="polite"></span></div>
+    <h2 class="vh">안주 레시피 목록</h2>
     <div class="grid" id="fgrid"></div>
   </main>
 
@@ -327,7 +351,8 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
   <aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="pTitle"></aside>
 </div>
 
-<script src="quiz-questions.js"></script>
+<script src="/photos.js"></script>
+<script src="/quiz-questions.js"></script>
 <script>
 (function(){
 'use strict';
@@ -396,7 +421,7 @@ const RECIPES = [
  ing:[['화이트 럼',50,'ml',C.rum],['코코넛 크림',50,'ml',C.coconut],['파인애플 주스',50,'ml',C.pineapple]],
  steps:['블렌더에 럼, 코코넛 크림, 파인애플 주스를 넣어요.','얼음 한 컵(약 150 g)을 넣고 곱게 갈아요.','허리케인 글라스에 따라요.','파인애플 조각과 체리로 장식해요.'],
  garnish:'파인애플 조각, 체리', note:'푸에르토리코를 대표하는 칵테일이에요. 얼음은 재료 비율에서 제외했어요.'},
-{id:'dark-n-stormy', ko:'다크 앤 스톰리', en:"Dark 'n' Stormy", base:'럼', flav:['청량','상큼'], abv:12, glass:'highball', liquid:'#7a3f1a', liquid2:'#d9b552', method:'빌드', diff:1, ice:true,
+{id:'dark-n-stormy', ko:'다크 앤 스토미', en:"Dark 'n' Stormy", base:'럼', flav:['청량','상큼'], abv:12, glass:'highball', liquid:'#7a3f1a', liquid2:'#d9b552', method:'빌드', diff:1, ice:true,
  ing:[['다크 럼',50,'ml',C.dkrum],['진저비어',100,'ml',C.gingerbeer],['라임주스',10,'ml',C.lime]],
  steps:['하이볼 글라스에 얼음을 채우고 라임주스와 진저비어를 넣어요.','다크 럼을 숟가락 뒷면을 타고 천천히 부어 위에 띄워요.','라임 웨지를 올려요.'],
  garnish:'라임 웨지', note:'폭풍우 치는 구름 같은 층이 이름의 유래예요. 버뮤다에서 시작된 칵테일로 알려져 있어요.'},
@@ -698,7 +723,8 @@ function glassSVG(r, uid){
    images/cocktails, images/spirits, images/food 폴더에 각 항목 id로 이름 붙인
    파일(예: images/cocktails/martini.jpg)을 넣으면 자동으로 인식돼요.
    커밋할 때 scripts/optimize-images.py가 webp로 자동 변환하니 webp를 먼저 찾고,
-   파일이 없으면 계속 SVG 일러스트로 보여요. */
+   파일이 없으면 계속 SVG 일러스트로 보여요.
+   photos.js(커밋할 때 scripts/build.mjs가 자동 생성)에 있는 사진만 불러와서 없는 파일은 요청하지 않아요. */
 const PHOTO_EXT = ['webp','jpg','jpeg','png'];
 const BY_KIND = {cocktail:BY_ID, spirit:SPIRIT_BY_ID, food:FOOD_BY_ID};
 window.__mediaFallback = function(img){
@@ -714,6 +740,8 @@ window.__mediaFallback = function(img){
   }
 };
 function mediaHTML(item, uid, dir, kind){
+  const known = window.PHOTOS && window.PHOTOS[dir];
+  if(known && !known.includes(item.id)) return kind==='food' ? plateSVG(item, uid) : glassSVG(item, uid);
   return `<img src="images/${dir}/${item.id}.${PHOTO_EXT[0]}" data-rid="${item.id}" data-uid="${uid}" data-dir="${dir}" data-kind="${kind}" data-ei="0" alt="${item.ko}" loading="lazy" onerror="window.__mediaFallback(this)">`;
 }
 
@@ -801,7 +829,7 @@ function foodTileHTML(f){
       <p class="ko">${f.ko}</p>
       <dl class="cspecs">
         <div class="item"><dt>조리 시간</dt><dd>${f.time}</dd></div>
-        <div class="item"><dt>난이도</dt><dd><span class="dots" title="난이도 ${DIFF[f.diff-1]}" aria-label="난이도 ${DIFF[f.diff-1]}">${dots}</span> ${DIFF[f.diff-1]}</dd></div>
+        <div class="item"><dt>난이도</dt><dd><span class="dots" title="난이도 ${DIFF[f.diff-1]}" aria-hidden="true">${dots}</span> ${DIFF[f.diff-1]}</dd></div>
         <div class="item"><dt>어울리는 술</dt><dd>${f.pairsWith.map(id=>SPIRIT_BY_ID[id].ko).join(' · ')}</dd></div>
       </dl>
       <p class="seemore">레시피 보기 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
@@ -814,8 +842,10 @@ function renderFGrid(){
   $('#fStatus').textContent = state.fcat==='전체' ? `전체 ${FOOD.length}개` : `${state.fcat}와 어울리는 안주 ${list.length}개`;
   document.querySelectorAll('#fCatChips .chip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.v===state.fcat)));
 }
+function viewHash(){ return state.view==='cocktail' ? location.pathname+location.search : '#'+state.view; }
 function switchView(view){
   state.view = view;
+  if(!state.open) try{ history.replaceState(null,'',viewHash()); }catch(e){}
   document.querySelectorAll('.vtab').forEach(b=>b.setAttribute('aria-selected', String(b.dataset.view===view)));
   $('#main').hidden = view!=='cocktail';
   $('#smain').hidden = view!=='spirits';
@@ -846,7 +876,7 @@ function tileHTML(r){
       <dl class="cspecs">
         <div class="item"><dt>도수</dt><dd>${abv}</dd></div>
         <div class="item"><dt>방법</dt><dd>${r.method}</dd></div>
-        <div class="item"><dt>난이도</dt><dd><span class="dots" title="난이도 ${DIFF[r.diff-1]}" aria-label="난이도 ${DIFF[r.diff-1]}">${dots}</span> ${DIFF[r.diff-1]}</dd></div>
+        <div class="item"><dt>난이도</dt><dd><span class="dots" title="난이도 ${DIFF[r.diff-1]}" aria-hidden="true">${dots}</span> ${DIFF[r.diff-1]}</dd></div>
         <div class="item"><dt>맛</dt><dd>${r.flav.join(' · ')}</dd></div>
       </dl>
       <p class="seemore">레시피 보기 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
@@ -1059,7 +1089,7 @@ function closePanel(){
   $('#overlay').hidden = true;
   document.documentElement.style.overflow = '';
   try{ $('#main').inert = false; $('#smain').inert = false; $('#fmain').inert = false; }catch(e){}
-  try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){}
+  try{ history.replaceState(null,'',viewHash()); }catch(e){}
   if(kind==='cocktail') renderGrid();
   if(state.lastFocus && document.contains(state.lastFocus)) try{ state.lastFocus.focus(); }catch(e){}
 }
@@ -1388,7 +1418,7 @@ try{
   if(BY_ID[h]) openPanel(h, 'cocktail');
   else if(SPIRIT_BY_ID[h]){ switchView('spirits'); openPanel(h, 'spirit'); }
   else if(FOOD_BY_ID[h]){ switchView('food'); openPanel(h, 'food'); }
-  else if(h==='quiz') switchView('quiz');
+  else if(['spirits','food','quiz'].includes(h)) switchView(h);
 }catch(e){}
 })();
 </script>
