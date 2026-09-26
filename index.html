@@ -73,6 +73,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 /* masthead */
 .mast-top{display:flex;justify-content:space-between;gap:12px;font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .wordmark{font:400 clamp(88px,19vw,208px)/.8 var(--serif-en);letter-spacing:-.035em;margin:28px 0 0;padding-bottom:.2em}
+.wordmark a{color:inherit;text-decoration:none}
 .mast-row{display:grid;gap:18px;margin-top:0}
 @media (min-width:820px){.mast-row{grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:48px}}
 .lede{margin:0;max-width:40ch;font-size:17px;line-height:1.65;text-wrap:pretty}
@@ -293,7 +294,7 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
 <div class="wrap" id="app">
   <header>
     <div class="mast-top"><span id="mastLabel">Cocktail Recipes</span><span id="mastCount">30 drinks</span></div>
-    <h1 class="wordmark">Jigger</h1>
+    <h1 class="wordmark"><a href="/" id="home" aria-label="Jigger 홈">Jigger</a></h1>
     <div class="mast-row">
       <p class="lede">집에서 만들 수 있는 칵테일 30가지. 베이스와 맛으로 고르고, 잔 수에 맞춰 계량하세요.</p>
       <p class="legend"><span><b>1 oz ≈ 30 ml</b></span><span>지거 한 번 = 30 ml (1 oz) 또는 45 ml (1½ oz)</span></p>
@@ -1386,6 +1387,14 @@ document.addEventListener('keydown', e=>{
   const revealed = qz.mode==='mock' || qz.picks[qz.ids[qz.i]]!=null;
   if(e.key==='ArrowRight' && revealed){ e.preventDefault(); qAct('next'); }
   if(e.key==='ArrowLeft' && qz.mode==='mock'){ e.preventDefault(); qAct('prev'); }
+});
+/* 로고: 새로고침 없이 칵테일 탭 맨 위로 (풀던 모의고사는 그대로 둬요) */
+$('#home').addEventListener('click', e=>{
+  if(e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+  e.preventDefault();
+  closePanel();
+  switchView('cocktail');
+  window.scrollTo({top:0});
 });
 $('#scrim').addEventListener('click', closePanel);
 $('#panel').addEventListener('click', e=>{
