@@ -70,14 +70,13 @@ function page({url, title, desc, image, section, body, jsonld}){
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
-<link rel="canonical" href="${SITE}${url}">
+${url ? `<link rel="canonical" href="${SITE}${url}">` : '<meta name="robots" content="noindex">'}
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Jigger">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
-<meta property="og:url" content="${SITE}${url}">
-<meta property="og:image" content="${image}">
+${url ? `<meta property="og:url" content="${SITE}${url}">\n` : ''}<meta property="og:image" content="${image}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#E9E2D3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#17110C" media="(prefers-color-scheme: dark)">
@@ -399,6 +398,42 @@ const pages = [
   ...D.FOOD.map(foodPage)
 ];
 for (const p of pages) wr(p.url.slice(1) + 'index.html', p.html);
+
+// 카테고리 카드: 사진이 있는 첫 항목을 대표 이미지로 써요
+function hubCard(href, dir, list, name, en){
+  const item = list.find(x=>PHOTOS[dir].includes(x.id)) || list[0];
+  return `<a class="card" href="${href}"><span class="cthumb" style="--liq:${item.liquid||item.color}">${thumb(dir, item, name)}</span>
+      <span class="cname">${name}</span><span class="cen">${en}</span></a>`;
+}
+// 없는 주소로 들어왔을 때 보여줄 404 페이지 (Vercel이 /404.html을 자동으로 써요)
+wr('404.html', page({url:null, title:'페이지를 찾을 수 없어요 | Jigger', desc:'주소가 바뀌었거나 없는 페이지예요. 칵테일 레시피, 주류 상식, 안주 레시피, 조주기능사 필기 모의고사로 이동해 보세요.',
+  image:`${SITE}/og.jpg`, section:null, jsonld:[], body:`    <section class="hero">
+      <span class="eyebrow">404 · Not Found</span>
+      <h1>페이지를 찾을 수 없어요</h1>
+      <p class="lead">주소가 바뀌었거나 없는 페이지예요. 아래에서 찾으시는 내용을 골라 보세요.</p>
+      <div class="ctas"><a class="cta" href="/">Jigger 홈으로 →</a></div>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>둘러보기</h2></div>
+      <div class="cards">
+        ${hubCard('/', 'cocktails', D.RECIPES, '칵테일 레시피', `${D.RECIPES.length} drinks`)}
+        ${hubCard('/#spirits', 'spirits', D.SPIRITS, '주류 상식', `${D.SPIRITS.length} spirits`)}
+        ${hubCard('/#food', 'food', D.FOOD, '안주 레시피', `${D.FOOD.length} snacks`)}
+        <a class="card" href="/quiz/"><span class="cthumb qthumb"><span>${QUIZ.length}</span></span><span class="cname">조주기능사 필기</span><span class="cen">Written Exam</span></a>
+      </div>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>칵테일 레시피</h2></div>
+      <ul class="alllinks">${D.RECIPES.map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>주류 상식</h2></div>
+      <ul class="alllinks">${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>안주 레시피</h2></div>
+      <ul class="alllinks">${D.FOOD.map(x=>`<li><a href="/food/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul>
+    </section>`}));
 
 // 데이터에서 지운 항목의 페이지 정리
 for (const [dir, list] of [['cocktails', D.RECIPES], ['spirits', D.SPIRITS], ['food', D.FOOD]]) {
