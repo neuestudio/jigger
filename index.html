@@ -620,8 +620,9 @@ function glassSVG(r, uid){
 /* ---------- 사진 (있으면 사용, 없으면 일러스트로 대체) ----------
    images/cocktails, images/spirits, images/food 폴더에 각 항목 id로 이름 붙인
    파일(예: images/cocktails/martini.jpg)을 넣으면 자동으로 인식돼요.
-   jpg/jpeg/png/webp 중 아무 확장자나 가능하고, 파일이 없으면 계속 SVG 일러스트로 보여요. */
-const PHOTO_EXT = ['jpg','jpeg','png','webp'];
+   커밋할 때 scripts/optimize-images.py가 webp로 자동 변환하니 webp를 먼저 찾고,
+   파일이 없으면 계속 SVG 일러스트로 보여요. */
+const PHOTO_EXT = ['webp','jpg','jpeg','png'];
 const BY_KIND = {cocktail:BY_ID, spirit:SPIRIT_BY_ID, food:FOOD_BY_ID};
 window.__mediaFallback = function(img){
   const ei = (+img.dataset.ei||0) + 1;
