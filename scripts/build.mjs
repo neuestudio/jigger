@@ -111,9 +111,13 @@ function thumb(dir, item, alt){
   if (PHOTOS[dir].includes(item.id)) return `<img src="/images/${dir}/${item.id}.webp" alt="${esc(alt)}" width="1000" height="1000" loading="lazy">`;
   return dir==='food' ? D.plateSVG(item, 'c'+item.id) : D.glassSVG(item, 'c'+item.id);
 }
+// 카드 이름: 앱 목록과 같이 영문(위) · 한글(아래)
+function cardText(en, ko){
+  return `<span class="cbody"><span class="cname">${esc(en)}</span><span class="cko">${esc(ko)}</span></span>`;
+}
 function card(dir, item, alt){
   return `<a class="card" href="/${dir}/${item.id}/"><span class="cthumb" style="--liq:${item.liquid||item.color}">${thumb(dir, item, alt)}</span>
-      <span class="cname">${esc(item.ko)}</span><span class="cen">${esc(item.en)}</span></a>`;
+      ${cardText(item.en, item.ko)}</a>`;
 }
 function ingText(i){
   const [name, q, u] = i;
@@ -456,7 +460,7 @@ for (const p of pages) wr(p.url.slice(1) + 'index.html', p.html);
 function hubCard(href, dir, list, name, en){
   const item = list.find(x=>PHOTOS[dir].includes(x.id)) || list[0];
   return `<a class="card" href="${href}"><span class="cthumb" style="--liq:${item.liquid||item.color}">${thumb(dir, item, name)}</span>
-      <span class="cname">${name}</span><span class="cen">${en}</span></a>`;
+      ${cardText(en, name)}</a>`;
 }
 // 없는 주소로 들어왔을 때 보여줄 404 페이지 (Vercel이 /404.html을 자동으로 써요)
 wr('404.html', page({url:null, title:'페이지를 찾을 수 없어요 | Jigger', desc:'주소가 바뀌었거나 없는 페이지예요. 칵테일 레시피, 주류 상식, 안주 레시피, 조주기능사 필기 모의고사로 이동해 보세요.',
@@ -469,10 +473,10 @@ wr('404.html', page({url:null, title:'페이지를 찾을 수 없어요 | Jigger
     <section class="more">
       <div class="sec-h"><h2>둘러보기</h2></div>
       <div class="cards">
-        ${hubCard('/', 'cocktails', D.RECIPES, '칵테일 레시피', `${D.RECIPES.length} drinks`)}
-        ${hubCard('/#spirits', 'spirits', D.SPIRITS, '주류 상식', `${D.SPIRITS.length} spirits`)}
-        ${hubCard('/#food', 'food', D.FOOD, '안주 레시피', `${D.FOOD.length} snacks`)}
-        <a class="card" href="/quiz/"><span class="cthumb qthumb"><span>${QUIZ.length}</span></span><span class="cname">조주기능사 필기</span><span class="cen">Written Exam</span></a>
+        ${hubCard('/', 'cocktails', D.RECIPES, '칵테일 레시피', 'Cocktail Recipes')}
+        ${hubCard('/#spirits', 'spirits', D.SPIRITS, '주류 상식', 'Spirits Guide')}
+        ${hubCard('/#food', 'food', D.FOOD, '안주 레시피', 'Food Pairing')}
+        <a class="card" href="/quiz/"><span class="cthumb qthumb"><span>${QUIZ.length}</span></span>${cardText('Written Exam', '조주기능사 필기')}</a>
       </div>
     </section>
     <section class="more">

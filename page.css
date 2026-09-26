@@ -84,8 +84,10 @@ h1 .en{display:block;margin-top:6px;font:400 .66em/1.1 var(--serif-en);letter-sp
 .cthumb{aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden;color:var(--ink);background:color-mix(in srgb,var(--liq,#ccc) 12%,var(--surface2))}
 .cthumb img{width:100%;height:100%;object-fit:cover;display:block}
 .cthumb svg{height:70%;width:auto}
-.cname{margin-top:10px;font-weight:700}
-.cen{font:400 14px var(--serif-en);color:var(--mut)}
+/* 카드 이름은 앱 목록 카드(.tile)와 같은 모양: 선 · 영문 · 한글 */
+.card .cbody{display:block;padding-top:14px;border-top:1px solid var(--ink)}
+.cname{display:block;font:700 21px/1.25 var(--serif-en);letter-spacing:-.01em}
+.cko{display:block;margin-top:3px;font-size:13px;color:var(--mut)}
 .card:hover .cname{text-decoration:underline;text-underline-offset:3px}
 .alllinks{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;padding:0;list-style:none}
 .alllinks a{display:inline-block;padding:6px 12px;border:1px solid var(--line);border-radius:2px;font-size:13.5px;text-decoration:none}
