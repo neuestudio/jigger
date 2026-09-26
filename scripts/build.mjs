@@ -156,7 +156,7 @@ function cocktailPage(r){
         : D.glassSVG(r, 'hero')}</div>
       <div class="body">
         <span class="eyebrow">${D.BASE_EN[r.base]} · ${zero ? '무알콜 칵테일' : r.base+' 베이스'}</span>
-        <h1>${esc(r.ko)} <span class="en">${esc(r.en)}</span></h1>
+        <h1 class="title"><span class="en">${esc(r.en)}</span> <span class="ko">${esc(r.ko)}</span></h1>
         ${alias.length ? `<p class="aka">다른 표기: ${alias.map(esc).join(', ')}</p>` : ''}
         <div class="tags">${r.flav.map(f=>`<span class="tag">${f}</span>`).join('')}</div>
         <p class="lead">${esc(r.note)}</p>
@@ -294,7 +294,7 @@ function spiritPage(sp){
         : D.glassSVG(sp, 'hero')}</div>
       <div class="body">
         <span class="eyebrow">${D.CAT_EN[sp.cat]} · ${sp.cat}</span>
-        <h1>${esc(sp.ko)} <span class="en">${esc(sp.en)}</span></h1>
+        <h1 class="title"><span class="en">${esc(sp.en)}</span> <span class="ko">${esc(sp.ko)}</span></h1>
         <p class="lead">${esc(sp.process)}</p>
         <dl class="spec">
           <div><dt>원료</dt><dd>${esc(sp.material)}</dd></div>
@@ -354,7 +354,7 @@ function foodPage(f){
         : D.plateSVG(f, 'hero')}</div>
       <div class="body">
         <span class="eyebrow">Food Pairing · 안주 레시피</span>
-        <h1>${esc(f.ko)} <span class="en">${esc(f.en)}</span></h1>
+        <h1 class="title"><span class="en">${esc(f.en)}</span> <span class="ko">${esc(f.ko)}</span></h1>
         <div class="tags">${pairs.map(x=>`<a class="tag" href="/spirits/${x.id}/">${esc(x.ko)}</a>`).join('')}</div>
         <p class="lead">${esc(f.note)}</p>
         <dl class="spec">

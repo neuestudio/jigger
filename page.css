@@ -39,9 +39,12 @@ a{color:inherit}
 .crumbs a{text-decoration:none}
 .crumbs a:hover{color:var(--ink);text-decoration:underline}
 
-.eyebrow{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.eyebrow{font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 h1{margin:12px 0 0;font:700 clamp(32px,5vw,46px)/1.2 var(--serif-ko);letter-spacing:-.01em;word-break:keep-all;text-wrap:balance}
-h1 .en{display:block;margin-top:6px;font:400 .66em/1.1 var(--serif-en);letter-spacing:0;color:var(--mut)}
+/* 항목 제목은 앱 상세창(.phead)과 같은 모양: 영문(위) · 한글(아래) */
+h1.title{margin-top:8px;font:700 32px/1.2 var(--serif-en);letter-spacing:-.015em}
+h1.title .en{display:block}
+h1.title .ko{display:block;margin-top:4px;font:400 15px/1.6 var(--sans);letter-spacing:0;color:var(--mut)}
 .aka{margin:10px 0 0;font-size:13.5px;color:var(--mut)}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .tag{padding:2px 9px;border:1px solid var(--line);border-radius:2px;font-size:12.5px;color:var(--mut)}
