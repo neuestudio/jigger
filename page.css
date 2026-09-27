@@ -122,6 +122,11 @@ a.tag:hover{border-color:var(--ink);color:var(--ink)}
 a.prog{text-decoration:none}
 a.prog:hover{color:var(--ink)}
 .qthumb span{font:400 clamp(56px,9vw,88px)/1 var(--serif-en);letter-spacing:-.03em;color:var(--accent)}
+.tag.xtag{border-color:var(--accent);color:var(--accent)}
+.exing{list-style:none;margin:10px 0 0;padding:0}
+.exing li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.exing .amt{font:500 13px var(--mono);text-align:right;white-space:nowrap}
+.src{margin:10px 0 0;font-size:12.5px;color:var(--mut);text-wrap:pretty}
 .foot a{text-decoration:none}
 .foot a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;margin-top:64px;padding-top:16px;border-top:1px solid var(--line);font:400 12px/1.6 var(--mono);color:var(--mut)}

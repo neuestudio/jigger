@@ -35,7 +35,7 @@ const code = cut('/* ---------- 데이터 ---------- */', '/* ---------- 유틸 
   + cut('/* ---------- 유리잔 SVG ---------- */', '/* ---------- 사진')
   + (html.match(/function plateSVG[\s\S]*?\n}\n/) || [''])[0];
 const D = vm.runInNewContext(`(function(){ ${code}
-  return {RECIPES, SPIRITS, FOOD, BASE_EN, CAT_EN, DIFF, glassSVG, plateSVG}; })()`);
+  return {RECIPES, SPIRITS, FOOD, BASE_EN, CAT_EN, DIFF, EXAM_SOURCE, examAmount, glassSVG, plateSVG}; })()`);
 const qctx = {window:{}};
 vm.runInNewContext(rd('quiz-questions.js'), qctx);
 const QUIZ = qctx.window.QUIZ, QCATS = qctx.window.QUIZ_CATS;
@@ -44,9 +44,11 @@ const QUIZ = qctx.window.QUIZ, QCATS = qctx.window.QUIZ_CATS;
 const ALIAS = {
   mojito:['모히또'], margarita:['마르가리타'], 'pina-colada':['피나콜라다'], 'gin-tonic':['진토닉'],
   'moscow-mule':['모스코뮬'], 'dark-n-stormy':['다크앤스토미'], 'tom-collins':['톰콜린스'],
-  'old-fashioned':['올드패션드'], 'tequila-sunrise':['데킬라 선라이즈'], 'whiskey-sour':['위스키사워']
+  'old-fashioned':['올드패션드'], 'tequila-sunrise':['데킬라 선라이즈'], 'whiskey-sour':['위스키사워'],
+  'singapore-sling':['싱가폴 슬링'], 'blue-hawaiian':['블루 하와이안'], seabreeze:['씨브리즈'], 'pousse-cafe':['푸즈카페'], 'mai-tai':['마이 타이'],
+  apricot:['애프리코트'], 'long-island-iced-tea':['롱 아일랜드 아이스티'], 'june-bug':['준벅']
 };
-const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보드카':['vodka'], '테킬라':['tequila'], '브랜디':['brandy'], '와인·리큐어':['wine','liqueur']};
+const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보드카':['vodka'], '테킬라':['tequila'], '브랜디':['brandy'], '와인·리큐어':['wine','liqueur'], '우리술':['soju']};
 const MARK = ['①','②','③','④'];
 const CONTACT = {email:'naanodesign@gmail.com'};
 const SPIRIT = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
@@ -123,7 +125,7 @@ function ingText(i){
   const [name, q, u] = i;
   if (typeof q === 'string') return `${name} ${q}`;
   if (u === 'ml') return `${name} ${q} ml`;
-  return `${name} ${q}${u==='dash' ? ' dash' : u}`;
+  return `${name} ${q}${u==='dash' || u==='tsp' ? ' '+u : u}`;
 }
 function ozText(ml){
   const FR = {0:'', 0.25:'¼', 0.5:'½', 0.75:'¾'};
@@ -135,13 +137,16 @@ function ozText(ml){
 function cocktailPage(r){
   const url = `/cocktails/${r.id}/`;
   const zero = r.base === '논알콜';
-  const alias = ALIAS[r.id] || [];
+  const e = r.exam;
+  // 시험 한글 표기가 사이트 표기와 다르면(띄어쓰기 차이 제외) 다른 표기에 함께 넣어요
+  const alias = [...(ALIAS[r.id] || []), ...(e && e.ko.replace(/\s/g,'') !== r.ko.replace(/\s/g,'') ? [e.ko] : [])];
   const diff = D.DIFF[r.diff-1];
   const abv = r.abv ? `약 ${r.abv}%` : '논알콜 (0%)';
   const photo = PHOTOS.cocktails.includes(r.id);
   const image = photo ? `${SITE}/images/cocktails/${r.id}.webp` : `${SITE}/og.jpg`;
-  const title = zero ? `${r.ko} 레시피 · 무알콜 칵테일 만드는 법 (${r.en}) | Jigger` : `${r.ko} 레시피 · 만드는 법과 비율 (${r.en}) | Jigger`;
-  const desc = `${r.ko}(${r.en}) 만드는 법. 재료: ${r.ing.map(ingText).join(', ')}. ${r.method} 기법, ${r.glassName}. 도수 ${abv}, 난이도 ${diff}.`;
+  const title = e ? `${r.ko} 레시피 · 조주기능사 실기 표준 (${r.en}) | Jigger`
+    : zero ? `${r.ko} 레시피 · 무알콜 칵테일 만드는 법 (${r.en}) | Jigger` : `${r.ko} 레시피 · 만드는 법과 비율 (${r.en}) | Jigger`;
+  const desc = `${r.ko}(${r.en}) 만드는 법${e ? `과 조주기능사 실기 표준(${e.method}, ${e.glass})` : ''}. 재료: ${r.ing.map(ingText).join(', ')}. ${r.method} 기법, ${r.glassName}. 도수 ${abv}, 난이도 ${diff}.`;
   const c = crumbs([['Jigger','/'], ['칵테일 레시피','/'], [r.ko, url]]);
 
   const same = D.RECIPES.filter(x=>x.base===r.base && x.id!==r.id);
@@ -158,7 +163,7 @@ function cocktailPage(r){
         <span class="eyebrow">${D.BASE_EN[r.base]} · ${zero ? '무알콜 칵테일' : r.base+' 베이스'}</span>
         <h1 class="title"><span class="en">${esc(r.en)}</span> <span class="ko">${esc(r.ko)}</span></h1>
         ${alias.length ? `<p class="aka">다른 표기: ${alias.map(esc).join(', ')}</p>` : ''}
-        <div class="tags">${r.flav.map(f=>`<span class="tag">${f}</span>`).join('')}</div>
+        <div class="tags">${e ? '<span class="tag xtag">조주기능사 실기</span>' : ''}${r.flav.map(f=>`<span class="tag">${f}</span>`).join('')}</div>
         <p class="lead">${esc(r.note)}</p>
         <dl class="spec">
           <div><dt>도수</dt><dd>${abv}</dd></div>
@@ -172,13 +177,24 @@ function cocktailPage(r){
           <div class="sec-h"><h2>재료</h2><span class="prog">1잔 기준</span></div>
           <ul class="ings">${r.ing.map(i=>`
             <li><span class="sw ${i[3]?'':'none'}"${i[3]?` style="--c:${i[3]}"`:''}></span><span>${esc(i[0])}</span><span class="amt">${
-              typeof i[1]==='string' ? esc(i[1]) : i[2]==='ml' ? `${i[1]} ml<i>${ozText(i[1])}</i>` : `${i[1]}${i[2]==='dash'?' dash':i[2]}`}</span></li>`).join('')}
+              typeof i[1]==='string' ? esc(i[1]) : i[2]==='ml' ? `${i[1]} ml<i>${ozText(i[1])}</i>` : `${i[1]}${i[2]==='dash'||i[2]==='tsp'?' '+i[2]:i[2]}`}</span></li>`).join('')}
           </ul>
         </section>
         <section class="sec">
           <div class="sec-h"><h2>만드는 법</h2><span class="prog">${r.method}</span></div>
           <ol class="steps">${r.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
         </section>
+        ${e ? `<section class="sec">
+          <div class="sec-h"><h2>조주기능사 실기 표준</h2><span class="prog">No.${e.no}</span></div>
+          <dl class="spec">
+            <div><dt>시험 표기</dt><dd>${esc(e.en)}<br>${esc(e.ko)}</dd></div>
+            <div><dt>조주법</dt><dd>${esc(e.method)}</dd></div>
+            <div><dt>글라스</dt><dd>${esc(e.glass)}</dd></div>
+            <div><dt>가니시</dt><dd>${esc(e.garnish)}</dd></div>
+          </dl>
+          <ul class="exing">${e.ing.map(([n, a])=>`<li><span>${esc(n)}</span><span class="amt">${esc(D.examAmount(a))}</span></li>`).join('')}</ul>
+          <p class="src">출처: ${esc(D.EXAM_SOURCE)}. 실기시험은 재료·조주법·글라스·가니시를 이 기준으로 채점해요.</p>
+        </section>` : ''}
         <a class="cta" href="/#${r.id}">Jigger에서 잔 수에 맞춰 계량하기 →</a>
       </div>
     </article>
@@ -199,7 +215,7 @@ function cocktailPage(r){
     name:`${r.ko} (${r.en})`, image:[image], description:r.note,
     author:{'@type':'Organization', name:'Jigger', url:SITE+'/'},
     recipeCategory:zero ? '무알콜 칵테일' : '칵테일', recipeYield:'1잔',
-    keywords:[`${r.ko} 레시피`, `${r.ko} 만드는 법`, r.en, zero ? '무알콜 칵테일' : `${r.base} 칵테일`, ...alias].join(', '),
+    keywords:[`${r.ko} 레시피`, `${r.ko} 만드는 법`, r.en, zero ? '무알콜 칵테일' : `${r.base} 칵테일`, ...(e ? ['조주기능사 실기', `${r.ko} 조주기능사`] : []), ...alias].join(', '),
     recipeIngredient:r.ing.map(ingText),
     recipeInstructions:r.steps.map(text=>({'@type':'HowToStep', text}))};
   return {url, html:page({url, title, desc, image, section:'cocktail', body, jsonld:[recipe, c.list]})};
@@ -254,6 +270,10 @@ function quizPage(){
       <ul class="alllinks">${QCATS.map((cat, ci)=>`<li><a href="#cat-${ci+1}">${cat} <span class="n">${QUIZ.filter(q=>q.cat===cat).length}</span></a></li>`).join('')}</ul>
     </section>
 ${groups}
+    <section class="more">
+      <div class="sec-h"><h2>조주기능사 실기 칵테일 40가지</h2><span class="prog">표준 레시피</span></div>
+      <ul class="alllinks">${D.RECIPES.filter(x=>x.exam).sort((a, b)=>a.exam.no-b.exam.no).map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.exam.ko)}</a></li>`).join('')}</ul>
+    </section>
     <section class="more">
       <div class="sec-h"><h2>주류 상식으로 복습하기</h2></div>
       <div class="cards">${D.SPIRITS.map(s=>card('spirits', s, s.ko)).join('')}</div>
