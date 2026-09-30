@@ -123,15 +123,15 @@ function card(dir, item, alt){
   return `<a class="card" href="/${dir}/${item.id}/"><span class="cthumb" style="--liq:${item.liquid||item.color}">${thumb(dir, item, alt)}</span>
       ${cardText(item.en, item.ko)}</a>`;
 }
-// 설명 문구(meta description)가 검색 결과에서 잘리지 않게 160자 안으로: 넘치면 재료를 앞의 몇 가지로 줄여요
-const DESC_MAX = 160;
+// 설명 문구(meta description)는 네이버 권장대로 80자 안으로: 넘치면 목록을 앞의 몇 가지로 줄이고, 그래도 길면 목록을 빼요
+const DESC_MAX = 80;
 function fitDesc(make, list){
   for (let n = list.length; n >= 1; n--) {
     const shown = n < list.length ? `${list.slice(0, n).join(', ')} 외 ${list.length - n}가지` : list.join(', ');
     const d = make(shown);
     if (d.length <= DESC_MAX) return d;
   }
-  return make(list[0]);
+  return make('');
 }
 function ingText(i){
   const [name, q, u] = i;
@@ -158,7 +158,7 @@ function cocktailPage(r){
   const image = photo ? `${SITE}/images/cocktails/${r.id}.webp` : `${SITE}/og.jpg`;
   const title = e ? `${r.ko} 레시피 · 조주기능사 실기 표준 (${r.en}) | Jigger`
     : zero ? `${r.ko} 레시피 · 무알콜 칵테일 만드는 법 (${r.en}) | Jigger` : `${r.ko} 레시피 · 만드는 법과 비율 (${r.en}) | Jigger`;
-  const desc = fitDesc(ings=>`${r.ko}(${r.en}) 만드는 법${e ? `과 조주기능사 실기 표준(${e.method}, ${e.glass})` : ''}. 재료: ${ings}. ${r.method} 기법, ${r.glassName}. 도수 ${abv}, 난이도 ${diff}.`, r.ing.map(ingText));
+  const desc = fitDesc(ings=>`${r.ko}(${r.en}) 만드는 법.${ings ? ` ${ings}.` : ''} ${r.method}, 도수 ${abv}.${e ? ' 조주기능사 실기 표준 수록.' : ''}`, r.ing.map(ingText));
   const c = crumbs([['Jigger','/'], ['칵테일 레시피','/cocktails/'], [r.ko, url]]);
 
   const same = D.RECIPES.filter(x=>x.base===r.base && x.id!==r.id);
@@ -243,7 +243,7 @@ function perm(id){ // 문제마다 고정된 보기 순서 (정답이 항상 ①
 function quizPage(){
   const url = '/quiz/';
   const title = `조주기능사 필기 모의고사 · 무료 예상문제 ${QUIZ.length}개와 해설 | Jigger`;
-  const desc = `조주기능사 필기시험 대비 무료 모의고사. 양조주·증류주·혼성주·전통주, 칵테일 조주, 바 영업, 영어까지 예상문제 ${QUIZ.length}개와 해설, 60문항 60분 실전 모의고사와 오답노트.`;
+  const desc = `조주기능사 필기 무료 모의고사. 예상문제 ${QUIZ.length}개와 해설, 60문항 60분 실전 모드와 오답노트.`;
   const c = crumbs([['Jigger','/'], ['조주기능사 필기', url]]);
   let n = 0;
   const groups = QCATS.map((cat, ci)=>{
@@ -312,7 +312,7 @@ function spiritPage(sp){
   const photo = PHOTOS.spirits.includes(sp.id);
   const image = photo ? `${SITE}/images/spirits/${sp.id}.webp` : `${SITE}/og.jpg`;
   const title = `${sp.ko} 종류와 제조법 · 원료, 도수 정리 (${sp.en}) | Jigger`;
-  const desc = `${sp.ko}(${sp.en}) · ${sp.cat}. 원료 ${sp.material}, 도수 ${sp.abv}. 종류: ${sp.types}. 조주기능사 필기 대비 주류 상식 정리.`;
+  const desc = fitDesc(t=>`${sp.ko}(${sp.en}) · ${sp.cat}, 도수 ${sp.abv}.${t ? ` 종류: ${t}.` : ''} 원료와 제조법 정리.`, sp.types.split(' · '));
   const c = crumbs([['Jigger','/'], ['주류 상식','/spirits/'], [sp.ko, url]]);
   const bases = Object.entries(BASE_SPIRIT).filter(([, ids])=>ids.includes(sp.id)).map(([b])=>b);
   const cocktails = D.RECIPES.filter(r=>bases.includes(r.base)).slice(0, 4);
@@ -374,7 +374,7 @@ function foodPage(f){
   const pairNames = pairs.map(x=>spiritNames(x)[0]);
   const diff = D.DIFF[f.diff-1];
   const title = `${f.ko} 만드는 법 · ${pairNames.join('·')} 안주 레시피 | Jigger`;
-  const desc = fitDesc(mats=>`${f.ko} 레시피. 조리 시간 ${f.time}, 난이도 ${diff}. 재료: ${mats}. ${pairNames.join('·')}와 잘 어울리는 안주예요.`, f.material);
+  const desc = fitDesc(mats=>`${f.ko} 만드는 법.${mats ? ` 재료: ${mats}.` : ''} ${f.time}, 난이도 ${diff}. ${pairNames.join('·')} 안주.`, f.material);
   const c = crumbs([['Jigger','/'], ['안주 레시피','/food/'], [f.ko, url]]);
   const bases = Object.entries(BASE_SPIRIT).filter(([, ids])=>ids.some(id=>f.pairsWith.includes(id))).map(([b])=>b);
   const cocktails = D.RECIPES.filter(r=>bases.includes(r.base)).slice(0, 4);
@@ -453,7 +453,7 @@ function cocktailsIndex(){
   const exam = D.RECIPES.filter(r=>r.exam).length;
   return listPage({url:'/cocktails/', section:'cocktail', dir:'cocktails', crumbName:'칵테일 레시피', eyebrow:'Cocktail Recipes',
     h1:'칵테일 레시피', title:`칵테일 레시피 ${D.RECIPES.length}가지 · 집에서 만드는 법과 조주기능사 실기 ${exam}가지 | Jigger`,
-    desc:`집에서 만드는 칵테일 레시피 ${D.RECIPES.length}가지. 진, 럼, 위스키, 보드카, 테킬라, 우리술, 무알콜까지 베이스별로 재료·비율·만드는 법을 정리했고, 조주기능사 실기 ${exam}가지 표준 레시피도 함께 볼 수 있어요.`,
+    desc:`집에서 만드는 칵테일 레시피 ${D.RECIPES.length}가지를 베이스별로 모았어요. 조주기능사 실기 ${exam}가지 표준 레시피 포함.`,
     lead:`집에서 만드는 칵테일 ${D.RECIPES.length}가지를 베이스별로 모았어요. 조주기능사 실기 ${exam}가지는 시험 표준 레시피(조주법·글라스·가니시)도 함께 볼 수 있어요.`,
     groups: D.BASES.map(b=>({name:`${b} ${b==='논알콜'?'칵테일':'베이스'}`, items:D.RECIPES.filter(r=>r.base===b)})).filter(g=>g.items.length),
     extra:`    <section class="more">
@@ -464,14 +464,14 @@ function cocktailsIndex(){
 function spiritsIndex(){
   return listPage({url:'/spirits/', section:'spirit', dir:'spirits', crumbName:'주류 상식', eyebrow:'Spirits Guide',
     h1:'주류 상식', title:`주류 상식 ${D.SPIRITS.length}가지 · 양조주·증류주·전통주·혼성주 정리 | Jigger`,
-    desc:`맥주, 와인, 위스키, 브랜디, 진, 보드카, 럼, 테킬라, 막걸리, 청주·약주, 소주, 리큐르까지 ${D.SPIRITS.length}가지 술의 원료, 제조법, 도수, 세부 종류를 조주기능사 필기 대비로 정리했어요.`,
+    desc:`맥주·와인·위스키·소주 등 술 ${D.SPIRITS.length}가지의 원료, 제조법, 도수, 종류 정리. 조주기능사 필기 대비.`,
     lead:`조주기능사 필기시험의 주류학 범위를 기준으로 ${D.SPIRITS.length}가지 술을 양조주·증류주·전통주·혼성주로 나눠 원료와 제조 공정, 도수를 정리했어요.`,
     groups: D.CATS.map(cat=>({name:cat, items:D.SPIRITS.filter(x=>x.cat===cat)})).filter(g=>g.items.length)});
 }
 function foodIndex(){
   return listPage({url:'/food/', section:'food', dir:'food', crumbName:'안주 레시피', eyebrow:'Food Pairing',
     h1:'안주 레시피', title:`안주 레시피 ${D.FOOD.length}가지 · 술 종류별 어울리는 안주 | Jigger`,
-    desc:`맥주, 소주, 와인, 위스키, 막걸리, 칵테일에 어울리는 안주 레시피 ${D.FOOD.length}가지. 조리 시간과 난이도, 재료와 만드는 법, 어울리는 술을 함께 정리했어요.`,
+    desc:`맥주·소주·와인·위스키·막걸리에 어울리는 안주 레시피 ${D.FOOD.length}가지. 조리 시간·난이도·재료 정리.`,
     lead:`술 종류에 어울리는 안주 ${D.FOOD.length}가지를 모았어요. 안주마다 조리 시간과 난이도, 어울리는 술을 함께 볼 수 있어요.`,
     groups:[{name:'안주 레시피 전체', items:D.FOOD}],
     extra:`    <section class="more">
@@ -484,7 +484,7 @@ function foodIndex(){
 function aboutPage(){
   const url = '/about/';
   const title = 'Jigger 소개 · 문의 | 칵테일 레시피와 조주기능사 필기';
-  const desc = `Jigger는 집에서 만드는 칵테일 레시피 ${D.RECIPES.length}가지, 주류 상식, 안주 레시피, 조주기능사 필기 예상문제 ${QUIZ.length}개를 모은 사이트예요. 콘텐츠 기준과 문의 방법을 안내해요.`;
+  const desc = `Jigger 소개와 문의. 칵테일·주류 상식·안주 레시피와 조주기능사 문제의 콘텐츠 기준 안내.`;
   const c = crumbs([['Jigger','/'], ['소개 · 문의', url]]);
   const body = `    ${c.nav}
     <section class="hero">
@@ -546,7 +546,7 @@ function hubCard(href, dir, list, name, en){
       ${cardText(en, name)}</a>`;
 }
 // 없는 주소로 들어왔을 때 보여줄 404 페이지 (Vercel이 /404.html을 자동으로 써요)
-wr('404.html', page({url:null, title:'페이지를 찾을 수 없어요 | Jigger', desc:'주소가 바뀌었거나 없는 페이지예요. 칵테일 레시피, 주류 상식, 안주 레시피, 조주기능사 필기 모의고사로 이동해 보세요.',
+wr('404.html', page({url:null, title:'페이지를 찾을 수 없어요 | Jigger', desc:'없는 페이지예요. 칵테일 레시피, 주류 상식, 안주 레시피, 조주기능사 필기로 이동해 보세요.',
   image:`${SITE}/og.jpg`, section:null, jsonld:[], body:`    <section class="hero">
       <span class="eyebrow">404 · Not Found</span>
       <h1>페이지를 찾을 수 없어요</h1>
