@@ -35,7 +35,7 @@ const code = cut('/* ---------- 데이터 ---------- */', '/* ---------- 유틸 
   + cut('/* ---------- 유리잔 SVG ---------- */', '/* ---------- 사진')
   + (html.match(/function plateSVG[\s\S]*?\n}\n/) || [''])[0];
 const D = vm.runInNewContext(`(function(){ ${code}
-  return {RECIPES, SPIRITS, FOOD, BASE_EN, CAT_EN, DIFF, EXAM_SOURCE, examAmount, glassSVG, plateSVG}; })()`);
+  return {RECIPES, SPIRITS, FOOD, BASES, CATS, BASE_EN, CAT_EN, DIFF, EXAM_SOURCE, examAmount, glassSVG, plateSVG}; })()`);
 const qctx = {window:{}};
 vm.runInNewContext(rd('quiz-questions.js'), qctx);
 const QUIZ = qctx.window.QUIZ, QCATS = qctx.window.QUIZ_CATS;
@@ -57,7 +57,7 @@ const SPIRIT = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
 const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g,'\\u003c')}</script>`;
 const FONT = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
-const NAV = [['/', '칵테일 레시피', 'cocktail'], ['/#spirits', '주류 상식', 'spirit'], ['/#food', '안주 레시피', 'food'], ['/quiz/', '조주기능사 필기', 'quiz']];
+const NAV = [['/cocktails/', '칵테일 레시피', 'cocktail'], ['/spirits/', '주류 상식', 'spirit'], ['/food/', '안주 레시피', 'food'], ['/quiz/', '조주기능사 필기', 'quiz']];
 
 function crumbs(items){
   const list = {'@context':'https://schema.org', '@type':'BreadcrumbList',
@@ -147,7 +147,7 @@ function cocktailPage(r){
   const title = e ? `${r.ko} 레시피 · 조주기능사 실기 표준 (${r.en}) | Jigger`
     : zero ? `${r.ko} 레시피 · 무알콜 칵테일 만드는 법 (${r.en}) | Jigger` : `${r.ko} 레시피 · 만드는 법과 비율 (${r.en}) | Jigger`;
   const desc = `${r.ko}(${r.en}) 만드는 법${e ? `과 조주기능사 실기 표준(${e.method}, ${e.glass})` : ''}. 재료: ${r.ing.map(ingText).join(', ')}. ${r.method} 기법, ${r.glassName}. 도수 ${abv}, 난이도 ${diff}.`;
-  const c = crumbs([['Jigger','/'], ['칵테일 레시피','/'], [r.ko, url]]);
+  const c = crumbs([['Jigger','/'], ['칵테일 레시피','/cocktails/'], [r.ko, url]]);
 
   const same = D.RECIPES.filter(x=>x.base===r.base && x.id!==r.id);
   const more = [...same, ...D.RECIPES.filter(x=>x.base!==r.base && x.id!==r.id)].slice(0, 4);
@@ -301,7 +301,7 @@ function spiritPage(sp){
   const image = photo ? `${SITE}/images/spirits/${sp.id}.webp` : `${SITE}/og.jpg`;
   const title = `${sp.ko} 종류와 제조법 · 원료, 도수 정리 (${sp.en}) | Jigger`;
   const desc = `${sp.ko}(${sp.en}) · ${sp.cat}. 원료 ${sp.material}, 도수 ${sp.abv}. 종류: ${sp.types}. 조주기능사 필기 대비 주류 상식 정리.`;
-  const c = crumbs([['Jigger','/'], ['주류 상식','/#spirits'], [sp.ko, url]]);
+  const c = crumbs([['Jigger','/'], ['주류 상식','/spirits/'], [sp.ko, url]]);
   const bases = Object.entries(BASE_SPIRIT).filter(([, ids])=>ids.includes(sp.id)).map(([b])=>b);
   const cocktails = D.RECIPES.filter(r=>bases.includes(r.base)).slice(0, 4);
   const foods = D.FOOD.filter(f=>f.pairsWith.includes(sp.id)).slice(0, 4);
@@ -363,7 +363,7 @@ function foodPage(f){
   const diff = D.DIFF[f.diff-1];
   const title = `${f.ko} 만드는 법 · ${pairNames.join('·')} 안주 레시피 | Jigger`;
   const desc = `${f.ko} 레시피. 조리 시간 ${f.time}, 난이도 ${diff}. 재료: ${f.material.join(', ')}. ${pairNames.join('·')}와 잘 어울리는 안주예요.`;
-  const c = crumbs([['Jigger','/'], ['안주 레시피','/#food'], [f.ko, url]]);
+  const c = crumbs([['Jigger','/'], ['안주 레시피','/food/'], [f.ko, url]]);
   const bases = Object.entries(BASE_SPIRIT).filter(([, ids])=>ids.some(id=>f.pairsWith.includes(id))).map(([b])=>b);
   const cocktails = D.RECIPES.filter(r=>bases.includes(r.base)).slice(0, 4);
   const others = D.FOOD.filter(x=>x.id!==f.id && x.pairsWith.some(id=>f.pairsWith.includes(id))).slice(0, 4);
@@ -414,6 +414,60 @@ function foodPage(f){
   return {url, html:page({url, title, desc, image, section:'food', body, jsonld:[recipe, c.list]})};
 }
 
+/* ---------- 목록 페이지 (/cocktails/, /spirits/, /food/) ---------- */
+function listPage({url, section, eyebrow, h1, lead, title, desc, groups, dir, crumbName, extra=''}){
+  const c = crumbs([['Jigger','/'], [crumbName, url]]);
+  const all = groups.flatMap(g=>g.items);
+  const body = `    ${c.nav}
+    <section class="hero">
+      <span class="eyebrow">${eyebrow}</span>
+      <h1>${h1}</h1>
+      <p class="lead">${lead}</p>
+    </section>
+    ${groups.length > 1 ? `<section class="sec">
+      <div class="sec-h"><h2>바로 가기</h2><span class="prog">${all.length}가지</span></div>
+      <ul class="alllinks">${groups.map((g, i)=>`<li><a href="#g-${i+1}">${esc(g.name)} <span class="n">${g.items.length}</span></a></li>`).join('')}</ul>
+    </section>` : ''}
+${groups.map((g, i)=>`    <section class="more" id="g-${i+1}">
+      <div class="sec-h"><h2>${esc(g.name)}</h2><span class="prog">${g.items.length}가지</span></div>
+      <div class="cards">${g.items.map(x=>card(dir, x, x.ko)).join('')}</div>
+    </section>`).join('\n')}
+${extra}`;
+  const list = {'@context':'https://schema.org', '@type':'ItemList', name:h1,
+    itemListElement: all.map((x, i)=>({'@type':'ListItem', position:i+1, url:`${SITE}/${dir}/${x.id}/`, name:x.ko}))};
+  return {url, html:page({url, title, desc, image:`${SITE}/og.jpg`, section, body, jsonld:[list, c.list]})};
+}
+function cocktailsIndex(){
+  const exam = D.RECIPES.filter(r=>r.exam).length;
+  return listPage({url:'/cocktails/', section:'cocktail', dir:'cocktails', crumbName:'칵테일 레시피', eyebrow:'Cocktail Recipes',
+    h1:'칵테일 레시피', title:`칵테일 레시피 ${D.RECIPES.length}가지 · 집에서 만드는 법과 조주기능사 실기 ${exam}가지 | Jigger`,
+    desc:`집에서 만드는 칵테일 레시피 ${D.RECIPES.length}가지. 진, 럼, 위스키, 보드카, 테킬라, 우리술, 무알콜까지 베이스별로 재료·비율·만드는 법을 정리했고, 조주기능사 실기 ${exam}가지 표준 레시피도 함께 볼 수 있어요.`,
+    lead:`집에서 만드는 칵테일 ${D.RECIPES.length}가지를 베이스별로 모았어요. 조주기능사 실기 ${exam}가지는 시험 표준 레시피(조주법·글라스·가니시)도 함께 볼 수 있어요.`,
+    groups: D.BASES.map(b=>({name:`${b} ${b==='논알콜'?'칵테일':'베이스'}`, items:D.RECIPES.filter(r=>r.base===b)})).filter(g=>g.items.length),
+    extra:`    <section class="more">
+      <div class="sec-h"><h2>조주기능사 실기 칵테일 ${exam}가지</h2><a class="prog" href="/quiz/">필기 예상문제 →</a></div>
+      <ul class="alllinks">${D.RECIPES.filter(x=>x.exam).sort((a, b)=>a.exam.no-b.exam.no).map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.exam.ko)}</a></li>`).join('')}</ul>
+    </section>`});
+}
+function spiritsIndex(){
+  return listPage({url:'/spirits/', section:'spirit', dir:'spirits', crumbName:'주류 상식', eyebrow:'Spirits Guide',
+    h1:'주류 상식', title:`주류 상식 ${D.SPIRITS.length}가지 · 양조주·증류주·전통주·혼성주 정리 | Jigger`,
+    desc:`맥주, 와인, 위스키, 브랜디, 진, 보드카, 럼, 테킬라, 막걸리, 청주·약주, 소주, 리큐르까지 ${D.SPIRITS.length}가지 술의 원료, 제조법, 도수, 세부 종류를 조주기능사 필기 대비로 정리했어요.`,
+    lead:`조주기능사 필기시험의 주류학 범위를 기준으로 ${D.SPIRITS.length}가지 술을 양조주·증류주·전통주·혼성주로 나눠 원료와 제조 공정, 도수를 정리했어요.`,
+    groups: D.CATS.map(cat=>({name:cat, items:D.SPIRITS.filter(x=>x.cat===cat)})).filter(g=>g.items.length)});
+}
+function foodIndex(){
+  return listPage({url:'/food/', section:'food', dir:'food', crumbName:'안주 레시피', eyebrow:'Food Pairing',
+    h1:'안주 레시피', title:`안주 레시피 ${D.FOOD.length}가지 · 술 종류별 어울리는 안주 | Jigger`,
+    desc:`맥주, 소주, 와인, 위스키, 막걸리, 칵테일에 어울리는 안주 레시피 ${D.FOOD.length}가지. 조리 시간과 난이도, 재료와 만드는 법, 어울리는 술을 함께 정리했어요.`,
+    lead:`술 종류에 어울리는 안주 ${D.FOOD.length}가지를 모았어요. 안주마다 조리 시간과 난이도, 어울리는 술을 함께 볼 수 있어요.`,
+    groups:[{name:'안주 레시피 전체', items:D.FOOD}],
+    extra:`    <section class="more">
+      <div class="sec-h"><h2>술 종류별로 어울리는 안주 보기</h2></div>
+      <ul class="alllinks">${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/">${esc(x.ko)} <span class="n">${D.FOOD.filter(f=>f.pairsWith.includes(x.id)).length}</span></a></li>`).join('')}</ul>
+    </section>`});
+}
+
 /* ---------- 소개 · 문의 페이지 ---------- */
 function aboutPage(){
   const url = '/about/';
@@ -429,9 +483,9 @@ function aboutPage(){
     <section class="sec">
       <div class="sec-h"><h2>무엇을 담았나요</h2></div>
       <dl class="spec">
-        <div><dt>칵테일 레시피</dt><dd><a href="/">${D.RECIPES.length}가지</a> · 재료, 비율, 만드는 법</dd></div>
-        <div><dt>주류 상식</dt><dd><a href="/#spirits">${D.SPIRITS.length}가지</a> · 원료, 제조법, 세부 종류</dd></div>
-        <div><dt>안주 레시피</dt><dd><a href="/#food">${D.FOOD.length}가지</a> · 어울리는 술과 함께</dd></div>
+        <div><dt>칵테일 레시피</dt><dd><a href="/cocktails/">${D.RECIPES.length}가지</a> · 재료, 비율, 만드는 법</dd></div>
+        <div><dt>주류 상식</dt><dd><a href="/spirits/">${D.SPIRITS.length}가지</a> · 원료, 제조법, 세부 종류</dd></div>
+        <div><dt>안주 레시피</dt><dd><a href="/food/">${D.FOOD.length}가지</a> · 어울리는 술과 함께</dd></div>
         <div><dt>조주기능사 필기</dt><dd><a href="/quiz/">예상문제 ${QUIZ.length}개</a> · 모의고사, 오답노트</dd></div>
       </dl>
     </section>
@@ -464,6 +518,7 @@ function aboutPage(){
 
 /* ---------- 쓰기 ---------- */
 const pages = [
+  cocktailsIndex(), spiritsIndex(), foodIndex(),
   quizPage(),
   ...D.RECIPES.map(cocktailPage),
   ...D.SPIRITS.map(spiritPage),
@@ -489,9 +544,9 @@ wr('404.html', page({url:null, title:'페이지를 찾을 수 없어요 | Jigger
     <section class="more">
       <div class="sec-h"><h2>둘러보기</h2></div>
       <div class="cards">
-        ${hubCard('/', 'cocktails', D.RECIPES, '칵테일 레시피', 'Cocktail Recipes')}
-        ${hubCard('/#spirits', 'spirits', D.SPIRITS, '주류 상식', 'Spirits Guide')}
-        ${hubCard('/#food', 'food', D.FOOD, '안주 레시피', 'Food Pairing')}
+        ${hubCard('/cocktails/', 'cocktails', D.RECIPES, '칵테일 레시피', 'Cocktail Recipes')}
+        ${hubCard('/spirits/', 'spirits', D.SPIRITS, '주류 상식', 'Spirits Guide')}
+        ${hubCard('/food/', 'food', D.FOOD, '안주 레시피', 'Food Pairing')}
         <a class="card" href="/quiz/"><span class="cthumb qthumb"><span>${QUIZ.length}</span></span>${cardText('Written Exam', '조주기능사 필기')}</a>
       </div>
     </section>
@@ -526,9 +581,9 @@ wr('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 // index.html 하단: 검색엔진이 따라갈 수 있는 전체 페이지 링크
 const links = `<!-- build:links (scripts/build.mjs가 자동으로 만들어요) -->
   <nav class="sitelinks" aria-label="전체 페이지">
-    <div><h2>칵테일 레시피</h2><ul>${D.RECIPES.map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
-    <div><h2>주류 상식</h2><ul>${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
-    <div><h2>안주 레시피</h2><ul>${D.FOOD.map(x=>`<li><a href="/food/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
+    <div><h2><a href="/cocktails/">칵테일 레시피</a></h2><ul>${D.RECIPES.map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
+    <div><h2><a href="/spirits/">주류 상식</a></h2><ul>${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
+    <div><h2><a href="/food/">안주 레시피</a></h2><ul>${D.FOOD.map(x=>`<li><a href="/food/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2>조주기능사</h2><ul><li><a href="/quiz/">필기 예상문제 ${QUIZ.length}개와 해설</a></li></ul></div>
     <div><h2>Jigger</h2><ul><li><a href="/about/">소개 · 문의</a></li></ul></div>
   </nav>

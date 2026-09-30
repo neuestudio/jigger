@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://jiggerbar.com/</loc></url>
+  <url><loc>https://jiggerbar.com/cocktails/</loc></url>
+  <url><loc>https://jiggerbar.com/spirits/</loc></url>
+  <url><loc>https://jiggerbar.com/food/</loc></url>
   <url><loc>https://jiggerbar.com/quiz/</loc></url>
   <url><loc>https://jiggerbar.com/cocktails/martini/</loc></url>
   <url><loc>https://jiggerbar.com/cocktails/negroni/</loc></url>
