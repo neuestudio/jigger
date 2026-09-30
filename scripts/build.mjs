@@ -106,7 +106,7 @@ ${body}
   </main>
   <footer class="foot">
     <span>Jigger · 집에서 만드는 칵테일 레시피와 조주기능사 필기 모의고사</span>
-    <span><a href="/about/">소개 · 문의</a> · 음주는 성인만, 적당히 즐겨요.</span>
+    <span><a href="/about/">소개</a> · <a href="/contact/">문의하기</a> · <a href="/privacy/">개인정보처리방침</a> · 음주는 성인만, 적당히 즐겨요.</span>
   </footer>
 </div>
 `;
@@ -480,6 +480,126 @@ function foodIndex(){
     </section>`});
 }
 
+/* ---------- 문의하기 · 개인정보처리방침 ---------- */
+const POLICY_DATE = '2026년 9월 30일';
+function contactPage(){
+  const url = '/contact/';
+  const title = '문의하기 | Jigger';
+  const desc = '레시피·조주기능사 문제 오류 제보, 제휴·광고 문의를 보내주세요. 확인 후 이메일로 답변드려요.';
+  const c = crumbs([['Jigger','/'], ['문의하기', url]]);
+  const body = `    ${c.nav}
+    <section class="hero">
+      <span class="eyebrow">Contact</span>
+      <h1>문의하기</h1>
+      <p class="lead">레시피나 조주기능사 문제의 오류 제보, 제휴·광고 문의를 보내주세요. 확인한 뒤 남겨주신 이메일로 답변드려요.</p>
+    </section>
+    <form class="form" id="contactForm" action="/api/contact" method="post" novalidate>
+      <div class="field"><label for="cName">이름</label><input id="cName" name="name" type="text" maxlength="50" autocomplete="name" required></div>
+      <div class="field"><label for="cEmail">이메일</label><input id="cEmail" name="email" type="email" maxlength="120" autocomplete="email" required></div>
+      <div class="field"><label for="cTopic">문의 유형</label>
+        <select id="cTopic" name="topic">
+          <option>레시피 오류 제보</option><option>조주기능사 문제 오류 제보</option><option>제휴·광고 문의</option><option>기타</option>
+        </select></div>
+      <div class="field"><label for="cMessage">문의 내용</label><textarea id="cMessage" name="message" maxlength="3000" minlength="10" required placeholder="10자 이상 적어 주세요."></textarea></div>
+      <div class="hp" aria-hidden="true"><label for="cWebsite">웹사이트</label><input id="cWebsite" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <div class="consent">
+        <p><b>[필수] 개인정보 수집·이용 동의</b></p>
+        <table class="ptable"><tbody>
+          <tr><th>수집 항목</th><td>이름, 이메일, 문의 내용</td></tr>
+          <tr><th>이용 목적</th><td>문의 확인 및 답변</td></tr>
+          <tr><th>보관 기간</th><td>답변 완료 후 1년</td></tr>
+        </tbody></table>
+        <p class="note">동의하지 않을 수 있지만, 동의하지 않으면 문의를 보낼 수 없어요. 자세한 내용은 <a href="/privacy/">개인정보처리방침</a>을 확인해 주세요.</p>
+        <label class="check"><input type="checkbox" name="consent" value="yes" required> 위 내용에 동의해요</label>
+      </div>
+      <div><button class="cta" type="submit">문의 보내기 →</button></div>
+      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+    </form>
+    <section class="sec">
+      <div class="sec-h"><h2>이메일로 문의하기</h2></div>
+      <p class="lead">폼이 불편하시면 <a href="mailto:${CONTACT.email}">${CONTACT.email}</a>로 직접 보내셔도 돼요.</p>
+    </section>
+    <script>
+    (function(){
+      var f = document.getElementById('contactForm'), st = document.getElementById('formStatus'), btn = f.querySelector('button[type=submit]');
+      function say(t, cls){ st.textContent = t; st.className = 'form-status ' + (cls || ''); }
+      f.addEventListener('submit', function(e){
+        e.preventDefault();
+        if (!f.name.value.trim()) return say('이름을 적어 주세요.', 'err');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) return say('이메일 주소를 확인해 주세요.', 'err');
+        if (f.message.value.trim().length < 10) return say('문의 내용을 10자 이상 적어 주세요.', 'err');
+        if (!f.consent.checked) return say('개인정보 수집·이용에 동의해 주세요.', 'err');
+        btn.disabled = true; say('보내는 중이에요…');
+        fetch('/api/contact', {method:'POST', body:new FormData(f)}).then(function(r){ return r.json().catch(function(){ return {}; }).then(function(d){ return {ok:r.ok && d.ok}; }); })
+          .then(function(r){
+            if (r.ok) { f.reset(); say('문의가 전송됐어요. 확인한 뒤 이메일로 답변드릴게요.', 'ok'); }
+            else say('전송하지 못했어요. 잠시 뒤 다시 시도하거나 ${CONTACT.email}로 보내 주세요.', 'err');
+          })
+          .catch(function(){ say('전송하지 못했어요. 잠시 뒤 다시 시도하거나 ${CONTACT.email}로 보내 주세요.', 'err'); })
+          .then(function(){ btn.disabled = false; });
+      });
+    })();
+    </script>`;
+  const cp = {'@context':'https://schema.org', '@type':'ContactPage', name:title, url:SITE+url, inLanguage:'ko'};
+  return {url, html:page({url, title, desc, image:`${SITE}/og.jpg`, section:null, body, jsonld:[cp, c.list]})};
+}
+function privacyPage(){
+  const url = '/privacy/';
+  const title = '개인정보처리방침 | Jigger';
+  const desc = 'Jigger가 수집하는 개인정보 항목과 이용 목적, 보관 기간, 쿠키와 광고(Google AdSense) 안내.';
+  const c = crumbs([['Jigger','/'], ['개인정보처리방침', url]]);
+  const ext = (href, text) => `<a href="${href}" rel="noopener" target="_blank">${text}</a>`;
+  const sec = (h, inner) => `    <section class="sec">
+      <div class="sec-h"><h2>${h}</h2></div>
+      ${inner}
+    </section>`;
+  const body = `    ${c.nav}
+    <section class="hero">
+      <span class="eyebrow">Privacy Policy</span>
+      <h1>개인정보처리방침</h1>
+      <p class="lead">Jigger(이하 "사이트")는 이용자의 개인정보를 소중히 다루며 「개인정보 보호법」 등 관련 법령을 지켜요. 이 방침은 사이트가 어떤 정보를 왜 수집하고 어떻게 보호하는지 설명해요.</p>
+      <p class="note">시행일 ${POLICY_DATE}</p>
+    </section>
+${sec('1. 수집하는 개인정보와 이용 목적', `<p class="lead">사이트는 회원가입 없이 이용할 수 있으며, 아래의 경우에만 개인정보를 처리해요.</p>
+      <table class="ptable"><thead><tr><th>구분</th><th>항목</th><th>목적</th><th>보관 기간</th></tr></thead><tbody>
+        <tr><td>문의하기</td><td>이름, 이메일, 문의 내용</td><td>문의 확인 및 답변</td><td>답변 완료 후 1년</td></tr>
+        <tr><td>자동 수집</td><td>접속 기록(IP 주소, 브라우저 정보, 접속 일시), 쿠키</td><td>서비스 보안과 안정성 확보, 광고 제공</td><td>아래 쿠키 항목 참고</td></tr>
+      </tbody></table>`)}
+${sec('2. 브라우저에만 저장되는 정보', `<p class="lead">즐겨찾기, 필기 테스트의 오답노트와 모의고사 기록은 이용자의 브라우저 저장소(localStorage)에만 저장되고 서버로 전송되지 않아요. 브라우저의 사이트 데이터를 지우면 함께 삭제돼요.</p>`)}
+${sec('3. 쿠키와 광고', `<p class="lead">사이트는 Google AdSense를 통해 광고를 게재할 수 있어요. Google을 포함한 제3자 광고 사업자는 쿠키를 사용해 이용자가 이 사이트나 다른 웹사이트를 방문한 기록을 바탕으로 광고를 제공해요.</p>
+      <ul class="plist">
+        <li>Google은 광고 쿠키를 사용해 이 사이트와 인터넷의 다른 사이트 방문 기록에 기반한 광고를 이용자에게 제공할 수 있어요.</li>
+        <li>이용자는 ${ext('https://adssettings.google.com', 'Google 광고 설정')}에서 맞춤 광고를 해제할 수 있어요.</li>
+        <li>제3자 사업자의 맞춤 광고 쿠키는 ${ext('https://www.aboutads.info/choices/', 'www.aboutads.info')}에서 해제할 수 있어요.</li>
+        <li>Google이 데이터를 사용하는 방식은 ${ext('https://policies.google.com/technologies/partner-sites', 'Google 파트너 사이트 정책')}에서 확인할 수 있어요.</li>
+      </ul>
+      <p class="lead">브라우저 설정에서 쿠키 저장을 거부할 수 있으며, 이 경우에도 사이트의 모든 내용을 볼 수 있어요.</p>`)}
+${sec('4. 처리 위탁과 국외 이전', `<p class="lead">사이트는 원활한 운영을 위해 아래 업체에 업무를 맡기고 있어요. 이 업체들은 미국 등 해외 서버에서 정보를 처리할 수 있어요.</p>
+      <table class="ptable"><thead><tr><th>수탁자</th><th>위탁 업무</th><th>처리 국가</th></tr></thead><tbody>
+        <tr><td>Cloudflare, Inc.</td><td>웹사이트 호스팅, 보안, 문의 메일 전달</td><td>미국 등</td></tr>
+        <tr><td>Google LLC</td><td>문의 메일 수신(Gmail), 광고 게재(AdSense)</td><td>미국 등</td></tr>
+      </tbody></table>`)}
+${sec('5. 제3자 제공', `<p class="lead">사이트는 이용자의 개인정보를 제3자에게 제공하지 않아요. 다만 법령에 따라 수사기관 등이 적법한 절차로 요구하는 경우는 예외예요.</p>`)}
+${sec('6. 개인정보의 파기', `<p class="lead">보관 기간이 끝나거나 처리 목적을 이룬 개인정보는 지체 없이 복구할 수 없는 방법으로 삭제해요.</p>`)}
+${sec('7. 이용자의 권리', `<p class="lead">이용자는 언제든지 본인의 개인정보 열람, 정정, 삭제, 처리 정지를 요청할 수 있어요. <a href="/contact/">문의하기</a>나 이메일(<a href="mailto:${CONTACT.email}">${CONTACT.email}</a>)로 요청하시면 지체 없이 처리해요.</p>`)}
+${sec('8. 안전성 확보 조치', `<p class="lead">사이트와 문의 내용은 암호화된 연결(HTTPS)로 전송되며, 문의 메일에 접근할 수 있는 사람을 운영자로 한정해요.</p>`)}
+${sec('9. 만 14세 미만 아동', `<p class="lead">사이트는 성인을 위한 주류 정보를 다루며, 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요.</p>`)}
+${sec('10. 개인정보 보호책임자와 권익 침해 구제', `<p class="lead">개인정보 관련 문의, 불만, 피해 구제는 아래로 연락해 주세요.</p>
+      <dl class="spec">
+        <div><dt>개인정보 보호책임자</dt><dd>Jigger 운영자</dd></div>
+        <div><dt>이메일</dt><dd><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></dd></div>
+      </dl>
+      <p class="lead">개인정보 침해에 대한 신고나 상담은 아래 기관에도 할 수 있어요.</p>
+      <ul class="plist">
+        <li>개인정보침해신고센터: ${ext('https://privacy.kisa.or.kr', 'privacy.kisa.or.kr')}, 국번 없이 118</li>
+        <li>개인정보분쟁조정위원회: ${ext('https://www.kopico.go.kr', 'www.kopico.go.kr')}, 1833-6972</li>
+        <li>대검찰청 사이버수사과: ${ext('https://www.spo.go.kr', 'www.spo.go.kr')}, 국번 없이 1301</li>
+        <li>경찰청 사이버수사국: ${ext('https://ecrm.police.go.kr', 'ecrm.police.go.kr')}, 국번 없이 182</li>
+      </ul>`)}
+${sec('11. 방침의 변경', `<p class="lead">이 방침이 바뀌면 시행일과 함께 이 페이지에 공지해요.</p>`)}`;
+  return {url, html:page({url, title, desc, image:`${SITE}/og.jpg`, section:null, body, jsonld:[c.list]})};
+}
+
 /* ---------- 소개 · 문의 페이지 ---------- */
 function aboutPage(){
   const url = '/about/';
@@ -512,12 +632,13 @@ function aboutPage(){
     </section>
     <section class="sec">
       <div class="sec-h"><h2>개인정보</h2></div>
-      <p class="lead">Jigger는 회원가입이 없고 개인정보를 수집하지 않아요. 즐겨찾기, 오답노트, 모의고사 기록은 사용하는 브라우저 안에만 저장되고 서버로 전송되지 않아요. 브라우저의 사이트 데이터를 지우면 함께 삭제돼요.</p>
+      <p class="lead">Jigger는 회원가입이 없어요. 즐겨찾기, 오답노트, 모의고사 기록은 사용하는 브라우저 안에만 저장되고 서버로 전송되지 않아요. 문의하기로 보내주신 이름과 이메일은 답변에만 사용해요. 자세한 내용은 <a href="/privacy/">개인정보처리방침</a>을 확인해 주세요.</p>
     </section>
     <section class="sec">
       <div class="sec-h"><h2>문의</h2></div>
       <dl class="spec">
-        <div class="wide"><dt>이메일</dt><dd><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></dd></div>
+        <div><dt>문의하기</dt><dd><a href="/contact/">문의 폼으로 보내기</a></dd></div>
+        <div><dt>이메일</dt><dd><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></dd></div>
       </dl>
       <p class="note">레시피·문제 오류 제보, 제휴 문의 모두 환영해요.</p>
     </section>`;
@@ -535,7 +656,7 @@ const pages = [
   ...D.RECIPES.map(cocktailPage),
   ...D.SPIRITS.map(spiritPage),
   ...D.FOOD.map(foodPage),
-  aboutPage()
+  aboutPage(), contactPage(), privacyPage()
 ];
 for (const p of pages) wr(p.url.slice(1) + 'index.html', p.html);
 
@@ -629,7 +750,7 @@ const links = `<!-- build:links (scripts/build.mjs가 자동으로 만들어요)
     <div><h2><a href="/spirits/">주류 상식</a></h2><ul>${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2><a href="/food/">안주 레시피</a></h2><ul>${D.FOOD.map(x=>`<li><a href="/food/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2>조주기능사</h2><ul><li><a href="/quiz/">필기 예상문제 ${QUIZ.length}개와 해설</a></li></ul></div>
-    <div><h2>Jigger</h2><ul><li><a href="/about/">소개 · 문의</a></li></ul></div>
+    <div><h2>Jigger</h2><ul><li><a href="/about/">소개</a></li><li><a href="/contact/">문의하기</a></li><li><a href="/privacy/">개인정보처리방침</a></li></ul></div>
   </nav>
   <!-- /build:links -->`;
 const re = /<!-- build:links[\s\S]*?<!-- \/build:links -->/;
