@@ -73,7 +73,7 @@
       f.addEventListener('submit', function(e){
         e.preventDefault();
         if (!f.name.value.trim()) return say('이름을 적어 주세요.', 'err');
-        if (!/^[^s@]+@[^s@]+.[^s@]+$/.test(f.email.value.trim())) return say('이메일 주소를 확인해 주세요.', 'err');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) return say('이메일 주소를 확인해 주세요.', 'err');
         if (f.message.value.trim().length < 10) return say('문의 내용을 10자 이상 적어 주세요.', 'err');
         if (!f.consent.checked) return say('개인정보 수집·이용에 동의해 주세요.', 'err');
         btn.disabled = true; say('보내는 중이에요…');
