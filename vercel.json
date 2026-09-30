@@ -1,3 +1,5 @@
 {
-  "trailingSlash": true
+  "redirects": [
+    { "source": "/(.*)", "destination": "https://jiggerbar.com/$1", "permanent": true }
+  ]
 }
