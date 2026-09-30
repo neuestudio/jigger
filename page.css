@@ -127,6 +127,13 @@ a.prog:hover{color:var(--ink)}
 .exing li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px}
 .exing .amt{font:500 13px var(--mono);text-align:right;white-space:nowrap}
 .src{margin:10px 0 0;font-size:12.5px;color:var(--mut);text-wrap:pretty}
+/* 필터 칩 (안주 목록의 어울리는 술 고르기, 앱과 같은 모양) */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{min-height:32px;padding:6px 12px;background:transparent;border:1px solid var(--line);border-radius:2px;font:500 13.5px var(--sans);color:var(--ink);cursor:pointer}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip .n{margin-left:6px;font:400 10.5px var(--mono);opacity:.6}
+.card[hidden]{display:none}
 /* 필요한 도구 (제휴 링크) */
 .disc{margin:10px 0 0;font-size:12.5px;color:var(--mut);text-wrap:pretty}
 .tools{list-style:none;margin:6px 0 0;padding:0}

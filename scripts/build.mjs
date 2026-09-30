@@ -441,7 +441,7 @@ function foodPage(f){
 }
 
 /* ---------- 목록 페이지 (/cocktails/, /spirits/, /food/) ---------- */
-function listPage({url, section, eyebrow, h1, lead, title, desc, groups, dir, crumbName, extra=''}){
+function listPage({url, section, eyebrow, h1, lead, title, desc, groups, dir, crumbName, top='', extra='', cardAttr=null, gridId=''}){
   const c = crumbs([['Jigger','/'], [crumbName, url]]);
   const all = groups.flatMap(g=>g.items);
   const body = `    ${c.nav}
@@ -450,13 +450,14 @@ function listPage({url, section, eyebrow, h1, lead, title, desc, groups, dir, cr
       <h1>${h1}</h1>
       <p class="lead">${lead}</p>
     </section>
+${top}
     ${groups.length > 1 ? `<section class="sec">
       <div class="sec-h"><h2>바로 가기</h2><span class="prog">${all.length}가지</span></div>
       <ul class="alllinks">${groups.map((g, i)=>`<li><a href="#g-${i+1}">${esc(g.name)} <span class="n">${g.items.length}</span></a></li>`).join('')}</ul>
     </section>` : ''}
 ${groups.map((g, i)=>`    <section class="more" id="g-${i+1}">
       <div class="sec-h"><h2>${esc(g.name)}</h2><span class="prog">${g.items.length}가지</span></div>
-      <div class="cards">${g.items.map(x=>card(dir, x, x.ko)).join('')}</div>
+      <div class="cards"${gridId ? ` id="${gridId}"` : ''}>${g.items.map(x=>cardAttr ? card(dir, x, x.ko).replace('<a class="card"', `<a class="card" ${cardAttr(x)}`) : card(dir, x, x.ko)).join('')}</div>
     </section>`).join('\n')}
 ${extra}`;
   const list = {'@context':'https://schema.org', '@type':'ItemList', name:h1,
@@ -487,11 +488,38 @@ function foodIndex(){
     h1:'안주 레시피', title:`안주 레시피 ${D.FOOD.length}가지 · 술 종류별 어울리는 안주 | Jigger`,
     desc:`맥주·소주·와인·위스키·막걸리에 어울리는 안주 레시피 ${D.FOOD.length}가지. 조리 시간·난이도·재료 정리.`,
     lead:`술 종류에 어울리는 안주 ${D.FOOD.length}가지를 모았어요. 안주마다 조리 시간과 난이도, 어울리는 술을 함께 볼 수 있어요.`,
-    groups:[{name:'안주 레시피 전체', items:D.FOOD}],
-    extra:`    <section class="more">
-      <div class="sec-h"><h2>술 종류별로 어울리는 안주 보기</h2></div>
-      <ul class="alllinks">${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/">${esc(x.ko)} <span class="n">${D.FOOD.filter(f=>f.pairsWith.includes(x.id)).length}</span></a></li>`).join('')}</ul>
-    </section>`});
+    groups:[{name:'안주 레시피 전체', items:D.FOOD}], gridId:'foodCards',
+    cardAttr: f=>`data-pairs="${f.pairsWith.join(' ')}"`,
+    // 앱의 안주 탭처럼 맨 위에서 술을 고르면 이 페이지에서 바로 걸러 보여줘요 (카드는 모두 HTML에 남아 있어 검색엔진은 40개를 다 읽어요)
+    top:`    <section class="sec">
+      <div class="sec-h"><h2>어울리는 술로 고르기</h2><span class="prog" id="pairStatus" role="status" aria-live="polite">전체 ${D.FOOD.length}개</span></div>
+      <div class="chips" id="pairChips" role="group" aria-label="어울리는 술">
+        <button class="chip" type="button" data-v="all" data-label="" aria-pressed="true">전체<span class="n">${D.FOOD.length}</span></button>${
+        D.SPIRITS.map(x=>{ const n = spiritNames(x)[0]; const last = n.charCodeAt(n.length-1);
+          const josa = last >= 0xAC00 && last <= 0xD7A3 && (last - 0xAC00) % 28 ? '과' : '와';
+          return `
+        <button class="chip" type="button" data-v="${x.id}" data-label="${esc(n + josa)}" aria-pressed="false">${esc(x.ko)}<span class="n">${D.FOOD.filter(f=>f.pairsWith.includes(x.id)).length}</span></button>`; }).join('')}
+      </div>
+    </section>
+    <script>
+    // 카드 목록이 이 스크립트보다 아래에 있어서, 페이지를 다 읽은 뒤에 시작해요
+    document.addEventListener('DOMContentLoaded', function(){
+      var chips = document.querySelectorAll('#pairChips .chip'), cards = document.querySelectorAll('#foodCards .card'), st = document.getElementById('pairStatus');
+      var head = document.getElementById('foodCards').previousElementSibling, hTitle = head.querySelector('h2'), hCount = head.querySelector('.prog');
+      function apply(v, push){
+        var b = document.querySelector('#pairChips [data-v="' + v + '"]'); if (!b) { v = 'all'; b = chips[0]; }
+        var n = 0;
+        cards.forEach(function(c){ var ok = v === 'all' || (' ' + c.getAttribute('data-pairs') + ' ').indexOf(' ' + v + ' ') >= 0; c.hidden = !ok; if (ok) n++; });
+        chips.forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); });
+        st.textContent = v === 'all' ? '전체 ' + n + '개' : b.getAttribute('data-label') + ' 어울리는 안주 ' + n + '개';
+        hTitle.textContent = v === 'all' ? '안주 레시피 전체' : b.getAttribute('data-label') + ' 어울리는 안주';
+        hCount.textContent = n + '가지';
+        if (push) try { history.replaceState(null, '', v === 'all' ? location.pathname : '#' + v); } catch (e) {}
+      }
+      chips.forEach(function(b){ b.addEventListener('click', function(){ apply(b.getAttribute('data-v'), true); }); });
+      apply(decodeURIComponent(location.hash.slice(1)) || 'all', false);
+    });
+    </script>`});
 }
 
 /* ---------- 문의하기 · 개인정보처리방침 ---------- */
