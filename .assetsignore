@@ -9,4 +9,3 @@ node_modules
 wrangler.jsonc
 worker
 scripts
-vercel.json
