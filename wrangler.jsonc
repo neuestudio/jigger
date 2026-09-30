@@ -1,0 +1,23 @@
+{
+  // Jigger를 Cloudflare Workers(정적 파일 + 주소 정리용 작은 Worker)로 배포하는 설정
+  // 배포: npx wrangler deploy   (올릴 파일에서 뺄 것은 .assetsignore)
+  "name": "jigger",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-01",
+  // 예전 주소 jigger.swimguide.workers.dev 로 들어오면 jiggerbar.com 으로 넘기기 위해 켜 둬요
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "jiggerbar.com", "custom_domain": true },
+    { "pattern": "www.jiggerbar.com", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash",
+    "run_worker_first": true
+  },
+  "vars": {
+    "CANONICAL_HOST": "jiggerbar.com"
+  }
+}

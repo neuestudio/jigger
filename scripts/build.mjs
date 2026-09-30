@@ -11,7 +11,7 @@ import vm from 'vm';
 import {fileURLToPath} from 'url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SITE = 'https://jigger-cyan.vercel.app';
+const SITE = 'https://jiggerbar.com';
 const rd = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 const wr = (f, s) => { const p = path.join(ROOT, f); fs.mkdirSync(path.dirname(p), {recursive:true}); fs.writeFileSync(p, s); };
 
