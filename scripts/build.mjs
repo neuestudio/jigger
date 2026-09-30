@@ -9,6 +9,7 @@ import fs from 'fs';
 import path from 'path';
 import vm from 'vm';
 import {fileURLToPath} from 'url';
+import {execFileSync} from 'child_process';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://jiggerbar.com';
@@ -93,6 +94,7 @@ ${url ? `<meta property="og:url" content="${SITE}${url}">\n` : ''}<meta property
 <link rel="stylesheet" href="${FONT}" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="${FONT}"></noscript>
 <link rel="stylesheet" href="/page.css">
+<link rel="alternate" type="application/rss+xml" title="Jigger" href="${SITE}/rss.xml">
 ${jsonld.map(ld).join('\n')}
 <div class="wrap">
   <header class="top">
@@ -121,6 +123,16 @@ function card(dir, item, alt){
   return `<a class="card" href="/${dir}/${item.id}/"><span class="cthumb" style="--liq:${item.liquid||item.color}">${thumb(dir, item, alt)}</span>
       ${cardText(item.en, item.ko)}</a>`;
 }
+// 설명 문구(meta description)가 검색 결과에서 잘리지 않게 160자 안으로: 넘치면 재료를 앞의 몇 가지로 줄여요
+const DESC_MAX = 160;
+function fitDesc(make, list){
+  for (let n = list.length; n >= 1; n--) {
+    const shown = n < list.length ? `${list.slice(0, n).join(', ')} 외 ${list.length - n}가지` : list.join(', ');
+    const d = make(shown);
+    if (d.length <= DESC_MAX) return d;
+  }
+  return make(list[0]);
+}
 function ingText(i){
   const [name, q, u] = i;
   if (typeof q === 'string') return `${name} ${q}`;
@@ -146,7 +158,7 @@ function cocktailPage(r){
   const image = photo ? `${SITE}/images/cocktails/${r.id}.webp` : `${SITE}/og.jpg`;
   const title = e ? `${r.ko} 레시피 · 조주기능사 실기 표준 (${r.en}) | Jigger`
     : zero ? `${r.ko} 레시피 · 무알콜 칵테일 만드는 법 (${r.en}) | Jigger` : `${r.ko} 레시피 · 만드는 법과 비율 (${r.en}) | Jigger`;
-  const desc = `${r.ko}(${r.en}) 만드는 법${e ? `과 조주기능사 실기 표준(${e.method}, ${e.glass})` : ''}. 재료: ${r.ing.map(ingText).join(', ')}. ${r.method} 기법, ${r.glassName}. 도수 ${abv}, 난이도 ${diff}.`;
+  const desc = fitDesc(ings=>`${r.ko}(${r.en}) 만드는 법${e ? `과 조주기능사 실기 표준(${e.method}, ${e.glass})` : ''}. 재료: ${ings}. ${r.method} 기법, ${r.glassName}. 도수 ${abv}, 난이도 ${diff}.`, r.ing.map(ingText));
   const c = crumbs([['Jigger','/'], ['칵테일 레시피','/cocktails/'], [r.ko, url]]);
 
   const same = D.RECIPES.filter(x=>x.base===r.base && x.id!==r.id);
@@ -362,7 +374,7 @@ function foodPage(f){
   const pairNames = pairs.map(x=>spiritNames(x)[0]);
   const diff = D.DIFF[f.diff-1];
   const title = `${f.ko} 만드는 법 · ${pairNames.join('·')} 안주 레시피 | Jigger`;
-  const desc = `${f.ko} 레시피. 조리 시간 ${f.time}, 난이도 ${diff}. 재료: ${f.material.join(', ')}. ${pairNames.join('·')}와 잘 어울리는 안주예요.`;
+  const desc = fitDesc(mats=>`${f.ko} 레시피. 조리 시간 ${f.time}, 난이도 ${diff}. 재료: ${mats}. ${pairNames.join('·')}와 잘 어울리는 안주예요.`, f.material);
   const c = crumbs([['Jigger','/'], ['안주 레시피','/food/'], [f.ko, url]]);
   const bases = Object.entries(BASE_SPIRIT).filter(([, ids])=>ids.some(id=>f.pairsWith.includes(id))).map(([b])=>b);
   const cocktails = D.RECIPES.filter(r=>bases.includes(r.base)).slice(0, 4);
@@ -576,6 +588,38 @@ wr('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 ${['/', ...pages.map(p=>p.url)].map(u=>`  <url><loc>${SITE}${u}</loc></url>`).join('\n')}
 </urlset>
 `);
+// RSS (네이버 서치어드바이저용): 페이지마다 처음 게시된 날짜를 scripts/published.json에 기록해 두고 최신순으로 내보내요
+const PUB_FILE = 'scripts/published.json';
+const published = fs.existsSync(path.join(ROOT, PUB_FILE)) ? JSON.parse(rd(PUB_FILE)) : {};
+const firstAdded = f => { try { return execFileSync('git', ['log', '--diff-filter=A', '--format=%aI', '--', f], {cwd: ROOT, encoding:'utf8'}).trim().split('\n').pop(); } catch (e) { return ''; } };
+const feedPages = pages.filter(p=>/^\/(cocktails|spirits|food)\/[^/]+\/$|^\/quiz\/$/.test(p.url));
+let pubChanged = false;
+for (const p of feedPages) if (!published[p.url]) { published[p.url] = firstAdded(p.url.slice(1) + 'index.html') || new Date().toISOString(); pubChanged = true; }
+if (pubChanged) wr(PUB_FILE, JSON.stringify(Object.fromEntries(Object.entries(published).sort()), null, 1) + '\n');
+const pick = (h, re) => (h.match(re) || [, ''])[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+const items = feedPages.map(p=>({url:p.url, date:published[p.url], title:pick(p.html, /<title>([^<]*)<\/title>/).replace(/ \| Jigger$/, ''), desc:pick(p.html, /<meta name="description" content="([^"]*)"/)}))
+  .sort((a, b)=>b.date.localeCompare(a.date) || a.url.localeCompare(b.url));
+const x = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+wr('rss.xml', `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Jigger | 칵테일 레시피 · 안주 · 조주기능사</title>
+  <link>${SITE}/</link>
+  <description>집에서 만드는 칵테일 레시피, 조주기능사 실기 표준과 필기 예상문제, 주류 상식과 안주 레시피</description>
+  <language>ko</language>
+  <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml"/>
+  <lastBuildDate>${new Date(items[0].date).toUTCString()}</lastBuildDate>
+${items.map(i=>`  <item>
+    <title>${x(i.title)}</title>
+    <link>${SITE}${i.url}</link>
+    <guid isPermaLink="true">${SITE}${i.url}</guid>
+    <description>${x(i.desc)}</description>
+    <pubDate>${new Date(i.date).toUTCString()}</pubDate>
+  </item>`).join('\n')}
+</channel>
+</rss>
+`);
+
 wr('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 // index.html 하단: 검색엔진이 따라갈 수 있는 전체 페이지 링크

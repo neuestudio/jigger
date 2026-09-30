@@ -6,6 +6,7 @@
 <meta name="description" content="칵테일 58가지 레시피를 잔 수에 맞춰 계량하고, 조주기능사 실기 40가지 표준 레시피와 필기 예상문제 125개 모의고사, 주류 상식과 안주 레시피까지 한곳에서 보세요.">
 <link rel="canonical" href="https://jiggerbar.com/">
 <meta name="naver-site-verification" content="034425fcc8f29c84f6fe786491cdb360e7cba916" />
+<link rel="alternate" type="application/rss+xml" title="Jigger" href="https://jiggerbar.com/rss.xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Jigger">
 <meta property="og:locale" content="ko_KR">
@@ -309,14 +310,15 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
     </div>
     <div class="ruler" aria-hidden="true"></div>
     <nav class="viewtabs" role="tablist">
-      <button class="vtab" type="button" role="tab" data-view="cocktail" aria-selected="true">칵테일 레시피</button>
-      <button class="vtab" type="button" role="tab" data-view="spirits" aria-selected="false">주류 상식</button>
-      <button class="vtab" type="button" role="tab" data-view="food" aria-selected="false">안주 레시피</button>
-      <button class="vtab" type="button" role="tab" data-view="quiz" aria-selected="false">필기 테스트</button>
+      <button class="vtab" type="button" role="tab" id="tab-cocktail" aria-controls="main" data-view="cocktail" aria-selected="true">칵테일 레시피</button>
+      <button class="vtab" type="button" role="tab" id="tab-spirits" aria-controls="smain" data-view="spirits" aria-selected="false">주류 상식</button>
+      <button class="vtab" type="button" role="tab" id="tab-food" aria-controls="fmain" data-view="food" aria-selected="false">안주 레시피</button>
+      <button class="vtab" type="button" role="tab" id="tab-quiz" aria-controls="qmain" data-view="quiz" aria-selected="false">필기 테스트</button>
     </nav>
   </header>
 
-  <main id="main">
+  <main>
+  <div id="main" role="tabpanel" aria-labelledby="tab-cocktail">
     <div class="controls">
       <div class="row">
         <div class="search">
@@ -342,9 +344,9 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
     <div class="status"><span id="status" role="status" aria-live="polite"></span><button class="link" id="reset" type="button" hidden>필터 초기화</button></div>
     <h2 class="vh">칵테일 레시피 목록</h2>
     <div class="grid" id="grid"></div>
-  </main>
+  </div>
 
-  <main id="smain" hidden>
+  <div id="smain" role="tabpanel" aria-labelledby="tab-spirits" hidden>
     <p class="lede" style="margin:22px 0 0">조주기능사 필기시험의 주류학 범위를 기준으로 정리했어요. 양조주 · 증류주 · 전통주 · 혼성주로 나눠서 원료와 제조 공정, 도수를 확인하세요.</p>
     <div class="controls">
       <div class="group"><span class="glabel" id="lbCat">분류</span><div class="chips" id="catChips" role="group" aria-labelledby="lbCat"></div></div>
@@ -352,9 +354,9 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
     <div class="status"><span id="sStatus" role="status" aria-live="polite"></span></div>
     <h2 class="vh">주류 상식 목록</h2>
     <div class="grid" id="sgrid"></div>
-  </main>
+  </div>
 
-  <main id="fmain" hidden>
+  <div id="fmain" role="tabpanel" aria-labelledby="tab-food" hidden>
     <p class="lede" style="margin:22px 0 0">술 종류에 어울리는 안주를 모았어요. 어떤 술과 곁들이면 좋을지 분류로 필터링해 보세요.</p>
     <div class="controls">
       <div class="group"><span class="glabel" id="lbFcat">어울리는 술</span><div class="chips" id="fCatChips" role="group" aria-labelledby="lbFcat"></div></div>
@@ -362,9 +364,10 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
     <div class="status"><span id="fStatus" role="status" aria-live="polite"></span></div>
     <h2 class="vh">안주 레시피 목록</h2>
     <div class="grid" id="fgrid"></div>
-  </main>
+  </div>
 
-  <main id="qmain" hidden></main>
+  <div id="qmain" role="tabpanel" aria-labelledby="tab-quiz" hidden></div>
+  </main>
 
   <!-- build:links (scripts/build.mjs가 자동으로 만들어요) -->
   <nav class="sitelinks" aria-label="전체 페이지">
@@ -384,7 +387,7 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
 
 <div class="overlay" id="overlay" hidden>
   <div class="scrim" id="scrim"></div>
-  <aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="pTitle"></aside>
+  <div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="pTitle"></div>
 </div>
 
 <script src="/photos.js" defer></script>
