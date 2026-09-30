@@ -40,6 +40,9 @@ const D = vm.runInNewContext(`(function(){ ${code}
 const qctx = {window:{}};
 vm.runInNewContext(rd('quiz-questions.js'), qctx);
 const QUIZ = qctx.window.QUIZ, QCATS = qctx.window.QUIZ_CATS;
+const actx = {window:{}};
+vm.runInNewContext(rd('affiliate.js'), actx);
+const AFF = actx.window.AFFILIATE;
 
 /* 검색에서 자주 쓰는 다른 표기 */
 const ALIAS = {
@@ -145,6 +148,16 @@ function ozText(ml){
   const w = Math.floor(x); return '≈ ' + (w || '') + FR[Math.round((x-w)*100)/100] + ' oz';
 }
 
+/* 필요한 도구 (쿠팡 파트너스 링크, affiliate.js) */
+function toolsSection(r){
+  const tools = AFF.toolsFor(r); if (!tools.length) return '';
+  return `<section class="sec">
+          <div class="sec-h"><h2>필요한 도구</h2></div>
+          <p class="disc">${esc(AFF.disclosure)}</p>
+          <ul class="tools">${tools.map(t=>`<li><a href="${esc(t.url)}" target="_blank" rel="sponsored nofollow noopener"><span class="tn">${esc(t.name)}</span><span class="td">${esc(t.desc)}</span><span class="tg">쿠팡에서 보기 ↗</span></a></li>`).join('')}</ul>
+        </section>`;
+}
+
 /* ---------- 칵테일 페이지 ---------- */
 function cocktailPage(r){
   const url = `/cocktails/${r.id}/`;
@@ -196,6 +209,7 @@ function cocktailPage(r){
           <div class="sec-h"><h2>만드는 법</h2><span class="prog">${r.method}</span></div>
           <ol class="steps">${r.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
         </section>
+        ${toolsSection(r)}
         ${e ? `<section class="sec">
           <div class="sec-h"><h2>조주기능사 실기 표준</h2><span class="prog">No.${e.no}</span></div>
           <dl class="spec">
@@ -574,17 +588,18 @@ ${sec('3. 쿠키와 광고', `<p class="lead">사이트는 Google AdSense를 통
         <li>Google이 데이터를 사용하는 방식은 ${ext('https://policies.google.com/technologies/partner-sites', 'Google 파트너 사이트 정책')}에서 확인할 수 있어요.</li>
       </ul>
       <p class="lead">브라우저 설정에서 쿠키 저장을 거부할 수 있으며, 이 경우에도 사이트의 모든 내용을 볼 수 있어요.</p>`)}
-${sec('4. 처리 위탁과 국외 이전', `<p class="lead">사이트는 원활한 운영을 위해 아래 업체에 업무를 맡기고 있어요. 이 업체들은 미국 등 해외 서버에서 정보를 처리할 수 있어요.</p>
+${sec('4. 제휴 링크', `<p class="lead">사이트는 쿠팡 파트너스 제휴 프로그램에 참여하고 있어요. 레시피 페이지의 "필요한 도구" 링크를 누르면 쿠팡이 자체 쿠키로 구매 여부를 확인하며, 이 과정에서 처리되는 정보는 쿠팡의 개인정보처리방침을 따라요. 사이트는 이용자의 구매 내역이나 결제 정보를 받지 않아요.</p>`)}
+${sec('5. 처리 위탁과 국외 이전', `<p class="lead">사이트는 원활한 운영을 위해 아래 업체에 업무를 맡기고 있어요. 이 업체들은 미국 등 해외 서버에서 정보를 처리할 수 있어요.</p>
       <table class="ptable"><thead><tr><th>수탁자</th><th>위탁 업무</th><th>처리 국가</th></tr></thead><tbody>
         <tr><td>Cloudflare, Inc.</td><td>웹사이트 호스팅, 보안, 문의 메일 전달</td><td>미국 등</td></tr>
         <tr><td>Google LLC</td><td>문의 메일 수신(Gmail), 광고 게재(AdSense)</td><td>미국 등</td></tr>
       </tbody></table>`)}
-${sec('5. 제3자 제공', `<p class="lead">사이트는 이용자의 개인정보를 제3자에게 제공하지 않아요. 다만 법령에 따라 수사기관 등이 적법한 절차로 요구하는 경우는 예외예요.</p>`)}
-${sec('6. 개인정보의 파기', `<p class="lead">보관 기간이 끝나거나 처리 목적을 이룬 개인정보는 지체 없이 복구할 수 없는 방법으로 삭제해요.</p>`)}
-${sec('7. 이용자의 권리', `<p class="lead">이용자는 언제든지 본인의 개인정보 열람, 정정, 삭제, 처리 정지를 요청할 수 있어요. <a href="/contact/">문의하기</a>나 이메일(<a href="mailto:${CONTACT.email}">${CONTACT.email}</a>)로 요청하시면 지체 없이 처리해요.</p>`)}
-${sec('8. 안전성 확보 조치', `<p class="lead">사이트와 문의 내용은 암호화된 연결(HTTPS)로 전송되며, 문의 메일에 접근할 수 있는 사람을 운영자로 한정해요.</p>`)}
-${sec('9. 만 14세 미만 아동', `<p class="lead">사이트는 성인을 위한 주류 정보를 다루며, 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요.</p>`)}
-${sec('10. 개인정보 보호책임자와 권익 침해 구제', `<p class="lead">개인정보 관련 문의, 불만, 피해 구제는 아래로 연락해 주세요.</p>
+${sec('6. 제3자 제공', `<p class="lead">사이트는 이용자의 개인정보를 제3자에게 제공하지 않아요. 다만 법령에 따라 수사기관 등이 적법한 절차로 요구하는 경우는 예외예요.</p>`)}
+${sec('7. 개인정보의 파기', `<p class="lead">보관 기간이 끝나거나 처리 목적을 이룬 개인정보는 지체 없이 복구할 수 없는 방법으로 삭제해요.</p>`)}
+${sec('8. 이용자의 권리', `<p class="lead">이용자는 언제든지 본인의 개인정보 열람, 정정, 삭제, 처리 정지를 요청할 수 있어요. <a href="/contact/">문의하기</a>나 이메일(<a href="mailto:${CONTACT.email}">${CONTACT.email}</a>)로 요청하시면 지체 없이 처리해요.</p>`)}
+${sec('9. 안전성 확보 조치', `<p class="lead">사이트와 문의 내용은 암호화된 연결(HTTPS)로 전송되며, 문의 메일에 접근할 수 있는 사람을 운영자로 한정해요.</p>`)}
+${sec('10. 만 14세 미만 아동', `<p class="lead">사이트는 성인을 위한 주류 정보를 다루며, 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요.</p>`)}
+${sec('11. 개인정보 보호책임자와 권익 침해 구제', `<p class="lead">개인정보 관련 문의, 불만, 피해 구제는 아래로 연락해 주세요.</p>
       <dl class="spec">
         <div><dt>개인정보 보호책임자</dt><dd>Jigger 운영자</dd></div>
         <div><dt>이메일</dt><dd><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></dd></div>
@@ -596,7 +611,7 @@ ${sec('10. 개인정보 보호책임자와 권익 침해 구제', `<p class="lea
         <li>대검찰청 사이버수사과: ${ext('https://www.spo.go.kr', 'www.spo.go.kr')}, 국번 없이 1301</li>
         <li>경찰청 사이버수사국: ${ext('https://ecrm.police.go.kr', 'ecrm.police.go.kr')}, 국번 없이 182</li>
       </ul>`)}
-${sec('11. 방침의 변경', `<p class="lead">이 방침이 바뀌면 시행일과 함께 이 페이지에 공지해요.</p>`)}`;
+${sec('12. 방침의 변경', `<p class="lead">이 방침이 바뀌면 시행일과 함께 이 페이지에 공지해요.</p>`)}`;
   return {url, html:page({url, title, desc, image:`${SITE}/og.jpg`, section:null, body, jsonld:[c.list]})};
 }
 

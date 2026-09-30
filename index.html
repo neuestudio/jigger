@@ -186,6 +186,13 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
 .exing li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
 .exing .amt{font:500 12.5px var(--mono);text-align:right;white-space:nowrap}
 .src{margin:10px 0 0;font-size:12px;color:var(--mut);text-wrap:pretty}
+.disc{margin:10px 0 0;font-size:12px;color:var(--mut);text-wrap:pretty}
+.tools{list-style:none;margin:6px 0 0;padding:0}
+.tools a{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line);color:inherit;text-decoration:none}
+.tools .tn{font-weight:500;font-size:14.5px}
+.tools .td{font-size:13px;color:var(--mut)}
+.tools .tg{font:500 12px var(--mono);color:var(--accent);white-space:nowrap}
+.tools a:hover .tn{text-decoration:underline;text-underline-offset:3px}
 .note{margin:22px 0 0;max-width:60ch;color:var(--mut);font-size:14.5px;text-wrap:pretty}
 .sec{margin-top:32px}
 .sec-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--ink)}
@@ -394,6 +401,7 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
 
 <script src="/photos.js" defer></script>
 <script src="/quiz-questions.js" defer></script>
+<script src="/affiliate.js" defer></script>
 <script>
 /* defer 스크립트(photos.js, quiz-questions.js)가 실행된 뒤에 시작해요 */
 document.addEventListener('DOMContentLoaded', function(){
@@ -1338,6 +1346,7 @@ function panelHTML(r){
         <div class="sec-h"><h3>Method</h3><span class="prog">${r.method}</span></div>
         <ol class="steps">${r.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
       </section>
+      ${toolsHTML(r)}
       <section class="sec">
         <div class="sec-h"><h3>Spec</h3></div>
         <dl class="spec">
@@ -1349,6 +1358,16 @@ function panelHTML(r){
       </section>
       ${examHTML(r)}
     </div>`;
+}
+/* 필요한 도구 (쿠팡 파트너스 링크, affiliate.js) */
+function toolsHTML(r){
+  const A = window.AFFILIATE; if(!A) return '';
+  const tools = A.toolsFor(r); if(!tools.length) return '';
+  return `<section class="sec">
+        <div class="sec-h"><h3>Tools</h3><span class="prog">필요한 도구</span></div>
+        <p class="disc">${A.disclosure}</p>
+        <ul class="tools">${tools.map(t=>`<li><a href="${t.url}" target="_blank" rel="sponsored nofollow noopener"><span class="tn">${t.name}</span><span class="td">${t.desc}</span><span class="tg">쿠팡에서 보기 ↗</span></a></li>`).join('')}</ul>
+      </section>`;
 }
 /* 조주기능사 실기 표준 레시피 (공식 표기 그대로) */
 function examHTML(r){

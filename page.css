@@ -127,6 +127,14 @@ a.prog:hover{color:var(--ink)}
 .exing li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14.5px}
 .exing .amt{font:500 13px var(--mono);text-align:right;white-space:nowrap}
 .src{margin:10px 0 0;font-size:12.5px;color:var(--mut);text-wrap:pretty}
+/* 필요한 도구 (제휴 링크) */
+.disc{margin:10px 0 0;font-size:12.5px;color:var(--mut);text-wrap:pretty}
+.tools{list-style:none;margin:6px 0 0;padding:0}
+.tools a{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 12px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line);text-decoration:none}
+.tools .tn{font-weight:500;font-size:15px}
+.tools .td{font-size:13.5px;color:var(--mut)}
+.tools .tg{font:500 12.5px var(--mono);color:var(--accent);white-space:nowrap}
+.tools a:hover .tn{text-decoration:underline;text-underline-offset:3px}
 /* 문의하기 · 개인정보처리방침 */
 .form{display:grid;gap:18px;max-width:640px;margin-top:28px}
 .field label{display:block;margin-bottom:8px;font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
