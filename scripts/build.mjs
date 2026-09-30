@@ -51,7 +51,7 @@ const ALIAS = {
 };
 const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보드카':['vodka'], '테킬라':['tequila'], '브랜디':['brandy'], '와인·리큐어':['wine','liqueur'], '우리술':['soju']};
 const MARK = ['①','②','③','④'];
-const CONTACT = {email:'naanodesign@gmail.com'};
+const CONTACT = {email:'jiggerbar.info@gmail.com'};
 const SPIRIT = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
 
 /* ---------- 공통 ---------- */
@@ -517,7 +517,7 @@ function contactPage(){
     </form>
     <section class="sec">
       <div class="sec-h"><h2>이메일로 문의하기</h2></div>
-      <p class="lead">폼이 불편하시면 <a href="mailto:${CONTACT.email}">${CONTACT.email}</a>로 직접 보내셔도 돼요.</p>
+      <p class="lead">폼이 불편하시면 <a href="mailto:${CONTACT.email}">${CONTACT.email}</a>으로 직접 보내셔도 돼요.</p>
     </section>
     <script>
     (function(){
@@ -533,9 +533,9 @@ function contactPage(){
         fetch('/api/contact', {method:'POST', body:new FormData(f)}).then(function(r){ return r.json().catch(function(){ return {}; }).then(function(d){ return {ok:r.ok && d.ok}; }); })
           .then(function(r){
             if (r.ok) { f.reset(); say('문의가 전송됐어요. 확인한 뒤 이메일로 답변드릴게요.', 'ok'); }
-            else say('전송하지 못했어요. 잠시 뒤 다시 시도하거나 ${CONTACT.email}로 보내 주세요.', 'err');
+            else say('전송하지 못했어요. 잠시 뒤 다시 시도하거나 ${CONTACT.email}으로 보내 주세요.', 'err');
           })
-          .catch(function(){ say('전송하지 못했어요. 잠시 뒤 다시 시도하거나 ${CONTACT.email}로 보내 주세요.', 'err'); })
+          .catch(function(){ say('전송하지 못했어요. 잠시 뒤 다시 시도하거나 ${CONTACT.email}으로 보내 주세요.', 'err'); })
           .then(function(){ btn.disabled = false; });
       });
     })();

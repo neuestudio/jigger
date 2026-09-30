@@ -21,7 +21,7 @@
     "CANONICAL_HOST": "jiggerbar.com",
     // 문의폼 메일: jiggerbar.com Email Routing으로 보내고, 받는 주소는 Cloudflare에서 인증된 주소여야 해요
     "CONTACT_FROM": "contact@jiggerbar.com",
-    "CONTACT_TO": "naanodesign@gmail.com"
+    "CONTACT_TO": "jiggerbar.info@gmail.com"
   },
-  "send_email": [{ "name": "MAILER", "destination_address": "naanodesign@gmail.com" }]
+  "send_email": [{ "name": "MAILER", "destination_address": "jiggerbar.info@gmail.com" }]
 }

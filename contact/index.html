@@ -64,7 +64,7 @@
     </form>
     <section class="sec">
       <div class="sec-h"><h2>이메일로 문의하기</h2></div>
-      <p class="lead">폼이 불편하시면 <a href="mailto:naanodesign@gmail.com">naanodesign@gmail.com</a>로 직접 보내셔도 돼요.</p>
+      <p class="lead">폼이 불편하시면 <a href="mailto:jiggerbar.info@gmail.com">jiggerbar.info@gmail.com</a>으로 직접 보내셔도 돼요.</p>
     </section>
     <script>
     (function(){
@@ -80,9 +80,9 @@
         fetch('/api/contact', {method:'POST', body:new FormData(f)}).then(function(r){ return r.json().catch(function(){ return {}; }).then(function(d){ return {ok:r.ok && d.ok}; }); })
           .then(function(r){
             if (r.ok) { f.reset(); say('문의가 전송됐어요. 확인한 뒤 이메일로 답변드릴게요.', 'ok'); }
-            else say('전송하지 못했어요. 잠시 뒤 다시 시도하거나 naanodesign@gmail.com로 보내 주세요.', 'err');
+            else say('전송하지 못했어요. 잠시 뒤 다시 시도하거나 jiggerbar.info@gmail.com으로 보내 주세요.', 'err');
           })
-          .catch(function(){ say('전송하지 못했어요. 잠시 뒤 다시 시도하거나 naanodesign@gmail.com로 보내 주세요.', 'err'); })
+          .catch(function(){ say('전송하지 못했어요. 잠시 뒤 다시 시도하거나 jiggerbar.info@gmail.com으로 보내 주세요.', 'err'); })
           .then(function(){ btn.disabled = false; });
       });
     })();
