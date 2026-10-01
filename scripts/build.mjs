@@ -48,11 +48,11 @@ const AFF = actx.window.AFFILIATE;
 const ALIAS = {
   mojito:['모히또'], margarita:['마르가리타'], 'pina-colada':['피나콜라다'], 'gin-tonic':['진토닉'],
   'moscow-mule':['모스코뮬'], 'dark-n-stormy':['다크앤스토미'], 'tom-collins':['톰콜린스'],
-  'old-fashioned':['올드패션드'], 'tequila-sunrise':['데킬라 선라이즈'], 'whiskey-sour':['위스키사워'],
+  'old-fashioned':['올드 패션드'], 'tequila-sunrise':['데킬라 선라이즈'], 'whiskey-sour':['위스키사워'],
   'singapore-sling':['싱가폴 슬링'], 'blue-hawaiian':['블루 하와이안'], seabreeze:['씨브리즈'], 'pousse-cafe':['푸즈카페'], 'mai-tai':['마이 타이'],
   apricot:['애프리코트'], 'long-island-iced-tea':['롱 아일랜드 아이스티'], 'june-bug':['준벅']
 };
-const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보드카':['vodka'], '테킬라':['tequila'], '브랜디':['brandy'], '와인·리큐어':['wine','liqueur'], '우리술':['soju']};
+const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보드카':['vodka'], '테킬라':['tequila'], '브랜디':['brandy'], '와인·리큐르':['wine','liqueur'], '우리술':['soju']};
 const MARK = ['①','②','③','④'];
 const CONTACT = {email:'jiggerbar.info@gmail.com'};
 const SPIRIT = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
