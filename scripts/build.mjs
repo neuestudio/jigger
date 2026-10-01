@@ -32,11 +32,12 @@ function cut(a, b){
   if (i < 0 || j < 0) throw new Error(`index.html에서 "${a}" 구간을 찾지 못했어요`);
   return html.slice(i, j);
 }
-const code = cut('/* ---------- 데이터 ---------- */', '/* ---------- 유틸 ---------- */')
-  + cut('/* ---------- 유리잔 SVG ---------- */', '/* ---------- 사진')
+const code = cut('/* ---------- 유리잔 SVG ---------- */', '/* ---------- 사진')
   + (html.match(/function plateSVG[\s\S]*?\n}\n/) || [''])[0];
-const D = vm.runInNewContext(`(function(){ ${code}
-  return {RECIPES, SPIRITS, FOOD, BASES, CATS, BASE_EN, CAT_EN, DIFF, EXAM_SOURCE, examAmount, glassSVG, plateSVG}; })()`);
+const dctx = {window:{}};
+vm.runInNewContext(rd('data.js'), dctx);
+const D = vm.runInNewContext(`(function(){ const {GLASS, C} = DATA; ${code}
+  return {...DATA, glassSVG, plateSVG}; })()`, {DATA: dctx.window.JIGGER_DATA});
 const qctx = {window:{}};
 vm.runInNewContext(rd('quiz-questions.js'), qctx);
 const QUIZ = qctx.window.QUIZ, QCATS = qctx.window.QUIZ_CATS;
@@ -44,14 +45,7 @@ const actx = {window:{}};
 vm.runInNewContext(rd('affiliate.js'), actx);
 const AFF = actx.window.AFFILIATE;
 
-/* 검색에서 자주 쓰는 다른 표기 */
-const ALIAS = {
-  mojito:['모히또'], margarita:['마르가리타'], 'pina-colada':['피나콜라다'], 'gin-tonic':['진토닉'],
-  'moscow-mule':['모스코뮬'], 'dark-n-stormy':['다크앤스토미'], 'tom-collins':['톰콜린스'],
-  'old-fashioned':['올드 패션드'], 'tequila-sunrise':['데킬라 선라이즈'], 'whiskey-sour':['위스키사워'],
-  'singapore-sling':['싱가폴 슬링'], 'blue-hawaiian':['블루 하와이안'], seabreeze:['씨브리즈'], 'pousse-cafe':['푸즈카페'], 'mai-tai':['마이 타이'],
-  apricot:['애프리코트'], 'long-island-iced-tea':['롱 아일랜드 아이스티'], 'june-bug':['준벅']
-};
+const ALIAS = D.ALIAS;
 const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보드카':['vodka'], '테킬라':['tequila'], '브랜디':['brandy'], '와인·리큐르':['wine','liqueur'], '우리술':['soju']};
 const MARK = ['①','②','③','④'];
 const CONTACT = {email:'jiggerbar.info@gmail.com'};
@@ -94,7 +88,8 @@ ${url ? `<meta property="og:url" content="${SITE}${url}">\n` : ''}<meta property
 <link rel="preload" href="/fonts/dm-mono-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/dm-mono-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="${FONT}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="${FONT}" media="print" id="fontKo">
+<script>(function(l){ function on(){ l.media='all'; } if(l.sheet) on(); else l.addEventListener('load', on); })(document.getElementById('fontKo'));</script>
 <noscript><link rel="stylesheet" href="${FONT}"></noscript>
 <link rel="stylesheet" href="/page.css">
 <link rel="alternate" type="application/rss+xml" title="Jigger" href="${SITE}/rss.xml">
@@ -114,8 +109,12 @@ ${body}
 </div>
 `;
 }
+// 목록 카드는 작은 이미지(images/<dir>/sm/, scripts/optimize-images.py가 만들어요)를 써요. 아직 없으면 원본
 function thumb(dir, item, alt){
-  if (PHOTOS[dir].includes(item.id)) return `<img src="/images/${dir}/${item.id}.webp" alt="${esc(alt)}" width="1000" height="1000" loading="lazy">`;
+  if (PHOTOS[dir].includes(item.id)) {
+    const sm = fs.existsSync(path.join(ROOT, 'images', dir, 'sm', item.id + '.webp'));
+    return `<img src="/images/${dir}/${sm ? 'sm/' : ''}${item.id}.webp" alt="${esc(alt)}" width="${sm ? 640 : 1000}" height="${sm ? 640 : 1000}" loading="lazy" decoding="async">`;
+  }
   return dir==='food' ? D.plateSVG(item, 'c'+item.id) : D.glassSVG(item, 'c'+item.id);
 }
 // 카드 이름: 앱 목록과 같이 영문(위) · 한글(아래)
@@ -164,7 +163,10 @@ function cocktailPage(r){
   const zero = r.base === '논알콜';
   const e = r.exam;
   // 시험 한글 표기가 사이트 표기와 다르면(띄어쓰기 차이 제외) 다른 표기에 함께 넣어요
-  const alias = [...(ALIAS[r.id] || []), ...(e && e.ko.replace(/\s/g,'') !== r.ko.replace(/\s/g,'') ? [e.ko] : [])];
+  // 다른 표기: ALIAS + 시험 표기(대표 표기와 띄어쓰기만 다르면 제외). 띄어쓰기만 다른 별칭끼리는 한 번만
+  const ns = t => t.replace(/\s/g,'');
+  const alias = [...(ALIAS[r.id] || []), ...(e && ns(e.ko) !== ns(r.ko) ? [e.ko] : [])]
+    .filter((a, i, all) => a !== r.ko && all.findIndex(b => ns(b) === ns(a)) === i);
   const diff = D.DIFF[r.diff-1];
   const abv = r.abv ? `약 ${r.abv}%` : '논알콜 (0%)';
   const photo = PHOTOS.cocktails.includes(r.id);
@@ -262,17 +264,18 @@ function quizPage(){
   let n = 0;
   const groups = QCATS.map((cat, ci)=>{
     const qs = QUIZ.filter(q=>q.cat===cat);
-    return `    <section class="sec" id="cat-${ci+1}">
-      <div class="sec-h"><h2>${cat} 예상문제</h2><span class="prog">${qs.length}문제</span></div>
+    // 분야별로 접어 둬요: 문제와 해설은 모두 HTML에 들어 있어 검색엔진이 읽고, 화면은 짧아져요
+    return `    <details class="sec qcat" id="cat-${ci+1}">
+      <summary class="sec-h"><h2>${cat} 예상문제</h2><span class="prog">${qs.length}문제</span></summary>
       <ol class="qlist">${qs.map(q=>{
         const order = perm(q.id); n++;
         return `
         <li class="qi"><p class="qq"><span class="qn">Q${n}</span>${esc(q.q)}</p>
-          <ol class="opts">${order.map((o, k)=>`<li${o===0?' class="ok"':''}><span class="mk">${MARK[k]}</span>${esc(q.o[o])}</li>`).join('')}</ol>
+          <ol class="opts">${order.map(o=>`<li${o===0?' class="ok"':''}>${esc(q.o[o])}</li>`).join('')}</ol>
           <details><summary>정답과 해설 보기</summary><p class="ans">정답 ${MARK[order.indexOf(0)]} ${esc(q.o[0])}</p><p class="ex">${esc(q.e)}</p></details></li>`;
       }).join('')}
       </ol>
-    </section>`;
+    </details>`;
   }).join('\n');
   const body = `    ${c.nav}
     <section class="hero">
@@ -294,11 +297,22 @@ function quizPage(){
     <section class="sec">
       <div class="sec-h"><h2>분야별 예상문제</h2><span class="prog">${QUIZ.length}문제</span></div>
       <ul class="alllinks">${QCATS.map((cat, ci)=>`<li><a href="#cat-${ci+1}">${cat} <span class="n">${QUIZ.filter(q=>q.cat===cat).length}</span></a></li>`).join('')}</ul>
+      <p class="note">분야 이름을 누르면 문제가 펼쳐져요. 보기 아래 ‘정답과 해설 보기’로 답을 확인하세요.</p>
     </section>
 ${groups}
+    <script>
+    /* 분야 링크(#cat-N)로 들어오면 그 분야를 펼쳐요 */
+    (function(){
+      function openHash(){
+        var d = location.hash && document.getElementById(location.hash.slice(1));
+        if(d && d.tagName === 'DETAILS'){ d.open = true; d.scrollIntoView(); }
+      }
+      addEventListener('hashchange', openHash); openHash();
+    })();
+    </script>
     <section class="more">
       <div class="sec-h"><h2>조주기능사 실기 칵테일 40가지</h2><span class="prog">표준 레시피</span></div>
-      <ul class="alllinks">${D.RECIPES.filter(x=>x.exam).sort((a, b)=>a.exam.no-b.exam.no).map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.exam.ko)}</a></li>`).join('')}</ul>
+      <ul class="alllinks">${D.RECIPES.filter(x=>x.exam).sort((a, b)=>a.exam.no-b.exam.no).map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul>
     </section>
     <section class="more">
       <div class="sec-h"><h2>주류 상식으로 복습하기</h2></div>
@@ -317,7 +331,7 @@ function relatedQuiz(sp){
 function miniQuiz(qs){
   return `<ol class="qlist">${qs.map((q, n)=>{ const order = perm(q.id); return `
         <li class="qi"><p class="qq"><span class="qn">Q${n+1}</span>${esc(q.q)}</p>
-          <ol class="opts">${order.map((o, k)=>`<li${o===0?' class="ok"':''}><span class="mk">${MARK[k]}</span>${esc(q.o[o])}</li>`).join('')}</ol>
+          <ol class="opts">${order.map(o=>`<li${o===0?' class="ok"':''}>${esc(q.o[o])}</li>`).join('')}</ol>
           <details><summary>정답과 해설 보기</summary><p class="ans">정답 ${MARK[order.indexOf(0)]} ${esc(q.o[0])}</p><p class="ex">${esc(q.e)}</p></details></li>`; }).join('')}
       </ol>`;
 }
@@ -473,7 +487,7 @@ function cocktailsIndex(){
     groups: D.BASES.map(b=>({name:`${b} ${b==='논알콜'?'칵테일':'베이스'}`, items:D.RECIPES.filter(r=>r.base===b)})).filter(g=>g.items.length),
     extra:`    <section class="more">
       <div class="sec-h"><h2>조주기능사 실기 칵테일 ${exam}가지</h2><a class="prog" href="/quiz/">필기 예상문제 →</a></div>
-      <ul class="alllinks">${D.RECIPES.filter(x=>x.exam).sort((a, b)=>a.exam.no-b.exam.no).map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.exam.ko)}</a></li>`).join('')}</ul>
+      <ul class="alllinks">${D.RECIPES.filter(x=>x.exam).sort((a, b)=>a.exam.no-b.exam.no).map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul>
     </section>`});
 }
 function spiritsIndex(){
@@ -798,6 +812,22 @@ const links = `<!-- build:links (scripts/build.mjs가 자동으로 만들어요)
   <!-- /build:links -->`;
 const re = /<!-- build:links[\s\S]*?<!-- \/build:links -->/;
 if (!re.test(html)) throw new Error('index.html에 build:links 자리 표시가 없어요');
-const next = html.replace(re, links);
+
+// 홈 구조화 데이터: 사이트(WebSite)와 운영 주체(Organization). 설명은 홈의 meta description과 같게 맞춰요.
+// 홈 검색은 주소(?q=)로 동작하지 않아서 SearchAction은 넣지 않아요.
+const homeDesc = (html.match(/<meta name="description" content="([^"]*)">/) || [])[1];
+if (!homeDesc) throw new Error('index.html에 meta description이 없어요');
+const homeLd = {'@context':'https://schema.org', '@graph':[
+  {'@type':'WebSite', '@id':`${SITE}/#website`, url:`${SITE}/`, name:'Jigger', description:homeDesc, inLanguage:'ko-KR',
+    publisher:{'@id':`${SITE}/#organization`}},
+  {'@type':'Organization', '@id':`${SITE}/#organization`, name:'Jigger', url:`${SITE}/`,
+    logo:`${SITE}/apple-touch-icon.png`, email:CONTACT.email}
+]};
+const jsonld = `<!-- build:jsonld (scripts/build.mjs가 자동으로 만들어요) -->
+<script type="application/ld+json">${JSON.stringify(homeLd).replace(/</g, '\\u003c')}</script>
+<!-- /build:jsonld -->`;
+const reLd = /<!-- build:jsonld[\s\S]*?<!-- \/build:jsonld -->/;
+if (!reLd.test(html)) throw new Error('index.html에 build:jsonld 자리 표시가 없어요');
+const next = html.replace(re, links).replace(reLd, jsonld);
 if (next !== html) { wr('index.html', next); console.log('updated index.html links'); }
 console.log(`built ${pages.length} pages + sitemap.xml`);

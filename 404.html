@@ -21,7 +21,8 @@
 <link rel="preload" href="/fonts/dm-mono-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/dm-mono-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" id="fontKo">
+<script>(function(l){ function on(){ l.media='all'; } if(l.sheet) on(); else l.addEventListener('load', on); })(document.getElementById('fontKo'));</script>
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript>
 <link rel="stylesheet" href="/page.css">
 <link rel="alternate" type="application/rss+xml" title="Jigger" href="https://jiggerbar.com/rss.xml">
@@ -41,11 +42,11 @@
     <section class="more">
       <div class="sec-h"><h2>둘러보기</h2></div>
       <div class="cards">
-        <a class="card" href="/cocktails/"><span class="cthumb" style="--liq:#d3e6e3"><img src="/images/cocktails/martini.webp" alt="칵테일 레시피" width="1000" height="1000" loading="lazy"></span>
+        <a class="card" href="/cocktails/"><span class="cthumb" style="--liq:#d3e6e3"><img src="/images/cocktails/sm/martini.webp" alt="칵테일 레시피" width="640" height="640" loading="lazy" decoding="async"></span>
       <span class="cbody"><span class="cname">Cocktail Recipes</span><span class="cko">칵테일 레시피</span></span></a>
-        <a class="card" href="/spirits/"><span class="cthumb" style="--liq:#e9c86b"><img src="/images/spirits/beer.webp" alt="주류 상식" width="1000" height="1000" loading="lazy"></span>
+        <a class="card" href="/spirits/"><span class="cthumb" style="--liq:#e9c86b"><img src="/images/spirits/sm/beer.webp" alt="주류 상식" width="640" height="640" loading="lazy" decoding="async"></span>
       <span class="cbody"><span class="cname">Spirits Guide</span><span class="cko">주류 상식</span></span></a>
-        <a class="card" href="/food/"><span class="cthumb" style="--liq:#e0a83e"><img src="/images/food/french-fries.webp" alt="안주 레시피" width="1000" height="1000" loading="lazy"></span>
+        <a class="card" href="/food/"><span class="cthumb" style="--liq:#e0a83e"><img src="/images/food/sm/french-fries.webp" alt="안주 레시피" width="640" height="640" loading="lazy" decoding="async"></span>
       <span class="cbody"><span class="cname">Food Pairing</span><span class="cko">안주 레시피</span></span></a>
         <a class="card" href="/quiz/"><span class="cthumb qthumb"><span>125</span></span><span class="cbody"><span class="cname">Written Exam</span><span class="cko">조주기능사 필기</span></span></a>
       </div>
