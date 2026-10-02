@@ -36,8 +36,10 @@
   // 관리자 비밀번호와 로그인 서명 키는 비밀값으로: npx wrangler secret put ADMIN_PASSWORD / SESSION_SECRET
   "d1_databases": [
     { "binding": "DB", "database_name": "jigger-tasting", "database_id": "23414cdc-89ff-474b-bdbb-e1ecd7b92cd7" }
-  ],
-  "r2_buckets": [
-    { "binding": "PHOTOS", "bucket_name": "jigger-tasting-photos" }
   ]
+  // 사진(R2)은 계정에서 R2를 켠 뒤 연결해요: npx wrangler r2 bucket create jigger-tasting-photos 후 아래 주석을 풀어 주세요.
+  // 연결 전에는 관리자 화면에서 사진 칸이 숨겨지고, 리뷰는 사진 없이 저장돼요.
+  // "r2_buckets": [
+  //   { "binding": "PHOTOS", "bucket_name": "jigger-tasting-photos" }
+  // ]
 }
