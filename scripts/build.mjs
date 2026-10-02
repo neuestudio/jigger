@@ -10,6 +10,7 @@ import path from 'path';
 import vm from 'vm';
 import {fileURLToPath} from 'url';
 import {execFileSync} from 'child_process';
+import {TYPES as T_TYPES, TAGS as T_TAGS, LIMITS as T_LIMITS} from '../worker/tasting-config.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://jiggerbar.com';
@@ -55,7 +56,7 @@ const SPIRIT = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
 const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g,'\\u003c')}</script>`;
 const FONT = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
-const NAV = [['/cocktails/', '칵테일 레시피', 'cocktail'], ['/spirits/', '주류 상식', 'spirit'], ['/food/', '안주 레시피', 'food'], ['/quiz/', '조주기능사 필기', 'quiz']];
+const NAV = [['/cocktails/', '칵테일 레시피', 'cocktail'], ['/spirits/', '주류 상식', 'spirit'], ['/food/', '안주 레시피', 'food'], ['/quiz/', '조주기능사 필기', 'quiz'], ['/tasting/', '테이스팅 노트', 'tasting']];
 
 function crumbs(items){
   const list = {'@context':'https://schema.org', '@type':'BreadcrumbList',
@@ -621,7 +622,7 @@ ${sec('1. 수집하는 개인정보와 이용 목적', `<p class="lead">사이�
         <tr><td>문의하기</td><td>이름, 이메일, 문의 내용</td><td>문의 확인 및 답변</td><td>답변 완료 후 1년</td></tr>
         <tr><td>자동 수집</td><td>접속 기록(IP 주소, 브라우저 정보, 접속 일시), 쿠키</td><td>서비스 보안과 안정성 확보, 광고 제공</td><td>아래 쿠키 항목 참고</td></tr>
       </tbody></table>`)}
-${sec('2. 브라우저에만 저장되는 정보', `<p class="lead">즐겨찾기, 필기 테스트의 오답노트와 모의고사 기록은 이용자의 브라우저 저장소(localStorage)에만 저장되고 서버로 전송되지 않아요. 브라우저의 사이트 데이터를 지우면 함께 삭제돼요.</p>`)}
+${sec('2. 브라우저에만 저장되는 정보', `<p class="lead">즐겨찾기, 필기 테스트의 오답노트와 모의고사 기록, 나의 술 기록장에 쓴 기록은 이용자의 브라우저 저장소(localStorage)에만 저장되고 서버로 전송되지 않아요. 브라우저의 사이트 데이터를 지우면 함께 삭제돼요.</p>`)}
 ${sec('3. 쿠키와 광고', `<p class="lead">사이트는 Google AdSense를 통해 광고를 게재할 수 있어요. Google을 포함한 제3자 광고 사업자는 쿠키를 사용해 이용자가 이 사이트나 다른 웹사이트를 방문한 기록을 바탕으로 광고를 제공해요.</p>
       <ul class="plist">
         <li>Google은 광고 쿠키를 사용해 이 사이트와 인터넷의 다른 사이트 방문 기록에 기반한 광고를 이용자에게 제공할 수 있어요.</li>
@@ -689,7 +690,7 @@ function aboutPage(){
     </section>
     <section class="sec">
       <div class="sec-h"><h2>개인정보</h2></div>
-      <p class="lead">Jigger는 회원가입이 없어요. 즐겨찾기, 오답노트, 모의고사 기록은 사용하는 브라우저 안에만 저장되고 서버로 전송되지 않아요. 문의하기로 보내주신 이름과 이메일은 답변에만 사용해요. 자세한 내용은 <a href="/privacy/">개인정보처리방침</a>을 확인해 주세요.</p>
+      <p class="lead">Jigger는 회원가입이 없어요. 즐겨찾기, 오답노트, 모의고사 기록, 나의 술 기록장은 사용하는 브라우저 안에만 저장되고 서버로 전송되지 않아요. 문의하기로 보내주신 이름과 이메일은 답변에만 사용해요. 자세한 내용은 <a href="/privacy/">개인정보처리방침</a>을 확인해 주세요.</p>
     </section>
     <section class="sec">
       <div class="sec-h"><h2>문의</h2></div>
@@ -707,13 +708,62 @@ function aboutPage(){
 }
 
 /* ---------- 쓰기 ---------- */
+/* ---------- 테이스팅 노트 ----------
+   /tasting/ 목록과 /tasting/<번호>/는 Worker(worker/tasting.js)가 D1에서 읽어 그려요.
+   여기서는 Worker가 쓸 페이지 겉모양(worker/shell.js), 화면 설정(tasting/assets/config.js),
+   정적 페이지 두 개(나의 기록장, 관리자 화면)를 만들어요. */
+wr('worker/shell.js', `/* scripts/build.mjs가 자동으로 만들어요. 직접 고치지 마세요.
+   테이스팅 노트 페이지의 겉모양: @@URL@@ @@TITLE@@ @@DESC@@ @@IMAGE@@ @@HEAD@@ @@BODY@@ 자리를 Worker가 채워요. */
+export const SHELL = ${JSON.stringify(page({url:'@@URL@@', title:'@@TITLE@@', desc:'@@DESC@@', image:'@@IMAGE@@', section:'tasting', body:'@@BODY@@', jsonld:[]})
+  .replace(`href="${SITE}/rss.xml">\n`, `href="${SITE}/rss.xml">\n@@HEAD@@\n`))};
+`);
+wr('tasting/assets/config.js', `/* scripts/build.mjs가 worker/tasting-config.js로 만들어요. 직접 고치지 마세요. */
+window.TASTING = ${JSON.stringify({types:T_TYPES, tags:T_TAGS, limits:T_LIMITS})};
+`);
+const TASTING_SCRIPTS = `<script src="/data.js" defer></script>
+    <script src="/tasting/assets/config.js" defer></script>
+    <script src="/tasting/assets/tasting.js" defer></script>`;
+function tastingMyPage(){
+  const url = '/tasting/my/';
+  const c = crumbs([['Jigger','/'], ['테이스팅 노트','/tasting/'], ['나의 술 기록장', url]]);
+  const body = `    ${c.nav}
+    <section class="hero">
+      <span class="eyebrow">My Tasting Notes · 나의 술 기록장</span>
+      <h1>나의 술 기록장</h1>
+      <p class="lead">마셔 본 술을 평점과 함께 기록하고 주종별로 모아 보세요. 위스키 · 와인 · 맥주부터 막걸리 · 사케 · 고량주까지, 로그인 없이 바로 쓸 수 있어요.</p>
+      <p class="note">기록은 지금 쓰는 브라우저에만 저장되고 서버로 보내지 않아요. 브라우저 데이터를 지우거나 기기를 바꾸면 사라지니, 가끔 ‘내보내기’로 파일을 저장해 두세요. 다른 기기에서는 ‘가져오기’로 이어 쓸 수 있어요.</p>
+    </section>
+    <section class="sec" id="tMy" aria-live="polite">
+      <noscript><p class="lead">기록장은 자바스크립트를 켜야 쓸 수 있어요.</p></noscript>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>Jigger 테이스팅 노트</h2><a class="prog" href="/tasting/">전체 보기 →</a></div>
+      <p class="lead">Jigger가 직접 마셔 보고 남긴 평점과 리뷰도 참고해 보세요.</p>
+    </section>
+    ${TASTING_SCRIPTS}
+    <script src="/tasting/assets/my.js" defer></script>`;
+  return {url, html:page({url, title:'나의 술 기록장 · 마셔 본 술 평점 기록 | Jigger',
+    desc:'마셔 본 위스키, 와인, 맥주, 막걸리를 평점과 테이스팅 노트로 기록하는 무료 술 기록장. 로그인 없이 바로 써요.',
+    image:`${SITE}/og.jpg`, section:'tasting', body, jsonld:[c.list]})};
+}
+// 관리자 화면: 검색에 나오지 않게 noindex (url:null), sitemap에도 넣지 않아요
+wr('tasting/admin/index.html', page({url:null, title:'테이스팅 노트 관리 | Jigger', desc:'테이스팅 노트 관리자 화면', image:`${SITE}/og.jpg`, section:'tasting', jsonld:[],
+  body:`    <section class="hero">
+      <span class="eyebrow">Admin · 관리자</span>
+      <h1>테이스팅 노트 관리</h1>
+    </section>
+    <section class="sec" id="tAdmin" aria-live="polite"><p class="note">불러오는 중…</p></section>
+    ${TASTING_SCRIPTS}
+    <script src="/tasting/assets/admin.js" defer></script>`}));
+
 const pages = [
   cocktailsIndex(), spiritsIndex(), foodIndex(),
   quizPage(),
   ...D.RECIPES.map(cocktailPage),
   ...D.SPIRITS.map(spiritPage),
   ...D.FOOD.map(foodPage),
-  aboutPage(), contactPage(), privacyPage()
+  aboutPage(), contactPage(), privacyPage(),
+  tastingMyPage()
 ];
 for (const p of pages) wr(p.url.slice(1) + 'index.html', p.html);
 
@@ -763,7 +813,7 @@ for (const [dir, list] of [['cocktails', D.RECIPES], ['spirits', D.SPIRITS], ['f
 
 wr('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${['/', ...pages.map(p=>p.url)].map(u=>`  <url><loc>${SITE}${u}</loc></url>`).join('\n')}
+${['/', '/tasting/', ...pages.map(p=>p.url)].map(u=>`  <url><loc>${SITE}${u}</loc></url>`).join('\n')}
 </urlset>
 `);
 // RSS (네이버 서치어드바이저용): 페이지마다 처음 게시된 날짜를 scripts/published.json에 기록해 두고 최신순으로 내보내요
@@ -798,7 +848,7 @@ ${items.map(i=>`  <item>
 </rss>
 `);
 
-wr('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
+wr('robots.txt', `User-agent: *\nAllow: /\nDisallow: /tasting/admin/\nDisallow: /api/\n\nSitemap: ${SITE}/sitemap.xml\nSitemap: ${SITE}/sitemap-tasting.xml\n`);
 
 // index.html 하단: 검색엔진이 따라갈 수 있는 전체 페이지 링크
 const links = `<!-- build:links (scripts/build.mjs가 자동으로 만들어요) -->
@@ -807,6 +857,7 @@ const links = `<!-- build:links (scripts/build.mjs가 자동으로 만들어요)
     <div><h2><a href="/spirits/">주류 상식</a></h2><ul>${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2><a href="/food/">안주 레시피</a></h2><ul>${D.FOOD.map(x=>`<li><a href="/food/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2>조주기능사</h2><ul><li><a href="/quiz/">필기 예상문제 ${QUIZ.length}개와 해설</a></li></ul></div>
+    <div><h2><a href="/tasting/">테이스팅 노트</a></h2><ul><li><a href="/tasting/">마셔 본 술 평점과 리뷰</a></li><li><a href="/tasting/my/">나의 술 기록장</a></li></ul></div>
     <div><h2>Jigger</h2><ul><li><a href="/about/">소개</a></li><li><a href="/contact/">문의하기</a></li><li><a href="/privacy/">개인정보처리방침</a></li></ul></div>
   </nav>
   <!-- /build:links -->`;

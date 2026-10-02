@@ -3,16 +3,19 @@
    1) 대표 도메인(CANONICAL_HOST)이 아닌 주소(www, workers.dev)로 오면 같은 경로의 대표 도메인으로 301
    2) 확장자 없는 경로는 끝에 / 를 붙여 301 (/cocktails/negroni → /cocktails/negroni/)
    3) POST /api/contact → 문의 메일 전송 (Cloudflare Email Routing, wrangler.jsonc의 send_email)
+      /tasting/ · /api/tasting/ → 테이스팅 노트 (worker/tasting.js, D1 · R2)
    4) 모든 응답에 보안 헤더를 붙여요. HTML에는 요청마다 새 nonce로 Content-Security-Policy를 걸고,
       페이지 안의 모든 <script>에 같은 nonce를 넣어요 (secureHtml)
    나머지는 정적 파일(ASSETS)이 처리해요. 없는 주소는 404.html (wrangler.jsonc의 not_found_handling). */
 import { EmailMessage } from 'cloudflare:email';
+import { handleTasting } from './tasting.js';
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const local = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
     if (url.pathname === '/api/contact') return withSecurity(await contact(request, env), local);
+    if (url.pathname.startsWith('/api/tasting/')) return withSecurity(await handleTasting(request, env, url), local);
 
     const host = env.CANONICAL_HOST;
     let moved = false;
@@ -25,6 +28,12 @@ export default {
       url.pathname += '/'; moved = true;
     }
     if (moved && (request.method === 'GET' || request.method === 'HEAD')) return withSecurity(Response.redirect(url.toString(), 301), local);
+
+    // 테이스팅 노트 공개 페이지 (D1에서 읽어 그려요)
+    if (url.pathname.startsWith('/tasting/') || url.pathname === '/sitemap-tasting.xml') {
+      const t = await handleTasting(request, env, url);
+      if (t) return (t.headers.get('Content-Type') || '').includes('text/html') ? secureHtml(t, local) : withSecurity(t, local);
+    }
 
     // HTML은 요청마다 nonce가 달라서, 브라우저가 예전 HTML을 304로 재사용하면 nonce가 어긋나요.
     // 그래서 HTML 주소는 조건부 요청 헤더를 떼고 항상 새로 받게 해요.

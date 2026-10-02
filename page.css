@@ -176,3 +176,72 @@ button.cta:disabled{opacity:.5;cursor:default}
 .foot a{text-decoration:none}
 .foot a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;margin-top:64px;padding-top:16px;border-top:1px solid var(--line);font:400 12px/1.6 var(--mono);color:var(--mut)}
+
+/* ---------- 테이스팅 노트 ---------- */
+/* 별점: 글자 ★★★★★ 위에 평점 비율만큼 색을 칠해요 (반 개 단위) */
+.stars{display:inline-block;font-size:13px;line-height:1;letter-spacing:1px;vertical-align:-1px}
+.stars::before{content:'★★★★★';background:linear-gradient(90deg,var(--accent) calc(var(--r) / 5 * 100%),var(--line) 0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stars.big{font-size:22px;letter-spacing:2px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px}
+.tstats{display:flex;flex-wrap:wrap;gap:6px 22px;margin:18px 0 0;font:400 12px var(--mono);letter-spacing:.04em;color:var(--mut)}
+.tstats b{margin-left:4px;font-weight:500;color:var(--ink)}
+.tctl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;margin-top:18px}
+.tctl .field input,.tctl .field select{padding:10px 12px}
+@media (max-width:560px){.tctl{grid-template-columns:1fr}}
+.tmeta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin-top:8px;font-size:12.5px;color:var(--mut)}
+.tmeta b{font:500 12.5px var(--mono);color:var(--ink)}
+/* 사진이 없을 때 카드 · 상세 그림: 평점 숫자 + 주종 */
+.tglyph{display:grid;place-items:center;align-content:center;gap:6px;width:100%;height:100%;background:color-mix(in srgb,var(--accent) 8%,var(--surface2))}
+.tglyph b{font:400 clamp(52px,8vw,76px)/1 var(--serif-en);letter-spacing:-.03em;color:var(--accent)}
+.tglyph i{font:500 10.5px/1 var(--mono);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.tglyph.big b{font-size:clamp(88px,14vw,140px)}
+.trate{display:flex;align-items:center;gap:10px;margin:14px 0 0}
+.trate b{font:500 22px var(--mono)}
+.trate span:last-child{font:400 13px var(--mono);color:var(--mut)}
+.treview{margin-top:10px;font-size:16px;text-wrap:pretty;word-break:keep-all}
+.treview p{margin:12px 0 0}
+.tdraft{margin:18px 0 0;padding:10px 14px;border:1px solid var(--accent);color:var(--accent);font-size:14px}
+/* 입력 폼 */
+.tform{max-width:760px}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:18px}
+.trange{display:flex;align-items:center;gap:12px;min-height:46px}
+.trange input{flex:1;min-width:0;accent-color:var(--accent)}
+.trange output{min-width:2.4em;font:500 16px var(--mono);text-align:right}
+.tfs{margin:0;padding:0;border:0}
+.tfs legend{padding:0;margin-bottom:2px;font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.tfs .chips{margin-top:8px}
+.tfs .field{margin-top:12px}
+.tform .field textarea[rows]{min-height:0}
+.tmore{margin:0;padding:12px 16px;background:var(--surface);border:1px solid var(--line)}
+.tmore[open]{display:grid;gap:14px}
+.tmore .chips{margin-top:4px}
+.tprev{display:flex;align-items:flex-end;gap:12px;margin-bottom:12px}
+.tprev img{width:140px;height:140px;object-fit:cover;background:var(--surface2)}
+.tphoto input[type=file]{padding:10px}
+.tbtns{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.tlogin{max-width:420px}
+/* 관리자 · 기록장 목록 */
+.tbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:22px}
+.tbar .cta{margin-top:0}
+.tbar .chip{display:inline-flex;align-items:center;text-decoration:none}
+.chip:disabled{opacity:.4;cursor:default}
+.tfile{position:relative;overflow:hidden}
+.tfile input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.tfile:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.tlist{list-style:none;margin:6px 0 0;padding:0}
+.trow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px 18px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.tinfo b{font-weight:600;word-break:keep-all}
+.tsub{display:block;margin-top:2px;font-size:13px;color:var(--mut)}
+.tscore{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.tscore b{font:500 13px var(--mono)}
+.tact{display:flex;flex-wrap:wrap;gap:6px}
+.tact .chip{min-height:30px;padding:4px 10px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center}
+@media (max-width:640px){.trow{grid-template-columns:minmax(0,1fr) auto}.trow .tact{grid-column:1/-1}}
+.tentry{display:block}
+.tentry details{margin:0}
+.tentry summary{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 18px;align-items:center;font:inherit;color:inherit;text-decoration:none;cursor:pointer;list-style:none}
+.tentry summary::-webkit-details-marker{display:none}
+.tentry summary:hover .tinfo b{text-decoration:underline;text-underline-offset:3px}
+.tbody{padding:6px 0 4px}
+.tbody .tact{margin-top:16px}
+.tlisth{margin-top:26px}

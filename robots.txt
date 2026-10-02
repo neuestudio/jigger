@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /tasting/admin/
+Disallow: /api/
 
 Sitemap: https://jiggerbar.com/sitemap.xml
+Sitemap: https://jiggerbar.com/sitemap-tasting.xml

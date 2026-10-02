@@ -1,0 +1,7 @@
+# Worker를 거치지 않는 정적 파일(이미지 · CSS · JS 등)에 붙이는 보안 헤더
+# HTML과 API 응답은 worker/index.js가 같은 헤더를 붙여요 (HTML에는 CSP도)
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), usb=(), serial=(), hid=(), display-capture=()

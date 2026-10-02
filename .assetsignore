@@ -9,3 +9,5 @@ node_modules
 wrangler.jsonc
 worker
 scripts
+migrations
+.dev.vars

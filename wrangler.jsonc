@@ -15,7 +15,15 @@
     "binding": "ASSETS",
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash",
-    "run_worker_first": true
+    // Worker는 HTML · API에만 돌려요. 이미지 · 글꼴 · CSS · JS 같은 정적 파일은 Worker를 거치지 않아
+    // 무료 요청 한도(하루 10만 회)를 쓰지 않아요. 이 파일들의 보안 헤더는 _headers에서 붙여요.
+    "run_worker_first": [
+      "/*",
+      "!/images/*", "!/fonts/*", "!/tasting/assets/*",
+      "!/page.css", "!/data.js", "!/photos.js", "!/affiliate.js", "!/quiz-questions.js",
+      "!/favicon.svg", "!/favicon.ico", "!/apple-touch-icon.png", "!/og.jpg",
+      "!/robots.txt", "!/sitemap.xml", "!/rss.xml"
+    ]
   },
   "vars": {
     "CANONICAL_HOST": "jiggerbar.com",
@@ -23,5 +31,13 @@
     "CONTACT_FROM": "contact@jiggerbar.com",
     "CONTACT_TO": "jiggerbar.info@gmail.com"
   },
-  "send_email": [{ "name": "MAILER", "destination_address": "jiggerbar.info@gmail.com" }]
+  "send_email": [{ "name": "MAILER", "destination_address": "jiggerbar.info@gmail.com" }],
+  // 테이스팅 노트: 리뷰는 D1, 사진은 R2 (migrations/0001_tasting.sql)
+  // 관리자 비밀번호와 로그인 서명 키는 비밀값으로: npx wrangler secret put ADMIN_PASSWORD / SESSION_SECRET
+  "d1_databases": [
+    { "binding": "DB", "database_name": "jigger-tasting", "database_id": "23414cdc-89ff-474b-bdbb-e1ecd7b92cd7" }
+  ],
+  "r2_buckets": [
+    { "binding": "PHOTOS", "bucket_name": "jigger-tasting-photos" }
+  ]
 }
