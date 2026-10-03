@@ -179,69 +179,135 @@ button.cta:disabled{opacity:.5;cursor:default}
 
 /* ---------- 테이스팅 노트 ---------- */
 /* 별점: 글자 ★★★★★ 위에 평점 비율만큼 색을 칠해요 (반 개 단위) */
-.stars{display:inline-block;font-size:13px;line-height:1;letter-spacing:1px;vertical-align:-1px}
+.stars{display:inline-block;font-size:13px;line-height:1;letter-spacing:1px;vertical-align:-1px;white-space:nowrap}
 .stars::before{content:'★★★★★';background:linear-gradient(90deg,var(--accent) calc(var(--r) / 5 * 100%),var(--line) 0);-webkit-background-clip:text;background-clip:text;color:transparent}
 .stars.big{font-size:22px;letter-spacing:2px}
+.stars.xl{font-size:36px;letter-spacing:3px}
 .ctas{display:flex;flex-wrap:wrap;gap:12px}
 .tstats{display:flex;flex-wrap:wrap;gap:6px 22px;margin:18px 0 0;font:400 12px var(--mono);letter-spacing:.04em;color:var(--mut)}
 .tstats b{margin-left:4px;font-weight:500;color:var(--ink)}
 .tctl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;margin-top:18px}
 .tctl .field input,.tctl .field select{padding:10px 12px}
 @media (max-width:560px){.tctl{grid-template-columns:1fr}}
-.tmeta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin-top:8px;font-size:12.5px;color:var(--mut)}
-.tmeta b{font:500 12.5px var(--mono);color:var(--ink)}
-/* 사진이 없을 때 카드 · 상세 그림: 평점 숫자 + 주종 */
-.tglyph{display:grid;place-items:center;align-content:center;gap:6px;width:100%;height:100%;background:color-mix(in srgb,var(--accent) 8%,var(--surface2))}
-.tglyph b{font:400 clamp(52px,8vw,76px)/1 var(--serif-en);letter-spacing:-.03em;color:var(--accent)}
-.tglyph i{font:500 10.5px/1 var(--mono);font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
-.tglyph.big b{font-size:clamp(88px,14vw,140px)}
-.trate{display:flex;align-items:center;gap:10px;margin:14px 0 0}
-.trate b{font:500 22px var(--mono)}
-.trate span:last-child{font:400 13px var(--mono);color:var(--mut)}
-.treview{margin-top:10px;font-size:16px;text-wrap:pretty;word-break:keep-all}
-.treview p{margin:12px 0 0}
 .tdraft{margin:18px 0 0;padding:10px 14px;border:1px solid var(--accent);color:var(--accent);font-size:14px}
+.tbadge{display:inline-block;margin-left:6px;padding:1px 6px;border:1px solid var(--accent);border-radius:2px;font:500 10.5px/1.4 var(--sans);color:var(--accent);vertical-align:2px}
+.tbadge.big{font-size:13px;vertical-align:8px;margin-left:12px}
+.tnick{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.tnick:hover{text-decoration-color:var(--ink)}
+
+/* 표 목록 (노션 표처럼): 화면이 좁으면 표만 옆으로 밀어서 봐요, 첫 칸(이름)은 고정 */
+.twrap{margin-top:18px;overflow-x:auto;border-top:1px solid var(--ink);-webkit-overflow-scrolling:touch}
+.ttable{width:100%;min-width:900px;border-collapse:collapse;font-size:14px}
+.ttable th,.ttable td{padding:13px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;word-break:keep-all}
+.ttable thead th{padding-block:10px;font:500 10.5px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);white-space:nowrap;border-bottom-color:var(--ink)}
+.ttable tbody th{position:sticky;left:0;z-index:1;min-width:190px;background:var(--bg);font-weight:400}
+.ttable tbody tr:hover th,.ttable tbody tr:hover td{background:color-mix(in srgb,var(--surface) 70%,var(--bg))}
+.ttable tr[hidden]{display:none}
+.ttable .is-hidden td,.ttable .is-hidden th{opacity:.55}
+.tname{display:block;padding:0;background:none;border:0;font:inherit;color:inherit;text-align:left;text-decoration:none;cursor:pointer}
+.tname b{display:block;font:700 17px/1.3 var(--serif-en);letter-spacing:-.005em}
+.tname span{display:block;margin-top:2px;font-size:12.5px;color:var(--mut)}
+.tname:hover b{text-decoration:underline;text-underline-offset:3px}
+.ttype{display:inline-block;padding:1px 8px;background:color-mix(in srgb,var(--accent) 14%,transparent);border-radius:2px;font-size:12.5px;white-space:nowrap}
+.tsub{font-size:12.5px;color:var(--mut)}
+.tavg{white-space:nowrap}
+.tavg b{margin-left:6px;font:500 13px var(--mono)}
+.tavg span{margin-left:6px;font:400 11.5px var(--mono);color:var(--mut)}
+.tnone{font-size:12.5px;color:var(--mut)}
+.tnum{font:400 13px var(--mono);white-space:nowrap}
+.tsnip{min-width:220px;max-width:340px;color:var(--mut);font-size:13.5px;line-height:1.55}
+.tsnip a{color:inherit;text-decoration:none}
+.tsnip a:hover{color:var(--ink);text-decoration:underline}
+.tmore-n{font-size:12px;color:var(--mut);white-space:nowrap}
+.tdetail td{background:var(--surface)}
+.tdetail-in{max-width:760px;padding:4px 4px 8px}
+.trow-my.is-open th,.trow-my.is-open td{border-bottom-color:transparent;background:var(--surface)}
+
+/* 술 상세: 머리 · 평점 요약 · 닉네임별 리뷰 */
+.thead{display:grid;gap:24px;align-items:end;margin-top:26px;padding-bottom:26px;border-bottom:1px solid var(--ink)}
+@media (min-width:760px){.thead:has(.thead-img){grid-template-columns:minmax(0,1fr) 220px}}
+.thead .title{font-size:clamp(34px,5vw,52px)}
+.thead .title .ko{font-size:16px;margin-top:6px}
+.thead-img img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.tfacts{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.tfacts li{padding:4px 10px;border:1px solid var(--line);border-radius:2px;font-size:13px}
+.tfacts a{text-underline-offset:3px}
+.tscore{display:grid;gap:22px 40px;margin-top:28px;padding:24px;background:var(--surface);border:1px solid var(--line)}
+@media (min-width:860px){.tscore{grid-template-columns:200px minmax(0,1fr) minmax(0,1.3fr)}}
+.tscore-avg{display:grid;justify-items:start;align-content:start;gap:8px}
+.tscore-avg b{font:400 72px/.9 var(--serif-en);letter-spacing:-.03em;color:var(--accent)}
+.tscore-avg span{font:400 12px var(--mono);color:var(--mut)}
+.tdist{display:grid;gap:7px;margin:0;padding:0;list-style:none;align-content:start}
+.tdist li{display:grid;grid-template-columns:34px minmax(0,1fr) 22px;gap:10px;align-items:center;font:400 12px var(--mono);color:var(--mut)}
+.tdist i{height:8px;background:linear-gradient(90deg,var(--accent) var(--w),var(--surface2) 0);border-radius:1px}
+.tdist li span:last-child{text-align:right}
+.ttop{display:grid;gap:12px;margin:0;align-content:start}
+.ttop dt,.trv-notes dt{font:500 10.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+.ttop dd,.trv-notes dd{display:flex;flex-wrap:wrap;gap:5px;margin:7px 0 0}
+.ttop .tag i{margin-left:5px;font:500 10.5px var(--mono);font-style:normal;color:var(--accent)}
+.trvs{list-style:none;margin:6px 0 0;padding:0}
+.trv{padding:22px 0;border-bottom:1px solid var(--line);scroll-margin-top:20px}
+.trv:target{background:color-mix(in srgb,var(--accent) 7%,transparent)}
+.trv.is-hidden{opacity:.6}
+.trv-h{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px}
+.trv-who{font-weight:600}
+.trv-score b{margin-left:6px;font:500 13px var(--mono)}
+.trv-date{margin-left:auto;font:400 12px var(--mono);color:var(--mut)}
+.treview{margin-top:8px;font-size:16px;text-wrap:pretty;word-break:keep-all}
+.treview p{margin:10px 0 0}
+.trv-notes{display:grid;gap:10px;margin:14px 0 0}
+@media (min-width:640px){.trv-notes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.trv-pair{margin:12px 0 0;font-size:13.5px;color:var(--mut)}
+.trv-pair a{color:var(--ink);text-underline-offset:3px}
+.trv-act{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:14px}
+.tmine{margin-right:6px;font:400 11.5px var(--mono);color:var(--accent)}
+.twrite{margin-top:56px}
+
 /* 입력 폼 */
 .tform{max-width:760px}
 .tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:18px}
-.trange{display:flex;align-items:center;gap:12px;min-height:46px}
-.trange input{flex:1;min-width:0;accent-color:var(--accent)}
-.trange output{min-width:2.4em;font:500 16px var(--mono);text-align:right}
-.tfs{margin:0;padding:0;border:0}
+.flabel{display:block;margin-bottom:8px;font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.tstar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px}
+.tstar-hit{padding:4px 2px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.tstar-hit:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.tstar-v{min-width:2.4em;font:500 22px var(--mono)}
+.tstar-hint{font-size:13px;color:var(--mut)}
+.tnotes{display:grid;gap:16px}
+.tfs{margin:0;padding:0;border:0;min-width:0}
 .tfs legend{padding:0;margin-bottom:2px;font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
-.tfs .chips{margin-top:8px}
-.tfs .field{margin-top:12px}
-.tform .field textarea[rows]{min-height:0}
+.tfs .chips{margin-top:8px;gap:6px}
+.tfs .chip{min-height:30px;padding:4px 10px;font-size:13px}
+.tadd{display:inline-flex;gap:4px}
+.tadd input{width:110px;padding:4px 10px;font:inherit;font-size:13px;color:var(--ink);background:var(--surface);border:1px dashed var(--line);border-radius:2px}
+.tadd input:focus{outline:2px solid var(--accent);outline-offset:1px}
 .tmore{margin:0;padding:12px 16px;background:var(--surface);border:1px solid var(--line)}
 .tmore[open]{display:grid;gap:14px}
-.tmore .chips{margin-top:4px}
 .tprev{display:flex;align-items:flex-end;gap:12px;margin-bottom:12px}
 .tprev img{width:140px;height:140px;object-fit:cover;background:var(--surface2)}
 .tphoto input[type=file]{padding:10px}
 .tbtns{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
 .tlogin{max-width:420px}
-/* 관리자 · 기록장 목록 */
+/* 관리자 · 기록장 */
 .tbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:22px}
 .tbar .cta{margin-top:0}
-.tbar .chip{display:inline-flex;align-items:center;text-decoration:none}
+.tbar .chip,.tact .chip{display:inline-flex;align-items:center;text-decoration:none}
 .chip:disabled{opacity:.4;cursor:default}
+.ttabs{margin:0 0 4px}
+.tact{display:flex;flex-wrap:wrap;gap:6px;white-space:nowrap}
+.tact .chip{min-height:30px;padding:4px 10px;font-size:13px}
 .tfile{position:relative;overflow:hidden}
 .tfile input{position:absolute;inset:0;opacity:0;cursor:pointer}
 .tfile:focus-within{outline:2px solid var(--accent);outline-offset:2px}
-.tlist{list-style:none;margin:6px 0 0;padding:0}
-.trow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px 18px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
-.tinfo b{font-weight:600;word-break:keep-all}
-.tsub{display:block;margin-top:2px;font-size:13px;color:var(--mut)}
-.tscore{display:flex;align-items:center;gap:8px;white-space:nowrap}
-.tscore b{font:500 13px var(--mono)}
-.tact{display:flex;flex-wrap:wrap;gap:6px}
-.tact .chip{min-height:30px;padding:4px 10px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center}
-@media (max-width:640px){.trow{grid-template-columns:minmax(0,1fr) auto}.trow .tact{grid-column:1/-1}}
-.tentry{display:block}
-.tentry details{margin:0}
-.tentry summary{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 18px;align-items:center;font:inherit;color:inherit;text-decoration:none;cursor:pointer;list-style:none}
-.tentry summary::-webkit-details-marker{display:none}
-.tentry summary:hover .tinfo b{text-decoration:underline;text-underline-offset:3px}
-.tbody{padding:6px 0 4px}
-.tbody .tact{margin-top:16px}
 .tlisth{margin-top:26px}
+.trv-act[hidden],.tprev[hidden]{display:none}
+/* 좁은 화면: 표 대신 한 줄 요약(이름 + 평점 · 주종 …)으로, 상단 메뉴는 두 줄로 */
+.tmob{display:none}
+@media (max-width:640px){
+  .tabs{flex-wrap:wrap;gap:2px 16px;overflow:visible}
+  .ttable.tresp{min-width:0}
+  .ttable.tresp thead,.ttable.tresp tbody td{display:none}
+  .ttable.tresp tbody th{position:static;display:block;min-width:0}
+  .ttable.tresp tbody tr.tdetail td{display:block}
+  .tmob{display:block;margin-top:6px;font-size:12.5px;color:var(--mut)}
+  .tmob b{font:500 12.5px var(--mono);color:var(--ink)}
+}

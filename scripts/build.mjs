@@ -10,7 +10,7 @@ import path from 'path';
 import vm from 'vm';
 import {fileURLToPath} from 'url';
 import {execFileSync} from 'child_process';
-import {TYPES as T_TYPES, TAGS as T_TAGS, LIMITS as T_LIMITS} from '../worker/tasting-config.js';
+import {TYPES as T_TYPES, NOTES as T_NOTES, NOTE_PARTS as T_PARTS, LIMITS as T_LIMITS} from '../worker/tasting-config.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://jiggerbar.com';
@@ -538,7 +538,7 @@ function foodIndex(){
 }
 
 /* ---------- 문의하기 · 개인정보처리방침 ---------- */
-const POLICY_DATE = '2026년 9월 30일';
+const POLICY_DATE = '2026년 10월 3일';
 function contactPage(){
   const url = '/contact/';
   const title = '문의하기 | Jigger';
@@ -620,10 +620,12 @@ function privacyPage(){
 ${sec('1. 수집하는 개인정보와 이용 목적', `<p class="lead">사이트는 회원가입 없이 이용할 수 있으며, 아래의 경우에만 개인정보를 처리해요.</p>
       <table class="ptable"><thead><tr><th>구분</th><th>항목</th><th>목적</th><th>보관 기간</th></tr></thead><tbody>
         <tr><td>문의하기</td><td>이름, 이메일, 문의 내용</td><td>문의 확인 및 답변</td><td>답변 완료 후 1년</td></tr>
+        <tr><td>테이스팅 노트 리뷰</td><td>닉네임, 평점, 마신 날, 리뷰 내용(공개), 접속 IP의 해시값(비공개)</td><td>공개 리뷰 게시, 도배 방지</td><td>리뷰를 지울 때까지</td></tr>
         <tr><td>자동 수집</td><td>접속 기록(IP 주소, 브라우저 정보, 접속 일시), 쿠키</td><td>서비스 보안과 안정성 확보, 광고 제공</td><td>아래 쿠키 항목 참고</td></tr>
       </tbody></table>`)}
 ${sec('2. 브라우저에만 저장되는 정보', `<p class="lead">즐겨찾기, 필기 테스트의 오답노트와 모의고사 기록, 나의 술 기록장에 쓴 기록은 이용자의 브라우저 저장소(localStorage)에만 저장되고 서버로 전송되지 않아요. 브라우저의 사이트 데이터를 지우면 함께 삭제돼요.</p>`)}
-${sec('3. 쿠키와 광고', `<p class="lead">사이트는 Google AdSense를 통해 광고를 게재할 수 있어요. Google을 포함한 제3자 광고 사업자는 쿠키를 사용해 이용자가 이 사이트나 다른 웹사이트를 방문한 기록을 바탕으로 광고를 제공해요.</p>
+${sec('3. 테이스팅 노트 공개 리뷰', `<p class="lead">테이스팅 노트에 공개 리뷰를 남기면 닉네임, 평점, 마신 날, 리뷰 내용이 누구나 볼 수 있게 공개돼요. 회원가입은 없고 이메일 같은 연락처는 받지 않아요. 같은 사람이 짧은 시간에 리뷰를 너무 많이 남기는 것을 막기 위해 접속 IP를 그대로 저장하지 않고 되돌릴 수 없는 값(해시)으로 바꿔 리뷰와 함께 보관하며, 리뷰를 지우면 함께 삭제돼요. 리뷰를 쓴 브라우저에는 고치기 · 지우기용 열쇠가 저장돼요. 다른 사람을 불쾌하게 하거나 광고성인 리뷰는 운영자가 숨기거나 지울 수 있어요.</p>`)}
+${sec('4. 쿠키와 광고', `<p class="lead">사이트는 Google AdSense를 통해 광고를 게재할 수 있어요. Google을 포함한 제3자 광고 사업자는 쿠키를 사용해 이용자가 이 사이트나 다른 웹사이트를 방문한 기록을 바탕으로 광고를 제공해요.</p>
       <ul class="plist">
         <li>Google은 광고 쿠키를 사용해 이 사이트와 인터넷의 다른 사이트 방문 기록에 기반한 광고를 이용자에게 제공할 수 있어요.</li>
         <li>이용자는 ${ext('https://adssettings.google.com', 'Google 광고 설정')}에서 맞춤 광고를 해제할 수 있어요.</li>
@@ -631,18 +633,18 @@ ${sec('3. 쿠키와 광고', `<p class="lead">사이트는 Google AdSense를 통
         <li>Google이 데이터를 사용하는 방식은 ${ext('https://policies.google.com/technologies/partner-sites', 'Google 파트너 사이트 정책')}에서 확인할 수 있어요.</li>
       </ul>
       <p class="lead">브라우저 설정에서 쿠키 저장을 거부할 수 있으며, 이 경우에도 사이트의 모든 내용을 볼 수 있어요.</p>`)}
-${sec('4. 제휴 링크', `<p class="lead">사이트는 쿠팡 파트너스 제휴 프로그램에 참여하고 있어요. 레시피 페이지의 "필요한 도구" 링크를 누르면 쿠팡이 자체 쿠키로 구매 여부를 확인하며, 이 과정에서 처리되는 정보는 쿠팡의 개인정보처리방침을 따라요. 사이트는 이용자의 구매 내역이나 결제 정보를 받지 않아요.</p>`)}
-${sec('5. 처리 위탁과 국외 이전', `<p class="lead">사이트는 원활한 운영을 위해 아래 업체에 업무를 맡기고 있어요. 이 업체들은 미국 등 해외 서버에서 정보를 처리할 수 있어요.</p>
+${sec('5. 제휴 링크', `<p class="lead">사이트는 쿠팡 파트너스 제휴 프로그램에 참여하고 있어요. 레시피 페이지의 "필요한 도구" 링크를 누르면 쿠팡이 자체 쿠키로 구매 여부를 확인하며, 이 과정에서 처리되는 정보는 쿠팡의 개인정보처리방침을 따라요. 사이트는 이용자의 구매 내역이나 결제 정보를 받지 않아요.</p>`)}
+${sec('6. 처리 위탁과 국외 이전', `<p class="lead">사이트는 원활한 운영을 위해 아래 업체에 업무를 맡기고 있어요. 이 업체들은 미국 등 해외 서버에서 정보를 처리할 수 있어요.</p>
       <table class="ptable"><thead><tr><th>수탁자</th><th>위탁 업무</th><th>처리 국가</th></tr></thead><tbody>
         <tr><td>Cloudflare, Inc.</td><td>웹사이트 호스팅, 보안, 문의 메일 전달</td><td>미국 등</td></tr>
         <tr><td>Google LLC</td><td>문의 메일 수신(Gmail), 광고 게재(AdSense)</td><td>미국 등</td></tr>
       </tbody></table>`)}
-${sec('6. 제3자 제공', `<p class="lead">사이트는 이용자의 개인정보를 제3자에게 제공하지 않아요. 다만 법령에 따라 수사기관 등이 적법한 절차로 요구하는 경우는 예외예요.</p>`)}
-${sec('7. 개인정보의 파기', `<p class="lead">보관 기간이 끝나거나 처리 목적을 이룬 개인정보는 지체 없이 복구할 수 없는 방법으로 삭제해요.</p>`)}
-${sec('8. 이용자의 권리', `<p class="lead">이용자는 언제든지 본인의 개인정보 열람, 정정, 삭제, 처리 정지를 요청할 수 있어요. <a href="/contact/">문의하기</a>나 이메일(<a href="mailto:${CONTACT.email}">${CONTACT.email}</a>)로 요청하시면 지체 없이 처리해요.</p>`)}
-${sec('9. 안전성 확보 조치', `<p class="lead">사이트와 문의 내용은 암호화된 연결(HTTPS)로 전송되며, 문의 메일에 접근할 수 있는 사람을 운영자로 한정해요.</p>`)}
-${sec('10. 만 14세 미만 아동', `<p class="lead">사이트는 성인을 위한 주류 정보를 다루며, 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요.</p>`)}
-${sec('11. 개인정보 보호책임자와 권익 침해 구제', `<p class="lead">개인정보 관련 문의, 불만, 피해 구제는 아래로 연락해 주세요.</p>
+${sec('7. 제3자 제공', `<p class="lead">사이트는 이용자의 개인정보를 제3자에게 제공하지 않아요. 다만 법령에 따라 수사기관 등이 적법한 절차로 요구하는 경우는 예외예요.</p>`)}
+${sec('8. 개인정보의 파기', `<p class="lead">보관 기간이 끝나거나 처리 목적을 이룬 개인정보는 지체 없이 복구할 수 없는 방법으로 삭제해요.</p>`)}
+${sec('9. 이용자의 권리', `<p class="lead">이용자는 언제든지 본인의 개인정보 열람, 정정, 삭제, 처리 정지를 요청할 수 있어요. <a href="/contact/">문의하기</a>나 이메일(<a href="mailto:${CONTACT.email}">${CONTACT.email}</a>)로 요청하시면 지체 없이 처리해요.</p>`)}
+${sec('10. 안전성 확보 조치', `<p class="lead">사이트와 문의 내용은 암호화된 연결(HTTPS)로 전송되며, 문의 메일에 접근할 수 있는 사람을 운영자로 한정해요.</p>`)}
+${sec('11. 만 14세 미만 아동', `<p class="lead">사이트는 성인을 위한 주류 정보를 다루며, 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요.</p>`)}
+${sec('12. 개인정보 보호책임자와 권익 침해 구제', `<p class="lead">개인정보 관련 문의, 불만, 피해 구제는 아래로 연락해 주세요.</p>
       <dl class="spec">
         <div><dt>개인정보 보호책임자</dt><dd>Jigger 운영자</dd></div>
         <div><dt>이메일</dt><dd><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></dd></div>
@@ -654,7 +656,7 @@ ${sec('11. 개인정보 보호책임자와 권익 침해 구제', `<p class="lea
         <li>대검찰청 사이버수사과: ${ext('https://www.spo.go.kr', 'www.spo.go.kr')}, 국번 없이 1301</li>
         <li>경찰청 사이버수사국: ${ext('https://ecrm.police.go.kr', 'ecrm.police.go.kr')}, 국번 없이 182</li>
       </ul>`)}
-${sec('12. 방침의 변경', `<p class="lead">이 방침이 바뀌면 시행일과 함께 이 페이지에 공지해요.</p>`)}`;
+${sec('13. 방침의 변경', `<p class="lead">이 방침이 바뀌면 시행일과 함께 이 페이지에 공지해요.</p>`)}`;
   return {url, html:page({url, title, desc, image:`${SITE}/og.jpg`, section:null, body, jsonld:[c.list]})};
 }
 
@@ -718,7 +720,7 @@ export const SHELL = ${JSON.stringify(page({url:'@@URL@@', title:'@@TITLE@@', de
   .replace(`href="${SITE}/rss.xml">\n`, `href="${SITE}/rss.xml">\n@@HEAD@@\n`))};
 `);
 wr('tasting/assets/config.js', `/* scripts/build.mjs가 worker/tasting-config.js로 만들어요. 직접 고치지 마세요. */
-window.TASTING = ${JSON.stringify({types:T_TYPES, tags:T_TAGS, limits:T_LIMITS})};
+window.TASTING = ${JSON.stringify({types:T_TYPES, notes:T_NOTES, parts:T_PARTS, limits:T_LIMITS})};
 `);
 const TASTING_SCRIPTS = `<script src="/data.js" defer></script>
     <script src="/tasting/assets/config.js" defer></script>
@@ -730,15 +732,15 @@ function tastingMyPage(){
     <section class="hero">
       <span class="eyebrow">My Tasting Notes · 나의 술 기록장</span>
       <h1>나의 술 기록장</h1>
-      <p class="lead">마셔 본 술을 평점과 함께 기록하고 주종별로 모아 보세요. 위스키 · 와인 · 맥주부터 막걸리 · 사케 · 고량주까지, 로그인 없이 바로 쓸 수 있어요.</p>
+      <p class="lead">마셔 본 술을 평점과 향 · 맛 · 여운으로 기록하고 표로 모아 보세요. 위스키 · 와인 · 맥주부터 막걸리 · 사케 · 고량주까지, 로그인 없이 바로 쓸 수 있어요.</p>
       <p class="note">기록은 지금 쓰는 브라우저에만 저장되고 서버로 보내지 않아요. 브라우저 데이터를 지우거나 기기를 바꾸면 사라지니, 가끔 ‘내보내기’로 파일을 저장해 두세요. 다른 기기에서는 ‘가져오기’로 이어 쓸 수 있어요.</p>
     </section>
     <section class="sec" id="tMy" aria-live="polite">
       <noscript><p class="lead">기록장은 자바스크립트를 켜야 쓸 수 있어요.</p></noscript>
     </section>
     <section class="more">
-      <div class="sec-h"><h2>Jigger 테이스팅 노트</h2><a class="prog" href="/tasting/">전체 보기 →</a></div>
-      <p class="lead">Jigger가 직접 마셔 보고 남긴 평점과 리뷰도 참고해 보세요.</p>
+      <div class="sec-h"><h2>모두의 테이스팅 노트</h2><a class="prog" href="/tasting/">술 목록 보기 →</a></div>
+      <p class="lead">다른 사람들의 평균 평점과 리뷰를 보고, 마셔 본 술에는 닉네임으로 공개 리뷰를 남길 수도 있어요.</p>
     </section>
     ${TASTING_SCRIPTS}
     <script src="/tasting/assets/my.js" defer></script>`;
