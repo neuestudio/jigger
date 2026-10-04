@@ -12,7 +12,7 @@ function today(){ var d = new Date(); return new Date(d.getTime() - d.getTimezon
 function starsHTML(r, size){ return '<span class="stars' + (size ? ' ' + size : '') + '" style="--r:' + r + '" role="img" aria-label="5점 만점에 ' + r + '점"></span>'; }
 function typeOf(k){ return TYPE[k] || TYPE.other; }
 function notesOf(k){ return C.notes[typeOf(k).notes] || C.notes.other; }
-function fmtDate(d){ return String(d || '').replace(/-/g, '.'); }
+function fmtDate(d){ return d ? String(d).replace(/-/g, '.') : '날짜 미상'; }
 function won(n){ return n == null || n === '' ? '' : Number(n).toLocaleString('ko-KR') + '원'; }
 function paras(t){ return String(t || '').trim().split(/\n\s*\n/).map(function(p){ return '<p>' + esc(p).replace(/\n/g, '<br>') + '</p>'; }).join(''); }
 function store(k, v){ try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || 'null'); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } }
@@ -139,7 +139,7 @@ function reviewFieldsHTML(o){
   var foods = (o.foods || []).map(function(f){ return '<button class="chip" type="button" data-food="' + esc(f.id) + '" data-ko="' + esc(f.ko) + '" aria-pressed="' + (chosen.indexOf(f.id) >= 0) + '">' + esc(f.ko) + '</button>'; }).join('');
   return '<div class="tgrid">' +
       (o.nickname ? '<div class="field"><label for="fNick">닉네임 (필수)</label><input id="fNick" name="nickname" maxlength="' + L.nick + '" required placeholder="2~16자" autocomplete="nickname" value="' + esc(v.nickname || '') + '"></div>' : '') +
-      '<div class="field"><label for="fDate">마신 날 (필수)</label><input id="fDate" name="tasted_on" type="date" required value="' + esc(v.tasted_on || today()) + '"></div>' +
+      '<div class="field"><label for="fDate">마신 날 (모르면 비워 두세요)</label><input id="fDate" name="tasted_on" type="date" value="' + esc('tasted_on' in v ? (v.tasted_on || '') : today()) + '"></div>' +
     '</div>' +
     '<div class="field"><span class="flabel" id="fRateL">평점 (필수)</span>' + starInputHTML(v.rating) + '</div>' +
     '<div class="tnotes" data-notes>' + notesHTML(o.type, v) + '</div>' +
@@ -165,7 +165,7 @@ function readReview(form){
     if (!/^[가-힣a-zA-Z0-9 _-]{2,16}$/.test(d.nickname)) return {error: '닉네임은 한글 · 영문 · 숫자로 2~16자로 적어 주세요.', field: 'nickname'};
   }
   if (!d.rating) return {error: '별을 눌러 평점을 골라 주세요.', focus: '.tstar-hit'};
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(d.tasted_on)) return {error: '마신 날을 골라 주세요.', field: 'tasted_on'};
+  if (d.tasted_on && !/^\d{4}-\d{2}-\d{2}$/.test(d.tasted_on)) return {error: '마신 날을 다시 골라 주세요.', field: 'tasted_on'};
   if (!d.review) return {error: '리뷰를 적어 주세요.', field: 'review'};
   return {data: d};
 }

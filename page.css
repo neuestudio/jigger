@@ -192,7 +192,7 @@ button.cta:disabled{opacity:.5;cursor:default}
 .tdraft{margin:18px 0 0;padding:10px 14px;border:1px solid var(--accent);color:var(--accent);font-size:14px}
 .tbadge{display:inline-block;margin-left:6px;padding:1px 6px;border:1px solid var(--accent);border-radius:2px;font:500 10.5px/1.4 var(--sans);color:var(--accent);vertical-align:2px}
 .tbadge.big{font-size:13px;vertical-align:8px;margin-left:12px}
-.tnick{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.tnick{white-space:nowrap;color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
 .tnick:hover{text-decoration-color:var(--ink)}
 
 /* 표 목록 (노션 표처럼): 화면이 좁으면 표만 옆으로 밀어서 봐요, 첫 칸(이름)은 고정 */

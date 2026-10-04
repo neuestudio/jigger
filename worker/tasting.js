@@ -63,7 +63,8 @@ function crumbs(items) {
 const starsHTML = (r, size = '') => `<span class="stars${size ? ' ' + size : ''}" style="--r:${r}" role="img" aria-label="5점 만점에 ${r}점"></span>`;
 const typeOf = key => TYPE_BY_KEY[key] || TYPE_BY_KEY.other;
 const photoURL = (name, sm) => `/tasting/photo/${sm ? smName(name) : name}`;
-const fmtDate = d => String(d || '').replace(/-/g, '.');
+const fmtDate = d => d ? String(d).replace(/-/g, '.') : '날짜 미상';
+const scoreHTML = r => r == null ? '<span class="tnone">평점 없음</span>' : `${starsHTML(r)}<b>${r}</b>`;
 const won = n => n.toLocaleString('ko-KR') + '원';
 const avg1 = (sum, n) => n ? Math.round(sum / n * 10) / 10 : null;
 const nickURL = n => `/tasting/?by=${encodeURIComponent(n)}`;
@@ -77,13 +78,13 @@ function nameCell(d) {
 async function listPage(env) {
   const {results} = await env.DB.prepare(`
     SELECT d.id, d.name, d.name_en, d.type, d.subtype, d.producer, d.country, d.price,
-      COUNT(r.id) AS n, SUM(r.rating) AS sum, MAX(r.tasted_on) AS last,
+      COUNT(r.rating) AS n, COUNT(r.id) AS rc, SUM(r.rating) AS sum, MAX(r.tasted_on) AS last,
       (SELECT json_group_array(nickname) FROM (SELECT DISTINCT nickname FROM reviews WHERE drink_id = d.id AND status = 'published')) AS nicks,
-      (SELECT review FROM reviews WHERE drink_id = d.id AND status = 'published' ORDER BY tasted_on DESC, id DESC LIMIT 1) AS latest
+      (SELECT review FROM reviews WHERE drink_id = d.id AND status = 'published' ORDER BY tasted_on DESC NULLS LAST, id DESC LIMIT 1) AS latest
     FROM drinks d LEFT JOIN reviews r ON r.drink_id = d.id AND r.status = 'published'
     WHERE d.published = 1 GROUP BY d.id ORDER BY last DESC NULLS LAST, d.id DESC`).all();
   const rows = results.map(d => ({...d, avg:avg1(d.sum, d.n), nicks:arr(d.nicks)}));
-  const total = rows.reduce((a, d) => a + d.n, 0), sum = rows.reduce((a, d) => a + (d.sum || 0), 0);
+  const total = rows.reduce((a, d) => a + d.rc, 0), rated = rows.reduce((a, d) => a + d.n, 0), sum = rows.reduce((a, d) => a + (d.sum || 0), 0);
   const people = new Set(rows.flatMap(d => d.nicks)).size;
   const counts = {};
   for (const d of rows) counts[d.type] = (counts[d.type] || 0) + 1;
@@ -94,11 +95,11 @@ async function listPage(env) {
     const t = typeOf(d.type), more = d.nicks.length - 3;
     const hay = [d.name, d.name_en, t.ko, t.en, d.subtype, d.producer, d.country, ...d.nicks].filter(Boolean).join(' ').toLowerCase();
     return `<tr data-type="${d.type}" data-avg="${d.avg ?? 0}" data-n="${d.n}" data-last="${d.last || ''}" data-name="${esc(d.name)}" data-hay="${esc(hay)}">
-          <th scope="row">${nameCell(d)}<span class="tmob">${d.n ? `${starsHTML(d.avg)} <b>${d.avg.toFixed(1)}</b> ${d.n}명 · ` : '리뷰 없음 · '}${esc(t.ko)}${d.country ? ' · ' + esc(d.country) : ''}</span></th>
+          <th scope="row">${nameCell(d)}<span class="tmob">${d.n ? `${starsHTML(d.avg)} <b>${d.avg.toFixed(1)}</b> ${d.n}명 · ` : d.rc ? '평점 없음 · ' : '리뷰 없음 · '}${esc(t.ko)}${d.country ? ' · ' + esc(d.country) : ''}</span></th>
           <td><span class="ttype">${esc(t.ko)}</span></td>
           <td>${esc(d.subtype || '')}</td>
           <td>${esc(d.country || '')}</td>
-          <td class="tavg">${d.n ? `${starsHTML(d.avg)}<b>${d.avg.toFixed(1)}</b><span>${d.n}명</span>` : '<span class="tnone">리뷰 없음</span>'}</td>
+          <td class="tavg">${d.n ? `${starsHTML(d.avg)}<b>${d.avg.toFixed(1)}</b><span>${d.n}명</span>` : `<span class="tnone">${d.rc ? '평점 없음' : '리뷰 없음'}</span>`}</td>
           <td class="tnum">${d.price != null ? won(d.price) : ''}</td>
           <td>${d.nicks.slice(0, 3).map(n => `<a class="tnick" href="${nickURL(n)}">${esc(n)}</a>`).join(' ')}${more > 0 ? ` <span class="tmore-n">외 ${more}명</span>` : ''}</td>
           <td class="tsnip">${d.latest ? esc(fitDesc(d.latest, 70)) : ''}</td>
@@ -109,7 +110,7 @@ async function listPage(env) {
       <span class="eyebrow">Tasting Notes · 마셔 본 술 기록</span>
       <h1>테이스팅 노트</h1>
       <p class="lead">함께 마셔 본 술의 평점과 리뷰를 모았어요. 술마다 여러 사람의 평점을 평균 내고, 누가 어떻게 마셨는지 닉네임별로 볼 수 있어요. 마셔 본 술이 있다면 리뷰를 남겨 주세요.</p>
-      ${rows.length ? `<p class="tstats"><span>술 <b>${rows.length}</b>가지</span><span>리뷰 <b>${total}</b>개</span><span>참여 <b>${people}</b>명</span>${total ? `<span>전체 평균 <b>${(sum / total).toFixed(1)}</b></span>` : ''}</p>` : ''}
+      ${rows.length ? `<p class="tstats"><span>술 <b>${rows.length}</b>가지</span><span>리뷰 <b>${total}</b>개</span><span>참여 <b>${people}</b>명</span>${rated ? `<span>전체 평균 <b>${(sum / rated).toFixed(1)}</b></span>` : ''}</p>` : ''}
       <div class="ctas"><a class="cta" href="/tasting/my/">나만의 기록장 쓰기 →</a></div>
     </section>
     <section class="sec">
@@ -171,23 +172,24 @@ async function nickPage(env, nick) {
   const {results} = await env.DB.prepare(`
     SELECT r.id, r.rating, r.tasted_on, r.review, r.is_admin, d.id AS drink_id, d.name, d.name_en, d.type, d.subtype
     FROM reviews r JOIN drinks d ON d.id = r.drink_id
-    WHERE r.nickname = ? AND r.status = 'published' AND d.published = 1 ORDER BY r.tasted_on DESC, r.id DESC`).bind(nick).all();
+    WHERE r.nickname = ? AND r.status = 'published' AND d.published = 1 ORDER BY r.tasted_on DESC NULLS LAST, r.id DESC`).bind(nick).all();
   const c = crumbs([['Jigger', '/'], ['테이스팅 노트', '/tasting/'], [nick, nickURL(nick)]]);
-  const avg = results.length ? (results.reduce((a, r) => a + r.rating, 0) / results.length).toFixed(1) : null;
+  const rated = results.filter(r => r.rating != null);
+  const avg = rated.length ? (rated.reduce((a, r) => a + r.rating, 0) / rated.length).toFixed(1) : null;
   const body = `    ${c.nav}
     <section class="hero">
       <span class="eyebrow">Reviews by · 닉네임별 리뷰</span>
       <h1>${esc(nick)}${results.some(r => r.is_admin) ? '<span class="tbadge big">운영자</span>' : ''}</h1>
-      ${results.length ? `<p class="tstats"><span>리뷰 <b>${results.length}</b>개</span><span>평균 평점 <b>${avg}</b></span></p>` : '<p class="lead">이 닉네임으로 남긴 리뷰가 없어요.</p>'}
+      ${results.length ? `<p class="tstats"><span>리뷰 <b>${results.length}</b>개</span>${avg ? `<span>평균 평점 <b>${avg}</b></span>` : ''}</p>` : '<p class="lead">이 닉네임으로 남긴 리뷰가 없어요.</p>'}
     </section>
     ${results.length ? `<section class="sec">
       <div class="twrap"><table class="ttable tresp">
         <thead><tr><th scope="col">이름</th><th scope="col">마신 날</th><th scope="col">주종</th><th scope="col">평점</th><th scope="col">리뷰</th></tr></thead>
         <tbody>${results.map(r => `<tr>
-          <th scope="row">${nameCell({id:r.drink_id, name:r.name, name_en:r.name_en})}<span class="tmob">${starsHTML(r.rating)} <b>${r.rating}</b> · ${fmtDate(r.tasted_on)}</span></th>
+          <th scope="row">${nameCell({id:r.drink_id, name:r.name, name_en:r.name_en})}<span class="tmob">${scoreHTML(r.rating)} · ${fmtDate(r.tasted_on)}</span></th>
           <td class="tnum">${fmtDate(r.tasted_on)}</td>
           <td><span class="ttype">${esc(typeOf(r.type).ko)}</span>${r.subtype ? ` <span class="tsub">${esc(r.subtype)}</span>` : ''}</td>
-          <td class="tavg">${starsHTML(r.rating)}<b>${r.rating}</b></td>
+          <td class="tavg">${scoreHTML(r.rating)}</td>
           <td class="tsnip"><a href="/tasting/${r.drink_id}/#review-${r.id}">${esc(fitDesc(r.review, 90))}</a></td>
         </tr>`).join('')}</tbody>
       </table></div>
@@ -204,12 +206,13 @@ async function drinkPage(request, env, id) {
   if (!d || (!d.published && !admin)) return notFound(request, env);
   const {results} = await env.DB.prepare(
     `SELECT id, nickname, is_admin, rating, tasted_on, nose, palate, finish, review, pairing, status, created_at FROM reviews
-     WHERE drink_id = ? ${admin ? '' : "AND status = 'published'"} ORDER BY tasted_on DESC, id DESC`).bind(id).all();
+     WHERE drink_id = ? ${admin ? '' : "AND status = 'published'"} ORDER BY tasted_on DESC NULLS LAST, id DESC`).bind(id).all();
   const reviews = results.map(r => ({...r, nose:arr(r.nose), palate:arr(r.palate), finish:arr(r.finish), pairing:arr(r.pairing)}));
   const pub = reviews.filter(r => r.status === 'published');
-  const t = typeOf(d.type), n = pub.length;
-  const avg = n ? pub.reduce((a, r) => a + r.rating, 0) / n : 0;
-  const dist = [5, 4, 3, 2, 1].map(s => [s, pub.filter(r => Math.max(1, Math.floor(r.rating)) === s).length]);
+  const rated = pub.filter(r => r.rating != null);   // 평점 없는 리뷰는 평균에서 빼요
+  const t = typeOf(d.type), n = rated.length;
+  const avg = n ? rated.reduce((a, r) => a + r.rating, 0) / n : 0;
+  const dist = [5, 4, 3, 2, 1].map(s => [s, rated.filter(r => Math.max(1, Math.floor(r.rating)) === s).length]);
   // 여러 사람이 고른 향 · 맛 · 여운 (많이 고른 순)
   const top = NOTE_PARTS.map(([k, ko, en]) => {
     const cnt = {};
@@ -227,7 +230,7 @@ async function drinkPage(request, env, id) {
   const reviewHTML = r => `<li class="trv${r.status === 'hidden' ? ' is-hidden' : ''}" id="review-${r.id}" data-id="${r.id}">
           <div class="trv-h">
             <span class="trv-who">${nickHTML(r.nickname, r.is_admin)}</span>
-            <span class="trv-score">${starsHTML(r.rating)}<b>${r.rating}</b></span>
+            <span class="trv-score">${scoreHTML(r.rating)}</span>
             <span class="trv-date">${fmtDate(r.tasted_on)}</span>
           </div>
           ${r.status === 'hidden' ? '<p class="tdraft">숨긴 리뷰예요. 관리자에게만 보여요.</p>' : ''}
@@ -251,7 +254,7 @@ async function drinkPage(request, env, id) {
       <div class="tscore-avg">
         <b>${n ? avg.toFixed(1) : '–'}</b>
         ${n ? starsHTML(Math.round(avg * 2) / 2, 'big') : ''}
-        <span>${n ? `${n}명의 평균 평점` : '아직 리뷰가 없어요'}</span>
+        <span>${n ? `${n}명의 평균 평점` : pub.length ? '아직 평점이 없어요' : '아직 리뷰가 없어요'}</span>
       </div>
       ${n ? `<ul class="tdist" aria-label="평점 분포">${dist.map(([s, k]) =>
         `<li><span>${s}점</span><i style="--w:${Math.round(k / n * 100)}%"></i><span>${k}</span></li>`).join('')}</ul>` : ''}
@@ -259,7 +262,7 @@ async function drinkPage(request, env, id) {
         `<div><dt>${ko} · ${en}</dt><dd>${list.map(([v, k]) => `<span class="tag">${esc(v)}${k > 1 ? `<i>${k}</i>` : ''}</span>`).join('')}</dd></div>`).join('')}</dl>` : ''}
     </section>
     <section class="sec" id="reviews">
-      <div class="sec-h"><h2>닉네임별 리뷰</h2><span class="prog">${n}개</span></div>
+      <div class="sec-h"><h2>닉네임별 리뷰</h2><span class="prog">${pub.length}개</span></div>
       ${reviews.length ? `<ul class="trvs">${reviews.map(reviewHTML).join('')}</ul>` : '<p class="note">첫 리뷰를 남겨 주세요.</p>'}
     </section>
     ${Object.keys(pairs).length ? `<section class="sec">
@@ -281,13 +284,13 @@ async function drinkPage(request, env, id) {
   const product = {'@context':'https://schema.org', '@type':'Product', name: d.name_en ? `${d.name} (${d.name_en})` : d.name,
     ...(d.photo ? {image} : {}), ...(d.producer ? {brand:{'@type':'Brand', name:d.producer}} : {}),
     ...(n ? {aggregateRating:{'@type':'AggregateRating', ratingValue:Math.round(avg * 10) / 10, bestRating:5, worstRating:0.5, reviewCount:n},
-      review:pub.slice(0, 5).map(r => ({'@type':'Review', author:{'@type':'Person', name:r.nickname},
+      review:rated.slice(0, 5).map(r => ({'@type':'Review', author:{'@type':'Person', name:r.nickname},
         datePublished:r.created_at.slice(0, 10), reviewRating:{'@type':'Rating', ratingValue:r.rating, bestRating:5, worstRating:0.5},
         reviewBody:fitDesc(r.review, 300)}))} : {})};
   const head = [c.list, ...(n ? [product] : [])].map(ld).join('\n') + (d.published ? '' : '\n<meta name="robots" content="noindex">');
   return html(shell({url:`/tasting/${d.id}/`,
     title:`${d.name}${d.name_en ? ` (${d.name_en})` : ''} 리뷰${n ? ` · 평균 ${avg.toFixed(1)}점` : ''} | Jigger`,
-    desc:fitDesc(n ? `${d.name} 리뷰 ${n}개, 평균 평점 ${avg.toFixed(1)}/5. ${pub[0].review}` : `${d.name} (${t.ko}) 테이스팅 노트. 마셔 봤다면 첫 리뷰를 남겨 주세요.`),
+    desc:fitDesc(n ? `${d.name} 리뷰 ${pub.length}개, 평균 평점 ${avg.toFixed(1)}/5. ${pub[0].review}` : `${d.name} (${t.ko}) 테이스팅 노트. 마셔 봤다면 첫 리뷰를 남겨 주세요.`),
     image, body, head}));
 }
 
@@ -522,8 +525,8 @@ async function readReview(request, type, admin) {
     if (!admin && RESERVED_NICKS.includes(nickname.replace(/\s/g, '').toLowerCase())) throw 'nickname-reserved';
     const rating = Number(b.rating);
     if (!(rating >= 0.5 && rating <= 5 && Number.isInteger(rating * 2))) throw 'rating';
-    const tasted = String(b.tasted_on || '');
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(tasted) || isNaN(Date.parse(tasted)) || tasted < '1900-01-01' || Date.parse(tasted) > Date.now() + 2 * 86400000) throw 'tasted_on';
+    const tasted = String(b.tasted_on || '') || null;   // 모르면 비워 둬도 돼요
+    if (tasted && (!/^\d{4}-\d{2}-\d{2}$/.test(tasted) || isNaN(Date.parse(tasted)) || tasted < '1900-01-01' || Date.parse(tasted) > Date.now() + 2 * 86400000)) throw 'tasted_on';
     const notes = {};
     for (const [k] of NOTE_PARTS) {
       const list = Array.isArray(b[k]) ? [...new Set(b[k].map(x => String(x).trim()).filter(Boolean))] : [];

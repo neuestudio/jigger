@@ -14,7 +14,7 @@ function upgrade(x){
   x.nose = list(x.nose); x.finish = list(x.finish); x.pairing = x.pairing || [];
   return x;
 }
-function valid(x){ return x && typeof x === 'object' && x.id && x.name && x.type && x.rating && x.tasted_on && x.review != null; }
+function valid(x){ return x && typeof x === 'object' && x.id && x.name && x.type && x.rating && x.review != null; }   // 마신 날은 비워도 돼요
 function loadStore(){
   try { var v = JSON.parse(localStorage.getItem(KEY) || '[]'); items = Array.isArray(v) ? v.filter(valid).map(upgrade) : []; }
   catch (e) { storeOK = false; items = []; }
@@ -59,7 +59,7 @@ function renderList(){
     if (view.sort === 'rating') return b.rating - a.rating || (a.tasted_on < b.tasted_on ? 1 : -1);
     if (view.sort === 'rating-asc') return a.rating - b.rating || (a.tasted_on < b.tasted_on ? 1 : -1);
     if (view.sort === 'name') return a.name.localeCompare(b.name, 'ko');
-    return a.tasted_on < b.tasted_on ? 1 : a.tasted_on > b.tasted_on ? -1 : b.id - a.id;
+    var A = a.tasted_on || '', B = b.tasted_on || ''; return A < B ? 1 : A > B ? -1 : b.id - a.id;
   });
   document.getElementById('mStatus').textContent = list.length + '개' + (q ? ' · ‘' + view.q.trim() + '’ 검색' : '');
   document.getElementById('mBody').innerHTML = list.length ? list.map(rowHTML).join('') : '<tr><td colspan="8" class="note">조건에 맞는 기록이 없어요.</td></tr>';
