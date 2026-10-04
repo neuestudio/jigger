@@ -11,7 +11,7 @@
    데이터: D1(env.DB, migrations/), 사진: R2(env.PHOTOS, 없으면 사진 기능만 꺼져요)
    비밀값: ADMIN_PASSWORD, SESSION_SECRET — wrangler secret put
    페이지 겉모양은 scripts/build.mjs가 만든 shell.js를 써요. */
-import { TYPES, TYPE_BY_KEY, NOTE_PARTS, NICK_RE, RESERVED_NICKS, LIMITS } from './tasting-config.js';
+import { TYPES, TYPE_BY_KEY, NOTE_PARTS, NICK_RE, RESERVED_NICKS, OWNER_NICKS, LIMITS } from './tasting-config.js';
 import { SHELL } from './shell.js';
 
 const SITE = 'https://jiggerbar.com';
@@ -441,9 +441,10 @@ async function createReview(request, env, drinkId, admin) {
   }
   const token = b64url(crypto.getRandomValues(new Uint8Array(24)));
   const now = new Date().toISOString(), r = v.data;
+  const owner = admin && OWNER_NICKS.includes(r.nickname.replace(/\s/g, '').toLowerCase());   // ‘운영자’ 표시
   const row = await env.DB.prepare(`INSERT INTO reviews (drink_id, nickname, is_admin, rating, tasted_on, nose, palate, finish, review, pairing, status, edit_hash, ip_hash, created_at, updated_at)
     VALUES (?,?,?,?,?,?,?,?,?,?,'published',?,?,?,?) RETURNING id`)
-    .bind(drinkId, r.nickname, admin ? 1 : 0, r.rating, r.tasted_on, JSON.stringify(r.nose), JSON.stringify(r.palate), JSON.stringify(r.finish),
+    .bind(drinkId, r.nickname, owner ? 1 : 0, r.rating, r.tasted_on, JSON.stringify(r.nose), JSON.stringify(r.palate), JSON.stringify(r.finish),
       r.review, JSON.stringify(r.pairing), await sha(token), ipHash, now, now).first();
   return json(200, {ok:true, id:row.id, token});
 }

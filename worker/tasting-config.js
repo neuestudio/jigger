@@ -70,9 +70,11 @@ export const NOTES = {
 export const NOTE_PARTS = [['nose', '향', 'Nose'], ['palate', '맛', 'Palate'], ['finish', '여운', 'Finish']];
 
 /* 닉네임: 한글 · 영문 · 숫자 · 공백 · _ - 로 2~16자.
-   운영자 닉네임은 방문자가 쓸 수 없어요 (대소문자 · 공백 무시). 운영자 리뷰에는 ‘운영자’ 표시가 붙어요 */
+   RESERVED_NICKS는 방문자가 쓸 수 없는 닉네임이에요 (대소문자 · 공백 무시). 관리자로 로그인하면 쓸 수 있어요.
+   OWNER_NICKS는 운영자 본인 닉네임: 관리자가 이 닉네임으로 쓴 리뷰에만 ‘운영자’ 표시가 붙어요 */
 export const NICK_RE = /^[가-힣a-zA-Z0-9 _-]{2,16}$/;
-export const RESERVED_NICKS = ['naano', 'jigger', '지거', '운영자', '관리자', 'admin'];
+export const RESERVED_NICKS = ['naano', 'hee', 'jigger', '지거', '운영자', '관리자', 'admin'];
+export const OWNER_NICKS = ['naano'];
 
 /* 입력 길이 제한 (서버와 화면이 같은 값을 써요) */
 export const LIMITS = {
