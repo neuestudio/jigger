@@ -56,7 +56,7 @@ const SPIRIT = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
 const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g,'\\u003c')}</script>`;
 const FONT = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
-const NAV = [['/cocktails/', '칵테일 레시피', 'cocktail'], ['/spirits/', '주류 상식', 'spirit'], ['/food/', '안주 레시피', 'food'], ['/quiz/', '조주기능사 필기', 'quiz'], ['/tasting/', '테이스팅 노트', 'tasting']];
+const NAV = [['/cocktails/', '칵테일 레시피', 'cocktail'], ['/spirits/', '주류 상식', 'spirit'], ['/food/', '안주 레시피', 'food'], ['/party/', '홈파티 아이디어', 'party'], ['/quiz/', '조주기능사 필기', 'quiz'], ['/tasting/', '테이스팅 노트', 'tasting']];
 
 function crumbs(items){
   const list = {'@context':'https://schema.org', '@type':'BreadcrumbList',
@@ -104,7 +104,7 @@ ${jsonld.map(ld).join('\n')}
 ${body}
   </main>
   <footer class="foot">
-    <span>Jigger · 집에서 만드는 칵테일 레시피와 조주기능사 필기 모의고사</span>
+    <span>Jigger · 평범한 오늘을 작은 파티로 · <a href="https://www.instagram.com/jiggerbarlog/" target="_blank" rel="noopener">Instagram @jiggerbarlog</a></span>
     <span><a href="/about/">소개</a> · <a href="/contact/">문의하기</a> · <a href="/privacy/">개인정보처리방침</a> · 음주는 성인만, 적당히 즐겨요.</span>
   </footer>
 </div>
@@ -758,6 +758,94 @@ wr('tasting/admin/index.html', page({url:null, title:'테이스팅 노트 관리
     ${TASTING_SCRIPTS}
     <script src="/tasting/assets/admin.js" defer></script>`}));
 
+/* ---------- 홈파티 아이디어 ----------
+   파티 종류(data.js의 PARTIES)마다 어울리는 술 · 칵테일, 안주, 필요한 것 체크리스트, 준비 순서를 보여줘요 */
+const R_BY = Object.fromEntries(D.RECIPES.map(r=>[r.id, r])), F_BY = Object.fromEntries(D.FOOD.map(f=>[f.id, f])), S_BY = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
+for (const pt of D.PARTIES) for (const [k, by] of [['drinks', R_BY], ['foods', F_BY], ['spirits', S_BY]])
+  for (const id of pt[k]) if (!by[id]) throw new Error(`홈파티 ${pt.id}: ${k}에 없는 id "${id}"`);
+function partyCard(pt){
+  const r = R_BY[pt.drinks.find(id=>PHOTOS.cocktails.includes(id)) || pt.drinks[0]];
+  return `<a class="card" href="/party/${pt.id}/"><span class="cthumb" style="--liq:${r.liquid}">${thumb('cocktails', r, pt.ko)}</span>
+      ${cardText(pt.en, pt.ko)}<span class="cmeta">${esc(pt.people)} · ${esc(pt.time)}</span></a>`;
+}
+function partyIndex(){
+  const url = '/party/';
+  const c = crumbs([['Jigger','/'], ['홈파티 아이디어', url]]);
+  const body = `    ${c.nav}
+    <section class="hero">
+      <span class="eyebrow">Hosting Ideas · 홈파티 아이디어</span>
+      <h1>홈파티 아이디어</h1>
+      <p class="lead">평범한 오늘을 작은 파티로. 어떤 자리인지 고르면 어울리는 술과 칵테일, 안주, 미리 챙길 것과 준비 순서를 한 번에 볼 수 있어요.</p>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>파티 종류</h2><span class="prog">${D.PARTIES.length}가지</span></div>
+      <div class="cards">${D.PARTIES.map(partyCard).join('')}</div>
+    </section>`;
+  const list = {'@context':'https://schema.org', '@type':'ItemList', name:'홈파티 아이디어',
+    itemListElement: D.PARTIES.map((pt, i)=>({'@type':'ListItem', position:i+1, url:`${SITE}/party/${pt.id}/`, name:pt.ko}))};
+  return {url, html:page({url, title:'홈파티 아이디어 · 파티별 술, 안주, 준비물 | Jigger',
+    desc:`와인 & 치즈 나이트, 생일 파티, 집들이, 브런치까지. 파티별 칵테일, 안주, 준비물 체크리스트와 준비 순서.`,
+    image:`${SITE}/og.jpg`, section:'party', body, jsonld:[list, c.list]})};
+}
+function partyPage(pt){
+  const url = `/party/${pt.id}/`;
+  const c = crumbs([['Jigger','/'], ['홈파티 아이디어','/party/'], [pt.ko, url]]);
+  const others = D.PARTIES.filter(x=>x.id !== pt.id);
+  const body = `    ${c.nav}
+    <section class="hero">
+      <span class="eyebrow">Hosting Ideas · ${esc(pt.en)}</span>
+      <h1 class="title"><span class="en">${esc(pt.en)}</span> <span class="ko">${esc(pt.ko)}</span></h1>
+      <p class="lead">${esc(pt.summary)}</p>
+      <dl class="spec">
+        <div><dt>인원</dt><dd>${esc(pt.people)}</dd></div>
+        <div><dt>시간</dt><dd>${esc(pt.time)}</dd></div>
+        <div class="wide"><dt>분위기</dt><dd>${pt.mood.map(esc).join(' · ')}</dd></div>
+      </dl>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>술 · 칵테일</h2><span class="prog">${pt.drinks.length}가지</span></div>
+      <div class="cards">${pt.drinks.map(id=>card('cocktails', R_BY[id], `${R_BY[id].ko} 칵테일`)).join('')}</div>
+      ${pt.spirits.length ? `<p class="note">함께 두면 좋은 술: ${pt.spirits.map(id=>`<a href="/spirits/${id}/">${esc(S_BY[id].ko)}</a>`).join(' · ')}</p>` : ''}
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>안주</h2><span class="prog">${pt.foods.length}가지</span></div>
+      <div class="cards">${pt.foods.map(id=>card('food', F_BY[id], F_BY[id].ko)).join('')}</div>
+    </section>
+    <section class="more" id="checklist">
+      <div class="sec-h"><h2>필요한 것</h2><span class="prog" id="ckCount" aria-live="polite"></span></div>
+      <div class="pcheck">${pt.items.map(([group, list], gi)=>`
+        <fieldset><legend>${esc(group)}</legend>${list.map((it, ii)=>`
+          <label class="check"><input type="checkbox" data-k="${gi}-${ii}"> ${esc(it)}</label>`).join('')}
+        </fieldset>`).join('')}
+      </div>
+      <p class="note">체크한 항목은 이 브라우저에 저장돼요.</p>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>준비 순서</h2></div>
+      <ol class="ptime">${pt.prep.map(([when, what])=>`<li><b>${esc(when)}</b><span>${esc(what)}</span></li>`).join('')}</ol>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>다른 파티 아이디어</h2><a class="prog" href="/party/">전체 보기 →</a></div>
+      <div class="cards">${others.map(partyCard).join('')}</div>
+    </section>
+    <script>
+    /* 준비물 체크리스트: 체크한 항목을 이 브라우저에 기억해요 */
+    (function(){
+      var key = 'jigger.party.${pt.id}', boxes = document.querySelectorAll('.pcheck input'), out = document.getElementById('ckCount'), saved = {};
+      try { saved = JSON.parse(localStorage.getItem(key) || '{}'); } catch (e) {}
+      function count(){ var n = 0; boxes.forEach(function(b){ if (b.checked) n++; }); out.textContent = n + ' / ' + boxes.length + ' 준비'; }
+      boxes.forEach(function(b){
+        b.checked = !!saved[b.dataset.k];
+        b.addEventListener('change', function(){ saved[b.dataset.k] = b.checked; try { localStorage.setItem(key, JSON.stringify(saved)); } catch (e) {} count(); });
+      });
+      count();
+    })();
+    </script>`;
+  return {url, html:page({url, title:`${pt.ko} 준비 · 어울리는 칵테일과 안주, 준비물 | Jigger`,
+    desc:`${pt.ko} 아이디어. ${pt.people} · ${pt.time}. 어울리는 칵테일 ${pt.drinks.length}가지와 안주, 준비물 체크리스트.`,
+    image:`${SITE}/og.jpg`, section:'party', body, jsonld:[c.list]})};
+}
+
 const pages = [
   cocktailsIndex(), spiritsIndex(), foodIndex(),
   quizPage(),
@@ -765,7 +853,8 @@ const pages = [
   ...D.SPIRITS.map(spiritPage),
   ...D.FOOD.map(foodPage),
   aboutPage(), contactPage(), privacyPage(),
-  tastingMyPage()
+  tastingMyPage(),
+  partyIndex(), ...D.PARTIES.map(partyPage)
 ];
 for (const p of pages) wr(p.url.slice(1) + 'index.html', p.html);
 
@@ -822,7 +911,7 @@ ${['/', '/tasting/', ...pages.map(p=>p.url)].map(u=>`  <url><loc>${SITE}${u}</lo
 const PUB_FILE = 'scripts/published.json';
 const published = fs.existsSync(path.join(ROOT, PUB_FILE)) ? JSON.parse(rd(PUB_FILE)) : {};
 const firstAdded = f => { try { return execFileSync('git', ['log', '--diff-filter=A', '--format=%aI', '--', f], {cwd: ROOT, encoding:'utf8'}).trim().split('\n').pop(); } catch (e) { return ''; } };
-const feedPages = pages.filter(p=>/^\/(cocktails|spirits|food)\/[^/]+\/$|^\/quiz\/$/.test(p.url));
+const feedPages = pages.filter(p=>/^\/(cocktails|spirits|food|party)\/[^/]+\/$|^\/quiz\/$/.test(p.url));
 let pubChanged = false;
 for (const p of feedPages) if (!published[p.url]) { published[p.url] = firstAdded(p.url.slice(1) + 'index.html') || new Date().toISOString(); pubChanged = true; }
 if (pubChanged) wr(PUB_FILE, JSON.stringify(Object.fromEntries(Object.entries(published).sort()), null, 1) + '\n');
@@ -835,7 +924,7 @@ wr('rss.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <channel>
   <title>Jigger | 칵테일 레시피 · 안주 · 조주기능사</title>
   <link>${SITE}/</link>
-  <description>집에서 만드는 칵테일 레시피, 조주기능사 실기 표준과 필기 예상문제, 주류 상식과 안주 레시피</description>
+  <description>평범한 오늘을 작은 파티로. 홈칵테일 · 안주 · 홈파티 아이디어와 조주기능사 실기 · 필기 레시피</description>
   <language>ko</language>
   <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml"/>
   <lastBuildDate>${new Date(items[0].date).toUTCString()}</lastBuildDate>
@@ -858,6 +947,7 @@ const links = `<!-- build:links (scripts/build.mjs가 자동으로 만들어요)
     <div><h2><a href="/cocktails/">칵테일 레시피</a></h2><ul>${D.RECIPES.map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2><a href="/spirits/">주류 상식</a></h2><ul>${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2><a href="/food/">안주 레시피</a></h2><ul>${D.FOOD.map(x=>`<li><a href="/food/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
+    <div><h2><a href="/party/">홈파티 아이디어</a></h2><ul>${D.PARTIES.map(x=>`<li><a href="/party/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2>조주기능사</h2><ul><li><a href="/quiz/">필기 예상문제 ${QUIZ.length}개와 해설</a></li></ul></div>
     <div><h2><a href="/tasting/">테이스팅 노트</a></h2><ul><li><a href="/tasting/">마셔 본 술 평점과 리뷰</a></li><li><a href="/tasting/my/">나의 술 기록장</a></li></ul></div>
     <div><h2>Jigger</h2><ul><li><a href="/about/">소개</a></li><li><a href="/contact/">문의하기</a></li><li><a href="/privacy/">개인정보처리방침</a></li></ul></div>
@@ -874,7 +964,7 @@ const homeLd = {'@context':'https://schema.org', '@graph':[
   {'@type':'WebSite', '@id':`${SITE}/#website`, url:`${SITE}/`, name:'Jigger', description:homeDesc, inLanguage:'ko-KR',
     publisher:{'@id':`${SITE}/#organization`}},
   {'@type':'Organization', '@id':`${SITE}/#organization`, name:'Jigger', url:`${SITE}/`,
-    logo:`${SITE}/apple-touch-icon.png`, email:CONTACT.email}
+    logo:`${SITE}/apple-touch-icon.png`, email:CONTACT.email, sameAs:['https://www.instagram.com/jiggerbarlog/']}
 ]};
 const jsonld = `<!-- build:jsonld (scripts/build.mjs가 자동으로 만들어요) -->
 <script type="application/ld+json">${JSON.stringify(homeLd).replace(/</g, '\\u003c')}</script>

@@ -5,8 +5,8 @@
 @font-face{font-family:'DM Mono';font-weight:400;font-display:optional;src:url(/fonts/dm-mono-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'DM Mono';font-weight:500;font-display:optional;src:url(/fonts/dm-mono-500.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{
-  --bg:#E9E2D3; --surface:#FBF7EE; --surface2:#F1E9D8; --ink:#221D16; --mut:#8C8171; --line:#DBD0BB;
-  --accent:#B3492E; --ice:rgba(255,255,255,.4); --glow:18%; --ok:#2F6B45;
+  --bg:#E9E2D3; --surface:#FBF7EE; --surface2:#F1E9D8; --ink:#221D16; --mut:#6A6256; --line:#DBD0BB;
+  --accent:#A6442B; --ice:rgba(255,255,255,.4); --glow:18%; --ok:#2F6B45;
   --serif-en:'Instrument Serif','Times New Roman','BookkMyungjo','AppleMyungjo','Nanum Myeongjo',serif;
   --serif-ko:'BookkMyungjo','AppleMyungjo','Nanum Myeongjo','Batang',serif;
   --sans:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
@@ -311,3 +311,15 @@ button.cta:disabled{opacity:.5;cursor:default}
   .tmob{display:block;margin-top:6px;font-size:12.5px;color:var(--mut)}
   .tmob b{font:500 12.5px var(--mono);color:var(--ink)}
 }
+
+/* ---------- 홈파티 아이디어 ---------- */
+.card .cmeta{display:block;margin-top:6px;font:400 11.5px var(--mono);letter-spacing:.02em;color:var(--mut)}
+.pcheck{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;margin-top:16px}
+.pcheck fieldset{margin:0;padding:14px 18px 16px;border:1px solid var(--line);background:var(--surface);min-width:0}
+.pcheck legend{padding:0 6px;font:500 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.pcheck .check{align-items:flex-start;margin-top:10px;font-weight:400;font-size:15px;line-height:1.5}
+.pcheck .check input{flex:none;margin-top:1px}
+.pcheck .check:has(input:checked){color:var(--mut);text-decoration:line-through;text-decoration-color:var(--line)}
+.ptime{list-style:none;margin:6px 0 0;padding:0}
+.ptime li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;padding:14px 0;border-bottom:1px solid var(--line);word-break:keep-all}
+.ptime b{font:500 13px/1.7 var(--mono);color:var(--accent)}

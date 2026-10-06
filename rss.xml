@@ -3,10 +3,52 @@
 <channel>
   <title>Jigger | 칵테일 레시피 · 안주 · 조주기능사</title>
   <link>https://jiggerbar.com/</link>
-  <description>집에서 만드는 칵테일 레시피, 조주기능사 실기 표준과 필기 예상문제, 주류 상식과 안주 레시피</description>
+  <description>평범한 오늘을 작은 파티로. 홈칵테일 · 안주 · 홈파티 아이디어와 조주기능사 실기 · 필기 레시피</description>
   <language>ko</language>
   <atom:link href="https://jiggerbar.com/rss.xml" rel="self" type="application/rss+xml"/>
-  <lastBuildDate>Sun, 27 Sep 2026 13:10:50 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 06 Oct 2026 04:10:05 GMT</lastBuildDate>
+  <item>
+    <title>브런치 파티 준비 · 어울리는 칵테일과 안주, 준비물</title>
+    <link>https://jiggerbar.com/party/brunch/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/party/brunch/</guid>
+    <description>브런치 파티 아이디어. 4~6명 · 낮 · 11시~2시. 어울리는 칵테일 5가지와 안주, 준비물 체크리스트.</description>
+    <pubDate>Tue, 06 Oct 2026 04:10:05 GMT</pubDate>
+  </item>
+  <item>
+    <title>영화 · 게임 나이트 준비 · 어울리는 칵테일과 안주, 준비물</title>
+    <link>https://jiggerbar.com/party/game-night/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/party/game-night/</guid>
+    <description>영화 · 게임 나이트 아이디어. 3~6명 · 밤 · 3시간 이상. 어울리는 칵테일 4가지와 안주, 준비물 체크리스트.</description>
+    <pubDate>Tue, 06 Oct 2026 04:10:05 GMT</pubDate>
+  </item>
+  <item>
+    <title>집들이 준비 · 어울리는 칵테일과 안주, 준비물</title>
+    <link>https://jiggerbar.com/party/housewarming/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/party/housewarming/</guid>
+    <description>집들이 아이디어. 6~10명 · 저녁 · 3시간. 어울리는 칵테일 2가지와 안주, 준비물 체크리스트.</description>
+    <pubDate>Tue, 06 Oct 2026 04:10:05 GMT</pubDate>
+  </item>
+  <item>
+    <title>연말 · 크리스마스 홈파티 준비 · 어울리는 칵테일과 안주, 준비물</title>
+    <link>https://jiggerbar.com/party/holiday/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/party/holiday/</guid>
+    <description>연말 · 크리스마스 홈파티 아이디어. 4~8명 · 저녁 · 3~4시간. 어울리는 칵테일 4가지와 안주, 준비물 체크리스트.</description>
+    <pubDate>Tue, 06 Oct 2026 04:10:05 GMT</pubDate>
+  </item>
+  <item>
+    <title>생일 파티 준비 · 어울리는 칵테일과 안주, 준비물</title>
+    <link>https://jiggerbar.com/party/birthday/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/party/birthday/</guid>
+    <description>생일 파티 아이디어. 6~10명 · 저녁 · 3시간 이상. 어울리는 칵테일 5가지와 안주, 준비물 체크리스트.</description>
+    <pubDate>Tue, 06 Oct 2026 04:10:05 GMT</pubDate>
+  </item>
+  <item>
+    <title>와인 &amp; 치즈 나이트 준비 · 어울리는 칵테일과 안주, 준비물</title>
+    <link>https://jiggerbar.com/party/wine-cheese/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/party/wine-cheese/</guid>
+    <description>와인 &amp; 치즈 나이트 아이디어. 2~4명 · 저녁 · 2~3시간. 어울리는 칵테일 3가지와 안주, 준비물 체크리스트.</description>
+    <pubDate>Tue, 06 Oct 2026 04:10:05 GMT</pubDate>
+  </item>
   <item>
     <title>도토리묵무침 만드는 법 · 막걸리·청주 안주 레시피</title>
     <link>https://jiggerbar.com/food/acorn-jelly/</link>

@@ -657,5 +657,70 @@ const FOOD = [
 ];
 const FOOD_BY_ID = Object.fromEntries(FOOD.map(f=>[f.id,f]));
 
-return {C, GLASS, BASES, BASE_EN, FLAVORS, DIFF, RECIPES, BY_ID, EXAM, EXAM_SOURCE, examAmount, CATS, CAT_EN, SPIRITS, SPIRIT_BY_ID, FOOD, FOOD_BY_ID, ALIAS};
+/* ---------- 홈파티 아이디어 ----------
+   파티 종류마다 어울리는 술 · 칵테일(drinks: RECIPES id), 술 상식(spirits: SPIRITS id), 안주(foods: FOOD id),
+   필요한 것(items: 묶음별 목록), 준비 순서(prep: [언제, 할 일])를 적어요. 없는 id를 쓰면 빌드가 멈춰요. */
+const PARTIES = [
+{id:'wine-cheese', ko:'와인 & 치즈 나이트', en:'Wine & Cheese Night', people:'2~4명', time:'저녁 · 2~3시간', mood:['차분한', '대화 중심'],
+ summary:'와인 두 병과 치즈 몇 가지로 길게 이야기하는 저녁이에요. 요리 부담이 적어 처음 여는 홈파티로도 좋아요.',
+ drinks:['kir', 'aperol-spritz', 'mimosa'], spirits:['wine'],
+ foods:['cheese', 'olives', 'prosciutto-melon', 'bruschetta', 'chocolate', 'garlic-bread'],
+ items:[
+  ['잔 · 도구', ['와인잔 (인원 수 + 여유 2개)', '코르크 스크루', '와인 쿨러 또는 얼음 버킷', '치즈 나이프와 도마']],
+  ['장보기', ['레드 와인 1병 · 화이트 또는 스파클링 1병 (4명 기준)', '치즈 3가지: 단단한 것 · 부드러운 것 · 블루', '크래커와 바게트', '물 넉넉히']],
+  ['테이블', ['작은 앞접시와 냅킨', '은은한 조명이나 캔들', '와인 이름을 적을 메모지']]],
+ prep:[['전날', '화이트 · 스파클링 와인을 냉장고에 넣어 둬요.'], ['1시간 전', '치즈를 냉장고에서 꺼내 실온에 둬요. 향과 맛이 살아나요.'], ['30분 전', '레드 와인을 열어 두고, 바게트를 썰어 구워요.'], ['시작', '가벼운 와인과 치즈부터, 진한 와인과 블루치즈는 나중에 내요.']]},
+
+{id:'birthday', ko:'생일 파티', en:'Birthday Party', people:'6~10명', time:'저녁 · 3시간 이상', mood:['신나는', '사진 찍기 좋은'],
+ summary:'인원이 많은 날은 한 잔씩 만드는 칵테일보다 미리 만들어 두는 펀치와 손으로 집어 먹는 안주가 편해요. 술을 안 마시는 손님을 위한 무알콜 한 가지는 꼭 준비해요.',
+ drinks:['tequila-sunrise', 'cosmopolitan', 'mimosa', 'virgin-fruit-punch', 'shirley-temple'], spirits:[],
+ foods:['wings', 'nachos', 'karaage', 'french-fries', 'fruit-platter'],
+ items:[
+  ['잔 · 도구', ['하이볼 글라스 또는 튼튼한 컵 (인원 × 2)', '펀치를 담을 큰 볼이나 피처', '지거와 바 스푼', '얼음 넉넉히 (1명당 약 0.5kg)']],
+  ['장보기', ['케이크와 초 · 라이터', '무알콜 음료 (주스 · 진저에일 · 탄산수)', '일회용 접시 · 포크 · 냅킨']],
+  ['테이블 · 분위기', ['풍선이나 가랜드', '사진 찍을 벽 한쪽', '플레이리스트']]],
+ prep:[['3일 전', '케이크를 예약하고 손님 수를 확인해요.'], ['전날', '얼음을 사거나 얼려 두고, 음료를 냉장고에 넣어요.'], ['3시간 전', '튀김류 밑준비, 과일 플래터를 만들어 랩을 씌워 둬요.'], ['1시간 전', '펀치를 큰 볼에 만들어 두고, 얼음은 마시기 직전에 넣어요.']]},
+
+{id:'holiday', ko:'연말 · 크리스마스 홈파티', en:'Holiday Party', people:'4~8명', time:'저녁 · 3~4시간', mood:['따뜻한', '조금 차려입은'],
+ summary:'한 해를 마무리하는 자리라 평소보다 조금 힘을 줘도 좋아요. 메인 요리 하나와 칵테일 두세 가지, 디저트 칵테일로 마무리해요.',
+ drinks:['moscow-mule', 'cosmopolitan', 'espresso-martini', 'brandy-alexander'], spirits:['brandy'],
+ foods:['steak', 'salmon', 'caprese', 'stuffed-mushrooms', 'chocolate'],
+ items:[
+  ['잔 · 도구', ['칵테일 셰이커와 지거', '쿠페 또는 칵테일 글라스', '코퍼 머그 (모스코 뮬용, 없으면 하이볼 글라스)']],
+  ['장보기', ['크랜베리 · 로즈마리 같은 빨강 · 초록 가니시', '에스프레소 (모카포트나 캡슐)', '디저트용 다크초콜릿']],
+  ['테이블 · 분위기', ['캔들과 작은 조명', '테이블보 한 장', '연말 플레이리스트']]],
+ prep:[['전날', '스테이크 고기를 사서 소금을 해 두고, 에스프레소 마티니용 커피를 내려 식혀 둬요.'], ['2시간 전', '카프레제 · 양송이 치즈구이 재료를 손질해요.'], ['30분 전', '잔을 냉동실에 넣어 차갑게 해요.'], ['시작', '모스코 뮬로 시작해 메인을 먹고, 브랜디 알렉산더나 에스프레소 마티니로 마무리해요.']]},
+
+{id:'housewarming', ko:'집들이', en:'Housewarming', people:'6~10명', time:'저녁 · 3시간', mood:['푸짐한', '편안한'],
+ summary:'한식 안주를 크게 한 상 차리고, 소주 · 맥주 · 막걸리를 기본으로 두는 자리예요. 우리술 칵테일 하나를 곁들이면 이야깃거리가 돼요.',
+ drinks:['gochang', 'geumsan'], spirits:['soju', 'beer', 'takju'],
+ foods:['suyuk', 'pajeon', 'tteokbokki', 'dubukimchi', 'beef-jeon'],
+ items:[
+  ['잔 · 도구', ['소주잔 · 맥주잔 넉넉히', '막걸리 잔이나 사발', '병따개 두 개 (한 개는 꼭 없어져요)']],
+  ['장보기', ['소주 · 맥주 · 막걸리', '쌈 채소와 김치', '얼음과 생수']],
+  ['테이블', ['큰 접시와 앞접시 · 수저 넉넉히', '분리수거 봉투', '선물로 받은 술을 둘 자리']]],
+ prep:[['전날', '수육 양념을 준비하고, 전 반죽 재료를 손질해요.'], ['3시간 전', '수육을 삶기 시작해요.'], ['1시간 전', '전을 부치고, 떡볶이는 손님이 오면 바로 데워 내요.'], ['시작', '도착한 순서대로 맥주 한 잔, 다 모이면 우리술 칵테일로 건배해요.']]},
+
+{id:'game-night', ko:'영화 · 게임 나이트', en:'Movie & Game Night', people:'3~6명', time:'밤 · 3시간 이상', mood:['느긋한', '편한 옷차림'],
+ summary:'화면이나 게임판에 집중하는 날이라 한 손으로 들고 마실 수 있는 하이볼과, 흘려도 괜찮은 안주가 좋아요.',
+ drinks:['gin-tonic', 'cuba-libre', 'moscow-mule', 'arnold-palmer'], spirits:['gin', 'rum'],
+ foods:['nachos', 'french-fries', 'butter-squid', 'dried-snacks', 'edamame', 'sausage-stir-fry'],
+ items:[
+  ['잔 · 도구', ['하이볼 글라스', '얼음 넉넉히', '코스터 (테이블 물자국 방지)']],
+  ['장보기', ['토닉워터 · 콜라 · 진저비어', '라임', '나눠 먹을 큰 볼']],
+  ['테이블 · 분위기', ['물티슈', '보드게임이나 영화 목록', '담요와 쿠션']]],
+ prep:[['전날', '토닉워터와 콜라를 냉장고에 넣어 둬요. 차가워야 탄산이 오래가요.'], ['1시간 전', '라임을 웨지로 썰어 두고, 마른안주를 그릇에 덜어요.'], ['시작', '하이볼은 진 · 럼만 정해 두면 손님이 직접 만들어 마실 수 있어요.']]},
+
+{id:'brunch', ko:'브런치 파티', en:'Brunch Party', people:'4~6명', time:'낮 · 11시~2시', mood:['밝은', '가벼운'],
+ summary:'낮에 모이는 자리라 도수가 낮은 칵테일과 무알콜 음료를 넉넉히 준비해요. 달걀 요리와 과일만 있어도 상이 차요.',
+ drinks:['mimosa', 'bloody-mary', 'aperol-spritz', 'virgin-mary', 'fresh-lemon-squash'], spirits:[],
+ foods:['rolled-omelette', 'fruit-platter', 'salmon', 'caprese', 'bruschetta'],
+ items:[
+  ['잔 · 도구', ['플루트 글라스 (미모사용)', '큰 피처 (레몬 스쿼시 · 블러디 메리)', '커피 도구']],
+  ['장보기', ['스파클링 와인과 착즙 오렌지주스', '토마토 주스 · 레몬', '바게트와 버터']],
+  ['테이블 · 분위기', ['꽃 한 다발', '밝은 테이블보', '햇빛이 드는 자리']]],
+ prep:[['전날', '스파클링 와인과 오렌지주스를 차갑게 해 두고, 과일을 사 둬요.'], ['1시간 전', '계란말이를 만들고 연어 카나페를 올려요.'], ['시작', '미모사는 마시기 직전에 잔에서 바로 섞어요.']]}
+];
+
+return {C, GLASS, BASES, BASE_EN, FLAVORS, DIFF, RECIPES, BY_ID, EXAM, EXAM_SOURCE, examAmount, CATS, CAT_EN, SPIRITS, SPIRIT_BY_ID, FOOD, FOOD_BY_ID, ALIAS, PARTIES};
 })();
