@@ -34,8 +34,9 @@
 <script>(function(l){ function on(){ l.media='all'; } if(l.sheet) on(); else l.addEventListener('load', on); })(document.getElementById('fontKo'));</script>
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript>
 <style>
-/* 한글 명조: 부크크 명조 Bold (ⓒ부크크 · 눈누에서 배포하는 웹폰트를 수정 없이 그대로 사용) */
-@font-face{font-family:'BookkMyungjo';font-style:normal;font-weight:700;font-display:swap;src:url(https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2) format('woff2')}
+/* 한글 명조: 조선일보 서체 (ⓒ조선일보 · 눈누 웹폰트를 수정 없이 그대로 사용). 400 = 조선신명조(큰 제목 · 슬로건), 700 = 조선굵은명조(문제 · 작은 굵은 제목) */
+@font-face{font-family:'ChosunMyungjo';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.1/ChosunSm.woff) format('woff')}
+@font-face{font-family:'ChosunMyungjo';font-style:normal;font-weight:700;font-display:swap;src:url(https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunKm.woff) format('woff')}
 /* 로고·숫자용 영문 폰트는 직접 호스팅하고 미리 불러와요 */
 @font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'DM Mono';font-style:normal;font-weight:400;font-display:optional;src:url(/fonts/dm-mono-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -44,8 +45,8 @@
   --bg:#E9E2D3; --surface:#FBF7EE; --surface2:#F1E9D8; --ink:#221D16; --mut:#6A6256; --line:#DBD0BB;
   --accent:#A6442B; --accent-ink:#FFF6EA; --scrim:rgba(34,29,22,.45); --ice:rgba(255,255,255,.4);
   --glow:18%; --ok:#2F6B45; --bad:#B0322A;
-  --serif-en:'Instrument Serif','Times New Roman','BookkMyungjo','AppleMyungjo','Nanum Myeongjo',serif;
-  --serif-ko:'BookkMyungjo','AppleMyungjo','Nanum Myeongjo','Batang',serif;
+  --serif-en:'Instrument Serif','Times New Roman','ChosunMyungjo','AppleMyungjo','Nanum Myeongjo',serif;
+  --serif-ko:'ChosunMyungjo','AppleMyungjo','Nanum Myeongjo','Batang',serif;
   --sans:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
   --mono:'DM Mono',ui-monospace,'SF Mono',Menlo,'Pretendard Variable',monospace;
 }
@@ -85,7 +86,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .mast-row{display:grid;gap:18px;margin-top:0}
 @media (min-width:820px){.mast-row{grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:48px}}
 .lede{margin:0;max-width:40ch;font-size:17px;line-height:1.65;text-wrap:pretty}
-.lede .slogan{display:block;margin-top:10px;font:700 clamp(22px,2.6vw,28px)/1.35 var(--serif-ko);letter-spacing:-.01em}
+.lede .slogan{display:block;margin-top:10px;font:400 clamp(24px,2.8vw,30px)/1.35 var(--serif-ko);letter-spacing:-.01em}
 .lede .slogan-en{display:block;margin:2px 0 12px;font:400 italic 19px/1.4 var(--serif-en);color:var(--mut)}
 .legend{margin:0;display:grid;gap:4px;font:400 12px/1.5 var(--mono);color:var(--mut)}
 .legend b{color:var(--ink);font-weight:500}
@@ -159,7 +160,7 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
 .seemore{pointer-events:none;display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-top:10px;font:400 12.5px var(--sans);color:var(--mut)}
 .seemore svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6}
 .empty{grid-column:1/-1;padding:64px 20px;text-align:center;background:var(--surface);border:1px solid var(--line)}
-.empty p{margin:0 0 14px;font:400 24px var(--serif-ko);font-weight:600}
+.empty p{margin:0 0 14px;font:700 24px var(--serif-ko)}
 .nojs{margin:22px 0 0;padding:16px 18px;background:var(--surface);border:1px solid var(--line);line-height:1.7}
 .nojs a{color:inherit}
 .empty .hint{display:block;margin:-6px 0 16px;color:var(--mut)}

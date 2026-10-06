@@ -1,14 +1,15 @@
 /* 검색용 정적 페이지(scripts/build.mjs가 생성) 스타일. 색상 토큰은 index.html과 같아요. */
-/* 한글 명조: 부크크 명조 Bold (ⓒ부크크 · 눈누에서 배포하는 웹폰트를 수정 없이 그대로 사용) */
-@font-face{font-family:'BookkMyungjo';font-style:normal;font-weight:700;font-display:swap;src:url(https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkMyungjo-Bd.woff2) format('woff2')}
+/* 한글 명조: 조선일보 서체 (ⓒ조선일보 · 눈누 웹폰트를 수정 없이 그대로 사용). 400 = 조선신명조(큰 제목 · 슬로건), 700 = 조선굵은명조(문제 · 작은 굵은 제목) */
+@font-face{font-family:'ChosunMyungjo';font-style:normal;font-weight:400;font-display:swap;src:url(https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.1/ChosunSm.woff) format('woff')}
+@font-face{font-family:'ChosunMyungjo';font-style:normal;font-weight:700;font-display:swap;src:url(https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunKm.woff) format('woff')}
 @font-face{font-family:'Instrument Serif';font-weight:400;font-display:swap;src:url(/fonts/instrument-serif-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'DM Mono';font-weight:400;font-display:optional;src:url(/fonts/dm-mono-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:'DM Mono';font-weight:500;font-display:optional;src:url(/fonts/dm-mono-500.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 :root{
   --bg:#E9E2D3; --surface:#FBF7EE; --surface2:#F1E9D8; --ink:#221D16; --mut:#6A6256; --line:#DBD0BB;
   --accent:#A6442B; --ice:rgba(255,255,255,.4); --glow:18%; --ok:#2F6B45;
-  --serif-en:'Instrument Serif','Times New Roman','BookkMyungjo','AppleMyungjo','Nanum Myeongjo',serif;
-  --serif-ko:'BookkMyungjo','AppleMyungjo','Nanum Myeongjo','Batang',serif;
+  --serif-en:'Instrument Serif','Times New Roman','ChosunMyungjo','AppleMyungjo','Nanum Myeongjo',serif;
+  --serif-ko:'ChosunMyungjo','AppleMyungjo','Nanum Myeongjo','Batang',serif;
   --sans:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
   --mono:'DM Mono',ui-monospace,'SF Mono',Menlo,'Pretendard Variable',monospace;
 }
@@ -40,7 +41,7 @@ a{color:inherit}
 .crumbs a:hover{color:var(--ink);text-decoration:underline}
 
 .eyebrow{font:500 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
-h1{margin:12px 0 0;font:700 clamp(32px,5vw,46px)/1.2 var(--serif-ko);letter-spacing:-.01em;word-break:keep-all;text-wrap:balance}
+h1{margin:12px 0 0;font:400 clamp(32px,5vw,46px)/1.25 var(--serif-ko);letter-spacing:-.01em;word-break:keep-all;text-wrap:balance}
 /* 항목 제목은 앱 상세창(.phead)과 같은 모양: 영문(위) · 한글(아래) */
 h1.title{margin-top:8px;font:700 32px/1.2 var(--serif-en);letter-spacing:-.015em}
 h1.title .en{display:block}
