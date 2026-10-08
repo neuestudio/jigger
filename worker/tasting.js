@@ -51,6 +51,8 @@ function shell({url, title, desc, image, body, head = ''}) {
   return SHELL.replace(/@@(URL|TITLE|DESC|IMAGE|HEAD|BODY)@@/g, k => fill[k]);
 }
 const html = (body, status = 200) => new Response(body, {status, headers:{'Content-Type':'text/html; charset=utf-8', 'Cache-Control':'no-cache'}});
+// 제목은 네이버 권장대로 40자 안으로: 40자 안에 드는 첫 후보를 써요
+const fitTitle = (...c) => c.find(t => t.length <= 40) || c[c.length - 1];
 const fitDesc = (t, max = 80) => { t = String(t).replace(/\s+/g, ' ').trim(); return t.length <= max ? t : t.slice(0, max - 1) + '…'; };
 function crumbs(items) {
   return {
@@ -289,7 +291,8 @@ async function drinkPage(request, env, id) {
         reviewBody:fitDesc(r.review, 300)}))} : {})};
   const head = [c.list, ...(n ? [product] : [])].map(ld).join('\n') + (d.published ? '' : '\n<meta name="robots" content="noindex">');
   return html(shell({url:`/tasting/${d.id}/`,
-    title:`${d.name}${d.name_en ? ` (${d.name_en})` : ''} 리뷰${n ? ` · 평균 ${avg.toFixed(1)}점` : ''} | Jigger`,
+    title:fitTitle(`${d.name}${d.name_en ? ` (${d.name_en})` : ''} 리뷰${n ? ` · 평균 ${avg.toFixed(1)}점` : ''} | Jigger`,
+      `${d.name} 리뷰${n ? ` · 평균 ${avg.toFixed(1)}점` : ''} | Jigger`, `${d.name} 리뷰 | Jigger`, `${d.name}`.slice(0, 31) + ' 리뷰 | Jigger'),
     desc:fitDesc(n ? `${d.name} 리뷰 ${pub.length}개, 평균 평점 ${avg.toFixed(1)}/5. ${pub[0].review}` : `${d.name} (${t.ko}) 테이스팅 노트. 마셔 봤다면 첫 리뷰를 남겨 주세요.`),
     image, body, head}));
 }
