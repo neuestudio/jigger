@@ -11,3 +11,4 @@ worker
 scripts
 migrations
 .dev.vars
+.indexnow-last

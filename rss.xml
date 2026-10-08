@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-  <title>Jigger | 칵테일 레시피 · 안주 · 조주기능사</title>
+  <title>지거바 | 칵테일 레시피 · 안주 · 조주기능사</title>
   <link>https://jiggerbar.com/</link>
   <description>평범한 오늘을 작은 파티로. 홈칵테일 · 안주 · 홈파티 아이디어와 조주기능사 실기 · 필기 레시피</description>
   <language>ko</language>
   <atom:link href="https://jiggerbar.com/rss.xml" rel="self" type="application/rss+xml"/>
-  <lastBuildDate>Tue, 06 Oct 2026 12:43:07 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 08 Oct 2026 07:38:24 GMT</lastBuildDate>
+  <item>
+    <title>무알콜 칵테일 레시피 · 술 없이 즐기는 목테일 8가지</title>
+    <link>https://jiggerbar.com/magazine/mocktail-party/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/magazine/mocktail-party/</guid>
+    <description>운전하는 친구, 임신 중인 손님도 함께 건배하는 무알콜 칵테일 8가지와 술 같은 맛을 내는 팁, 대량으로 만드는 법.</description>
+    <pubDate>Thu, 08 Oct 2026 07:38:24 GMT</pubDate>
+  </item>
+  <item>
+    <title>할로윈 홈파티 칵테일 · 안주와 준비 체크리스트</title>
+    <link>https://jiggerbar.com/magazine/halloween-party/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/magazine/halloween-party/</guid>
+    <description>핏빛 · 검정 · 초록 칵테일 고르는 법, 무알콜 메뉴, 손 덜 가는 할로윈 안주와 일주일 전부터의 준비 순서.</description>
+    <pubDate>Thu, 08 Oct 2026 07:38:24 GMT</pubDate>
+  </item>
+  <item>
+    <title>하이볼 만드는 법 · 위스키 비율과 편의점 재료 조합</title>
+    <link>https://jiggerbar.com/magazine/highball-at-home/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/magazine/highball-at-home/</guid>
+    <description>하이볼 황금비율 1:3~4, 맛있게 만드는 순서, 편의점 탄산 · 과일 조합 5가지와 위스키 고르는 법.</description>
+    <pubDate>Thu, 08 Oct 2026 07:38:24 GMT</pubDate>
+  </item>
   <item>
     <title>내 파티 만들기 · 홈파티 메뉴와 장보기 계산</title>
     <link>https://jiggerbar.com/party/plan/</link>
@@ -36,7 +57,7 @@
     <pubDate>Tue, 06 Oct 2026 04:10:05 GMT</pubDate>
   </item>
   <item>
-    <title>영화 · 게임 나이트 준비 · 칵테일, 안주, 준비물</title>
+    <title>영화 · 게임 나이트 준비 · 어울리는 칵테일과 안주, 준비물</title>
     <link>https://jiggerbar.com/party/game-night/</link>
     <guid isPermaLink="true">https://jiggerbar.com/party/game-night/</guid>
     <description>영화 · 게임 나이트 아이디어. 3~6명 · 밤 · 3시간 이상. 어울리는 칵테일 4가지와 안주, 준비물 체크리스트.</description>
@@ -50,7 +71,7 @@
     <pubDate>Tue, 06 Oct 2026 04:10:05 GMT</pubDate>
   </item>
   <item>
-    <title>연말 · 크리스마스 홈파티 준비물과 메뉴</title>
+    <title>연말 · 크리스마스 홈파티 준비 · 칵테일, 안주, 준비물</title>
     <link>https://jiggerbar.com/party/holiday/</link>
     <guid isPermaLink="true">https://jiggerbar.com/party/holiday/</guid>
     <description>연말 · 크리스마스 홈파티 아이디어. 4~8명 · 저녁 · 3~4시간. 어울리는 칵테일 4가지와 안주, 준비물 체크리스트.</description>
@@ -64,7 +85,7 @@
     <pubDate>Tue, 06 Oct 2026 04:10:05 GMT</pubDate>
   </item>
   <item>
-    <title>와인 &amp; 치즈 나이트 준비 · 칵테일, 안주, 준비물</title>
+    <title>와인 &amp; 치즈 나이트 준비 · 어울리는 칵테일과 안주, 준비물</title>
     <link>https://jiggerbar.com/party/wine-cheese/</link>
     <guid isPermaLink="true">https://jiggerbar.com/party/wine-cheese/</guid>
     <description>와인 &amp; 치즈 나이트 아이디어. 2~4명 · 저녁 · 2~3시간. 어울리는 칵테일 3가지와 안주, 준비물 체크리스트.</description>
@@ -74,175 +95,175 @@
     <title>도토리묵무침 만드는 법 · 막걸리·청주 안주 레시피</title>
     <link>https://jiggerbar.com/food/acorn-jelly/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/acorn-jelly/</guid>
-    <description>도토리묵무침 만드는 법. 재료: 도토리묵 1모, 상추·오이 약간, 쑥갓(선택) 외 3가지. 15분, 난이도 쉬움. 막걸리·청주 안주.</description>
+    <description>도토리묵무침 만드는 법. 재료: 도토리묵 1모, 상추·오이 약간 외 4가지. 2~3인분, 15분, 난이도 쉬움. 막걸리·청주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>아포가토 만드는 법 · 혼성주·럼·브랜디 안주 레시피</title>
     <link>https://jiggerbar.com/food/affogato/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/affogato/</guid>
-    <description>아포가토 만드는 법. 재료: 바닐라 아이스크림 2스쿱, 에스프레소 1샷(30ml) 외 1가지. 5분, 난이도 쉬움. 혼성주·럼·브랜디 안주.</description>
+    <description>아포가토 만드는 법. 재료: 바닐라 아이스크림 2스쿱 외 2가지. 1인분, 5분, 난이도 쉬움. 혼성주·럼·브랜디 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>육전 만드는 법 · 청주·막걸리 안주 레시피</title>
     <link>https://jiggerbar.com/food/beef-jeon/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/beef-jeon/</guid>
-    <description>육전 만드는 법. 재료: 육전용 소고기(홍두깨살) 300g, 달걀 2개, 부침가루 ½컵 외 3가지. 20분, 난이도 보통. 청주·막걸리 안주.</description>
+    <description>육전 만드는 법. 재료: 육전용 소고기(홍두깨살) 300g, 달걀 2개 외 4가지. 2~3인분, 20분, 난이도 보통. 청주·막걸리 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>브루스케타 만드는 법 · 와인·맥주 안주 레시피</title>
     <link>https://jiggerbar.com/food/bruschetta/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/bruschetta/</guid>
-    <description>브루스케타 만드는 법. 재료: 바게트 ½개, 방울토마토 10개, 마늘 1쪽, 바질 잎 약간 외 2가지. 15분, 난이도 쉬움. 와인·맥주 안주.</description>
+    <description>브루스케타 만드는 법. 재료: 바게트 ½개, 방울토마토 10개, 마늘 1쪽 외 3가지. 2~3인분, 15분, 난이도 쉬움. 와인·맥주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>오징어 버터구이 만드는 법 · 맥주·소주 안주 레시피</title>
     <link>https://jiggerbar.com/food/butter-squid/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/butter-squid/</guid>
-    <description>오징어 버터구이 만드는 법. 재료: 손질한 오징어 1마리, 버터 1큰술, 간장 1큰술 외 2가지. 15분, 난이도 쉬움. 맥주·소주 안주.</description>
+    <description>오징어 버터구이 만드는 법. 재료: 손질한 오징어 1마리, 버터 1큰술 외 3가지. 2인분, 15분, 난이도 쉬움. 맥주·소주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>카프레제 만드는 법 · 와인·진 안주 레시피</title>
     <link>https://jiggerbar.com/food/caprese/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/caprese/</guid>
-    <description>카프레제 만드는 법. 재료: 토마토 2개, 생 모차렐라 125g, 바질 잎 한 줌 외 3가지. 10분, 난이도 쉬움. 와인·진 안주.</description>
+    <description>카프레제 만드는 법. 재료: 토마토 2개, 생 모차렐라 125g, 바질 잎 한 줌 외 3가지. 2인분, 10분, 난이도 쉬움. 와인·진 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>세비체 만드는 법 · 테킬라·진·보드카 안주 레시피</title>
     <link>https://jiggerbar.com/food/ceviche/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/ceviche/</guid>
-    <description>세비체 만드는 법. 재료: 횟감용 흰살생선 또는 새우 200g, 라임 3개 외 5가지. 25분, 난이도 보통. 테킬라·진·보드카 안주.</description>
+    <description>세비체 만드는 법. 재료: 횟감용 흰살생선 또는 새우 200g, 라임 3개 외 5가지. 2인분, 25분, 난이도 보통. 테킬라·진·보드카 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>먹태구이 만드는 법 · 맥주·소주 안주 레시피</title>
     <link>https://jiggerbar.com/food/dried-pollock/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/dried-pollock/</guid>
-    <description>먹태구이 만드는 법. 재료: 먹태 1마리, 마요네즈 3큰술, 간장 1큰술, 청양고추 1개, 설탕 약간. 10분, 난이도 쉬움. 맥주·소주 안주.</description>
+    <description>먹태구이 만드는 법. 재료: 먹태 1마리, 마요네즈 3큰술, 간장 1큰술 외 2가지. 2인분, 10분, 난이도 쉬움. 맥주·소주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>에다마메 만드는 법 · 맥주·청주 안주 레시피</title>
     <link>https://jiggerbar.com/food/edamame/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/edamame/</guid>
-    <description>에다마메 만드는 법. 재료: 냉동 풋콩(에다마메) 300g, 굵은소금 1큰술. 10분, 난이도 쉬움. 맥주·청주 안주.</description>
+    <description>에다마메 만드는 법. 재료: 냉동 풋콩(에다마메) 300g, 굵은소금 1큰술. 2~3인분, 10분, 난이도 쉬움. 맥주·청주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>피시 타코 만드는 법 · 테킬라·맥주·럼 안주 레시피</title>
     <link>https://jiggerbar.com/food/fish-tacos/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/fish-tacos/</guid>
-    <description>피시 타코 만드는 법. 재료: 흰살생선(대구 등) 200g, 또르티야 4장 외 5가지. 30분, 난이도 보통. 테킬라·맥주·럼 안주.</description>
+    <description>피시 타코 만드는 법. 재료: 흰살생선(대구 등) 200g, 또르티야 4장 외 5가지. 2인분, 30분, 난이도 보통. 테킬라·맥주·럼 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>어묵탕 만드는 법 · 소주·청주 안주 레시피</title>
     <link>https://jiggerbar.com/food/fishcake-soup/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/fishcake-soup/</guid>
-    <description>어묵탕 만드는 법. 재료: 모둠 어묵 300g, 무 ¼개, 다시마 1장, 국간장 1큰술 외 1가지. 25분, 난이도 쉬움. 소주·청주 안주.</description>
+    <description>어묵탕 만드는 법. 재료: 모둠 어묵 300g, 무 ¼개, 다시마 1장 외 2가지. 2~3인분, 25분, 난이도 쉬움. 소주·청주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>과일 플래터 만드는 법 · 혼성주·와인·럼 안주 레시피</title>
     <link>https://jiggerbar.com/food/fruit-platter/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/fruit-platter/</guid>
-    <description>과일 플래터 만드는 법. 재료: 제철 과일 3~4가지(딸기·포도·오렌지·키위 등) 외 1가지. 15분, 난이도 쉬움. 혼성주·와인·럼 안주.</description>
+    <description>과일 플래터 만드는 법. 3~4인분, 15분, 난이도 쉬움. 혼성주·와인·럼 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>마늘빵 만드는 법 · 와인·맥주 안주 레시피</title>
     <link>https://jiggerbar.com/food/garlic-bread/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/garlic-bread/</guid>
-    <description>마늘빵 만드는 법. 재료: 바게트 ½개, 버터 50g(실온), 다진 마늘 1큰술 외 2가지. 15분, 난이도 쉬움. 와인·맥주 안주.</description>
+    <description>마늘빵 만드는 법. 재료: 바게트 ½개, 버터 50g(실온) 외 3가지. 2~3인분, 15분, 난이도 쉬움. 와인·맥주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>닭똥집 볶음 만드는 법 · 소주·맥주 안주 레시피</title>
     <link>https://jiggerbar.com/food/gizzards/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/gizzards/</guid>
-    <description>닭똥집 볶음 만드는 법. 재료: 닭모래집(닭똥집) 400g, 마늘 10쪽, 청양고추 2개 외 3가지. 20분, 난이도 보통. 소주·맥주 안주.</description>
+    <description>닭똥집 볶음 만드는 법. 재료: 닭모래집(닭똥집) 400g, 마늘 10쪽 외 4가지. 2~3인분, 20분, 난이도 보통. 소주·맥주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>과카몰리 만드는 법 · 테킬라·맥주 안주 레시피</title>
     <link>https://jiggerbar.com/food/guacamole/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/guacamole/</guid>
-    <description>과카몰리 만드는 법. 재료: 잘 익은 아보카도 2개, 양파 ¼개, 토마토 ½개 외 4가지. 15분, 난이도 쉬움. 테킬라·맥주 안주.</description>
+    <description>과카몰리 만드는 법. 재료: 잘 익은 아보카도 2개, 양파 ¼개 외 5가지. 3~4인분, 15분, 난이도 쉬움. 테킬라·맥주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>가라아게 만드는 법 · 맥주·위스키 안주 레시피</title>
     <link>https://jiggerbar.com/food/karaage/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/karaage/</guid>
-    <description>가라아게 만드는 법. 재료: 닭다리살 400g, 간장 2큰술, 청주 1큰술 외 4가지. 40분, 난이도 보통. 맥주·위스키 안주.</description>
+    <description>가라아게 만드는 법. 재료: 닭다리살 400g, 간장 2큰술, 청주 1큰술 외 4가지. 2~3인분, 40분, 난이도 보통. 맥주·위스키 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>문어숙회 만드는 법 · 소주·청주 안주 레시피</title>
     <link>https://jiggerbar.com/food/octopus/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/octopus/</guid>
-    <description>문어숙회 만드는 법. 재료: 손질한 생문어 다리 2개, 굵은소금, 초고추장 또는 기름장, 오이(선택). 20분, 난이도 보통. 소주·청주 안주.</description>
+    <description>문어숙회 만드는 법. 재료: 손질한 생문어 다리 2개, 굵은소금 외 2가지. 2~3인분, 20분, 난이도 보통. 소주·청주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>감자전 만드는 법 · 막걸리·청주 안주 레시피</title>
     <link>https://jiggerbar.com/food/potato-pancake/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/potato-pancake/</guid>
-    <description>감자전 만드는 법. 재료: 감자 3개, 소금 약간, 부침가루 2큰술(선택), 청양고추 1개, 식용유. 25분, 난이도 보통. 막걸리·청주 안주.</description>
+    <description>감자전 만드는 법. 재료: 감자 3개, 소금 약간, 부침가루 2큰술(선택) 외 2가지. 2인분, 25분, 난이도 보통. 막걸리·청주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>프로슈토 멜론 만드는 법 · 와인·진 안주 레시피</title>
     <link>https://jiggerbar.com/food/prosciutto-melon/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/prosciutto-melon/</guid>
-    <description>프로슈토 멜론 만드는 법. 재료: 멜론 ¼통, 프로슈토 6~8장, 후추 약간, 올리브유(선택). 10분, 난이도 쉬움. 와인·진 안주.</description>
+    <description>프로슈토 멜론 만드는 법. 재료: 멜론 ¼통, 프로슈토 6~8장, 후추 약간 외 1가지. 2~3인분, 10분, 난이도 쉬움. 와인·진 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>계란말이 만드는 법 · 소주·막걸리 안주 레시피</title>
     <link>https://jiggerbar.com/food/rolled-omelette/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/rolled-omelette/</guid>
-    <description>계란말이 만드는 법. 재료: 달걀 4개, 쪽파 2대, 당근 약간, 소금 약간, 식용유. 15분, 난이도 보통. 소주·막걸리 안주.</description>
+    <description>계란말이 만드는 법. 재료: 달걀 4개, 쪽파 2대, 당근 약간, 소금 약간, 식용유. 2~3인분, 15분, 난이도 보통. 소주·막걸리 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>소시지 야채볶음 만드는 법 · 맥주·소주 안주 레시피</title>
     <link>https://jiggerbar.com/food/sausage-stir-fry/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/sausage-stir-fry/</guid>
-    <description>소시지 야채볶음 만드는 법. 재료: 비엔나소시지 20개, 양파 ½개, 파프리카 ½개 외 3가지. 15분, 난이도 쉬움. 맥주·소주 안주.</description>
+    <description>소시지 야채볶음 만드는 법. 재료: 비엔나소시지 20개, 양파 ½개 외 4가지. 2~3인분, 15분, 난이도 쉬움. 맥주·소주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>훈제오리 부추무침 만드는 법 · 소주·위스키 안주 레시피</title>
     <link>https://jiggerbar.com/food/smoked-duck/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/smoked-duck/</guid>
-    <description>훈제오리 부추무침 만드는 법. 재료: 훈제오리 300g, 부추 한 줌, 양파 ¼개 외 3가지. 15분, 난이도 쉬움. 소주·위스키 안주.</description>
+    <description>훈제오리 부추무침 만드는 법. 재료: 훈제오리 300g, 부추 한 줌 외 4가지. 2~3인분, 15분, 난이도 쉬움. 소주·위스키 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>양송이 치즈구이 만드는 법 · 와인·맥주 안주 레시피</title>
     <link>https://jiggerbar.com/food/stuffed-mushrooms/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/stuffed-mushrooms/</guid>
-    <description>양송이 치즈구이 만드는 법. 재료: 양송이버섯 10개, 베이컨 2줄, 양파 약간 외 2가지. 20분, 난이도 쉬움. 와인·맥주 안주.</description>
+    <description>양송이 치즈구이 만드는 법. 재료: 양송이버섯 10개, 베이컨 2줄 외 3가지. 2~3인분, 20분, 난이도 쉬움. 와인·맥주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>수육 만드는 법 · 소주·청주 안주 레시피</title>
     <link>https://jiggerbar.com/food/suyuk/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/suyuk/</guid>
-    <description>수육 만드는 법. 재료: 통삼겹살 또는 앞다리살 600g, 된장 1큰술, 대파 1대 외 3가지. 1시간, 난이도 보통. 소주·청주 안주.</description>
+    <description>수육 만드는 법. 재료: 통삼겹살 또는 앞다리살 600g, 된장 1큰술 외 4가지. 3~4인분, 1시간, 난이도 보통. 소주·청주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
     <title>떡볶이 만드는 법 · 소주·맥주 안주 레시피</title>
     <link>https://jiggerbar.com/food/tteokbokki/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/tteokbokki/</guid>
-    <description>떡볶이 만드는 법. 재료: 떡볶이 떡 300g, 어묵 2장, 대파 1대, 고추장 2큰술 외 3가지. 20분, 난이도 쉬움. 소주·맥주 안주.</description>
+    <description>떡볶이 만드는 법. 재료: 떡볶이 떡 300g, 어묵 2장, 대파 1대 외 4가지. 2인분, 20분, 난이도 쉬움. 소주·맥주 안주.</description>
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
@@ -309,7 +330,7 @@
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>프레시 레몬 스쿼시 레시피 · 도수, 조주기능사 실기</title>
+    <title>프레시 레몬 스쿼시 레시피 · 도수와 조주기능사 실기 표준</title>
     <link>https://jiggerbar.com/cocktails/fresh-lemon-squash/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/fresh-lemon-squash/</guid>
     <description>프레시 레몬 스쿼시(Fresh Lemon Squash) 만드는 법. 빌드, 도수 논알콜 (0%). 조주기능사 실기 표준 수록.</description>
@@ -379,7 +400,7 @@
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>롱아일랜드 아이스티 레시피 · 도수, 조주기능사 실기</title>
+    <title>롱아일랜드 아이스티 레시피 · 도수와 조주기능사 실기 표준</title>
     <link>https://jiggerbar.com/cocktails/long-island-iced-tea/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/long-island-iced-tea/</guid>
     <description>롱아일랜드 아이스티(Long Island Iced Tea) 만드는 법. 빌드, 도수 약 17%. 조주기능사 실기 표준 수록.</description>
@@ -652,196 +673,196 @@
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>치즈 플래터 만드는 법 · 와인 안주 레시피</title>
+    <title>치즈 플래터 만드는 법 · 와인·브랜디·위스키 안주 레시피</title>
     <link>https://jiggerbar.com/food/cheese/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/cheese/</guid>
-    <description>치즈 플래터 만드는 법. 재료: 치즈 2~3종, 크래커, 꿀 또는 잼, 포도·무화과 등 과일. 10분, 난이도 쉬움. 와인·브랜디·위스키 안주.</description>
+    <description>치즈 플래터 만드는 법. 재료: 치즈 2~3종, 크래커, 꿀 또는 잼 외 1가지. 3~4인분, 10분, 난이도 쉬움. 와인·브랜디·위스키 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
     <title>다크초콜릿 &amp; 베리 만드는 법 · 혼성주 안주 레시피</title>
     <link>https://jiggerbar.com/food/chocolate/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/chocolate/</guid>
-    <description>다크초콜릿 &amp; 베리 만드는 법. 재료: 다크초콜릿 100g 외 2가지. 10분, 난이도 쉬움. 혼성주·와인·브랜디 안주.</description>
+    <description>다크초콜릿 &amp; 베리 만드는 법. 재료: 다크초콜릿 100g 외 2가지. 2인분, 10분, 난이도 쉬움. 혼성주·와인·브랜디 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>육포 &amp; 마른안주 만드는 법 · 위스키 안주 레시피</title>
+    <title>육포 &amp; 마른안주 만드는 법 · 위스키·브랜디 안주 레시피</title>
     <link>https://jiggerbar.com/food/dried-snacks/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/dried-snacks/</guid>
-    <description>육포 &amp; 마른안주 만드는 법. 재료: 육포 한 줌, 땅콩·아몬드 등 견과류, 건포도(선택). 10분, 난이도 쉬움. 위스키·브랜디 안주.</description>
+    <description>육포 &amp; 마른안주 만드는 법. 재료: 육포 한 줌, 땅콩·아몬드 등 견과류 외 1가지. 2인분, 10분, 난이도 쉬움. 위스키·브랜디 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
     <title>두부김치 만드는 법 · 소주·막걸리 안주 레시피</title>
     <link>https://jiggerbar.com/food/dubukimchi/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/dubukimchi/</guid>
-    <description>두부김치 만드는 법. 재료: 두부 1모, 신김치 1컵, 돼지고기(선택) 100g, 참기름·설탕. 25분, 난이도 보통. 소주·막걸리 안주.</description>
+    <description>두부김치 만드는 법. 재료: 두부 1모, 신김치 1컵 외 2가지. 2~3인분, 25분, 난이도 보통. 소주·막걸리 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
     <title>감자튀김 만드는 법 · 맥주·보드카 안주 레시피</title>
     <link>https://jiggerbar.com/food/french-fries/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/french-fries/</guid>
-    <description>감자튀김 만드는 법. 재료: 감자 2개, 식용유 (튀김용), 소금, 파프리카 파우더(선택). 20분, 난이도 쉬움. 맥주·보드카 안주.</description>
+    <description>감자튀김 만드는 법. 재료: 감자 2개, 식용유 (튀김용), 소금, 파프리카 파우더(선택). 2인분, 20분, 난이도 쉬움. 맥주·보드카 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
     <title>골뱅이무침 만드는 법 · 소주·막걸리 안주 레시피</title>
     <link>https://jiggerbar.com/food/golbaengi/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/golbaengi/</guid>
-    <description>골뱅이무침 만드는 법. 재료: 골뱅이 통조림 1개, 오이·당근 약간씩, 양파 ½개 외 3가지. 20분, 난이도 보통. 소주·막걸리 안주.</description>
+    <description>골뱅이무침 만드는 법. 재료: 골뱅이 통조림 1개, 오이·당근 약간씩 외 4가지. 2~3인분, 20분, 난이도 보통. 소주·막걸리 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
     <title>족발 플레이트 만드는 법 · 소주 안주 레시피</title>
     <link>https://jiggerbar.com/food/jokbal/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/jokbal/</guid>
-    <description>족발 플레이트 만드는 법. 재료: 시판 족발 1팩, 쌈장·마늘·쪽파, 상추·깻잎. 15분(완제품 활용), 난이도 쉬움. 소주 안주.</description>
+    <description>족발 플레이트 만드는 법. 재료: 시판 족발 1팩, 쌈장·마늘·쪽파, 상추·깻잎. 2~3인분, 15분(완제품 활용), 난이도 쉬움. 소주 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
     <title>나초 &amp; 살사 만드는 법 · 테킬라·맥주 안주 레시피</title>
     <link>https://jiggerbar.com/food/nachos/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/nachos/</guid>
-    <description>나초 &amp; 살사 만드는 법. 재료: 나초칩 한 봉지, 토마토 2개, 양파 ¼개, 라임즙 외 2가지. 20분, 난이도 보통. 테킬라·맥주 안주.</description>
+    <description>나초 &amp; 살사 만드는 법. 재료: 나초칩 한 봉지, 토마토 2개, 양파 ¼개 외 3가지. 2~3인분, 20분, 난이도 보통. 테킬라·맥주 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
     <title>허니 로스트 넛츠 만드는 법 · 와인 안주 레시피</title>
     <link>https://jiggerbar.com/food/nuts/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/nuts/</guid>
-    <description>허니 로스트 넛츠 만드는 법. 재료: 아몬드·캐슈넛 1컵, 꿀 2큰술 외 2가지. 15분, 난이도 쉬움. 와인·위스키·브랜디 안주.</description>
+    <description>허니 로스트 넛츠 만드는 법. 재료: 아몬드·캐슈넛 1컵, 꿀 2큰술 외 2가지. 2~3인분, 15분, 난이도 쉬움. 와인·위스키·브랜디 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>마리네이드 올리브 만드는 법 · 진 안주 레시피</title>
+    <title>마리네이드 올리브 만드는 법 · 진·보드카·와인 안주 레시피</title>
     <link>https://jiggerbar.com/food/olives/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/olives/</guid>
-    <description>마리네이드 올리브 만드는 법. 재료: 올리브 1컵, 올리브유 3큰술 외 3가지. 10분(+숙성), 난이도 쉬움. 진·보드카·와인 안주.</description>
+    <description>마리네이드 올리브 만드는 법. 재료: 올리브 1컵 외 4가지. 2~3인분, 10분(+숙성), 난이도 쉬움. 진·보드카·와인 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
     <title>김치파전 만드는 법 · 막걸리·청주 안주 레시피</title>
     <link>https://jiggerbar.com/food/pajeon/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/pajeon/</guid>
-    <description>김치파전 만드는 법. 재료: 부침가루 1컵, 물 1컵, 신김치 1컵(다진 것) 외 2가지. 25분, 난이도 보통. 막걸리·청주 안주.</description>
+    <description>김치파전 만드는 법. 재료: 부침가루 1컵, 물 1컵 외 3가지. 2~3인분, 25분, 난이도 보통. 막걸리·청주 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>훈제연어 카나페 만드는 법 · 와인 안주 레시피</title>
+    <title>훈제연어 카나페 만드는 법 · 와인·보드카·진 안주 레시피</title>
     <link>https://jiggerbar.com/food/salmon/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/salmon/</guid>
-    <description>훈제연어 카나페 만드는 법. 재료: 훈제연어 100g, 바게트 슬라이스, 크림치즈 외 2가지. 15분, 난이도 쉬움. 와인·보드카·진 안주.</description>
+    <description>훈제연어 카나페 만드는 법. 재료: 훈제연어 100g, 바게트 슬라이스 외 3가지. 2인분, 15분, 난이도 쉬움. 와인·보드카·진 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>갈릭 버터 새우 만드는 법 · 보드카 안주 레시피</title>
+    <title>갈릭 버터 새우 만드는 법 · 보드카·와인·혼성주 안주 레시피</title>
     <link>https://jiggerbar.com/food/shrimp/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/shrimp/</guid>
-    <description>갈릭 버터 새우 만드는 법. 재료: 새우 12마리, 버터 2큰술, 다진 마늘 3쪽 외 2가지. 15분, 난이도 보통. 보드카·와인·혼성주 안주.</description>
+    <description>갈릭 버터 새우 만드는 법. 재료: 새우 12마리, 버터 2큰술 외 3가지. 2인분, 15분, 난이도 보통. 보드카·와인·혼성주 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
     <title>스테이크 만드는 법 · 와인·위스키·브랜디 안주 레시피</title>
     <link>https://jiggerbar.com/food/steak/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/steak/</guid>
-    <description>스테이크 만드는 법. 재료: 스테이크용 고기 200g, 소금·후추, 버터 1큰술 외 2가지. 25분, 난이도 보통. 와인·위스키·브랜디 안주.</description>
+    <description>스테이크 만드는 법. 재료: 스테이크용 고기 200g, 소금·후추 외 3가지. 2인분, 25분, 난이도 보통. 와인·위스키·브랜디 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
     <title>양념 치킨윙 만드는 법 · 맥주·위스키 안주 레시피</title>
     <link>https://jiggerbar.com/food/wings/</link>
     <guid isPermaLink="true">https://jiggerbar.com/food/wings/</guid>
-    <description>양념 치킨윙 만드는 법. 재료: 닭날개 10개, 튀김가루 1컵, 고추장 2큰술 외 3가지. 35분, 난이도 보통. 맥주·위스키 안주.</description>
+    <description>양념 치킨윙 만드는 법. 재료: 닭날개 10개, 튀김가루 1컵 외 4가지. 2~3인분, 35분, 난이도 보통. 맥주·위스키 안주.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>조주기능사 필기 모의고사 · 예상문제 125개와 해설</title>
+    <title>조주기능사 필기 모의고사 · 무료 예상문제 125개와 해설</title>
     <link>https://jiggerbar.com/quiz/</link>
     <guid isPermaLink="true">https://jiggerbar.com/quiz/</guid>
     <description>조주기능사 필기 무료 모의고사. 예상문제 125개와 해설, 60문항 60분 실전 모드와 오답노트.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>맥주 도수 · 종류별 도수와 제조법</title>
+    <title>맥주 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/beer/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/beer/</guid>
     <description>맥주 도수는 4–6%. 에일, 라거 종류별 도수 비교와 원료 · 제조법.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>브랜디 도수 · 종류별 도수와 제조법</title>
+    <title>브랜디 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/brandy/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/brandy/</guid>
     <description>브랜디 도수는 40–45%. 코냑, 아르마냑, 칼바도스 종류별 도수 비교와 원료 · 제조법, 브랜디로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>진 도수 · 종류별 도수와 제조법</title>
+    <title>진 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/gin/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/gin/</guid>
     <description>진 도수는 37.5–47%. 런던 드라이, 올드 톰, 플리머스 종류별 도수 비교와 원료 · 제조법, 진으로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>혼성주(리큐르) 도수 · 종류별 도수와 제조법</title>
+    <title>혼성주(리큐르) 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/liqueur/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/liqueur/</guid>
     <description>혼성주 도수는 15–55%. 오렌지계, 허브계, 커피계, 크림계 종류별 도수 비교와 원료 · 제조법, 혼성주로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>럼 도수 · 종류별 도수와 제조법</title>
+    <title>럼 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/rum/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/rum/</guid>
     <description>럼 도수는 40% 내외. 화이트, 골드, 다크, 스파이스드 종류별 도수 비교와 원료 · 제조법, 럼으로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>소주 도수 · 종류별 도수와 제조법</title>
+    <title>소주 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/soju/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/soju/</guid>
     <description>소주 도수는 17–45%. 증류식 소주, 희석식 소주 종류별 도수 비교와 원료 · 제조법, 소주로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>막걸리(탁주) 도수 · 종류별 도수와 제조법</title>
+    <title>막걸리(탁주) 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/takju/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/takju/</guid>
     <description>막걸리 도수는 6–8%. 생막걸리, 살균 막걸리 종류별 도수 비교와 원료 · 제조법.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>테킬라 도수 · 종류별 도수와 제조법</title>
+    <title>테킬라 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/tequila/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/tequila/</guid>
     <description>테킬라 도수는 35–55%. 블랑코, 레포사도, 아녜호 종류별 도수 비교와 원료 · 제조법, 테킬라로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>보드카 도수 · 종류별 도수와 제조법</title>
+    <title>보드카 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/vodka/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/vodka/</guid>
     <description>보드카 도수는 40% 내외. 플레인, 플레이버드 종류별 도수 비교와 원료 · 제조법, 보드카로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>위스키 도수 · 종류별 도수와 제조법</title>
+    <title>위스키 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/whisky/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/whisky/</guid>
     <description>위스키 도수는 40–50%. 스카치, 버번, 아이리시, 캐나디안, 재패니즈 종류별 도수 비교와 원료 · 제조법, 위스키로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>와인 도수 · 종류별 도수와 제조법</title>
+    <title>와인 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/wine/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/wine/</guid>
     <description>와인 도수는 9–15%. 레드, 화이트, 로제, 스파클링, 주정강화 종류별 도수 비교와 원료 · 제조법, 와인으로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>청주·약주 도수 · 종류별 도수와 제조법</title>
+    <title>청주·약주 도수 · 종류별 차이와 제조법 정리</title>
     <link>https://jiggerbar.com/spirits/yakju/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/yakju/</guid>
     <description>청주 도수는 13–16%. 청주, 약주 종류별 도수 비교와 원료 · 제조법.</description>

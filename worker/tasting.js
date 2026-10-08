@@ -90,7 +90,7 @@ async function listPage(env) {
   const people = new Set(rows.flatMap(d => d.nicks)).size;
   const counts = {};
   for (const d of rows) counts[d.type] = (counts[d.type] || 0) + 1;
-  const c = crumbs([['Jigger', '/'], ['테이스팅 노트', '/tasting/']]);
+  const c = crumbs([['지거바', '/'], ['테이스팅 노트', '/tasting/']]);
   const chips = [`<button class="chip" type="button" data-v="all" aria-pressed="true">전체<span class="n">${rows.length}</span></button>`,
     ...TYPES.filter(t => counts[t.key]).map(t => `<button class="chip" type="button" data-v="${t.key}" aria-pressed="false">${esc(t.ko)}<span class="n">${counts[t.key]}</span></button>`)].join('');
   const tr = d => {
@@ -163,7 +163,7 @@ async function listPage(env) {
     </script>`;
   const items = {'@context':'https://schema.org', '@type':'ItemList', name:'테이스팅 노트',
     itemListElement: rows.slice(0, 100).map((d, i) => ({'@type':'ListItem', position:i + 1, url:`${SITE}/tasting/${d.id}/`, name:d.name}))};
-  return html(shell({url:'/tasting/', title:'테이스팅 노트 · 마셔 본 술 평점과 리뷰 | Jigger',
+  return html(shell({url:'/tasting/', title:'테이스팅 노트 · 마셔 본 술 평점과 리뷰 | 지거바',
     desc:'위스키, 와인, 맥주, 막걸리, 사케까지 직접 마셔 본 술의 평균 평점과 닉네임별 리뷰를 모았어요.',
     image:`${SITE}/og.jpg`, body, head:[c.list, ...(rows.length ? [items] : [])].map(ld).join('\n')}));
 }
@@ -175,7 +175,7 @@ async function nickPage(env, nick) {
     SELECT r.id, r.rating, r.tasted_on, r.review, r.is_admin, d.id AS drink_id, d.name, d.name_en, d.type, d.subtype
     FROM reviews r JOIN drinks d ON d.id = r.drink_id
     WHERE r.nickname = ? AND r.status = 'published' AND d.published = 1 ORDER BY r.tasted_on DESC NULLS LAST, r.id DESC`).bind(nick).all();
-  const c = crumbs([['Jigger', '/'], ['테이스팅 노트', '/tasting/'], [nick, nickURL(nick)]]);
+  const c = crumbs([['지거바', '/'], ['테이스팅 노트', '/tasting/'], [nick, nickURL(nick)]]);
   const rated = results.filter(r => r.rating != null);
   const avg = rated.length ? (rated.reduce((a, r) => a + r.rating, 0) / rated.length).toFixed(1) : null;
   const body = `    ${c.nav}
@@ -197,7 +197,7 @@ async function nickPage(env, nick) {
       </table></div>
     </section>` : ''}
     <div class="ctas"><a class="cta" href="/tasting/">술 목록으로 →</a></div>`;
-  return html(shell({url:'/tasting/', title:`${nick}의 테이스팅 노트 | Jigger`, desc:fitDesc(`${nick}님이 남긴 술 리뷰 ${results.length}개.`),
+  return html(shell({url:'/tasting/', title:`${nick}의 테이스팅 노트 | 지거바`, desc:fitDesc(`${nick}님이 남긴 술 리뷰 ${results.length}개.`),
     image:`${SITE}/og.jpg`, body, head:'<meta name="robots" content="noindex">'}));
 }
 
@@ -223,7 +223,7 @@ async function drinkPage(request, env, id) {
   }).filter(x => x[2].length);
   const pairs = {};
   for (const r of pub) for (const f of r.pairing) pairs[f.id] = f.ko;
-  const c = crumbs([['Jigger', '/'], ['테이스팅 노트', '/tasting/'], [d.name, `/tasting/${d.id}/`]]);
+  const c = crumbs([['지거바', '/'], ['테이스팅 노트', '/tasting/'], [d.name, `/tasting/${d.id}/`]]);
   const spirit = SPIRIT_PAGE[d.type];
   const facts = [
     [t.en + ' · ' + t.ko, spirit ? `/spirits/${spirit}/` : null],
@@ -291,8 +291,8 @@ async function drinkPage(request, env, id) {
         reviewBody:fitDesc(r.review, 300)}))} : {})};
   const head = [c.list, ...(n ? [product] : [])].map(ld).join('\n') + (d.published ? '' : '\n<meta name="robots" content="noindex">');
   return html(shell({url:`/tasting/${d.id}/`,
-    title:fitTitle(`${d.name}${d.name_en ? ` (${d.name_en})` : ''} 리뷰${n ? ` · 평균 ${avg.toFixed(1)}점` : ''} | Jigger`,
-      `${d.name} 리뷰${n ? ` · 평균 ${avg.toFixed(1)}점` : ''} | Jigger`, `${d.name} 리뷰 | Jigger`, `${d.name}`.slice(0, 31) + ' 리뷰 | Jigger'),
+    title:fitTitle(`${d.name}${d.name_en ? ` (${d.name_en})` : ''} 리뷰${n ? ` · 평균 ${avg.toFixed(1)}점` : ''} | 지거바`,
+      `${d.name} 리뷰${n ? ` · 평균 ${avg.toFixed(1)}점` : ''} | 지거바`, `${d.name} 리뷰 | 지거바`, `${d.name}`.slice(0, 31) + ' 리뷰 | 지거바'),
     desc:fitDesc(n ? `${d.name} 리뷰 ${pub.length}개, 평균 평점 ${avg.toFixed(1)}/5. ${pub[0].review}` : `${d.name} (${t.ko}) 테이스팅 노트. 마셔 봤다면 첫 리뷰를 남겨 주세요.`),
     image, body, head}));
 }

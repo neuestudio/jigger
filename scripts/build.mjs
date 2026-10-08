@@ -10,6 +10,7 @@ import path from 'path';
 import vm from 'vm';
 import {fileURLToPath} from 'url';
 import {execFileSync} from 'child_process';
+import magazine from './magazine.mjs';
 import {TYPES as T_TYPES, NOTES as T_NOTES, NOTE_PARTS as T_PARTS, LIMITS as T_LIMITS} from '../worker/tasting-config.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -56,7 +57,7 @@ const SPIRIT = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
 const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g,'\\u003c')}</script>`;
 const FONT = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
-const NAV = [['/cocktails/', '칵테일 레시피', 'cocktail'], ['/spirits/', '주류 상식', 'spirit'], ['/food/', '안주 레시피', 'food'], ['/party/', '홈파티 아이디어', 'party'], ['/quiz/', '조주기능사 필기', 'quiz'], ['/tasting/', '테이스팅 노트', 'tasting']];
+const NAV = [['/cocktails/', '칵테일 레시피', 'cocktail'], ['/spirits/', '주류 상식', 'spirit'], ['/food/', '안주 레시피', 'food'], ['/party/', '홈파티 아이디어', 'party'], ['/magazine/', '매거진', 'magazine'], ['/quiz/', '조주기능사 필기', 'quiz'], ['/tasting/', '테이스팅 노트', 'tasting']];
 
 function crumbs(items){
   const list = {'@context':'https://schema.org', '@type':'BreadcrumbList',
@@ -74,7 +75,7 @@ function page({url, title, desc, image, section, body, jsonld}){
 <meta name="description" content="${esc(desc)}">
 ${url ? `<link rel="canonical" href="${SITE}${url}">` : '<meta name="robots" content="noindex">'}
 <meta property="og:type" content="article">
-<meta property="og:site_name" content="Jigger">
+<meta property="og:site_name" content="지거바">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
@@ -93,7 +94,7 @@ ${url ? `<meta property="og:url" content="${SITE}${url}">\n` : ''}<meta property
 <script>(function(l){ function on(){ l.media='all'; } if(l.sheet) on(); else l.addEventListener('load', on); })(document.getElementById('fontKo'));</script>
 <noscript><link rel="stylesheet" href="${FONT}"></noscript>
 <link rel="stylesheet" href="/page.css">
-<link rel="alternate" type="application/rss+xml" title="Jigger" href="${SITE}/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="지거바" href="${SITE}/rss.xml">
 ${jsonld.map(ld).join('\n')}
 <div class="wrap">
   <header class="top">
@@ -104,7 +105,7 @@ ${jsonld.map(ld).join('\n')}
 ${body}
   </main>
   <footer class="foot">
-    <span>Jigger · 평범한 오늘을 작은 파티로 · <a href="https://www.instagram.com/jiggerbarlog/" target="_blank" rel="noopener">Instagram @jiggerbarlog</a></span>
+    <span>지거바 · 평범한 오늘을 작은 파티로 · <a href="https://www.instagram.com/jiggerbarlog/" target="_blank" rel="noopener">Instagram @jiggerbarlog</a></span>
     <span><a href="/about/">소개</a> · <a href="/contact/">문의하기</a> · <a href="/privacy/">개인정보처리방침</a> · 음주는 성인만, 적당히 즐겨요.</span>
   </footer>
 </div>
@@ -176,11 +177,11 @@ function cocktailPage(r){
   const photo = PHOTOS.cocktails.includes(r.id);
   const image = photo ? `${SITE}/images/cocktails/${r.id}.webp` : `${SITE}/og.jpg`;
   // 칵테일 검색은 "진토닉 도수"처럼 도수를 함께 찾는 경우가 많아 제목에 도수를 넣어요
-  const title = e ? fitTitle(`${r.ko} 레시피 · 도수와 조주기능사 실기 표준 | Jigger`, `${r.ko} 레시피 · 도수, 조주기능사 실기 | Jigger`, `${r.ko} 레시피 · 조주기능사 실기 | Jigger`, `${r.ko} 레시피 | Jigger`)
-    : zero ? fitTitle(`${r.ko} 레시피 · 무알콜 칵테일 만드는 법 | Jigger`, `${r.ko} · 무알콜 칵테일 레시피 | Jigger`, `${r.ko} 레시피 | Jigger`)
-    : fitTitle(`${r.ko} 레시피 · 만드는 법, 비율과 도수 | Jigger`, `${r.ko} 레시피 · 비율과 도수 | Jigger`, `${r.ko} 레시피 | Jigger`);
+  const title = e ? fitTitle(`${r.ko} 레시피 · 도수와 조주기능사 실기 표준 | 지거바`, `${r.ko} 레시피 · 도수, 조주기능사 실기 | 지거바`, `${r.ko} 레시피 · 조주기능사 실기 | 지거바`, `${r.ko} 레시피 | 지거바`)
+    : zero ? fitTitle(`${r.ko} 레시피 · 무알콜 칵테일 만드는 법 | 지거바`, `${r.ko} · 무알콜 칵테일 레시피 | 지거바`, `${r.ko} 레시피 | 지거바`)
+    : fitTitle(`${r.ko} 레시피 · 만드는 법, 비율과 도수 | 지거바`, `${r.ko} 레시피 · 비율과 도수 | 지거바`, `${r.ko} 레시피 | 지거바`);
   const desc = fitDesc(ings=>`${r.ko}(${r.en}) 만드는 법.${ings ? ` ${ings}.` : ''} ${r.method}, 도수 ${abv}.${e ? ' 조주기능사 실기 표준 수록.' : ''}`, r.ing.map(ingText));
-  const c = crumbs([['Jigger','/'], ['칵테일 레시피','/cocktails/'], [r.ko, url]]);
+  const c = crumbs([['지거바','/'], ['칵테일 레시피','/cocktails/'], [r.ko, url]]);
 
   const same = D.RECIPES.filter(x=>x.base===r.base && x.id!==r.id);
   const more = [...same, ...D.RECIPES.filter(x=>x.base!==r.base && x.id!==r.id)].slice(0, 4);
@@ -229,7 +230,7 @@ function cocktailPage(r){
           <ul class="exing">${e.ing.map(([n, a])=>`<li><span>${esc(n)}</span><span class="amt">${esc(D.examAmount(a))}</span></li>`).join('')}</ul>
           <p class="src">출처: ${esc(D.EXAM_SOURCE)}. 실기시험은 재료·조주법·글라스·가니시를 이 기준으로 채점해요.</p>
         </section>` : ''}
-        <a class="cta" href="/#${r.id}">Jigger에서 잔 수에 맞춰 계량하기 →</a>
+        <a class="cta" href="/#${r.id}">지거바에서 잔 수에 맞춰 계량하기 →</a>
       </div>
     </article>
     <section class="more">
@@ -247,7 +248,7 @@ function cocktailPage(r){
 
   const recipe = {'@context':'https://schema.org', '@type':'Recipe',
     name:`${r.ko} (${r.en})`, image:[image], description:r.note,
-    author:{'@type':'Organization', name:'Jigger', url:SITE+'/'},
+    author:{'@type':'Organization', name:'지거바', url:SITE+'/'},
     recipeCategory:zero ? '무알콜 칵테일' : '칵테일', recipeYield:'1잔',
     keywords:[`${r.ko} 레시피`, `${r.ko} 만드는 법`, r.en, zero ? '무알콜 칵테일' : `${r.base} 칵테일`, ...(e ? ['조주기능사 실기', `${r.ko} 조주기능사`] : []), ...alias].join(', '),
     recipeIngredient:r.ing.map(ingText),
@@ -264,9 +265,9 @@ function perm(id){ // 문제마다 고정된 보기 순서 (정답이 항상 ①
 }
 function quizPage(){
   const url = '/quiz/';
-  const title = fitTitle(`조주기능사 필기 모의고사 · 무료 예상문제 ${QUIZ.length}개와 해설 | Jigger`, `조주기능사 필기 모의고사 · 예상문제 ${QUIZ.length}개와 해설 | Jigger`);
+  const title = fitTitle(`조주기능사 필기 모의고사 · 무료 예상문제 ${QUIZ.length}개와 해설 | 지거바`, `조주기능사 필기 모의고사 · 예상문제 ${QUIZ.length}개와 해설 | 지거바`);
   const desc = `조주기능사 필기 무료 모의고사. 예상문제 ${QUIZ.length}개와 해설, 60문항 60분 실전 모드와 오답노트.`;
-  const c = crumbs([['Jigger','/'], ['조주기능사 필기', url]]);
+  const c = crumbs([['지거바','/'], ['조주기능사 필기', url]]);
   let n = 0;
   const groups = QCATS.map((cat, ci)=>{
     const qs = QUIZ.filter(q=>q.cat===cat);
@@ -354,8 +355,8 @@ function spiritPage(sp){
   const image = photo ? `${SITE}/images/spirits/${sp.id}.webp` : `${SITE}/og.jpg`;
   // 사람들이 실제로 찾는 말("럼 도수")로 시작하고, 설명문에는 답과 함께 페이지에 더 있는 내용을 알려줘요
   const nm = spiritNames(sp)[0];
-  const title = fitTitle(`${sp.ko} 도수 · 종류별 도수와 제조법 | Jigger`, `${sp.ko} 도수 · 종류와 제조법 | Jigger`, `${sp.ko} 도수 | Jigger`);
-  const c = crumbs([['Jigger','/'], ['주류 상식','/spirits/'], [sp.ko, url]]);
+  const title = fitTitle(`${sp.ko} 도수 · 종류별 차이와 제조법 정리 | 지거바`, `${sp.ko} 도수 · 종류와 제조법 | 지거바`, `${sp.ko} 도수 | 지거바`);
+  const c = crumbs([['지거바','/'], ['주류 상식','/spirits/'], [sp.ko, url]]);
   const bases = Object.entries(BASE_SPIRIT).filter(([, ids])=>ids.includes(sp.id)).map(([b])=>b);
   const cocktails = D.RECIPES.filter(r=>bases.includes(r.base)).slice(0, 4);
   const desc = fitDesc(t=>`${nm} 도수는 ${sp.abv}.${t ? ` ${t}` : ''} 종류별 도수 비교와 원료 · 제조법${cocktails.length ? `, ${nm}${euro(nm)} 만드는 칵테일` : ''}.`, sp.types.split(' · ').map(t=>t.replace(/\(.*?\)/g, '').trim()));
@@ -409,7 +410,7 @@ function spiritPage(sp){
       <ul class="alllinks">${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/"${x.id===sp.id?' aria-current="page"':''}>${esc(x.ko)}</a></li>`).join('')}</ul>
     </section>`;
   const article = {'@context':'https://schema.org', '@type':'Article', headline:`${nm} 도수와 종류별 도수 · 제조법`,
-    description:desc, image:[image], author:{'@type':'Organization', name:'Jigger', url:SITE+'/'}, inLanguage:'ko'};
+    description:desc, image:[image], author:{'@type':'Organization', name:'지거바', url:SITE+'/'}, inLanguage:'ko'};
   return {url, html:page({url, title, desc, image, section:'spirit', body, jsonld:[article, c.list]})};
 }
 
@@ -421,9 +422,9 @@ function foodPage(f){
   const pairs = f.pairsWith.map(id=>SPIRIT[id]);
   const pairNames = pairs.map(x=>spiritNames(x)[0]);
   const diff = D.DIFF[f.diff-1];
-  const title = fitTitle(`${f.ko} 만드는 법 · ${pairNames.join('·')} 안주 레시피 | Jigger`, `${f.ko} 만드는 법 · ${pairNames[0]} 안주 레시피 | Jigger`, `${f.ko} 만드는 법 · 안주 레시피 | Jigger`, `${f.ko} 만드는 법 | Jigger`);
-  const desc = fitDesc(mats=>`${f.ko} 만드는 법.${mats ? ` 재료: ${mats}.` : ''} ${f.time}, 난이도 ${diff}. ${pairNames.join('·')} 안주.`, f.material);
-  const c = crumbs([['Jigger','/'], ['안주 레시피','/food/'], [f.ko, url]]);
+  const title = fitTitle(`${f.ko} 만드는 법 · ${pairNames.join('·')} 안주 레시피 | 지거바`, `${f.ko} 만드는 법 · ${pairNames[0]} 안주 레시피 | 지거바`, `${f.ko} 만드는 법 · 안주 레시피 | 지거바`, `${f.ko} 만드는 법 | 지거바`);
+  const desc = fitDesc(mats=>`${f.ko} 만드는 법.${mats ? ` 재료: ${mats}.` : ''} ${f.serves}, ${f.time}, 난이도 ${diff}. ${pairNames.join('·')} 안주.`, f.material);
+  const c = crumbs([['지거바','/'], ['안주 레시피','/food/'], [f.ko, url]]);
   const bases = Object.entries(BASE_SPIRIT).filter(([, ids])=>ids.some(id=>f.pairsWith.includes(id))).map(([b])=>b);
   const cocktails = D.RECIPES.filter(r=>bases.includes(r.base)).slice(0, 4);
   const others = D.FOOD.filter(x=>x.id!==f.id && x.pairsWith.some(id=>f.pairsWith.includes(id))).slice(0, 4);
@@ -437,7 +438,8 @@ function foodPage(f){
         <h1 class="title"><span class="en">${esc(f.en)}</span> <span class="ko">${esc(f.ko)}</span></h1>
         <div class="tags">${pairs.map(x=>`<a class="tag" href="/spirits/${x.id}/">${esc(x.ko)}</a>`).join('')}</div>
         <p class="lead">${esc(f.note)}</p>
-        <dl class="spec">
+        <dl class="spec s3">
+          <div><dt>분량</dt><dd>${esc(f.serves)}</dd></div>
           <div><dt>조리 시간</dt><dd>${esc(f.time)}</dd></div>
           <div><dt>난이도</dt><dd>${diff}</dd></div>
           <div class="wide"><dt>어울리는 술</dt><dd>${pairs.map(x=>`<a href="/spirits/${x.id}/">${esc(x.ko)}</a>`).join(' · ')}</dd></div>
@@ -450,7 +452,7 @@ function foodPage(f){
           <div class="sec-h"><h2>만드는 법</h2></div>
           <ol class="steps">${f.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
         </section>
-        <a class="cta" href="/#${f.id}">Jigger에서 재료 체크하며 만들기 →</a>
+        <a class="cta" href="/#${f.id}">지거바에서 재료 체크하며 만들기 →</a>
       </div>
     </article>
     ${cocktails.length ? `<section class="more">
@@ -467,16 +469,16 @@ function foodPage(f){
     </section>`;
   const mins = /^(\d+)분$/.exec(f.time);
   const recipe = {'@context':'https://schema.org', '@type':'Recipe', name:`${f.ko} (${f.en})`, image:[image], description:f.note,
-    author:{'@type':'Organization', name:'Jigger', url:SITE+'/'}, recipeCategory:'안주',
+    author:{'@type':'Organization', name:'지거바', url:SITE+'/'}, recipeCategory:'안주',
     keywords:[`${f.ko} 만드는 법`, ...pairNames.map(n=>`${n} 안주`)].join(', '),
-    ...(mins ? {totalTime:`PT${mins[1]}M`} : {}),
+    recipeYield:f.serves, ...(mins ? {totalTime:`PT${mins[1]}M`} : {}),
     recipeIngredient:f.material, recipeInstructions:f.steps.map(text=>({'@type':'HowToStep', text}))};
   return {url, html:page({url, title, desc, image, section:'food', body, jsonld:[recipe, c.list]})};
 }
 
 /* ---------- 목록 페이지 (/cocktails/, /spirits/, /food/) ---------- */
 function listPage({url, section, eyebrow, h1, lead, title, desc, groups, dir, crumbName, top='', extra='', cardAttr=null, gridId=''}){
-  const c = crumbs([['Jigger','/'], [crumbName, url]]);
+  const c = crumbs([['지거바','/'], [crumbName, url]]);
   const all = groups.flatMap(g=>g.items);
   const body = `    ${c.nav}
     <section class="hero">
@@ -501,7 +503,7 @@ ${extra}`;
 function cocktailsIndex(){
   const exam = D.RECIPES.filter(r=>r.exam).length;
   return listPage({url:'/cocktails/', section:'cocktail', dir:'cocktails', crumbName:'칵테일 레시피', eyebrow:'Cocktail Recipes',
-    h1:'칵테일 레시피', title:fitTitle(`칵테일 레시피 ${D.RECIPES.length}가지 · 조주기능사 실기 ${exam}가지 포함 | Jigger`, `칵테일 레시피 ${D.RECIPES.length}가지 | Jigger`),
+    h1:'칵테일 레시피', title:fitTitle(`칵테일 레시피 ${D.RECIPES.length}가지 · 조주기능사 실기 ${exam}종 포함 | 지거바`, `칵테일 레시피 ${D.RECIPES.length}가지 | 지거바`),
     desc:`집에서 만드는 칵테일 레시피 ${D.RECIPES.length}가지를 베이스별로 모았어요. 조주기능사 실기 ${exam}가지 표준 레시피 포함.`,
     lead:`집에서 만드는 칵테일 ${D.RECIPES.length}가지를 베이스별로 모았어요. 조주기능사 실기 ${exam}가지는 시험 표준 레시피(조주법·글라스·가니시)도 함께 볼 수 있어요.`,
     groups: D.BASES.map(b=>({name:`${b} ${b==='논알콜'?'칵테일':'베이스'}`, items:D.RECIPES.filter(r=>r.base===b)})).filter(g=>g.items.length),
@@ -512,14 +514,14 @@ function cocktailsIndex(){
 }
 function spiritsIndex(){
   return listPage({url:'/spirits/', section:'spirit', dir:'spirits', crumbName:'주류 상식', eyebrow:'Spirits Guide',
-    h1:'주류 상식', title:fitTitle(`주류 상식 ${D.SPIRITS.length}가지 · 양조주·증류주·전통주·혼성주 정리 | Jigger`, `주류 상식 ${D.SPIRITS.length}가지 · 술 종류별 도수와 제조법 | Jigger`, `주류 상식 | Jigger`),
+    h1:'주류 상식', title:fitTitle(`주류 상식 ${D.SPIRITS.length}가지 · 양조주·증류주·전통주·혼성주 정리 | 지거바`, `주류 상식 ${D.SPIRITS.length}가지 · 술 종류별 도수와 제조법 | 지거바`, `주류 상식 | 지거바`),
     desc:`맥주·와인·위스키·소주 등 술 ${D.SPIRITS.length}가지의 원료, 제조법, 도수, 종류 정리. 조주기능사 필기 대비.`,
     lead:`조주기능사 필기시험의 주류학 범위를 기준으로 ${D.SPIRITS.length}가지 술을 양조주·증류주·전통주·혼성주로 나눠 원료와 제조 공정, 도수를 정리했어요.`,
     groups: D.CATS.map(cat=>({name:cat, items:D.SPIRITS.filter(x=>x.cat===cat)})).filter(g=>g.items.length)});
 }
 function foodIndex(){
   return listPage({url:'/food/', section:'food', dir:'food', crumbName:'안주 레시피', eyebrow:'Food Pairing',
-    h1:'안주 레시피', title:fitTitle(`안주 레시피 ${D.FOOD.length}가지 · 술 종류별 어울리는 안주 | Jigger`, `안주 레시피 ${D.FOOD.length}가지 | Jigger`),
+    h1:'안주 레시피', title:fitTitle(`안주 레시피 ${D.FOOD.length}가지 · 술 종류별 어울리는 메뉴 | 지거바`, `안주 레시피 ${D.FOOD.length}가지 | 지거바`),
     desc:`맥주·소주·와인·위스키·막걸리에 어울리는 안주 레시피 ${D.FOOD.length}가지. 조리 시간·난이도·재료 정리.`,
     lead:`술 종류에 어울리는 안주 ${D.FOOD.length}가지를 모았어요. 안주마다 조리 시간과 난이도, 어울리는 술을 함께 볼 수 있어요.`,
     groups:[{name:'안주 레시피 전체', items:D.FOOD}], gridId:'foodCards',
@@ -560,9 +562,9 @@ function foodIndex(){
 const POLICY_DATE = '2026년 10월 3일';
 function contactPage(){
   const url = '/contact/';
-  const title = '문의하기 | Jigger';
+  const title = '문의하기 | 지거바';
   const desc = '레시피·조주기능사 문제 오류 제보, 제휴·광고 문의를 보내주세요. 확인 후 이메일로 답변드려요.';
-  const c = crumbs([['Jigger','/'], ['문의하기', url]]);
+  const c = crumbs([['지거바','/'], ['문의하기', url]]);
   const body = `    ${c.nav}
     <section class="hero">
       <span class="eyebrow">Contact</span>
@@ -621,9 +623,9 @@ function contactPage(){
 }
 function privacyPage(){
   const url = '/privacy/';
-  const title = '개인정보처리방침 | Jigger';
-  const desc = 'Jigger가 수집하는 개인정보 항목과 이용 목적, 보관 기간, 쿠키와 광고(Google AdSense) 안내.';
-  const c = crumbs([['Jigger','/'], ['개인정보처리방침', url]]);
+  const title = '개인정보처리방침 | 지거바';
+  const desc = '지거바가 수집하는 개인정보 항목과 이용 목적, 보관 기간, 쿠키와 광고(Google AdSense) 안내.';
+  const c = crumbs([['지거바','/'], ['개인정보처리방침', url]]);
   const ext = (href, text) => `<a href="${href}" rel="noopener" target="_blank">${text}</a>`;
   const sec = (h, inner) => `    <section class="sec">
       <div class="sec-h"><h2>${h}</h2></div>
@@ -633,7 +635,7 @@ function privacyPage(){
     <section class="hero">
       <span class="eyebrow">Privacy Policy</span>
       <h1>개인정보처리방침</h1>
-      <p class="lead">Jigger(이하 "사이트")는 이용자의 개인정보를 소중히 다루며 「개인정보 보호법」 등 관련 법령을 지켜요. 이 방침은 사이트가 어떤 정보를 왜 수집하고 어떻게 보호하는지 설명해요.</p>
+      <p class="lead">지거바(이하 "사이트")는 이용자의 개인정보를 소중히 다루며 「개인정보 보호법」 등 관련 법령을 지켜요. 이 방침은 사이트가 어떤 정보를 왜 수집하고 어떻게 보호하는지 설명해요.</p>
       <p class="note">시행일 ${POLICY_DATE}</p>
     </section>
 ${sec('1. 수집하는 개인정보와 이용 목적', `<p class="lead">사이트는 회원가입 없이 이용할 수 있으며, 아래의 경우에만 개인정보를 처리해요.</p>
@@ -665,7 +667,7 @@ ${sec('10. 안전성 확보 조치', `<p class="lead">사이트와 문의 내용
 ${sec('11. 만 14세 미만 아동', `<p class="lead">사이트는 성인을 위한 주류 정보를 다루며, 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않아요.</p>`)}
 ${sec('12. 개인정보 보호책임자와 권익 침해 구제', `<p class="lead">개인정보 관련 문의, 불만, 피해 구제는 아래로 연락해 주세요.</p>
       <dl class="spec">
-        <div><dt>개인정보 보호책임자</dt><dd>Jigger 운영자</dd></div>
+        <div><dt>개인정보 보호책임자</dt><dd>지거바 운영자</dd></div>
         <div><dt>이메일</dt><dd><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></dd></div>
       </dl>
       <p class="lead">개인정보 침해에 대한 신고나 상담은 아래 기관에도 할 수 있어요.</p>
@@ -682,14 +684,14 @@ ${sec('13. 방침의 변경', `<p class="lead">이 방침이 바뀌면 시행일
 /* ---------- 소개 · 문의 페이지 ---------- */
 function aboutPage(){
   const url = '/about/';
-  const title = 'Jigger 소개 · 문의 | 칵테일 레시피와 조주기능사 필기';
-  const desc = `Jigger 소개와 문의. 칵테일·주류 상식·안주 레시피와 조주기능사 문제의 콘텐츠 기준 안내.`;
-  const c = crumbs([['Jigger','/'], ['소개 · 문의', url]]);
+  const title = '지거바 소개 · 문의 | 칵테일 레시피와 조주기능사 필기';
+  const desc = `지거바 소개와 문의. 칵테일·주류 상식·안주 레시피와 조주기능사 문제의 콘텐츠 기준 안내.`;
+  const c = crumbs([['지거바','/'], ['소개 · 문의', url]]);
   const body = `    ${c.nav}
     <section class="hero">
       <span class="eyebrow">About · Contact</span>
-      <h1>Jigger 소개</h1>
-      <p class="lead">Jigger는 집에서 칵테일을 만들고, 술을 조금 더 알고 싶은 사람을 위한 사이트예요. 칵테일은 잔 수에 맞춰 계량할 수 있게, 술은 원료와 제조 방식부터, 조주기능사 필기는 해설과 함께 풀어볼 수 있게 정리했어요.</p>
+      <h1>지거바 소개</h1>
+      <p class="lead">지거바(Jigger)는 집에서 칵테일을 만들고, 술을 조금 더 알고 싶은 사람을 위한 사이트예요. 칵테일은 잔 수에 맞춰 계량할 수 있게, 술은 원료와 제조 방식부터, 조주기능사 필기는 해설과 함께 풀어볼 수 있게 정리했어요.</p>
     </section>
     <section class="sec">
       <div class="sec-h"><h2>무엇을 담았나요</h2></div>
@@ -711,7 +713,7 @@ function aboutPage(){
     </section>
     <section class="sec">
       <div class="sec-h"><h2>개인정보</h2></div>
-      <p class="lead">Jigger는 회원가입이 없어요. 즐겨찾기, 오답노트, 모의고사 기록, 나의 술 기록장은 사용하는 브라우저 안에만 저장되고 서버로 전송되지 않아요. 문의하기로 보내주신 이름과 이메일은 답변에만 사용해요. 자세한 내용은 <a href="/privacy/">개인정보처리방침</a>을 확인해 주세요.</p>
+      <p class="lead">지거바는 회원가입이 없어요. 즐겨찾기, 오답노트, 모의고사 기록, 나의 술 기록장은 사용하는 브라우저 안에만 저장되고 서버로 전송되지 않아요. 문의하기로 보내주신 이름과 이메일은 답변에만 사용해요. 자세한 내용은 <a href="/privacy/">개인정보처리방침</a>을 확인해 주세요.</p>
     </section>
     <section class="sec">
       <div class="sec-h"><h2>문의</h2></div>
@@ -722,7 +724,7 @@ function aboutPage(){
       <p class="note">레시피·문제 오류 제보, 제휴 문의 모두 환영해요.</p>
     </section>`;
   const about = {'@context':'https://schema.org', '@type':'AboutPage', name:title, url:SITE+url, inLanguage:'ko',
-    mainEntity:{'@type':'Organization', name:'Jigger', url:SITE+'/', logo:SITE+'/apple-touch-icon.png',
+    mainEntity:{'@type':'Organization', name:'지거바', url:SITE+'/', logo:SITE+'/apple-touch-icon.png',
       email:CONTACT.email,
       contactPoint:{'@type':'ContactPoint', contactType:'customer support', email:CONTACT.email, availableLanguage:['Korean']}}};
   return {url, html:page({url, title, desc, image:`${SITE}/og.jpg`, section:null, body, jsonld:[about, c.list]})};
@@ -746,7 +748,7 @@ const TASTING_SCRIPTS = `<script src="/data.js" defer></script>
     <script src="/tasting/assets/tasting.js" defer></script>`;
 function tastingMyPage(){
   const url = '/tasting/my/';
-  const c = crumbs([['Jigger','/'], ['테이스팅 노트','/tasting/'], ['나의 술 기록장', url]]);
+  const c = crumbs([['지거바','/'], ['테이스팅 노트','/tasting/'], ['나의 술 기록장', url]]);
   const body = `    ${c.nav}
     <section class="hero">
       <span class="eyebrow">My Tasting Notes · 나의 술 기록장</span>
@@ -763,12 +765,12 @@ function tastingMyPage(){
     </section>
     ${TASTING_SCRIPTS}
     <script src="/tasting/assets/my.js" defer></script>`;
-  return {url, html:page({url, title:'나의 술 기록장 · 마셔 본 술 평점 기록 | Jigger',
+  return {url, html:page({url, title:'나의 술 기록장 · 마셔 본 술 평점 기록 | 지거바',
     desc:'마셔 본 위스키, 와인, 맥주, 막걸리를 평점과 테이스팅 노트로 기록하는 무료 술 기록장. 로그인 없이 바로 써요.',
     image:`${SITE}/og.jpg`, section:'tasting', body, jsonld:[c.list]})};
 }
 // 관리자 화면: 검색에 나오지 않게 noindex (url:null), sitemap에도 넣지 않아요
-wr('tasting/admin/index.html', page({url:null, title:'테이스팅 노트 관리 | Jigger', desc:'테이스팅 노트 관리자 화면', image:`${SITE}/og.jpg`, section:'tasting', jsonld:[],
+wr('tasting/admin/index.html', page({url:null, title:'테이스팅 노트 관리 | 지거바', desc:'테이스팅 노트 관리자 화면', image:`${SITE}/og.jpg`, section:'tasting', jsonld:[],
   body:`    <section class="hero">
       <span class="eyebrow">Admin · 관리자</span>
       <h1>테이스팅 노트 관리</h1>
@@ -789,7 +791,7 @@ function partyCard(pt){
 }
 function partyIndex(){
   const url = '/party/';
-  const c = crumbs([['Jigger','/'], ['홈파티 아이디어', url]]);
+  const c = crumbs([['지거바','/'], ['홈파티 아이디어', url]]);
   const body = `    ${c.nav}
     <section class="hero">
       <span class="eyebrow">Hosting Ideas · 홈파티 아이디어</span>
@@ -806,13 +808,13 @@ function partyIndex(){
     </section>`;
   const list = {'@context':'https://schema.org', '@type':'ItemList', name:'홈파티 아이디어',
     itemListElement: D.PARTIES.map((pt, i)=>({'@type':'ListItem', position:i+1, url:`${SITE}/party/${pt.id}/`, name:pt.ko}))};
-  return {url, html:page({url, title:'홈파티 아이디어 · 파티별 술, 안주, 준비물 | Jigger',
+  return {url, html:page({url, title:'홈파티 아이디어 · 파티별 술, 안주, 준비물 | 지거바',
     desc:`와인 & 치즈 나이트, 생일 파티, 집들이, 브런치까지. 파티별 칵테일, 안주, 준비물 체크리스트와 준비 순서.`,
     image:`${SITE}/og.jpg`, section:'party', body, jsonld:[list, c.list]})};
 }
 function partyPage(pt){
   const url = `/party/${pt.id}/`;
-  const c = crumbs([['Jigger','/'], ['홈파티 아이디어','/party/'], [pt.ko, url]]);
+  const c = crumbs([['지거바','/'], ['홈파티 아이디어','/party/'], [pt.ko, url]]);
   const others = D.PARTIES.filter(x=>x.id !== pt.id);
   const body = `    ${c.nav}
     <section class="hero">
@@ -864,7 +866,7 @@ function partyPage(pt){
       count();
     })();
     </script>`;
-  return {url, html:page({url, title:fitTitle(`${pt.ko} 준비 · 어울리는 칵테일과 안주, 준비물 | Jigger`, `${pt.ko} 준비 · 칵테일, 안주, 준비물 | Jigger`, `${pt.ko} 준비물과 메뉴 | Jigger`),
+  return {url, html:page({url, title:fitTitle(`${pt.ko} 준비 · 어울리는 칵테일과 안주, 준비물 | 지거바`, `${pt.ko} 준비 · 칵테일, 안주, 준비물 | 지거바`, `${pt.ko} 준비물과 메뉴 | 지거바`),
     desc:`${pt.ko} 아이디어. ${pt.people} · ${pt.time}. 어울리는 칵테일 ${pt.drinks.length}가지와 안주, 준비물 체크리스트.`,
     image:`${SITE}/og.jpg`, section:'party', body, jsonld:[c.list]})};
 }
@@ -872,7 +874,7 @@ function partyPage(pt){
 // 내 파티 만들기: 화면은 party/assets/plan.js가 그려요 (데이터: data.js · plan-data.js · affiliate.js)
 function partyPlanPage(){
   const url = '/party/plan/';
-  const c = crumbs([['Jigger','/'], ['홈파티 아이디어','/party/'], ['내 파티 만들기', url]]);
+  const c = crumbs([['지거바','/'], ['홈파티 아이디어','/party/'], ['내 파티 만들기', url]]);
   const body = `    ${c.nav}
     <section class="hero">
       <span class="eyebrow">Party Planner · 내 파티 만들기</span>
@@ -887,9 +889,84 @@ function partyPlanPage(){
     <script src="/affiliate.js" defer></script>
     <script src="/party/assets/plan-data.js" defer></script>
     <script src="/party/assets/plan.js" defer></script>`;
-  return {url, html:page({url, title:'내 파티 만들기 · 홈파티 메뉴와 장보기 계산 | Jigger',
+  return {url, html:page({url, title:'내 파티 만들기 · 홈파티 메뉴와 장보기 계산 | 지거바',
     desc:'인원 · 예산 · 준비 시간을 입력하면 어울리는 칵테일과 안주, 수량, 예상 비용, 장보기 목록과 준비 순서를 알려줘요.',
     image:`${SITE}/og.jpg`, section:'party', body, jsonld:[c.list]})};
+}
+
+/* ---------- 매거진 (글은 scripts/magazine.mjs) ---------- */
+const MAG = magazine({R:R_BY, F:F_BY, S:S_BY, P:Object.fromEntries(D.PARTIES.map(x=>[x.id, x])), esc});
+const magDate = d => d.replace(/-/g, '.');
+const magImg = ([dir, id], sm) => {
+  if (!fs.existsSync(path.join(ROOT, 'images', dir, id + '.webp'))) throw new Error(`매거진: 대표 사진 images/${dir}/${id}.webp가 없어요`);
+  return `/images/${dir}/${sm && fs.existsSync(path.join(ROOT, 'images', dir, 'sm', id + '.webp')) ? 'sm/' : ''}${id}.webp`;
+};
+function magRow(a){
+  return `<li><a class="mrow" href="/magazine/${a.id}/">
+        <img src="${magImg(a.cover, true)}" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">${esc(a.eyebrow)}</span><b>${esc(a.h1)}</b><span class="mdesc">${esc(a.desc)}</span><time datetime="${a.date}">${magDate(a.date)}</time></span>
+      </a></li>`;
+}
+function magazineIndex(){
+  const url = '/magazine/';
+  const c = crumbs([['지거바','/'], ['매거진', url]]);
+  const list = [...MAG].sort((a, b)=>b.date.localeCompare(a.date) || 0);
+  const body = `    ${c.nav}
+    <section class="hero">
+      <span class="eyebrow">Magazine · 매거진</span>
+      <h1>매거진</h1>
+      <p class="lead">레시피 한 장으로는 담기 어려운 이야기. 계절과 자리에 맞는 술과 안주, 홈파티를 더 즐겁게 만드는 팁을 모았어요.</p>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>최근 글</h2><span class="prog">${list.length}편</span></div>
+      <ul class="mlist">${list.map(magRow).join('')}</ul>
+    </section>`;
+  const ld = {'@context':'https://schema.org', '@type':'ItemList', name:'지거바 매거진',
+    itemListElement: list.map((a, i)=>({'@type':'ListItem', position:i+1, url:`${SITE}/magazine/${a.id}/`, name:a.h1}))};
+  return {url, html:page({url, title:'매거진 · 홈칵테일과 홈파티 이야기 | 지거바',
+    desc:'계절과 자리에 맞는 칵테일, 안주, 홈파티 팁을 모은 지거바 매거진. 하이볼, 할로윈 파티, 무알콜 칵테일 가이드.',
+    image:`${SITE}${magImg(list[0].cover)}`, section:'magazine', body, jsonld:[ld, c.list]})};
+}
+function magazinePage(a){
+  const url = `/magazine/${a.id}/`;
+  const image = `${SITE}${magImg(a.cover)}`;
+  const c = crumbs([['지거바','/'], ['매거진','/magazine/'], [a.h1, url]]);
+  const others = MAG.filter(x=>x.id !== a.id);
+  const body = `    ${c.nav}
+    <article class="mag">
+      <header class="hero">
+        <span class="eyebrow">Magazine · ${esc(a.eyebrow)}</span>
+        <h1>${esc(a.h1)}</h1>
+        <p class="lead">${esc(a.lead)}</p>
+        <p class="mby">글 지거바 · <time datetime="${a.date}">${magDate(a.date)}</time>${a.updated !== a.date ? ` · 수정 <time datetime="${a.updated}">${magDate(a.updated)}</time>` : ''}</p>
+      </header>
+      <figure class="mcover"><img src="${magImg(a.cover)}" alt="${esc(a.h1)}" width="1000" height="1000" fetchpriority="high"></figure>
+      ${a.sections.map(([h, html])=>`<section class="sec prose">
+        <div class="sec-h"><h2>${esc(h)}</h2></div>${html}
+      </section>`).join('\n      ')}
+      ${a.memo ? `<aside class="mmemo"><b>지거 메모</b><p>${esc(a.memo)}</p></aside>` : ''}
+    </article>
+    <section class="more">
+      <div class="sec-h"><h2>이 글의 칵테일</h2></div>
+      <div class="cards">${a.cocktails.map(id=>card('cocktails', R_BY[id], `${R_BY[id].ko} 칵테일`)).join('')}</div>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>함께 먹기 좋은 안주</h2></div>
+      <div class="cards">${a.foods.map(id=>card('food', F_BY[id], F_BY[id].ko)).join('')}</div>
+    </section>
+    ${others.length ? `<section class="more">
+      <div class="sec-h"><h2>다른 매거진 글</h2><a class="prog" href="/magazine/">전체 보기 →</a></div>
+      <ul class="mlist">${others.map(magRow).join('')}</ul>
+    </section>` : ''}`;
+  const org = {'@type':'Organization', name:'지거바', url:SITE+'/'};
+  const article = {'@context':'https://schema.org', '@type':'Article', headline:a.h1, description:a.desc, image:[image],
+    datePublished:a.date, dateModified:a.updated, author:org, publisher:{...org, logo:{'@type':'ImageObject', url:SITE+'/apple-touch-icon.png'}},
+    mainEntityOfPage:SITE+url, keywords:a.keywords.join(', '), inLanguage:'ko'};
+  return {url, html:page({url, title:a.title, desc:a.desc, image, section:'magazine', body, jsonld:[article, c.list]})};
+}
+for (const a of MAG) {
+  for (const id of a.cocktails) if (!R_BY[id]) throw new Error(`매거진 ${a.id}: 없는 칵테일 "${id}"`);
+  for (const id of a.foods) if (!F_BY[id]) throw new Error(`매거진 ${a.id}: 없는 안주 "${id}"`);
 }
 
 const pages = [
@@ -900,7 +977,8 @@ const pages = [
   ...D.FOOD.map(foodPage),
   aboutPage(), contactPage(), privacyPage(),
   tastingMyPage(),
-  partyIndex(), partyPlanPage(), ...D.PARTIES.map(partyPage)
+  partyIndex(), partyPlanPage(), ...D.PARTIES.map(partyPage),
+  magazineIndex(), ...MAG.map(magazinePage)
 ];
 for (const p of pages) wr(p.url.slice(1) + 'index.html', p.html);
 
@@ -911,12 +989,12 @@ function hubCard(href, dir, list, name, en){
       ${cardText(en, name)}</a>`;
 }
 // 없는 주소로 들어왔을 때 보여줄 404 페이지 (Vercel이 /404.html을 자동으로 써요)
-wr('404.html', page({url:null, title:'페이지를 찾을 수 없어요 | Jigger', desc:'없는 페이지예요. 칵테일 레시피, 주류 상식, 안주 레시피, 조주기능사 필기로 이동해 보세요.',
+wr('404.html', page({url:null, title:'페이지를 찾을 수 없어요 | 지거바', desc:'없는 페이지예요. 칵테일 레시피, 주류 상식, 안주 레시피, 조주기능사 필기로 이동해 보세요.',
   image:`${SITE}/og.jpg`, section:null, jsonld:[], body:`    <section class="hero">
       <span class="eyebrow">404 · Not Found</span>
       <h1>페이지를 찾을 수 없어요</h1>
       <p class="lead">주소가 바뀌었거나 없는 페이지예요. 아래에서 찾으시는 내용을 골라 보세요.</p>
-      <div class="ctas"><a class="cta" href="/">Jigger 홈으로 →</a></div>
+      <div class="ctas"><a class="cta" href="/">지거바 홈으로 →</a></div>
     </section>
     <section class="more">
       <div class="sec-h"><h2>둘러보기</h2></div>
@@ -957,18 +1035,18 @@ ${['/', '/tasting/', ...pages.map(p=>p.url)].map(u=>`  <url><loc>${SITE}${u}</lo
 const PUB_FILE = 'scripts/published.json';
 const published = fs.existsSync(path.join(ROOT, PUB_FILE)) ? JSON.parse(rd(PUB_FILE)) : {};
 const firstAdded = f => { try { return execFileSync('git', ['log', '--diff-filter=A', '--format=%aI', '--', f], {cwd: ROOT, encoding:'utf8'}).trim().split('\n').pop(); } catch (e) { return ''; } };
-const feedPages = pages.filter(p=>/^\/(cocktails|spirits|food|party)\/[^/]+\/$|^\/quiz\/$/.test(p.url));
+const feedPages = pages.filter(p=>/^\/(cocktails|spirits|food|party|magazine)\/[^/]+\/$|^\/quiz\/$/.test(p.url));
 let pubChanged = false;
 for (const p of feedPages) if (!published[p.url]) { published[p.url] = firstAdded(p.url.slice(1) + 'index.html') || new Date().toISOString(); pubChanged = true; }
 if (pubChanged) wr(PUB_FILE, JSON.stringify(Object.fromEntries(Object.entries(published).sort()), null, 1) + '\n');
 const pick = (h, re) => (h.match(re) || [, ''])[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-const items = feedPages.map(p=>({url:p.url, date:published[p.url], title:pick(p.html, /<title>([^<]*)<\/title>/).replace(/ \| Jigger$/, ''), desc:pick(p.html, /<meta name="description" content="([^"]*)"/)}))
+const items = feedPages.map(p=>({url:p.url, date:published[p.url], title:pick(p.html, /<title>([^<]*)<\/title>/).replace(/ \| 지거바$/, ''), desc:pick(p.html, /<meta name="description" content="([^"]*)"/)}))
   .sort((a, b)=>b.date.localeCompare(a.date) || a.url.localeCompare(b.url));
 const x = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 wr('rss.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-  <title>Jigger | 칵테일 레시피 · 안주 · 조주기능사</title>
+  <title>지거바 | 칵테일 레시피 · 안주 · 조주기능사</title>
   <link>${SITE}/</link>
   <description>평범한 오늘을 작은 파티로. 홈칵테일 · 안주 · 홈파티 아이디어와 조주기능사 실기 · 필기 레시피</description>
   <language>ko</language>
@@ -994,9 +1072,10 @@ const links = `<!-- build:links (scripts/build.mjs가 자동으로 만들어요)
     <div><h2><a href="/spirits/">주류 상식</a></h2><ul>${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2><a href="/food/">안주 레시피</a></h2><ul>${D.FOOD.map(x=>`<li><a href="/food/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
     <div><h2><a href="/party/">홈파티 아이디어</a></h2><ul>${D.PARTIES.map(x=>`<li><a href="/party/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul></div>
+    <div><h2><a href="/magazine/">매거진</a></h2><ul>${MAG.map(x=>`<li><a href="/magazine/${x.id}/">${esc(x.h1)}</a></li>`).join('')}</ul></div>
     <div><h2>조주기능사</h2><ul><li><a href="/quiz/">필기 예상문제 ${QUIZ.length}개와 해설</a></li></ul></div>
     <div><h2><a href="/tasting/">테이스팅 노트</a></h2><ul><li><a href="/tasting/">마셔 본 술 평점과 리뷰</a></li><li><a href="/tasting/my/">나의 술 기록장</a></li></ul></div>
-    <div><h2>Jigger</h2><ul><li><a href="/about/">소개</a></li><li><a href="/contact/">문의하기</a></li><li><a href="/privacy/">개인정보처리방침</a></li></ul></div>
+    <div><h2>지거바</h2><ul><li><a href="/about/">소개</a></li><li><a href="/contact/">문의하기</a></li><li><a href="/privacy/">개인정보처리방침</a></li></ul></div>
   </nav>
   <!-- /build:links -->`;
 const re = /<!-- build:links[\s\S]*?<!-- \/build:links -->/;
@@ -1007,9 +1086,9 @@ if (!re.test(html)) throw new Error('index.html에 build:links 자리 표시가 
 const homeDesc = (html.match(/<meta name="description" content="([^"]*)">/) || [])[1];
 if (!homeDesc) throw new Error('index.html에 meta description이 없어요');
 const homeLd = {'@context':'https://schema.org', '@graph':[
-  {'@type':'WebSite', '@id':`${SITE}/#website`, url:`${SITE}/`, name:'Jigger', description:homeDesc, inLanguage:'ko-KR',
+  {'@type':'WebSite', '@id':`${SITE}/#website`, url:`${SITE}/`, name:'지거바', alternateName:'Jigger', description:homeDesc, inLanguage:'ko-KR',
     publisher:{'@id':`${SITE}/#organization`}},
-  {'@type':'Organization', '@id':`${SITE}/#organization`, name:'Jigger', url:`${SITE}/`,
+  {'@type':'Organization', '@id':`${SITE}/#organization`, name:'지거바', alternateName:'Jigger', url:`${SITE}/`,
     logo:`${SITE}/apple-touch-icon.png`, email:CONTACT.email, sameAs:['https://www.instagram.com/jiggerbarlog/']}
 ]};
 const jsonld = `<!-- build:jsonld (scripts/build.mjs가 자동으로 만들어요) -->
