@@ -24,7 +24,8 @@ export default {
       url.protocol = 'https:'; url.hostname = host; url.port = ''; moved = true;
     }
     const last = url.pathname.split('/').pop();
-    if (!url.pathname.endsWith('/') && !last.includes('.')) {
+    // /404는 정적 404 페이지 자리라 / 를 붙이지 않아요 (붙이면 /404 ↔ /404/ 사이를 계속 오가요)
+    if (!url.pathname.endsWith('/') && !last.includes('.') && url.pathname !== '/404') {
       url.pathname += '/'; moved = true;
     }
     if (moved && (request.method === 'GET' || request.method === 'HEAD')) return withSecurity(Response.redirect(url.toString(), 301), local);

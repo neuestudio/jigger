@@ -6,7 +6,28 @@
   <description>평범한 오늘을 작은 파티로. 홈칵테일 · 안주 · 홈파티 아이디어와 조주기능사 실기 · 필기 레시피</description>
   <language>ko</language>
   <atom:link href="https://jiggerbar.com/rss.xml" rel="self" type="application/rss+xml"/>
-  <lastBuildDate>Tue, 06 Oct 2026 04:10:05 GMT</lastBuildDate>
+  <lastBuildDate>Tue, 06 Oct 2026 12:43:07 GMT</lastBuildDate>
+  <item>
+    <title>내 파티 만들기 · 인원과 예산으로 홈파티 메뉴 · 장보기 계산</title>
+    <link>https://jiggerbar.com/party/plan/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/party/plan/</guid>
+    <description>인원 · 예산 · 준비 시간을 입력하면 어울리는 칵테일과 안주, 수량, 예상 비용, 장보기 목록과 준비 순서를 알려줘요.</description>
+    <pubDate>Tue, 06 Oct 2026 12:43:07 GMT</pubDate>
+  </item>
+  <item>
+    <title>가족 모임 준비 · 어울리는 칵테일과 안주, 준비물</title>
+    <link>https://jiggerbar.com/party/family/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/party/family/</guid>
+    <description>가족 모임 아이디어. 4~8명 · 점심 또는 저녁 · 2~3시간. 어울리는 칵테일 3가지와 안주, 준비물 체크리스트.</description>
+    <pubDate>Tue, 06 Oct 2026 12:40:22 GMT</pubDate>
+  </item>
+  <item>
+    <title>기념일 디너 준비 · 어울리는 칵테일과 안주, 준비물</title>
+    <link>https://jiggerbar.com/party/anniversary/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/party/anniversary/</guid>
+    <description>기념일 디너 아이디어. 2~4명 · 저녁 · 2~3시간. 어울리는 칵테일 3가지와 안주, 준비물 체크리스트.</description>
+    <pubDate>Tue, 06 Oct 2026 12:40:22 GMT</pubDate>
+  </item>
   <item>
     <title>브런치 파티 준비 · 어울리는 칵테일과 안주, 준비물</title>
     <link>https://jiggerbar.com/party/brunch/</link>
@@ -225,203 +246,203 @@
     <pubDate>Sun, 27 Sep 2026 13:10:50 GMT</pubDate>
   </item>
   <item>
-    <title>애플 마티니 레시피 · 조주기능사 실기 표준 (Apple Martini)</title>
+    <title>애플 마티니 레시피 · 도수와 조주기능사 실기 표준 (Apple Martini)</title>
     <link>https://jiggerbar.com/cocktails/apple-martini/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/apple-martini/</guid>
     <description>애플 마티니(Apple Martini) 만드는 법. 보드카 30 ml 외 2가지. 셰이크, 도수 약 18%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>애프리콧 레시피 · 조주기능사 실기 표준 (Apricot Cocktail)</title>
+    <title>애프리콧 레시피 · 도수와 조주기능사 실기 표준 (Apricot Cocktail)</title>
     <link>https://jiggerbar.com/cocktails/apricot/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/apricot/</guid>
     <description>애프리콧(Apricot Cocktail) 만드는 법. 셰이크, 도수 약 13%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>B-52 레시피 · 조주기능사 실기 표준 (B-52)</title>
+    <title>B-52 레시피 · 도수와 조주기능사 실기 표준 (B-52)</title>
     <link>https://jiggerbar.com/cocktails/b-52/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/b-52/</guid>
     <description>B-52(B-52) 만드는 법. 커피 리큐르 20 ml 외 2가지. 플로트, 도수 약 26%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>바카디 레시피 · 조주기능사 실기 표준 (Bacardi Cocktail)</title>
+    <title>바카디 레시피 · 도수와 조주기능사 실기 표준 (Bacardi Cocktail)</title>
     <link>https://jiggerbar.com/cocktails/bacardi/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/bacardi/</guid>
     <description>바카디(Bacardi Cocktail) 만드는 법. 셰이크, 도수 약 21%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>블랙 러시안 레시피 · 조주기능사 실기 표준 (Black Russian)</title>
+    <title>블랙 러시안 레시피 · 도수와 조주기능사 실기 표준 (Black Russian)</title>
     <link>https://jiggerbar.com/cocktails/black-russian/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/black-russian/</guid>
     <description>블랙 러시안(Black Russian) 만드는 법. 보드카 30 ml 외 1가지. 빌드, 도수 약 30%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>블루 하와이언 레시피 · 조주기능사 실기 표준 (Blue Hawaiian)</title>
+    <title>블루 하와이언 레시피 · 도수와 조주기능사 실기 표준 (Blue Hawaiian)</title>
     <link>https://jiggerbar.com/cocktails/blue-hawaiian/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/blue-hawaiian/</guid>
     <description>블루 하와이언(Blue Hawaiian) 만드는 법. 라이트 럼 30 ml 외 3가지. 블렌드, 도수 약 11%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>불바디에 레시피 · 조주기능사 실기 표준 (Boulevardier)</title>
+    <title>불바디에 레시피 · 도수와 조주기능사 실기 표준 (Boulevardier)</title>
     <link>https://jiggerbar.com/cocktails/boulevardier/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/boulevardier/</guid>
     <description>불바디에(Boulevardier) 만드는 법. 버번 위스키 30 ml 외 2가지. 스터, 도수 약 23%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>브랜디 알렉산더 레시피 · 조주기능사 실기 표준 (Brandy Alexander)</title>
+    <title>브랜디 알렉산더 레시피 · 도수와 조주기능사 실기 표준 (Brandy Alexander)</title>
     <link>https://jiggerbar.com/cocktails/brandy-alexander/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/brandy-alexander/</guid>
     <description>브랜디 알렉산더(Brandy Alexander) 만드는 법. 셰이크, 도수 약 17%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>쿠바 리브레 레시피 · 조주기능사 실기 표준 (Cuba Libre)</title>
+    <title>쿠바 리브레 레시피 · 도수와 조주기능사 실기 표준 (Cuba Libre)</title>
     <link>https://jiggerbar.com/cocktails/cuba-libre/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/cuba-libre/</guid>
     <description>쿠바 리브레(Cuba Libre) 만드는 법. 라이트 럼 45 ml 외 2가지. 빌드, 도수 약 11%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>프레시 레몬 스쿼시 레시피 · 조주기능사 실기 표준 (Fresh Lemon Squash)</title>
+    <title>프레시 레몬 스쿼시 레시피 · 도수와 조주기능사 실기 표준 (Fresh Lemon Squash)</title>
     <link>https://jiggerbar.com/cocktails/fresh-lemon-squash/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/fresh-lemon-squash/</guid>
     <description>프레시 레몬 스쿼시(Fresh Lemon Squash) 만드는 법. 빌드, 도수 논알콜 (0%). 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>금산 레시피 · 조주기능사 실기 표준 (Geumsan)</title>
+    <title>금산 레시피 · 도수와 조주기능사 실기 표준 (Geumsan)</title>
     <link>https://jiggerbar.com/cocktails/geumsan/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/geumsan/</guid>
     <description>금산(Geumsan) 만드는 법. 금산 인삼주 45 ml 외 3가지. 셰이크, 도수 약 25%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>진 피즈 레시피 · 조주기능사 실기 표준 (Gin Fizz)</title>
+    <title>진 피즈 레시피 · 도수와 조주기능사 실기 표준 (Gin Fizz)</title>
     <link>https://jiggerbar.com/cocktails/gin-fizz/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/gin-fizz/</guid>
     <description>진 피즈(Gin Fizz) 만드는 법. 진 45 ml 외 3가지. 셰이크 · 빌드, 도수 약 10%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>고창 레시피 · 조주기능사 실기 표준 (Gochang)</title>
+    <title>고창 레시피 · 도수와 조주기능사 실기 표준 (Gochang)</title>
     <link>https://jiggerbar.com/cocktails/gochang/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/gochang/</guid>
     <description>고창(Gochang) 만드는 법. 선운산 복분자주 60 ml 외 2가지. 스터, 도수 약 8%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>그래스호퍼 레시피 · 조주기능사 실기 표준 (Grasshopper)</title>
+    <title>그래스호퍼 레시피 · 도수와 조주기능사 실기 표준 (Grasshopper)</title>
     <link>https://jiggerbar.com/cocktails/grasshopper/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/grasshopper/</guid>
     <description>그래스호퍼(Grasshopper) 만드는 법. 셰이크, 도수 약 13%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>힐링 레시피 · 조주기능사 실기 표준 (Healing)</title>
+    <title>힐링 레시피 · 도수와 조주기능사 실기 표준 (Healing)</title>
     <link>https://jiggerbar.com/cocktails/healing/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/healing/</guid>
     <description>힐링(Healing) 만드는 법. 감홍로 45 ml 외 3가지. 셰이크, 도수 약 20%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>허니문 레시피 · 조주기능사 실기 표준 (Honeymoon Cocktail)</title>
+    <title>허니문 레시피 · 도수와 조주기능사 실기 표준 (Honeymoon Cocktail)</title>
     <link>https://jiggerbar.com/cocktails/honeymoon/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/honeymoon/</guid>
     <description>허니문(Honeymoon Cocktail) 만드는 법. 셰이크, 도수 약 24%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>진도 레시피 · 조주기능사 실기 표준 (Jindo)</title>
+    <title>진도 레시피 · 도수와 조주기능사 실기 표준 (Jindo)</title>
     <link>https://jiggerbar.com/cocktails/jindo/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/jindo/</guid>
     <description>진도(Jindo) 만드는 법. 진도 홍주 30 ml 외 3가지. 셰이크, 도수 약 15%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>준 벅 레시피 · 조주기능사 실기 표준 (June Bug)</title>
+    <title>준 벅 레시피 · 도수와 조주기능사 실기 표준 (June Bug)</title>
     <link>https://jiggerbar.com/cocktails/june-bug/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/june-bug/</guid>
     <description>준 벅(June Bug) 만드는 법. 미도리(멜론 리큐르) 30 ml 외 4가지. 셰이크, 도수 약 5%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>키르 레시피 · 조주기능사 실기 표준 (Kir)</title>
+    <title>키르 레시피 · 도수와 조주기능사 실기 표준 (Kir)</title>
     <link>https://jiggerbar.com/cocktails/kir/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/kir/</guid>
     <description>키르(Kir) 만드는 법. 화이트 와인 90 ml, 크렘 드 카시스 15 ml. 빌드, 도수 약 11%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>롱아일랜드 아이스티 레시피 · 조주기능사 실기 표준 (Long Island Iced Tea)</title>
+    <title>롱아일랜드 아이스티 레시피 · 도수와 조주기능사 실기 표준 (Long Island Iced Tea)</title>
     <link>https://jiggerbar.com/cocktails/long-island-iced-tea/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/long-island-iced-tea/</guid>
     <description>롱아일랜드 아이스티(Long Island Iced Tea) 만드는 법. 빌드, 도수 약 17%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>마이타이 레시피 · 조주기능사 실기 표준 (Mai-Tai)</title>
+    <title>마이타이 레시피 · 도수와 조주기능사 실기 표준 (Mai-Tai)</title>
     <link>https://jiggerbar.com/cocktails/mai-tai/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/mai-tai/</guid>
     <description>마이타이(Mai-Tai) 만드는 법. 라이트 럼 37.5 ml 외 5가지. 블렌드, 도수 약 10%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>뉴욕 레시피 · 조주기능사 실기 표준 (New York)</title>
+    <title>뉴욕 레시피 · 도수와 조주기능사 실기 표준 (New York)</title>
     <link>https://jiggerbar.com/cocktails/new-york/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/new-york/</guid>
     <description>뉴욕(New York) 만드는 법. 버번 위스키 45 ml 외 3가지. 셰이크, 도수 약 21%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>푸스카페 레시피 · 조주기능사 실기 표준 (Pousse Cafe)</title>
+    <title>푸스카페 레시피 · 도수와 조주기능사 실기 표준 (Pousse Cafe)</title>
     <link>https://jiggerbar.com/cocktails/pousse-cafe/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/pousse-cafe/</guid>
     <description>푸스카페(Pousse Cafe) 만드는 법. 그레나딘 시럽 10 ml 외 2가지. 플로트, 도수 약 22%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>풋사랑 레시피 · 조주기능사 실기 표준 (Puppy Love)</title>
+    <title>풋사랑 레시피 · 도수와 조주기능사 실기 표준 (Puppy Love)</title>
     <link>https://jiggerbar.com/cocktails/puppy-love/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/puppy-love/</guid>
     <description>풋사랑(Puppy Love) 만드는 법. 안동소주 30 ml 외 3가지. 셰이크, 도수 약 18%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>러스티 네일 레시피 · 조주기능사 실기 표준 (Rusty Nail)</title>
+    <title>러스티 네일 레시피 · 도수와 조주기능사 실기 표준 (Rusty Nail)</title>
     <link>https://jiggerbar.com/cocktails/rusty-nail/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/rusty-nail/</guid>
     <description>러스티 네일(Rusty Nail) 만드는 법. 스카치 위스키 30 ml 외 1가지. 빌드, 도수 약 36%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>시브리즈 레시피 · 조주기능사 실기 표준 (Seabreeze)</title>
+    <title>시브리즈 레시피 · 도수와 조주기능사 실기 표준 (Seabreeze)</title>
     <link>https://jiggerbar.com/cocktails/seabreeze/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/seabreeze/</guid>
     <description>시브리즈(Seabreeze) 만드는 법. 보드카 45 ml 외 2가지. 빌드, 도수 약 11%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>싱가포르 슬링 레시피 · 조주기능사 실기 표준 (Singapore Sling)</title>
+    <title>싱가포르 슬링 레시피 · 도수와 조주기능사 실기 표준 (Singapore Sling)</title>
     <link>https://jiggerbar.com/cocktails/singapore-sling/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/singapore-sling/</guid>
     <description>싱가포르 슬링(Singapore Sling) 만드는 법. 셰이크 · 빌드, 도수 약 11%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>버진 프루트 펀치 레시피 · 조주기능사 실기 표준 (Virgin Fruit Punch)</title>
+    <title>버진 프루트 펀치 레시피 · 도수와 조주기능사 실기 표준 (Virgin Fruit Punch)</title>
     <link>https://jiggerbar.com/cocktails/virgin-fruit-punch/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/virgin-fruit-punch/</guid>
     <description>버진 프루트 펀치(Virgin Fruit Punch) 만드는 법. 블렌드, 도수 논알콜 (0%). 조주기능사 실기 표준 수록.</description>
     <pubDate>Sun, 27 Sep 2026 12:53:10 GMT</pubDate>
   </item>
   <item>
-    <title>아페롤 스프리츠 레시피 · 만드는 법과 비율 (Aperol Spritz)</title>
+    <title>아페롤 스프리츠 레시피 · 만드는 법, 비율과 도수 (Aperol Spritz)</title>
     <link>https://jiggerbar.com/cocktails/aperol-spritz/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/aperol-spritz/</guid>
     <description>아페롤 스프리츠(Aperol Spritz) 만드는 법. 프로세코 60 ml, 아페롤 40 ml, 소다수 20 ml. 빌드, 도수 약 8%.</description>
@@ -435,7 +456,7 @@
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>블러디 메리 레시피 · 만드는 법과 비율 (Bloody Mary)</title>
+    <title>블러디 메리 레시피 · 만드는 법, 비율과 도수 (Bloody Mary)</title>
     <link>https://jiggerbar.com/cocktails/bloody-mary/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/bloody-mary/</guid>
     <description>블러디 메리(Bloody Mary) 만드는 법. 보드카 45 ml, 토마토 주스 90 ml 외 4가지. 빌드, 도수 약 10%.</description>
@@ -449,42 +470,42 @@
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>코스모폴리탄 레시피 · 조주기능사 실기 표준 (Cosmopolitan)</title>
+    <title>코스모폴리탄 레시피 · 도수와 조주기능사 실기 표준 (Cosmopolitan)</title>
     <link>https://jiggerbar.com/cocktails/cosmopolitan/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/cosmopolitan/</guid>
     <description>코스모폴리탄(Cosmopolitan) 만드는 법. 보드카 40 ml 외 3가지. 셰이크, 도수 약 18%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>다이키리 레시피 · 조주기능사 실기 표준 (Daiquiri)</title>
+    <title>다이키리 레시피 · 도수와 조주기능사 실기 표준 (Daiquiri)</title>
     <link>https://jiggerbar.com/cocktails/daiquiri/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/daiquiri/</guid>
     <description>다이키리(Daiquiri) 만드는 법. 화이트 럼 45 ml 외 2가지. 셰이크, 도수 약 18%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>다크 앤 스토미 레시피 · 만드는 법과 비율 (Dark 'n' Stormy)</title>
+    <title>다크 앤 스토미 레시피 · 만드는 법, 비율과 도수 (Dark 'n' Stormy)</title>
     <link>https://jiggerbar.com/cocktails/dark-n-stormy/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/dark-n-stormy/</guid>
     <description>다크 앤 스토미(Dark 'n' Stormy) 만드는 법. 다크 럼 50 ml, 진저비어 100 ml 외 1가지. 빌드, 도수 약 12%.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>에스프레소 마티니 레시피 · 만드는 법과 비율 (Espresso Martini)</title>
+    <title>에스프레소 마티니 레시피 · 만드는 법, 비율과 도수 (Espresso Martini)</title>
     <link>https://jiggerbar.com/cocktails/espresso-martini/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/espresso-martini/</guid>
     <description>에스프레소 마티니(Espresso Martini) 만드는 법. 보드카 50 ml, 커피 리큐르 10 ml 외 2가지. 셰이크, 도수 약 17%.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>김렛 레시피 · 만드는 법과 비율 (Gimlet)</title>
+    <title>김렛 레시피 · 만드는 법, 비율과 도수 (Gimlet)</title>
     <link>https://jiggerbar.com/cocktails/gimlet/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/gimlet/</guid>
     <description>김렛(Gimlet) 만드는 법. 진 50 ml, 라임주스 25 ml, 심플 시럽 15 ml. 셰이크, 도수 약 17%.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>진 토닉 레시피 · 만드는 법과 비율 (Gin &amp; Tonic)</title>
+    <title>진 토닉 레시피 · 만드는 법, 비율과 도수 (Gin &amp; Tonic)</title>
     <link>https://jiggerbar.com/cocktails/gin-tonic/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/gin-tonic/</guid>
     <description>진 토닉(Gin &amp; Tonic) 만드는 법. 진 50 ml, 토닉워터 100 ml. 빌드, 도수 약 12%.</description>
@@ -498,77 +519,77 @@
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>맨해튼 레시피 · 조주기능사 실기 표준 (Manhattan)</title>
+    <title>맨해튼 레시피 · 도수와 조주기능사 실기 표준 (Manhattan)</title>
     <link>https://jiggerbar.com/cocktails/manhattan/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/manhattan/</guid>
     <description>맨해튼(Manhattan) 만드는 법. 라이 위스키 50 ml 외 2가지. 스터, 도수 약 28%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>마가리타 레시피 · 조주기능사 실기 표준 (Margarita)</title>
+    <title>마가리타 레시피 · 도수와 조주기능사 실기 표준 (Margarita)</title>
     <link>https://jiggerbar.com/cocktails/margarita/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/margarita/</guid>
     <description>마가리타(Margarita) 만드는 법. 테킬라 50 ml 외 2가지. 셰이크, 도수 약 25%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>마티니 레시피 · 조주기능사 실기 표준 (Dry Martini)</title>
+    <title>마티니 레시피 · 도수와 조주기능사 실기 표준 (Dry Martini)</title>
     <link>https://jiggerbar.com/cocktails/martini/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/martini/</guid>
     <description>마티니(Dry Martini) 만드는 법. 진 60 ml, 드라이 베르무트 10 ml. 스터, 도수 약 28%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>미모사 레시피 · 만드는 법과 비율 (Mimosa)</title>
+    <title>미모사 레시피 · 만드는 법, 비율과 도수 (Mimosa)</title>
     <link>https://jiggerbar.com/cocktails/mimosa/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/mimosa/</guid>
     <description>미모사(Mimosa) 만드는 법. 스파클링 와인 75 ml, 오렌지주스 75 ml. 빌드, 도수 약 6%.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>민트 줄렙 레시피 · 만드는 법과 비율 (Mint Julep)</title>
+    <title>민트 줄렙 레시피 · 만드는 법, 비율과 도수 (Mint Julep)</title>
     <link>https://jiggerbar.com/cocktails/mint-julep/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/mint-julep/</guid>
     <description>민트 줄렙(Mint Julep) 만드는 법. 버번 위스키 60 ml, 심플 시럽 10 ml, 민트 잎 8잎. 빌드, 도수 약 25%.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>모히토 레시피 · 만드는 법과 비율 (Mojito)</title>
+    <title>모히토 레시피 · 만드는 법, 비율과 도수 (Mojito)</title>
     <link>https://jiggerbar.com/cocktails/mojito/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/mojito/</guid>
     <description>모히토(Mojito) 만드는 법. 화이트 럼 40 ml, 라임주스 30 ml, 심플 시럽 15 ml 외 2가지. 빌드, 도수 약 10%.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>모스코 뮬 레시피 · 조주기능사 실기 표준 (Moscow Mule)</title>
+    <title>모스코 뮬 레시피 · 도수와 조주기능사 실기 표준 (Moscow Mule)</title>
     <link>https://jiggerbar.com/cocktails/moscow-mule/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/moscow-mule/</guid>
     <description>모스코 뮬(Moscow Mule) 만드는 법. 보드카 45 ml 외 2가지. 빌드, 도수 약 9%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>네그로니 레시피 · 조주기능사 실기 표준 (Negroni)</title>
+    <title>네그로니 레시피 · 도수와 조주기능사 실기 표준 (Negroni)</title>
     <link>https://jiggerbar.com/cocktails/negroni/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/negroni/</guid>
     <description>네그로니(Negroni) 만드는 법. 진 30 ml, 캄파리 30 ml 외 1가지. 빌드, 도수 약 22%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>올드 패션드 레시피 · 조주기능사 실기 표준 (Old Fashioned)</title>
+    <title>올드 패션드 레시피 · 도수와 조주기능사 실기 표준 (Old Fashioned)</title>
     <link>https://jiggerbar.com/cocktails/old-fashioned/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/old-fashioned/</guid>
     <description>올드 패션드(Old Fashioned) 만드는 법. 버번 위스키 45 ml 외 3가지. 빌드, 도수 약 27%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>팔로마 레시피 · 만드는 법과 비율 (Paloma)</title>
+    <title>팔로마 레시피 · 만드는 법, 비율과 도수 (Paloma)</title>
     <link>https://jiggerbar.com/cocktails/paloma/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/paloma/</guid>
     <description>팔로마(Paloma) 만드는 법. 테킬라 50 ml, 라임주스 15 ml, 자몽 소다 100 ml. 빌드, 도수 약 11%.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>피냐 콜라다 레시피 · 조주기능사 실기 표준 (Piña Colada)</title>
+    <title>피냐 콜라다 레시피 · 도수와 조주기능사 실기 표준 (Piña Colada)</title>
     <link>https://jiggerbar.com/cocktails/pina-colada/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/pina-colada/</guid>
     <description>피냐 콜라다(Piña Colada) 만드는 법. 화이트 럼 50 ml 외 2가지. 블렌드, 도수 약 10%. 조주기능사 실기 표준 수록.</description>
@@ -582,21 +603,21 @@
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>사이드카 레시피 · 조주기능사 실기 표준 (Sidecar)</title>
+    <title>사이드카 레시피 · 도수와 조주기능사 실기 표준 (Sidecar)</title>
     <link>https://jiggerbar.com/cocktails/sidecar/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/sidecar/</guid>
     <description>사이드카(Sidecar) 만드는 법. 코냑 50 ml, 쿠앵트로 20 ml 외 1가지. 셰이크, 도수 약 24%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>테킬라 선라이즈 레시피 · 조주기능사 실기 표준 (Tequila Sunrise)</title>
+    <title>테킬라 선라이즈 레시피 · 도수와 조주기능사 실기 표준 (Tequila Sunrise)</title>
     <link>https://jiggerbar.com/cocktails/tequila-sunrise/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/tequila-sunrise/</guid>
     <description>테킬라 선라이즈(Tequila Sunrise) 만드는 법. 테킬라 45 ml 외 2가지. 빌드, 도수 약 11%. 조주기능사 실기 표준 수록.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>톰 콜린스 레시피 · 만드는 법과 비율 (Tom Collins)</title>
+    <title>톰 콜린스 레시피 · 만드는 법, 비율과 도수 (Tom Collins)</title>
     <link>https://jiggerbar.com/cocktails/tom-collins/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/tom-collins/</guid>
     <description>톰 콜린스(Tom Collins) 만드는 법. 진 50 ml, 레몬주스 25 ml, 심플 시럽 15 ml 외 1가지. 빌드, 도수 약 12%.</description>
@@ -624,7 +645,7 @@
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>위스키 사워 레시피 · 조주기능사 실기 표준 (Whiskey Sour)</title>
+    <title>위스키 사워 레시피 · 도수와 조주기능사 실기 표준 (Whiskey Sour)</title>
     <link>https://jiggerbar.com/cocktails/whiskey-sour/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/whiskey-sour/</guid>
     <description>위스키 사워(Whiskey Sour) 만드는 법. 버번 위스키 45 ml 외 2가지. 셰이크, 도수 약 17%. 조주기능사 실기 표준 수록.</description>
@@ -743,87 +764,87 @@
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>맥주 종류와 제조법 · 원료, 도수 정리 (Beer)</title>
+    <title>맥주 도수 · 종류별 도수와 제조법 (Beer)</title>
     <link>https://jiggerbar.com/spirits/beer/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/beer/</guid>
-    <description>맥주(Beer) · 양조주, 도수 4–6%. 종류: 에일(상면발효), 라거(하면발효). 원료와 제조법 정리.</description>
+    <description>맥주 도수는 4–6%. 에일, 라거 종류별 도수 비교와 원료 · 제조법.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>브랜디 종류와 제조법 · 원료, 도수 정리 (Brandy)</title>
+    <title>브랜디 도수 · 종류별 도수와 제조법 (Brandy)</title>
     <link>https://jiggerbar.com/spirits/brandy/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/brandy/</guid>
-    <description>브랜디(Brandy) · 증류주, 도수 40–45%. 종류: 코냑, 아르마냑, 칼바도스(사과 브랜디). 원료와 제조법 정리.</description>
+    <description>브랜디 도수는 40–45%. 코냑, 아르마냑, 칼바도스 종류별 도수 비교와 원료 · 제조법, 브랜디로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>진 종류와 제조법 · 원료, 도수 정리 (Gin)</title>
+    <title>진 도수 · 종류별 도수와 제조법 (Gin)</title>
     <link>https://jiggerbar.com/spirits/gin/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/gin/</guid>
-    <description>진(Gin) · 증류주, 도수 37.5–47%. 종류: 런던 드라이, 올드 톰, 플리머스. 원료와 제조법 정리.</description>
+    <description>진 도수는 37.5–47%. 런던 드라이, 올드 톰, 플리머스 종류별 도수 비교와 원료 · 제조법, 진으로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>혼성주(리큐르) 종류와 제조법 · 원료, 도수 정리 (Liqueur)</title>
+    <title>혼성주(리큐르) 도수 · 종류별 도수와 제조법 (Liqueur)</title>
     <link>https://jiggerbar.com/spirits/liqueur/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/liqueur/</guid>
-    <description>혼성주(리큐르)(Liqueur) · 혼성주, 도수 15–55%. 종류: 오렌지계(쿠앵트로), 허브계(캄파리) 외 2가지. 원료와 제조법 정리.</description>
+    <description>혼성주 도수는 15–55%. 오렌지계, 허브계, 커피계, 크림계 종류별 도수 비교와 원료 · 제조법, 혼성주로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>럼 종류와 제조법 · 원료, 도수 정리 (Rum)</title>
+    <title>럼 도수 · 종류별 도수와 제조법 (Rum)</title>
     <link>https://jiggerbar.com/spirits/rum/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/rum/</guid>
-    <description>럼(Rum) · 증류주, 도수 40% 내외. 종류: 화이트(라이트), 골드, 다크, 스파이스드. 원료와 제조법 정리.</description>
+    <description>럼 도수는 40% 내외. 화이트, 골드, 다크, 스파이스드 종류별 도수 비교와 원료 · 제조법, 럼으로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>소주 종류와 제조법 · 원료, 도수 정리 (Soju)</title>
+    <title>소주 도수 · 종류별 도수와 제조법 (Soju)</title>
     <link>https://jiggerbar.com/spirits/soju/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/soju/</guid>
-    <description>소주(Soju) · 전통주, 도수 17–45%. 종류: 증류식 소주, 희석식 소주. 원료와 제조법 정리.</description>
+    <description>소주 도수는 17–45%. 증류식 소주, 희석식 소주 종류별 도수 비교와 원료 · 제조법, 소주로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>막걸리(탁주) 종류와 제조법 · 원료, 도수 정리 (Takju)</title>
+    <title>막걸리(탁주) 도수 · 종류별 도수와 제조법 (Takju)</title>
     <link>https://jiggerbar.com/spirits/takju/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/takju/</guid>
-    <description>막걸리(탁주)(Takju) · 전통주, 도수 6–8%. 종류: 생막걸리, 살균 막걸리. 원료와 제조법 정리.</description>
+    <description>막걸리 도수는 6–8%. 생막걸리, 살균 막걸리 종류별 도수 비교와 원료 · 제조법.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>테킬라 종류와 제조법 · 원료, 도수 정리 (Tequila)</title>
+    <title>테킬라 도수 · 종류별 도수와 제조법 (Tequila)</title>
     <link>https://jiggerbar.com/spirits/tequila/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/tequila/</guid>
-    <description>테킬라(Tequila) · 증류주, 도수 35–55%. 종류: 블랑코(무숙성), 레포사도(단기 숙성) 외 1가지. 원료와 제조법 정리.</description>
+    <description>테킬라 도수는 35–55%. 블랑코, 레포사도, 아녜호 종류별 도수 비교와 원료 · 제조법, 테킬라로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>보드카 종류와 제조법 · 원료, 도수 정리 (Vodka)</title>
+    <title>보드카 도수 · 종류별 도수와 제조법 (Vodka)</title>
     <link>https://jiggerbar.com/spirits/vodka/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/vodka/</guid>
-    <description>보드카(Vodka) · 증류주, 도수 40% 내외. 종류: 플레인, 플레이버드. 원료와 제조법 정리.</description>
+    <description>보드카 도수는 40% 내외. 플레인, 플레이버드 종류별 도수 비교와 원료 · 제조법, 보드카로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>위스키 종류와 제조법 · 원료, 도수 정리 (Whisky)</title>
+    <title>위스키 도수 · 종류별 도수와 제조법 (Whisky)</title>
     <link>https://jiggerbar.com/spirits/whisky/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/whisky/</guid>
-    <description>위스키(Whisky) · 증류주, 도수 40–50%. 종류: 스카치, 버번, 아이리시, 캐나디안, 재패니즈. 원료와 제조법 정리.</description>
+    <description>위스키 도수는 40–50%. 스카치, 버번, 아이리시, 캐나디안, 재패니즈 종류별 도수 비교와 원료 · 제조법, 위스키로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>와인 종류와 제조법 · 원료, 도수 정리 (Wine)</title>
+    <title>와인 도수 · 종류별 도수와 제조법 (Wine)</title>
     <link>https://jiggerbar.com/spirits/wine/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/wine/</guid>
-    <description>와인(Wine) · 양조주, 도수 9–15%. 종류: 레드, 화이트, 로제, 스파클링, 주정강화(포트·셰리). 원료와 제조법 정리.</description>
+    <description>와인 도수는 9–15%. 레드, 화이트, 로제, 스파클링, 주정강화 종류별 도수 비교와 원료 · 제조법, 와인으로 만드는 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>청주·약주 종류와 제조법 · 원료, 도수 정리 (Cheongju)</title>
+    <title>청주·약주 도수 · 종류별 도수와 제조법 (Cheongju)</title>
     <link>https://jiggerbar.com/spirits/yakju/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/yakju/</guid>
-    <description>청주·약주(Cheongju) · 전통주, 도수 13–16%. 종류: 청주, 약주. 원료와 제조법 정리.</description>
+    <description>청주 도수는 13–16%. 청주, 약주 종류별 도수 비교와 원료 · 제조법.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
 </channel>

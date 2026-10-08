@@ -19,7 +19,7 @@
     // 무료 요청 한도(하루 10만 회)를 쓰지 않아요. 이 파일들의 보안 헤더는 _headers에서 붙여요.
     "run_worker_first": [
       "/*",
-      "!/images/*", "!/fonts/*", "!/tasting/assets/*",
+      "!/images/*", "!/fonts/*", "!/tasting/assets/*", "!/party/assets/*",
       "!/page.css", "!/data.js", "!/photos.js", "!/affiliate.js", "!/quiz-questions.js",
       "!/favicon.svg", "!/favicon.ico", "!/apple-touch-icon.png", "!/og.jpg",
       "!/robots.txt", "!/sitemap.xml", "!/rss.xml"

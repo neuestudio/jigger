@@ -172,8 +172,9 @@ function cocktailPage(r){
   const abv = r.abv ? `약 ${r.abv}%` : '논알콜 (0%)';
   const photo = PHOTOS.cocktails.includes(r.id);
   const image = photo ? `${SITE}/images/cocktails/${r.id}.webp` : `${SITE}/og.jpg`;
-  const title = e ? `${r.ko} 레시피 · 조주기능사 실기 표준 (${r.en}) | Jigger`
-    : zero ? `${r.ko} 레시피 · 무알콜 칵테일 만드는 법 (${r.en}) | Jigger` : `${r.ko} 레시피 · 만드는 법과 비율 (${r.en}) | Jigger`;
+  // 칵테일 검색은 "진토닉 도수"처럼 도수를 함께 찾는 경우가 많아 제목에 도수를 넣어요
+  const title = e ? `${r.ko} 레시피 · 도수와 조주기능사 실기 표준 (${r.en}) | Jigger`
+    : zero ? `${r.ko} 레시피 · 무알콜 칵테일 만드는 법 (${r.en}) | Jigger` : `${r.ko} 레시피 · 만드는 법, 비율과 도수 (${r.en}) | Jigger`;
   const desc = fitDesc(ings=>`${r.ko}(${r.en}) 만드는 법.${ings ? ` ${ings}.` : ''} ${r.method}, 도수 ${abv}.${e ? ' 조주기능사 실기 표준 수록.' : ''}`, r.ing.map(ingText));
   const c = crumbs([['Jigger','/'], ['칵테일 레시피','/cocktails/'], [r.ko, url]]);
 
@@ -323,6 +324,13 @@ ${groups}
 }
 
 /* ---------- 주류 상식 페이지 ---------- */
+// 받침에 맞는 조사 '로/으로': 받침이 없거나 ㄹ이면 '로', 그 밖의 받침이면 '으로' (진으로, 럼으로, 소주로, 막걸리로)
+function euro(word){
+  const c = String(word).trim().slice(-1).charCodeAt(0) - 0xAC00;
+  if (c < 0 || c > 11171) return '로';
+  const jong = c % 28;
+  return jong === 0 || jong === 8 ? '로' : '으로';
+}
 function spiritNames(sp){ return sp.ko.split(/[()·]/).map(t=>t.trim()).filter(Boolean); }
 function relatedQuiz(sp){
   // "가진"의 "진", "처럼"의 "럼"처럼 다른 낱말 속 글자는 빼고, 조사가 붙은 경우만 인정해요
@@ -340,11 +348,13 @@ function spiritPage(sp){
   const url = `/spirits/${sp.id}/`;
   const photo = PHOTOS.spirits.includes(sp.id);
   const image = photo ? `${SITE}/images/spirits/${sp.id}.webp` : `${SITE}/og.jpg`;
-  const title = `${sp.ko} 종류와 제조법 · 원료, 도수 정리 (${sp.en}) | Jigger`;
-  const desc = fitDesc(t=>`${sp.ko}(${sp.en}) · ${sp.cat}, 도수 ${sp.abv}.${t ? ` 종류: ${t}.` : ''} 원료와 제조법 정리.`, sp.types.split(' · '));
+  // 사람들이 실제로 찾는 말("럼 도수")로 시작하고, 설명문에는 답과 함께 페이지에 더 있는 내용을 알려줘요
+  const nm = spiritNames(sp)[0];
+  const title = `${sp.ko} 도수 · 종류별 도수와 제조법 (${sp.en}) | Jigger`;
   const c = crumbs([['Jigger','/'], ['주류 상식','/spirits/'], [sp.ko, url]]);
   const bases = Object.entries(BASE_SPIRIT).filter(([, ids])=>ids.includes(sp.id)).map(([b])=>b);
   const cocktails = D.RECIPES.filter(r=>bases.includes(r.base)).slice(0, 4);
+  const desc = fitDesc(t=>`${nm} 도수는 ${sp.abv}.${t ? ` ${t}` : ''} 종류별 도수 비교와 원료 · 제조법${cocktails.length ? `, ${nm}${euro(nm)} 만드는 칵테일` : ''}.`, sp.types.split(' · ').map(t=>t.replace(/\(.*?\)/g, '').trim()));
   const foods = D.FOOD.filter(f=>f.pairsWith.includes(sp.id)).slice(0, 4);
   const qs = relatedQuiz(sp);
   const same = D.SPIRITS.filter(x=>x.cat===sp.cat && x.id!==sp.id);
@@ -364,6 +374,11 @@ function spiritPage(sp){
           <div><dt>분류</dt><dd>${sp.cat}</dd></div>
         </dl>
         <section class="sec">
+          <div class="sec-h"><h2>종류별 도수</h2><span class="prog">일반적인 범위</span></div>
+          <table class="ptable abvt"><tbody>${sp.sub.map(x=>`<tr><th scope="row">${esc(x.name)}</th><td>${esc(x.abv)}</td></tr>`).join('')}</tbody></table>
+          <p class="note">제품마다 다를 수 있어요. 병 라벨의 표기가 정확해요.</p>
+        </section>
+        <section class="sec">
           <div class="sec-h"><h2>세부 종류</h2><span class="prog">${sp.sub.length}가지</span></div>
           <ul class="subtypes">${sp.sub.map(x=>`<li><b>${esc(x.name)}</b>${esc(x.desc)}</li>`).join('')}</ul>
         </section>
@@ -378,7 +393,7 @@ function spiritPage(sp){
       ${miniQuiz(qs)}
     </section>` : ''}
     ${cocktails.length ? `<section class="more">
-      <div class="sec-h"><h2>${esc(spiritNames(sp)[0])}로 만드는 칵테일</h2></div>
+      <div class="sec-h"><h2>${esc(nm)}${euro(nm)} 만드는 칵테일</h2></div>
       <div class="cards">${cocktails.map(x=>card('cocktails', x, `${x.ko} 칵테일`)).join('')}</div>
     </section>` : ''}
     ${foods.length ? `<section class="more">
@@ -389,7 +404,7 @@ function spiritPage(sp){
       <div class="sec-h"><h2>주류 상식 전체</h2><span class="prog">${same.length ? `같은 ${sp.cat} ${same.length}가지 포함` : ''}</span></div>
       <ul class="alllinks">${D.SPIRITS.map(x=>`<li><a href="/spirits/${x.id}/"${x.id===sp.id?' aria-current="page"':''}>${esc(x.ko)}</a></li>`).join('')}</ul>
     </section>`;
-  const article = {'@context':'https://schema.org', '@type':'Article', headline:`${sp.ko}(${sp.en}) 종류와 제조법`,
+  const article = {'@context':'https://schema.org', '@type':'Article', headline:`${nm} 도수와 종류별 도수 · 제조법`,
     description:desc, image:[image], author:{'@type':'Organization', name:'Jigger', url:SITE+'/'}, inLanguage:'ko'};
   return {url, html:page({url, title, desc, image, section:'spirit', body, jsonld:[article, c.list]})};
 }
@@ -777,6 +792,10 @@ function partyIndex(){
       <h1>홈파티 아이디어</h1>
       <p class="lead">평범한 오늘을 작은 파티로. 어떤 자리인지 고르면 어울리는 술과 칵테일, 안주, 미리 챙길 것과 준비 순서를 한 번에 볼 수 있어요.</p>
     </section>
+    <section class="pstart">
+      <div><h2>내 파티 만들기</h2><p>인원과 예산만 알려주세요. 메뉴부터 장보기까지 함께 준비해요.</p></div>
+      <a class="cta" href="/party/plan/">내 파티 만들기 →</a>
+    </section>
     <section class="more">
       <div class="sec-h"><h2>파티 종류</h2><span class="prog">${D.PARTIES.length}가지</span></div>
       <div class="cards">${D.PARTIES.map(partyCard).join('')}</div>
@@ -846,6 +865,29 @@ function partyPage(pt){
     image:`${SITE}/og.jpg`, section:'party', body, jsonld:[c.list]})};
 }
 
+// 내 파티 만들기: 화면은 party/assets/plan.js가 그려요 (데이터: data.js · plan-data.js · affiliate.js)
+function partyPlanPage(){
+  const url = '/party/plan/';
+  const c = crumbs([['Jigger','/'], ['홈파티 아이디어','/party/'], ['내 파티 만들기', url]]);
+  const body = `    ${c.nav}
+    <section class="hero">
+      <span class="eyebrow">Party Planner · 내 파티 만들기</span>
+      <h1>내 파티 만들기</h1>
+      <p class="lead">인원과 예산만 알려주세요. 메뉴부터 장보기까지 함께 준비해요.</p>
+    </section>
+    <section class="sec" id="planApp" aria-live="polite">
+      <noscript><p class="lead">내 파티 만들기는 자바스크립트를 켜야 쓸 수 있어요. <a href="/party/">파티 아이디어</a>에서 파티별 준비물을 볼 수 있어요.</p></noscript>
+    </section>
+    <script src="/data.js" defer></script>
+    <script src="/photos.js" defer></script>
+    <script src="/affiliate.js" defer></script>
+    <script src="/party/assets/plan-data.js" defer></script>
+    <script src="/party/assets/plan.js" defer></script>`;
+  return {url, html:page({url, title:'내 파티 만들기 · 인원과 예산으로 홈파티 메뉴 · 장보기 계산 | Jigger',
+    desc:'인원 · 예산 · 준비 시간을 입력하면 어울리는 칵테일과 안주, 수량, 예상 비용, 장보기 목록과 준비 순서를 알려줘요.',
+    image:`${SITE}/og.jpg`, section:'party', body, jsonld:[c.list]})};
+}
+
 const pages = [
   cocktailsIndex(), spiritsIndex(), foodIndex(),
   quizPage(),
@@ -854,7 +896,7 @@ const pages = [
   ...D.FOOD.map(foodPage),
   aboutPage(), contactPage(), privacyPage(),
   tastingMyPage(),
-  partyIndex(), ...D.PARTIES.map(partyPage)
+  partyIndex(), partyPlanPage(), ...D.PARTIES.map(partyPage)
 ];
 for (const p of pages) wr(p.url.slice(1) + 'index.html', p.html);
 
