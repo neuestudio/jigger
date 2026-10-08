@@ -895,12 +895,12 @@ function partyPlanPage(){
 }
 
 /* ---------- 매거진 (글은 scripts/magazine.mjs) ---------- */
-const MAG = magazine({R:R_BY, F:F_BY, S:S_BY, P:Object.fromEntries(D.PARTIES.map(x=>[x.id, x])), esc});
 const magDate = d => d.replace(/-/g, '.');
 const magImg = ([dir, id], sm) => {
-  if (!fs.existsSync(path.join(ROOT, 'images', dir, id + '.webp'))) throw new Error(`매거진: 대표 사진 images/${dir}/${id}.webp가 없어요`);
+  if (!fs.existsSync(path.join(ROOT, 'images', dir, id + '.webp'))) throw new Error(`매거진: 사진 images/${dir}/${id}.webp가 없어요`);
   return `/images/${dir}/${sm && fs.existsSync(path.join(ROOT, 'images', dir, 'sm', id + '.webp')) ? 'sm/' : ''}${id}.webp`;
 };
+const MAG = magazine({R:R_BY, F:F_BY, S:S_BY, P:Object.fromEntries(D.PARTIES.map(x=>[x.id, x])), esc, img:magImg});
 function magRow(a){
   return `<li><a class="mrow" href="/magazine/${a.id}/">
         <img src="${magImg(a.cover, true)}" alt="" width="640" height="640" loading="lazy" decoding="async">
@@ -946,12 +946,12 @@ function magazinePage(a){
       </section>`).join('\n      ')}
       ${a.memo ? `<aside class="mmemo"><b>지거 메모</b><p>${esc(a.memo)}</p></aside>` : ''}
     </article>
-    <section class="more">
-      <div class="sec-h"><h2>이 글의 칵테일</h2></div>
+    ${a.cocktails.length ? `<section class="more">
+      <div class="sec-h"><h2>함께 보면 좋은 칵테일</h2></div>
       <div class="cards">${a.cocktails.map(id=>card('cocktails', R_BY[id], `${R_BY[id].ko} 칵테일`)).join('')}</div>
-    </section>
+    </section>` : ''}
     <section class="more">
-      <div class="sec-h"><h2>함께 먹기 좋은 안주</h2></div>
+      <div class="sec-h"><h2>더 많은 안주</h2></div>
       <div class="cards">${a.foods.map(id=>card('food', F_BY[id], F_BY[id].ko)).join('')}</div>
     </section>
     ${others.length ? `<section class="more">

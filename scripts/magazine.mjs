@@ -6,13 +6,19 @@
    - cocktails / foods: 글 끝에 카드로 보여줄 레시피 id
    - sections: [제목, 본문 HTML]. 본문의 링크는 아래 r() · f() · s() · p()로 만들어요 (없는 id면 빌드가 멈춰요)
    - memo: 운영자가 직접 해 보고 남길 한마디 (비어 있으면 안 보여요) */
-export default function magazine({R, F, S, P, esc}){
+export default function magazine({R, F, S, P, esc, img}){
   const need = (by, id, kind) => { if (!by[id]) throw new Error(`매거진: 없는 ${kind} id "${id}"`); return by[id]; };
   const r = (id, text) => `<a href="/cocktails/${id}/">${esc(text || need(R, id, '칵테일').ko)}</a>`;
   const f = (id, text) => `<a href="/food/${id}/">${esc(text || need(F, id, '안주').ko)}</a>`;
   const s = (id, text) => `<a href="/spirits/${id}/">${esc(text || need(S, id, '주종').ko)}</a>`;
   const p = (id, text) => `<a href="/party/${id}/">${esc(text || need(P, id, '파티').ko)}</a>`;
   const rec = id => need(R, id, '칵테일');
+  // 사진 묶음: g(['c', 칵테일 id, '설명'], ['f', 안주 id, '설명'], ...) → 2~4장 그리드, 사진을 누르면 레시피로 가요
+  const g = (...items) => `<div class="mgrid n${items.length}">${items.map(([k, id, note]) => {
+    const [dir, x] = k === 'c' ? ['cocktails', need(R, id, '칵테일')] : ['food', need(F, id, '안주')];
+    return `<figure><a href="/${dir}/${id}/"><img src="${img([dir, id], true)}" alt="${esc(x.ko)}" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/${dir}/${id}/">${esc(x.ko)}</a>${note ? `<span>${esc(note)}</span>` : ''}</figcaption></figure>`;
+  }).join('')}</div>`;
   const ingLine = id => rec(id).ing.map(([n, a, u]) => `${n} ${a}${u && u !== 'dash' ? u : u === 'dash' ? ' dash' : ''}`).join(' · ');
 
   return [
@@ -42,7 +48,8 @@ export default function magazine({R, F, S, P, esc}){
           <li>탄산수는 얼음에 직접 닿지 않게 잔 벽을 따라 천천히 부어요.</li>
           <li>마지막으로 스푼을 바닥까지 넣어 한 번만 살짝 들어 올리듯 섞어요. 여러 번 저으면 탄산이 날아가요.</li>
           <li>레몬 껍질을 잔 위에서 비틀어 향을 뿌리면 완성이에요.</li>
-        </ol>`],
+        </ol>
+        ${g(['c', 'tom-collins', '얼음은 잔 끝까지 가득'], ['c', 'paloma', '탄산은 잔 벽을 따라'])}`],
       ['편의점에서 사는 재료로 5가지 조합', `
         <p>위스키 한 병만 있으면 편의점 음료로 맛을 바꿀 수 있어요. 탄산수는 <b>무가당</b>을 고르세요. 단맛이 있는 탄산수는 위스키 향을 덮어요.</p>
         <table class="ptable"><thead><tr><th>조합</th><th>더하는 것</th><th>맛</th></tr></thead><tbody>
@@ -52,7 +59,8 @@ export default function magazine({R, F, S, P, esc}){
           <tr><th scope="row">콜라</th><td>콜라 + 레몬</td><td>달고 친숙한 맛. 위스키를 처음 마시는 친구에게</td></tr>
           <tr><th scope="row">과일청</th><td>탄산수 + 유자청이나 자몽청 1큰술</td><td>상큼하고 향긋해요. 청을 먼저 녹인 뒤 탄산을 부어요</td></tr>
         </tbody></table>
-        <p class="note">컵얼음은 편의점 얼음컵 2개면 하이볼 2~3잔이 나와요.</p>`],
+        <p class="note">컵얼음은 편의점 얼음컵 2개면 하이볼 2~3잔이 나와요.</p>
+        ${g(['c', 'gin-tonic', '토닉 조합의 원조'], ['c', 'cuba-libre', '콜라 조합은 이런 색'], ['c', 'moscow-mule', '진저 조합의 친척'])}`],
       ['위스키는 이렇게 고르세요', `
         <ul class="plist">
           <li><b>블렌디드 스카치</b>: 맛이 둥글고 무난해서 하이볼 입문용으로 가장 많이 써요.</li>
@@ -69,10 +77,11 @@ export default function magazine({R, F, S, P, esc}){
         </ul>`],
       ['하이볼이 마음에 들었다면', `
         <p>위스키 대신 다른 술을 쓰면 하이볼 스타일의 다른 칵테일이 돼요. 진에 토닉워터를 채우면 ${r('gin-tonic')}, 럼에 콜라는 ${r('cuba-libre')}, 보드카에 진저비어는 ${r('moscow-mule')}, 다크 럼에 진저비어는 ${r('dark-n-stormy')}예요. 술 없이 같은 기분을 내고 싶다면 <a href="/magazine/mocktail-party/">무알콜 칵테일 가이드</a>를 참고하세요.</p>
-        <p>하이볼은 기름진 안주와 잘 맞아요. 탄산이 입안을 씻어 줘서 ${f('karaage')}, ${f('wings')}, ${f('french-fries')}처럼 튀긴 음식과 함께 먹기 좋아요.</p>`]
+        <p>하이볼은 기름진 안주와 잘 맞아요. 탄산이 입안을 씻어 줘서 ${f('karaage')}, ${f('wings')}, ${f('french-fries')}처럼 튀긴 음식과 함께 먹기 좋아요.</p>
+        ${g(['f', 'karaage', '탄산과 튀김은 단짝'], ['f', 'wings', '달고 매운 양념에도'], ['f', 'french-fries', '가장 쉬운 짝꿍'])}`]
     ],
-    cocktails:['gin-tonic', 'cuba-libre', 'moscow-mule', 'dark-n-stormy'],
-    foods:['karaage', 'gizzards', 'edamame', 'french-fries'],
+    cocktails:['dark-n-stormy', 'whiskey-sour', 'mojito', 'old-fashioned'],
+    foods:['gizzards', 'edamame', 'nuts', 'dried-snacks'],
     memo:''
   },
   {
@@ -94,9 +103,11 @@ export default function magazine({R, F, S, P, esc}){
           <tr><th scope="row">주황</th><td>${r('tequila-sunrise')}</td><td>호박색 노을. 젓지 않고 그대로 내요</td></tr>
           <tr><th scope="row">마녀의 초록</th><td>${r('grasshopper')}</td><td>민트 초콜릿 맛 디저트 칵테일. 마지막 잔으로 좋아요</td></tr>
           <tr><th scope="row">밤샘용</th><td>${r('espresso-martini')}</td><td>커피가 들어가서 밤 늦게까지 노는 파티에 어울려요</td></tr>
-        </tbody></table>`],
+        </tbody></table>
+        ${g(['c', 'black-russian', '한밤의 검정'], ['c', 'dark-n-stormy', '먹구름 같은 층'], ['c', 'tequila-sunrise', '호박빛 노을'], ['c', 'grasshopper', '마녀의 초록'])}`],
       ['술을 안 마시는 손님 메뉴', `
-        <p>무알콜 메뉴도 같은 색으로 맞추면 함께 건배하기 좋아요. 블러디 메리 대신 ${r('virgin-mary')}, 주황은 ${r('cinderella')}, 빨강은 그레나딘이 들어간 ${r('shirley-temple')}를 추천해요. 더 많은 무알콜 메뉴는 <a href="/magazine/mocktail-party/">무알콜 칵테일 가이드</a>에 모아 두었어요.</p>`],
+        <p>무알콜 메뉴도 같은 색으로 맞추면 함께 건배하기 좋아요. 블러디 메리 대신 ${r('virgin-mary')}, 주황은 ${r('cinderella')}, 빨강은 그레나딘이 들어간 ${r('shirley-temple')}를 추천해요. 더 많은 무알콜 메뉴는 <a href="/magazine/mocktail-party/">무알콜 칵테일 가이드</a>에 모아 두었어요.</p>
+        ${g(['c', 'virgin-mary', '핏빛 그대로, 술만 빼고'], ['c', 'cinderella', '주황 과일 칵테일'], ['c', 'shirley-temple', '아이도 함께 건배'])}`],
       ['한 번에 분위기 내는 장식 팁', `
         <ul class="plist">
           <li><b>눈알 가니시</b>: 통조림 리치 속에 블루베리를 넣어 칵테일 픽에 꽂으면 눈알처럼 보여요.</li>
@@ -113,7 +124,8 @@ export default function magazine({R, F, S, P, esc}){
           <li>${f('stuffed-mushrooms')}: 오븐에 넣어 두기만 하면 돼서 칵테일 만드는 동안 완성돼요.</li>
           <li>${f('sausage-stir-fry')}: 아이가 있는 집 파티에 좋아요. 소시지에 칼집을 내면 손가락 모양이 돼요.</li>
           <li>${f('chocolate')}: 마지막 디저트. 그래스호퍼나 에스프레소 마티니와 잘 맞아요.</li>
-        </ul>`],
+        </ul>
+        ${g(['f', 'wings', '빨간 양념 그대로'], ['f', 'nachos', '찍어 먹는 재미'], ['f', 'guacamole', '초록 늪 소스'], ['f', 'stuffed-mushrooms', '오븐에 맡기기'])}`],
       ['일주일 전부터 준비 순서', `
         <ol class="ptime">
           <li><b>1주 전</b><span>인원과 시간 정하기, 코스튬 여부 알리기. 메뉴는 칵테일 3가지 + 무알콜 1가지 정도가 적당해요</span></li>
@@ -124,8 +136,8 @@ export default function magazine({R, F, S, P, esc}){
         </ol>
         <p>인원과 예산을 넣으면 수량과 장보기 목록을 계산해 주는 <a href="/party/plan/">내 파티 만들기</a>도 함께 써 보세요. 영화를 같이 볼 계획이라면 ${p('game-night')} 준비물도 참고가 돼요.</p>`]
     ],
-    cocktails:['bloody-mary', 'black-russian', 'dark-n-stormy', 'grasshopper'],
-    foods:['wings', 'guacamole', 'stuffed-mushrooms', 'chocolate'],
+    cocktails:['bloody-mary', 'espresso-martini', 'blue-hawaiian', 'b-52'],
+    foods:['sausage-stir-fry', 'chocolate', 'fruit-platter', 'garlic-bread'],
     memo:''
   },
   {
@@ -141,6 +153,7 @@ export default function magazine({R, F, S, P, esc}){
       ['무알콜과 비알콜은 달라요', `
         <p>시판 음료를 살 때는 표기를 확인하세요. <b>무알코올</b>은 알코올이 전혀 없는(0.00%) 제품이고, <b>비알코올</b>은 1% 미만의 알코올이 들어 있을 수 있는 제품이에요. 임신 중이거나 알코올을 완전히 피해야 하는 손님에게는 무알코올 제품이나 직접 만든 목테일을 내세요.</p>`],
       ['집에서 만드는 무알콜 칵테일 8가지', `
+        ${g(['c', 'ginger-mule', '알싸한 진저'], ['c', 'shirley-temple', '달콤한 첫 잔'], ['c', 'cinderella', '과일 주스처럼'], ['c', 'arnold-palmer', '식사와 함께'])}
         <table class="ptable"><thead><tr><th>칵테일</th><th>재료</th><th>이런 분께</th></tr></thead><tbody>
           <tr><th scope="row">${r('virgin-mojito')}</th><td>${esc(ingLine('virgin-mojito'))}</td><td>상쾌한 민트를 좋아한다면</td></tr>
           <tr><th scope="row">${r('ginger-mule')}</th><td>${esc(ingLine('ginger-mule'))}</td><td>알싸하고 어른스러운 맛</td></tr>
@@ -158,7 +171,8 @@ export default function magazine({R, F, S, P, esc}){
           <li><b>매운맛으로 ‘술 기운’</b>: 진저비어의 생강 맛이나 후추, 타바스코가 목을 데우는 느낌을 대신해 줘요.</li>
           <li><b>신선한 산미</b>: 시판 주스 대신 생레몬 · 라임을 직접 짜면 훨씬 칵테일다워요.</li>
           <li><b>잔과 가니시는 똑같이</b>: 술 마시는 손님과 같은 잔, 같은 장식으로 내면 무알콜이라는 게 티 나지 않아요.</li>
-        </ul>`],
+        </ul>
+        ${g(['c', 'virgin-mary', '짭짤 · 매콤'], ['c', 'fresh-lemon-squash', '생레몬의 산미'], ['c', 'virgin-colada', '진하고 부드럽게'])}`],
       ['홈파티에서 대량으로 만들기', `
         <p>손님이 많으면 한 잔씩 만들기보다 피처로 미리 섞어 두세요. 탄산은 마지막에 넣어야 해요.</p>
         <ol class="steps">
@@ -168,10 +182,11 @@ export default function magazine({R, F, S, P, esc}){
         </ol>
         <p>무알콜 음료 코너를 칵테일 옆에 따로 만들어 두면 손님이 눈치 보지 않고 골라 마실 수 있어요. 메뉴판에 술이 없는 메뉴를 같은 크기로 적어 두는 것도 좋은 배려예요.</p>`],
       ['함께 내기 좋은 안주', `
-        <p>무알콜 칵테일은 산뜻한 음식과 잘 어울려요. ${f('fruit-platter')}, ${f('caprese')}, ${f('bruschetta')}처럼 가볍게 집어 먹는 메뉴를 추천해요. 하이볼처럼 탄산으로 즐기고 싶다면 <a href="/magazine/highball-at-home/">하이볼 가이드</a>의 편의점 조합에서 위스키만 빼고 만들어도 돼요.</p>`]
+        <p>무알콜 칵테일은 산뜻한 음식과 잘 어울려요. ${f('fruit-platter')}, ${f('caprese')}, ${f('bruschetta')}처럼 가볍게 집어 먹는 메뉴를 추천해요. 하이볼처럼 탄산으로 즐기고 싶다면 <a href="/magazine/highball-at-home/">하이볼 가이드</a>의 편의점 조합에서 위스키만 빼고 만들어도 돼요.</p>
+        ${g(['f', 'fruit-platter', '가볍게 집어 먹기'], ['f', 'caprese', '산뜻한 토마토'], ['f', 'bruschetta', '한입 크기'])}`]
     ],
-    cocktails:['virgin-mojito', 'ginger-mule', 'shirley-temple', 'cinderella'],
-    foods:['fruit-platter', 'caprese', 'bruschetta', 'guacamole'],
+    cocktails:[],
+    foods:['guacamole', 'fish-tacos', 'ceviche', 'prosciutto-melon'],
     memo:''
   }
   ];

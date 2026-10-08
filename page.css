@@ -424,7 +424,23 @@ button.cta:disabled{opacity:.5;cursor:default}
 .mmemo{margin-top:40px;padding:20px 22px;background:var(--surface);border-left:3px solid var(--accent)}
 .mmemo b{font:500 12px var(--mono);letter-spacing:.1em;color:var(--accent)}
 .mmemo p{margin:8px 0 0;font-size:16px;line-height:1.8;word-break:keep-all}
+
+.mgrid{display:grid;gap:12px;margin:22px 0 4px}
+.mgrid.n2{grid-template-columns:repeat(2,1fr)}
+.mgrid.n3{grid-template-columns:repeat(3,1fr)}
+.mgrid.n4{grid-template-columns:repeat(4,1fr)}
+.mgrid figure{margin:0}
+.mgrid img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;background:var(--surface);transition:opacity .2s}
+.mgrid a:hover img{opacity:.85}
+.mgrid figcaption{margin-top:8px;font-size:14px;line-height:1.45;word-break:keep-all}
+.mgrid figcaption a{font-weight:500;color:var(--ink);text-decoration:none}
+.mgrid figcaption a:hover{text-decoration:underline;text-underline-offset:3px}
+.mgrid figcaption span{display:block;margin-top:2px;font-size:12.5px;color:var(--mut)}
 @media (max-width:560px){
+  .mgrid{gap:8px}
+  .mgrid.n4{grid-template-columns:repeat(2,1fr)}
+  .mgrid figcaption{font-size:13px}
+  .mgrid figcaption span{font-size:12px}
   .mrow{grid-template-columns:88px minmax(0,1fr);gap:14px}
   .mrow img{width:88px;height:88px}
   .mrow b{font-size:17px}
