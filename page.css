@@ -86,7 +86,7 @@ h1.title .ko{display:block;margin-top:4px;font:400 15px/1.6 var(--sans);letter-s
 .more{margin-top:60px}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:24px 20px;margin-top:18px}
 .card{display:flex;flex-direction:column;text-decoration:none}
-.cthumb{aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden;color:var(--ink);background:color-mix(in srgb,var(--liq,#ccc) 12%,var(--surface2))}
+.cthumb{position:relative;aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden;color:var(--ink);background:color-mix(in srgb,var(--liq,#ccc) 12%,var(--surface2))}
 .cthumb img{width:100%;height:100%;object-fit:cover;display:block}
 .cthumb svg{height:70%;width:auto}
 /* 카드 이름은 앱 목록 카드(.tile)와 같은 모양: 선 · 영문 · 한글 */
@@ -412,6 +412,7 @@ button.cta:disabled{opacity:.5;cursor:default}
 .mrow .mdesc{display:block;margin-top:6px;font-size:14px;color:var(--mut);word-break:keep-all}
 .mrow time{display:block;margin-top:8px;font:500 11px var(--mono);letter-spacing:.08em;color:var(--mut)}
 .mag{max-width:760px}
+.mdraft{margin:16px 0 0;padding:10px 14px;border:1px dashed var(--accent);font-size:14px;color:var(--accent)}
 .mby{margin:14px 0 0;font:500 12px var(--mono);letter-spacing:.06em;color:var(--mut)}
 .mcover{margin:28px 0 0}
 .mcover img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:var(--surface)}
@@ -447,3 +448,12 @@ button.cta:disabled{opacity:.5;cursor:default}
   .mrow .mdesc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .prose .ptable{display:block;overflow-x:auto}
 }
+
+/* Jigger Bites 번호 */
+.cno{position:absolute;left:8px;top:8px;padding:3px 7px;background:var(--ink);color:var(--bg);font:500 11px/1.2 var(--mono);letter-spacing:.04em}
+.cnum{display:block;font:500 11px var(--mono);font-style:normal;letter-spacing:.04em;color:var(--accent)}
+.bshort{margin-left:8px;font:400 13px var(--mono);color:var(--mut)}
+.fq{display:block;width:100%;max-width:420px;margin-top:16px;padding:11px 14px;background:var(--surface);border:1px solid var(--line);border-radius:2px;font:400 15px var(--sans);color:var(--ink)}
+.fq:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.fh{margin:22px 0 0;font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.fh + .chips{margin-top:10px}

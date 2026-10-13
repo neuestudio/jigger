@@ -17,13 +17,13 @@ export default function magazine({R, F, S, P, esc, img}){
   const g = (...items) => `<div class="mgrid n${items.length}">${items.map(([k, id, note]) => {
     const [dir, x] = k === 'c' ? ['cocktails', need(R, id, '칵테일')] : ['food', need(F, id, '안주')];
     return `<figure><a href="/${dir}/${id}/"><img src="${img([dir, id], true)}" alt="${esc(x.ko)}" width="640" height="640" loading="lazy" decoding="async"></a>
-          <figcaption><a href="/${dir}/${id}/">${esc(x.ko)}</a>${note ? `<span>${esc(note)}</span>` : ''}</figcaption></figure>`;
+          <figcaption>${x.noLabel ? `<i class="cnum">${x.noLabel}</i>` : ''}<a href="/${dir}/${id}/">${esc(x.ko)}</a>${note ? `<span>${esc(note)}</span>` : ''}</figcaption></figure>`;
   }).join('')}</div>`;
   const ingLine = id => rec(id).ing.map(([n, a, u]) => `${n} ${a}${u && u !== 'dash' ? u : u === 'dash' ? ' dash' : ''}`).join(' · ');
 
   return [
   {
-    id:'highball-at-home', date:'2026-10-08', updated:'2026-10-08',
+    id:'highball-at-home', date:'2026-10-08', updated:'2026-10-12',
     eyebrow:'Highball at Home',
     title:'하이볼 만드는 법 · 위스키 비율과 편의점 재료 조합 | 지거바',
     h1:'집에서 만드는 하이볼, 비율 하나만 기억하세요',
@@ -33,7 +33,7 @@ export default function magazine({R, F, S, P, esc, img}){
     keywords:['하이볼 만들기', '하이볼 비율', '위스키 하이볼', '하이볼 레시피', '편의점 하이볼'],
     sections:[
       ['황금비율은 위스키 1 : 탄산 3~4', `
-        <p>가장 무난한 시작점은 <b>위스키 45ml에 탄산수 135~180ml</b>예요. 진하게 마시고 싶으면 1:3, 가볍게 오래 마시려면 1:4로 맞추세요. 계량컵이 없다면 소주잔 한 잔이 약 50ml라서 그대로 기준으로 써도 돼요.</p>
+        <p>가장 무난한 시작점은 <b>위스키 45ml에 탄산수 135~180ml</b>예요. 진하게 마시고 싶으면 1:3, 가볍게 오래 마시려면 1:4로 맞추세요. 계량컵이 없다면 소주잔 한 잔이 약 50ml라서 그대로 기준으로 써도 돼요. 잔 수에 맞춘 계량은 ${r('whisky-highball')} 레시피에서 바로 볼 수 있어요.</p>
         <table class="ptable"><thead><tr><th>스타일</th><th>위스키</th><th>탄산</th><th>느낌</th></tr></thead><tbody>
           <tr><th scope="row">진하게</th><td>45ml</td><td>135ml (1:3)</td><td>위스키 향이 또렷해요</td></tr>
           <tr><th scope="row">기본</th><td>45ml</td><td>160ml</td><td>향과 청량감의 균형</td></tr>
@@ -80,7 +80,7 @@ export default function magazine({R, F, S, P, esc, img}){
         <p>하이볼은 기름진 안주와 잘 맞아요. 탄산이 입안을 씻어 줘서 ${f('karaage')}, ${f('wings')}, ${f('french-fries')}처럼 튀긴 음식과 함께 먹기 좋아요.</p>
         ${g(['f', 'karaage', '탄산과 튀김은 단짝'], ['f', 'wings', '달고 매운 양념에도'], ['f', 'french-fries', '가장 쉬운 짝꿍'])}`]
     ],
-    cocktails:['dark-n-stormy', 'whiskey-sour', 'mojito', 'old-fashioned'],
+    cocktails:['whisky-highball', 'dark-n-stormy', 'whiskey-sour', 'old-fashioned'],
     foods:['gizzards', 'edamame', 'nuts', 'dried-snacks'],
     memo:''
   },
@@ -187,6 +187,163 @@ export default function magazine({R, F, S, P, esc, img}){
     ],
     cocktails:[],
     foods:['guacamole', 'fish-tacos', 'ceviche', 'prosciutto-melon'],
+    memo:''
+  },
+  {
+    id:'beaujolais-nouveau', date:'2026-10-20', updated:'2026-10-20',
+    eyebrow:'Beaujolais Nouveau',
+    title:'보졸레 누보 출시일과 마시는 법 · 어울리는 안주 | 지거바',
+    h1:'보졸레 누보, 올해 첫 와인을 집에서 맛있게',
+    desc:'2026년 보졸레 누보는 11월 19일 출시. 살짝 차게 마시는 온도, 잔 고르기, 치즈부터 족발까지 어울리는 안주.',
+    lead:'보졸레 누보는 그해 수확한 포도로 만든 첫 와인이에요. 무겁고 복잡한 와인이 아니라서 와인을 잘 몰라도 부담 없이 즐기기 좋아요. 출시일에 맞춰 집에서 가볍게 열어 보는 법을 정리했어요.',
+    cover:['spirits', 'wine'],
+    keywords:['보졸레 누보', '보졸레 누보 출시일', '보졸레 누보 마시는 법', '보졸레 누보 안주'],
+    sections:[
+      ['보졸레 누보는 어떤 와인인가요', `
+        <p>프랑스 부르고뉴 남쪽 보졸레 지역에서 <b>가메(Gamay)</b> 품종으로 만든 레드 와인이에요. 포도를 송이째 발효시키는 방식으로 짧게 만들어서 색이 밝고, 딸기 · 체리 · 바나나 같은 과일 향이 나고, 떫은맛(탄닌)이 적어요.</p>
+        <p>해마다 <b>11월 셋째 목요일</b>에 전 세계에서 같은 날 판매를 시작해요. 2026년은 <b>11월 19일(목)</b>이에요. 오래 두고 숙성시키는 와인이 아니라서 사면 몇 달 안에 마시는 게 가장 맛있어요.</p>
+        <table class="ptable"><thead><tr><th>이름</th><th>특징</th></tr></thead><tbody>
+          <tr><th scope="row">보졸레 누보</th><td>그해 첫 와인. 가볍고 과일 향이 가장 신선해요</td></tr>
+          <tr><th scope="row">보졸레 빌라주</th><td>지정된 마을의 포도로 만들어 조금 더 진해요</td></tr>
+          <tr><th scope="row">보졸레 크뤼</th><td>이름난 10개 마을 와인. 숙성도 할 수 있어요</td></tr>
+        </tbody></table>
+        <p class="note">와인 종류와 도수는 ${s('wine', '와인 주류 상식')}에 정리돼 있어요.</p>`],
+      ['맛있게 마시는 세 가지', `
+        <ul class="plist">
+          <li><b>살짝 차갑게</b>: 레드 와인이지만 12~14℃ 정도로 시원하게 마시면 과일 향이 살아나요. 상온에 있던 병이면 냉장고에 20~30분 넣었다 꺼내세요.</li>
+          <li><b>잔은 일반 와인잔이면 충분</b>: 향이 모이는 볼이 있는 와인잔이 좋지만, 없으면 물잔도 괜찮아요. 디캔팅은 필요 없어요.</li>
+          <li><b>한 번 열면 그날 마시기</b>: 가벼운 와인이라 열어 두면 향이 빨리 빠져요. 남으면 마개를 막아 냉장고에 두고 1~2일 안에 마시세요.</li>
+        </ul>`],
+      ['어울리는 안주', `
+        <p>보졸레 누보는 가볍고 산미가 있어서 무거운 고기보다 짭짤하고 기름기가 적당한 음식과 잘 맞아요.</p>
+        <ul class="plist">
+          <li><b>치즈 · 햄</b>: ${f('cheese')}의 부드러운 치즈, ${f('prosciutto-melon')}처럼 짭짤한 햄이 가장 쉬운 짝이에요.</li>
+          <li><b>한식과도 잘 맞아요</b>: 기름기를 뺀 ${f('suyuk')}이나 ${f('jokbal')}, ${f('beef-jeon')}처럼 간이 세지 않은 음식과 함께 마셔 보세요.</li>
+          <li><b>피해야 할 것</b>: 아주 매운 음식은 와인의 과일 향을 덮어요.</li>
+        </ul>
+        ${g(['f', 'cheese', '부드러운 치즈부터'], ['f', 'prosciutto-melon', '짭짤함과 단맛'], ['f', 'jokbal', '의외의 단짝'], ['f', 'beef-jeon', '간이 순한 전'])}`],
+      ['와인 나이트로 즐기기', `
+        <p>출시일 저녁에 친구 몇 명과 한 병씩 가져와 비교해 보는 것도 재미있어요. 와인잔, 치즈 플레이트, 준비 순서는 ${p('wine-cheese')} 준비물을 그대로 쓰면 돼요. 인원과 예산을 넣으면 와인 병 수까지 계산해 주는 <a href="/party/plan/">내 파티 만들기</a>도 함께 써 보세요.</p>`],
+      ['남은 와인은 뱅쇼로', `
+        <p>다 못 마신 보졸레 누보는 오렌지와 시나몬을 넣고 데워 ${r('mulled-wine')}로 만들면 좋아요. 과일 향이 진한 가벼운 레드 와인이라 뱅쇼와 특히 잘 어울려요. 추운 날 위스키로 만드는 따뜻한 술은 ${r('hot-toddy')}예요.</p>`]
+    ],
+    cocktails:['mulled-wine', 'kir', 'mimosa'],
+    foods:['olives', 'salmon', 'suyuk', 'nuts'],
+    memo:''
+  },
+  {
+    id:'suneung-party', date:'2026-10-27', updated:'2026-10-27',
+    eyebrow:'After the Exam',
+    title:'수능 끝 홈파티 · 무알콜 칵테일과 분식 메뉴 | 지거바',
+    h1:'수능 끝난 날, 술 없이 신나는 홈파티',
+    desc:'수능 끝난 수험생을 위한 무알콜 칵테일 4가지와 분식 · 튀김 메뉴, 영화 · 게임 홈파티 준비 순서.',
+    lead:'시험이 끝난 날은 그동안 고생한 만큼 신나게 축하해 주고 싶죠. 고3 수험생은 대부분 아직 청소년이라 술은 빼고, 대신 칵테일처럼 예쁜 무알콜 음료와 좋아하는 음식으로 파티를 차려 보세요.',
+    cover:['cocktails', 'shirley-temple'],
+    keywords:['수능 끝 파티', '수능 끝나고', '수험생 파티 음식', '무알콜 칵테일'],
+    sections:[
+      ['칵테일 잔에 담는 무알콜 4가지', `
+        <p>잔과 장식만 칵테일처럼 갖추면 무알콜이어도 특별한 날 기분이 나요. 재료가 간단하고 편의점에서 다 살 수 있는 4가지를 골랐어요.</p>
+        ${g(['c', 'shirley-temple', '달콤한 첫 건배'], ['c', 'cinderella', '과일 주스처럼'], ['c', 'virgin-mojito', '상쾌한 민트'], ['c', 'virgin-colada', '디저트처럼 진하게'])}
+        <p>더 많은 레시피와 술 같은 맛을 내는 요령은 <a href="/magazine/mocktail-party/">무알콜 칵테일 가이드</a>에 모아 두었어요.</p>`],
+      ['좋아하는 음식이 최고의 메뉴', `
+        <p>시험 기간 내내 참았던 음식을 차려 주세요. 여럿이 나눠 먹기 좋은 분식과 튀김이 무난해요.</p>
+        ${g(['f', 'tteokbokki', '모두가 좋아하는 맛'], ['f', 'wings', '손으로 집어 먹기'], ['f', 'french-fries', '영화엔 감자튀김'], ['f', 'nachos', '나눠 먹는 재미'])}
+        <p class="note">${f('sausage-stir-fry')}처럼 10분이면 되는 메뉴를 하나 넣어 두면 늦게 오는 친구 몫도 금방 만들 수 있어요.</p>`],
+      ['파티를 채우는 아이디어', `
+        <ul class="plist">
+          <li><b>그동안 못 본 영화 몰아 보기</b>: 미리 2~3편 골라 두고 투표로 정해요. 준비물은 ${p('game-night')}를 참고하세요.</li>
+          <li><b>보드게임 · 노래방 앱</b>: 시험 이야기에서 자연스럽게 벗어나게 해 줘요.</li>
+          <li><b>수험표 사진 찍기</b>: 마지막 수험표를 들고 찍는 기념사진은 나중에 좋은 추억이 돼요.</li>
+          <li><b>결과 이야기는 꺼내지 않기</b>: 가채점 이야기는 다음 날로 미뤄 두는 게 모두에게 편해요.</li>
+        </ul>`],
+      ['준비 순서', `
+        <ol class="ptime">
+          <li><b>2~3일 전</b><span>인원 정하기, 음료 재료(진저에일 · 그레나딘 · 주스 · 민트) 장보기</span></li>
+          <li><b>전날</b><span>잔과 음료 차게 두기, 떡볶이 양념 미리 섞어 두기</span></li>
+          <li><b>당일</b><span>얼음 넉넉히 준비, 튀김류는 먹기 직전에 데우기</span></li>
+        </ol>
+        <p>인원과 예산을 넣으면 수량과 장보기 목록을 계산해 주는 <a href="/party/plan/">내 파티 만들기</a>에서 ‘술 없이’ 조건을 골라 보세요.</p>`]
+    ],
+    cocktails:['ginger-mule', 'arnold-palmer', 'fresh-lemon-squash', 'virgin-mary'],
+    foods:['sausage-stir-fry', 'chocolate', 'fruit-platter', 'garlic-bread'],
+    memo:''
+  },
+  {
+    id:'year-end-party', date:'2026-11-10', updated:'2026-11-10',
+    eyebrow:'Year-End Party',
+    title:'송년회 홈파티 준비 · 술 한 병으로 칵테일 4가지 | 지거바',
+    h1:'집에서 하는 송년회, 술 한 병으로 칵테일 네 가지',
+    desc:'진 한 병으로 만드는 칵테일 4가지, 미리 섞어 두는 피처 칵테일, 든든한 안주와 손님 귀가까지 챙기는 송년회 준비.',
+    lead:'연말 모임을 집에서 하면 시끄러운 식당보다 이야기하기 편하고, 비용도 아낄 수 있어요. 술을 여러 병 사지 않고 한 병으로 여러 칵테일을 만드는 방법과 호스트가 덜 바쁜 진행 순서를 정리했어요.',
+    cover:['cocktails', 'negroni'],
+    keywords:['송년회 홈파티', '연말 홈파티', '홈파티 칵테일', '송년회 메뉴'],
+    sections:[
+      ['진 한 병이면 네 가지가 돼요', `
+        <p>700ml 진 한 병이면 칵테일 한 잔에 45~50ml씩 <b>14잔 정도</b>를 만들 수 있어요. 섞는 재료만 바꿔서 네 가지 메뉴를 준비하면 손님이 골라 마시는 재미가 생겨요.</p>
+        ${g(['c', 'gin-tonic', '토닉워터만 있으면'], ['c', 'tom-collins', '레몬 · 시럽 · 소다'], ['c', 'gimlet', '라임과 시럽, 셰이크'], ['c', 'negroni', '진 · 캄파리 · 베르무트'])}
+        <p class="note">셰이커가 없다면 진 토닉과 톰 콜린스만으로도 충분해요. 진의 종류와 맛은 ${s('gin', '진 주류 상식')}에 있어요.</p>`],
+      ['미리 섞어 두는 피처 칵테일', `
+        <p>손님이 오면 호스트는 잔을 채우느라 바빠요. 탄산이 없는 부분만 미리 섞어 두면 따르기만 하면 돼요.</p>
+        <ul class="plist">
+          <li><b>네그로니 한 병</b>: 진 · 캄파리 · 스위트 베르무트를 같은 양으로 빈 병에 섞어 냉장고에. 낼 때 얼음 잔에 따르고 오렌지 껍질만 올려요.</li>
+          <li><b>아페롤 스프리츠 피처</b>: 아페롤만 피처에 담아 두고, 낼 때 얼음 · 프로세코 · 소다수를 차례로 부어요. 탄산은 마지막에.</li>
+          <li><b>뱅쇼 한 냄비</b>: 추운 날 손님이 들어오자마자 건네기 좋아요. 약불에 올려 두면 따뜻하게 유지돼요.</li>
+        </ul>
+        <p>레시피는 ${r('negroni')}, ${r('aperol-spritz')}, ${r('mulled-wine')}에서 잔 수에 맞춰 계량할 수 있어요.</p>`],
+      ['안주는 든든한 메인 하나 + 집어 먹기', `
+        <p>저녁을 겸하는 자리라면 든든한 메인 하나에 손으로 집어 먹는 메뉴 두세 가지가 적당해요.</p>
+        ${g(['f', 'suyuk', '미리 삶아 두는 메인'], ['f', 'shrimp', '15분이면 완성'], ['f', 'cheese', '자르기만 하면'], ['f', 'garlic-bread', '오븐에 맡기기'])}`],
+      ['손님 귀가까지 챙기기', `
+        <ul class="plist">
+          <li><b>무알콜 메뉴 하나</b>: 운전하는 손님, 술을 쉬는 손님을 위해 ${r('ginger-mule')} 같은 메뉴를 같은 잔으로 준비해요.</li>
+          <li><b>물은 눈에 보이는 곳에</b>: 칵테일 사이사이 물을 마시면 다음 날이 훨씬 편해요.</li>
+          <li><b>막차 시간 미리 확인</b>: 연말엔 택시 잡기가 어려워요. 시작할 때 각자 막차 시간을 알려 두면 마무리가 자연스러워요.</li>
+          <li><b>운전은 절대 안 돼요</b>: 차를 가져온 손님에게는 처음부터 대리운전이나 다음 날 찾아가기를 안내해요.</li>
+        </ul>`],
+      ['준비 순서', `
+        <ol class="ptime">
+          <li><b>1주 전</b><span>인원 · 시간 확정, 칵테일 메뉴 4가지 정하기</span></li>
+          <li><b>3일 전</b><span>진 · 캄파리 · 토닉워터 · 레몬 · 라임 장보기</span></li>
+          <li><b>전날</b><span>네그로니 병 섞어 두기, 수육 고기 손질, 잔 닦아 두기</span></li>
+          <li><b>당일 오후</b><span>얼음 넉넉히(한 사람당 1kg 정도), 수육 삶기</span></li>
+          <li><b>시작 30분 전</b><span>뱅쇼 데우기, 바 위에 재료 꺼내 두기</span></li>
+        </ol>
+        <p>연말 분위기 준비물은 ${p('holiday')}, 수량 계산은 <a href="/party/plan/">내 파티 만들기</a>를 함께 보세요.</p>`]
+    ],
+    cocktails:['aperol-spritz', 'mulled-wine', 'ginger-mule', 'old-fashioned'],
+    foods:['jokbal', 'nuts', 'olives', 'karaage'],
+    memo:''
+  },
+  {
+    id:'christmas-cocktails', date:'2026-11-17', updated:'2026-11-17',
+    eyebrow:'Christmas at Home',
+    title:'크리스마스 칵테일 추천 · 홈파티 메뉴 12가지 | 지거바',
+    h1:'크리스마스 홈파티 칵테일, 분위기별 12가지',
+    desc:'따뜻한 뱅쇼와 핫 토디, 빨강 · 초록 칵테일, 디저트 칵테일, 아이와 함께 마시는 무알콜까지 크리스마스 메뉴 12가지.',
+    lead:'크리스마스 파티 메뉴는 분위기로 고르면 쉬워요. 들어오자마자 건네는 따뜻한 한 잔, 사진이 예쁜 빨강 · 초록 칵테일, 케이크와 함께하는 디저트 칵테일, 아이와 함께 마실 무알콜까지 순서대로 골랐어요.',
+    cover:['cocktails', 'grasshopper'],
+    keywords:['크리스마스 칵테일', '크리스마스 홈파티', '뱅쇼 만들기', '연말 칵테일'],
+    sections:[
+      ['들어오자마자 건네는 따뜻한 한 잔', `
+        <p>추운 날 손님을 맞을 때는 따뜻한 술이 가장 반가워요. 와인으로 만드는 ${r('mulled-wine')}는 한 냄비 끓여 두면 여러 잔을 바로 낼 수 있고, 위스키에 꿀과 레몬을 넣은 ${r('hot-toddy')}는 한 잔씩 금방 만들 수 있어요.</p>
+        <p class="note">뱅쇼는 끓이지 말고 김이 오를 정도로만 데우세요. 펄펄 끓이면 향이 날아가고 떫어져요.</p>`],
+      ['사진이 예쁜 빨강 · 초록', `
+        ${g(['c', 'cosmopolitan', '크랜베리 빨강'], ['c', 'kir', '와인빛 분홍'], ['c', 'grasshopper', '민트 초콜릿 초록'], ['c', 'apple-martini', '사과 초록'])}
+        <p>로즈마리 한 줄기를 꽂으면 작은 트리처럼 보이고, 잔 테두리에 설탕을 묻히면 눈이 쌓인 것 같은 장식이 돼요.</p>`],
+      ['케이크와 함께하는 디저트 칵테일', `
+        ${g(['c', 'brandy-alexander', '초콜릿 · 크림'], ['c', 'espresso-martini', '커피와 함께'], ['c', 'b-52', '층이 예쁜 한 잔'])}
+        <p>달콤하고 진해서 식사 뒤 작은 잔으로 한 잔씩 내기 좋아요. ${f('chocolate')}와도 잘 어울려요.</p>`],
+      ['파티를 여는 가벼운 한 잔', `
+        ${g(['c', 'mimosa', '브런치 파티라면'], ['c', 'aperol-spritz', '쌉쌀한 주황'])}
+        <p>도수가 낮은 스파클링 칵테일로 시작하면 긴 저녁 동안 부담이 적어요.</p>`],
+      ['아이도 함께 건배', `
+        <p>가족 파티라면 같은 잔에 담은 무알콜 메뉴를 꼭 준비하세요. 빨간 ${r('shirley-temple')}는 크리스마스 색 그대로예요. 더 많은 메뉴는 <a href="/magazine/mocktail-party/">무알콜 칵테일 가이드</a>에 있어요.</p>`],
+      ['크리스마스 안주', `
+        ${g(['f', 'steak', '파티의 메인'], ['f', 'salmon', '한입 카나페'], ['f', 'cheese', '와인과 함께'], ['f', 'garlic-bread', '모두가 좋아하는'])}
+        <p>연말 홈파티 준비물과 순서는 ${p('holiday')}, 인원에 맞춘 장보기 계산은 <a href="/party/plan/">내 파티 만들기</a>에서 볼 수 있어요. 송년 모임이라면 <a href="/magazine/year-end-party/">송년회 홈파티 준비</a>도 참고하세요.</p>`]
+    ],
+    cocktails:['hot-toddy', 'mulled-wine', 'shirley-temple', 'manhattan'],
+    foods:['shrimp', 'prosciutto-melon', 'fruit-platter', 'nuts'],
     memo:''
   }
   ];

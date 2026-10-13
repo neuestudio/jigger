@@ -1,6 +1,7 @@
 /* Cloudflare Worker: 정적 파일(사이트 전체)을 내보내기 전에 주소를 정리해요.
    0) http 로 오면 https 로 301
    1) 대표 도메인(CANONICAL_HOST)이 아닌 주소(www, workers.dev)로 오면 같은 경로의 대표 도메인으로 301
+   1-1) /b/<번호> → 그 번호의 안주 레시피로 301 (Jigger Bites 짧은 주소)
    2) 확장자 없는 경로는 끝에 / 를 붙여 301 (/cocktails/negroni → /cocktails/negroni/)
    3) POST /api/contact → 문의 메일 전송 (Cloudflare Email Routing, wrangler.jsonc의 send_email)
       /tasting/ · /api/tasting/ → 테이스팅 노트 (worker/tasting.js, D1 · R2)
@@ -9,6 +10,7 @@
    나머지는 정적 파일(ASSETS)이 처리해요. 없는 주소는 404.html (wrangler.jsonc의 not_found_handling). */
 import { EmailMessage } from 'cloudflare:email';
 import { handleTasting } from './tasting.js';
+import { BITES } from './bites.js';
 
 export default {
   async fetch(request, env) {
@@ -16,6 +18,14 @@ export default {
     const local = url.hostname === 'localhost' || url.hostname === '127.0.0.1';
     if (url.pathname === '/api/contact') return withSecurity(await contact(request, env), local);
     if (url.pathname.startsWith('/api/tasting/')) return withSecurity(await handleTasting(request, env, url), local);
+
+    // Jigger Bites 짧은 주소: /b/12 → 12번 안주 레시피 (번호 표는 빌드가 worker/bites.js로 만들어요). 없는 번호는 안주 목록으로
+    const bite = /^\/b\/0*(\d{1,4})\/?$/.exec(url.pathname);
+    if (bite) {
+      const id = BITES[bite[1]];
+      const base = local ? url.origin : `https://${env.CANONICAL_HOST || url.hostname}`;
+      return withSecurity(Response.redirect(base + (id ? `/food/${id}/` : '/food/'), id ? 301 : 302), local);
+    }
 
     const host = env.CANONICAL_HOST;
     let moved = false;

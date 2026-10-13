@@ -52,6 +52,11 @@ const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보�
 const MARK = ['①','②','③','④'];
 const CONTACT = {email:'jiggerbar.info@gmail.com'};
 const SPIRIT = Object.fromEntries(D.SPIRITS.map(x=>[x.id, x]));
+// 안주 요리 분류의 주소용 이름 (/food/#korean) · Recipe 구조화 데이터의 recipeCuisine
+const KIND_SLUG = {'한식':'korean', '양식':'western', '일식':'japanese', '멕시칸 · 남미':'latin', '간단 안주':'simple', '디저트 · 과일':'dessert'};
+const KIND_CUISINE = {'한식':'한식', '양식':'양식', '일식':'일식', '멕시칸 · 남미':'멕시칸'};
+for (const f of D.FOOD) if (!KIND_SLUG[f.kind]) throw new Error(`안주 ${f.id}: 없는 요리 분류 "${f.kind}"`);
+if (new Set(D.FOOD.map(f=>f.no)).size !== D.FOOD.length || D.FOOD.some(f=>!Number.isInteger(f.no) || f.no < 1)) throw new Error('안주 번호(no)가 겹치거나 비어 있어요');
 
 /* ---------- 공통 ---------- */
 const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -124,7 +129,7 @@ function cardText(en, ko){
   return `<span class="cbody"><span class="cname">${esc(en)}</span><span class="cko">${esc(ko)}</span></span>`;
 }
 function card(dir, item, alt){
-  return `<a class="card" href="/${dir}/${item.id}/"><span class="cthumb" style="--liq:${item.liquid||item.color}">${thumb(dir, item, alt)}</span>
+  return `<a class="card" href="/${dir}/${item.id}/"><span class="cthumb" style="--liq:${item.liquid||item.color}">${thumb(dir, item, alt)}${item.noLabel ? `<span class="cno">${item.noLabel}</span>` : ''}</span>
       ${cardText(item.en, item.ko)}</a>`;
 }
 // 설명 문구(meta description)는 네이버 권장대로 80자 안으로: 넘치면 목록을 앞의 몇 가지로 줄이고, 그래도 길면 목록을 빼요
@@ -434,15 +439,16 @@ function foodPage(f){
         ? `<img src="/images/food/${f.id}.webp" alt="${esc(f.ko)}" width="1000" height="1000" fetchpriority="high">`
         : D.plateSVG(f, 'hero')}</div>
       <div class="body">
-        <span class="eyebrow">Food Pairing · 안주 레시피</span>
+        <span class="eyebrow">Jigger Bites ${f.noLabel} · 안주 레시피</span>
         <h1 class="title"><span class="en">${esc(f.en)}</span> <span class="ko">${esc(f.ko)}</span></h1>
-        <div class="tags">${pairs.map(x=>`<a class="tag" href="/spirits/${x.id}/">${esc(x.ko)}</a>`).join('')}</div>
+        <div class="tags"><a class="tag" href="/food/#${KIND_SLUG[f.kind]}">${esc(f.kind)}</a>${pairs.map(x=>`<a class="tag" href="/spirits/${x.id}/">${esc(x.ko)}</a>`).join('')}</div>
         <p class="lead">${esc(f.note)}</p>
         <dl class="spec s3">
           <div><dt>분량</dt><dd>${esc(f.serves)}</dd></div>
           <div><dt>조리 시간</dt><dd>${esc(f.time)}</dd></div>
           <div><dt>난이도</dt><dd>${diff}</dd></div>
           <div class="wide"><dt>어울리는 술</dt><dd>${pairs.map(x=>`<a href="/spirits/${x.id}/">${esc(x.ko)}</a>`).join(' · ')}</dd></div>
+          <div class="wide"><dt>레시피 번호</dt><dd>${f.noLabel} <span class="bshort">jiggerbar.com/b/${f.no}</span></dd></div>
         </dl>
         <section class="sec">
           <div class="sec-h"><h2>재료</h2></div>
@@ -469,7 +475,8 @@ function foodPage(f){
     </section>`;
   const mins = /^(\d+)분$/.exec(f.time);
   const recipe = {'@context':'https://schema.org', '@type':'Recipe', name:`${f.ko} (${f.en})`, image:[image], description:f.note,
-    author:{'@type':'Organization', name:'지거바', url:SITE+'/'}, recipeCategory:'안주',
+    author:{'@type':'Organization', name:'지거바', url:SITE+'/'}, recipeCategory:'안주', identifier:`Jigger Bites ${f.noLabel}`,
+    ...(KIND_CUISINE[f.kind] ? {recipeCuisine:KIND_CUISINE[f.kind]} : {}),
     keywords:[`${f.ko} 만드는 법`, ...pairNames.map(n=>`${n} 안주`)].join(', '),
     recipeYield:f.serves, ...(mins ? {totalTime:`PT${mins[1]}M`} : {}),
     recipeIngredient:f.material, recipeInstructions:f.steps.map(text=>({'@type':'HowToStep', text}))};
@@ -520,15 +527,23 @@ function spiritsIndex(){
     groups: D.CATS.map(cat=>({name:cat, items:D.SPIRITS.filter(x=>x.cat===cat)})).filter(g=>g.items.length)});
 }
 function foodIndex(){
-  return listPage({url:'/food/', section:'food', dir:'food', crumbName:'안주 레시피', eyebrow:'Food Pairing',
+  return listPage({url:'/food/', section:'food', dir:'food', crumbName:'안주 레시피', eyebrow:'Jigger Bites · Food Pairing',
     h1:'안주 레시피', title:fitTitle(`안주 레시피 ${D.FOOD.length}가지 · 술 종류별 어울리는 메뉴 | 지거바`, `안주 레시피 ${D.FOOD.length}가지 | 지거바`),
     desc:`맥주·소주·와인·위스키·막걸리에 어울리는 안주 레시피 ${D.FOOD.length}가지. 조리 시간·난이도·재료 정리.`,
-    lead:`술 종류에 어울리는 안주 ${D.FOOD.length}가지를 모았어요. 안주마다 조리 시간과 난이도, 어울리는 술을 함께 볼 수 있어요.`,
+    lead:`술 종류에 어울리는 안주 ${D.FOOD.length}가지를 모았어요. 안주마다 Jigger Bites 번호가 있어서 번호로 바로 찾을 수 있고, 요리별 · 술별로 골라 볼 수 있어요.`,
     groups:[{name:'안주 레시피 전체', items:D.FOOD}], gridId:'foodCards',
-    cardAttr: f=>`data-pairs="${f.pairsWith.join(' ')}"`,
+    cardAttr: f=>`data-pairs="${f.pairsWith.join(' ')}" data-kind="${KIND_SLUG[f.kind]}" data-q="${esc(f.hay)}"`,
     // 앱의 안주 탭처럼 맨 위에서 술을 고르면 이 페이지에서 바로 걸러 보여줘요 (카드는 모두 HTML에 남아 있어 검색엔진은 40개를 다 읽어요)
     top:`    <section class="sec">
-      <div class="sec-h"><h2>어울리는 술로 고르기</h2><span class="prog" id="pairStatus" role="status" aria-live="polite">전체 ${D.FOOD.length}개</span></div>
+      <div class="sec-h"><h2>번호 · 이름으로 찾기</h2><span class="prog" id="pairStatus" role="status" aria-live="polite">전체 ${D.FOOD.length}개</span></div>
+      <input class="fq" id="foodQ" type="search" placeholder="번호나 이름으로 찾기 (예: 12, 수육)" autocomplete="off" aria-label="안주 번호나 이름으로 찾기">
+      <h3 class="fh">요리별</h3>
+      <div class="chips" id="kindChips" role="group" aria-label="요리 분류">
+        <button class="chip" type="button" data-v="all" data-label="" aria-pressed="true">전체<span class="n">${D.FOOD.length}</span></button>${
+        D.FOOD_KINDS.map(k=>`
+        <button class="chip" type="button" data-v="${KIND_SLUG[k]}" data-label="${esc(k)}" aria-pressed="false">${esc(k)}<span class="n">${D.FOOD.filter(f=>f.kind===k).length}</span></button>`).join('')}
+      </div>
+      <h3 class="fh">어울리는 술</h3>
       <div class="chips" id="pairChips" role="group" aria-label="어울리는 술">
         <button class="chip" type="button" data-v="all" data-label="" aria-pressed="true">전체<span class="n">${D.FOOD.length}</span></button>${
         D.SPIRITS.map(x=>{ const n = spiritNames(x)[0]; const last = n.charCodeAt(n.length-1);
@@ -539,21 +554,47 @@ function foodIndex(){
     </section>
     <script>
     // 카드 목록이 이 스크립트보다 아래에 있어서, 페이지를 다 읽은 뒤에 시작해요
+    // 번호 · 이름 검색, 요리 분류, 어울리는 술을 함께 걸러요. 주소 #korean, #beer, #korean+beer 로 바로 열 수 있어요
     document.addEventListener('DOMContentLoaded', function(){
-      var chips = document.querySelectorAll('#pairChips .chip'), cards = document.querySelectorAll('#foodCards .card'), st = document.getElementById('pairStatus');
+      var kChips = document.querySelectorAll('#kindChips .chip'), pChips = document.querySelectorAll('#pairChips .chip');
+      var cards = document.querySelectorAll('#foodCards .card'), st = document.getElementById('pairStatus'), q = document.getElementById('foodQ');
       var head = document.getElementById('foodCards').previousElementSibling, hTitle = head.querySelector('h2'), hCount = head.querySelector('.prog');
-      function apply(v, push){
-        var b = document.querySelector('#pairChips [data-v="' + v + '"]'); if (!b) { v = 'all'; b = chips[0]; }
+      var kind = 'all', pair = 'all';
+      function pick(sel, v){ return document.querySelector(sel + ' [data-v="' + v + '"]'); }
+      function apply(push){
+        var kb = pick('#kindChips', kind), pb = pick('#pairChips', pair);
+        var term = q.value.trim().toLowerCase(), num = /^(no[.]? *)?0*([0-9]{1,3}) *번?$/.exec(term);
         var n = 0;
-        cards.forEach(function(c){ var ok = v === 'all' || (' ' + c.getAttribute('data-pairs') + ' ').indexOf(' ' + v + ' ') >= 0; c.hidden = !ok; if (ok) n++; });
-        chips.forEach(function(x){ x.setAttribute('aria-pressed', String(x === b)); });
-        st.textContent = v === 'all' ? '전체 ' + n + '개' : b.getAttribute('data-label') + ' 어울리는 안주 ' + n + '개';
-        hTitle.textContent = v === 'all' ? '안주 레시피 전체' : b.getAttribute('data-label') + ' 어울리는 안주';
+        cards.forEach(function(c){
+          var hay = c.getAttribute('data-q');
+          var ok = (kind === 'all' || c.getAttribute('data-kind') === kind)
+            && (pair === 'all' || (' ' + c.getAttribute('data-pairs') + ' ').indexOf(' ' + pair + ' ') >= 0)
+            && (!term || (num ? (' ' + hay + ' ').indexOf(' no' + num[2] + ' ') >= 0 : hay.indexOf(term) >= 0));
+          c.hidden = !ok; if (ok) n++;
+        });
+        kChips.forEach(function(x){ x.setAttribute('aria-pressed', String(x === kb)); });
+        pChips.forEach(function(x){ x.setAttribute('aria-pressed', String(x === pb)); });
+        var parts = [];
+        if (kind !== 'all') parts.push(kb.getAttribute('data-label'));
+        if (pair !== 'all') parts.push(pb.getAttribute('data-label') + ' 어울리는');
+        var label = parts.length ? parts.join(' · ') + ' 안주' : '안주 레시피 전체';
+        st.textContent = term ? '‘' + q.value.trim() + '’ ' + n + '개' : parts.length ? label + ' ' + n + '개' : '전체 ' + n + '개';
+        hTitle.textContent = n ? label : '맞는 안주가 없어요';
         hCount.textContent = n + '가지';
-        if (push) try { history.replaceState(null, '', v === 'all' ? location.pathname : '#' + v); } catch (e) {}
+        if (push) try { var h = [kind, pair].filter(function(v){ return v !== 'all'; }).join('+'); history.replaceState(null, '', h ? '#' + h : location.pathname); } catch (e) {}
       }
-      chips.forEach(function(b){ b.addEventListener('click', function(){ apply(b.getAttribute('data-v'), true); }); });
-      apply(decodeURIComponent(location.hash.slice(1)) || 'all', false);
+      kChips.forEach(function(b){ b.addEventListener('click', function(){ kind = b.getAttribute('data-v'); apply(true); }); });
+      pChips.forEach(function(b){ b.addEventListener('click', function(){ pair = b.getAttribute('data-v'); apply(true); }); });
+      q.addEventListener('input', function(){ apply(false); });
+      function fromHash(){
+        kind = 'all'; pair = 'all';
+        decodeURIComponent(location.hash.slice(1)).split('+').forEach(function(t){
+          if (t && pick('#kindChips', t)) kind = t; else if (t && pick('#pairChips', t)) pair = t;
+        });
+        apply(false);
+      }
+      window.addEventListener('hashchange', fromHash);
+      fromHash();
     });
     </script>`});
 }
@@ -735,6 +776,10 @@ function aboutPage(){
    /tasting/ 목록과 /tasting/<번호>/는 Worker(worker/tasting.js)가 D1에서 읽어 그려요.
    여기서는 Worker가 쓸 페이지 겉모양(worker/shell.js), 화면 설정(tasting/assets/config.js),
    정적 페이지 두 개(나의 기록장, 관리자 화면)를 만들어요. */
+wr('worker/bites.js', `/* scripts/build.mjs가 data.js의 안주 번호(no)로 만들어요. 직접 고치지 마세요.
+   jiggerbar.com/b/<번호> → 그 번호의 안주 레시피로 보내는 표 */
+export const BITES = ${JSON.stringify(Object.fromEntries(D.FOOD.map(f=>[f.no, f.id])))};
+`);
 wr('worker/shell.js', `/* scripts/build.mjs가 자동으로 만들어요. 직접 고치지 마세요.
    테이스팅 노트 페이지의 겉모양: @@URL@@ @@TITLE@@ @@DESC@@ @@IMAGE@@ @@HEAD@@ @@BODY@@ 자리를 Worker가 채워요. */
 export const SHELL = ${JSON.stringify(page({url:'@@URL@@', title:'@@TITLE@@', desc:'@@DESC@@', image:'@@IMAGE@@', section:'tasting', body:'@@BODY@@', jsonld:[]})
@@ -900,7 +945,13 @@ const magImg = ([dir, id], sm) => {
   if (!fs.existsSync(path.join(ROOT, 'images', dir, id + '.webp'))) throw new Error(`매거진: 사진 images/${dir}/${id}.webp가 없어요`);
   return `/images/${dir}/${sm && fs.existsSync(path.join(ROOT, 'images', dir, 'sm', id + '.webp')) ? 'sm/' : ''}${id}.webp`;
 };
-const MAG = magazine({R:R_BY, F:F_BY, S:S_BY, P:Object.fromEntries(D.PARTIES.map(x=>[x.id, x])), esc, img:magImg});
+// 예약 발행: date가 오늘(한국 시간)보다 뒤인 글은 검색에 안 잡히는 미리보기(noindex)로만 만들고,
+// 목록 · 사이트맵 · RSS · 다른 글의 링크에서는 빼요. 날짜가 지난 뒤 처음 빌드할 때 공개돼요.
+const TODAY = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+const MAG_ALL = magazine({R:R_BY, F:F_BY, S:S_BY, P:Object.fromEntries(D.PARTIES.map(x=>[x.id, x])), esc, img:magImg});
+const MAG = MAG_ALL.filter(a=>a.date <= TODAY), MAG_DRAFT = MAG_ALL.filter(a=>a.date > TODAY);
+const MAG_LIVE = new Set(MAG.map(a=>a.id));
+const magUnlink = h => h.replace(/<a href="\/magazine\/([^/"]+)\/">([^<]*)<\/a>/g, (all, id, t)=>MAG_LIVE.has(id) ? all : t);
 function magRow(a){
   return `<li><a class="mrow" href="/magazine/${a.id}/">
         <img src="${magImg(a.cover, true)}" alt="" width="640" height="640" loading="lazy" decoding="async">
@@ -927,7 +978,7 @@ function magazineIndex(){
     desc:'계절과 자리에 맞는 칵테일, 안주, 홈파티 팁을 모은 지거바 매거진. 하이볼, 할로윈 파티, 무알콜 칵테일 가이드.',
     image:`${SITE}${magImg(list[0].cover)}`, section:'magazine', body, jsonld:[ld, c.list]})};
 }
-function magazinePage(a){
+function magazinePage(a, draft = false){
   const url = `/magazine/${a.id}/`;
   const image = `${SITE}${magImg(a.cover)}`;
   const c = crumbs([['지거바','/'], ['매거진','/magazine/'], [a.h1, url]]);
@@ -938,11 +989,12 @@ function magazinePage(a){
         <span class="eyebrow">Magazine · ${esc(a.eyebrow)}</span>
         <h1>${esc(a.h1)}</h1>
         <p class="lead">${esc(a.lead)}</p>
+        ${draft ? `<p class="mdraft">예약 글 · ${magDate(a.date)} 공개 예정. 검색에 노출되지 않는 미리보기예요.</p>` : ''}
         <p class="mby">글 지거바 · <time datetime="${a.date}">${magDate(a.date)}</time>${a.updated !== a.date ? ` · 수정 <time datetime="${a.updated}">${magDate(a.updated)}</time>` : ''}</p>
       </header>
       <figure class="mcover"><img src="${magImg(a.cover)}" alt="${esc(a.h1)}" width="1000" height="1000" fetchpriority="high"></figure>
       ${a.sections.map(([h, html])=>`<section class="sec prose">
-        <div class="sec-h"><h2>${esc(h)}</h2></div>${html}
+        <div class="sec-h"><h2>${esc(h)}</h2></div>${magUnlink(html)}
       </section>`).join('\n      ')}
       ${a.memo ? `<aside class="mmemo"><b>지거 메모</b><p>${esc(a.memo)}</p></aside>` : ''}
     </article>
@@ -962,9 +1014,9 @@ function magazinePage(a){
   const article = {'@context':'https://schema.org', '@type':'Article', headline:a.h1, description:a.desc, image:[image],
     datePublished:a.date, dateModified:a.updated, author:org, publisher:{...org, logo:{'@type':'ImageObject', url:SITE+'/apple-touch-icon.png'}},
     mainEntityOfPage:SITE+url, keywords:a.keywords.join(', '), inLanguage:'ko'};
-  return {url, html:page({url, title:a.title, desc:a.desc, image, section:'magazine', body, jsonld:[article, c.list]})};
+  return {url, html:page({url:draft ? null : url, title:a.title, desc:a.desc, image, section:'magazine', body, jsonld:[article, c.list]})};
 }
-for (const a of MAG) {
+for (const a of MAG_ALL) {
   for (const id of a.cocktails) if (!R_BY[id]) throw new Error(`매거진 ${a.id}: 없는 칵테일 "${id}"`);
   for (const id of a.foods) if (!F_BY[id]) throw new Error(`매거진 ${a.id}: 없는 안주 "${id}"`);
 }
@@ -978,9 +1030,11 @@ const pages = [
   aboutPage(), contactPage(), privacyPage(),
   tastingMyPage(),
   partyIndex(), partyPlanPage(), ...D.PARTIES.map(partyPage),
-  magazineIndex(), ...MAG.map(magazinePage)
+  magazineIndex(), ...MAG.map(a=>magazinePage(a))
 ];
 for (const p of pages) wr(p.url.slice(1) + 'index.html', p.html);
+for (const a of MAG_DRAFT) wr(`magazine/${a.id}/index.html`, magazinePage(a, true).html);
+if (MAG_DRAFT.length) console.log(`매거진 예약 ${MAG_DRAFT.length}편: ${MAG_DRAFT.map(a=>`${a.id}(${a.date})`).join(', ')}`);
 
 // 카테고리 카드: 사진이 있는 첫 항목을 대표 이미지로 써요
 function hubCard(href, dir, list, name, en){
