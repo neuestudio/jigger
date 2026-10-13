@@ -29,7 +29,7 @@ export default function magazine({R, F, S, P, esc, img}){
     h1:'집에서 만드는 하이볼, 비율 하나만 기억하세요',
     desc:'하이볼 황금비율 1:3~4, 맛있게 만드는 순서, 편의점 탄산 · 과일 조합 5가지와 위스키 고르는 법.',
     lead:'하이볼은 증류주에 탄산을 길게 채운 술이에요. 재료는 단순한데, 비율과 온도, 탄산을 붓는 방법에 따라 맛이 크게 달라져요. 처음 만드는 날에도 바에서 마시는 맛에 가깝게 만드는 방법을 정리했어요.',
-    cover:['spirits', 'whisky'],
+    cover:['cocktails', 'whisky-highball'],
     keywords:['하이볼 만들기', '하이볼 비율', '위스키 하이볼', '하이볼 레시피', '편의점 하이볼'],
     sections:[
       ['황금비율은 위스키 1 : 탄산 3~4', `
@@ -225,9 +225,10 @@ export default function magazine({R, F, S, P, esc, img}){
       ['와인 나이트로 즐기기', `
         <p>출시일 저녁에 친구 몇 명과 한 병씩 가져와 비교해 보는 것도 재미있어요. 와인잔, 치즈 플레이트, 준비 순서는 ${p('wine-cheese')} 준비물을 그대로 쓰면 돼요. 인원과 예산을 넣으면 와인 병 수까지 계산해 주는 <a href="/party/plan/">내 파티 만들기</a>도 함께 써 보세요.</p>`],
       ['남은 와인은 뱅쇼로', `
-        <p>다 못 마신 보졸레 누보는 오렌지와 시나몬을 넣고 데워 ${r('mulled-wine')}로 만들면 좋아요. 과일 향이 진한 가벼운 레드 와인이라 뱅쇼와 특히 잘 어울려요. 추운 날 위스키로 만드는 따뜻한 술은 ${r('hot-toddy')}예요.</p>`]
+        <p>다 못 마신 보졸레 누보는 오렌지와 시나몬을 넣고 데워 ${r('mulled-wine')}로 만들면 좋아요. 과일 향이 진한 가벼운 레드 와인이라 뱅쇼와 특히 잘 어울려요. 추운 날 위스키로 만드는 따뜻한 술은 ${r('hot-toddy')}예요.</p>
+        ${g(['c', 'mulled-wine', '남은 와인의 변신'], ['c', 'hot-toddy', '위스키로 만드는 한 잔'])}`]
     ],
-    cocktails:['mulled-wine', 'kir', 'mimosa'],
+    cocktails:['kir', 'mimosa', 'aperol-spritz'],
     foods:['olives', 'salmon', 'suyuk', 'nuts'],
     memo:''
   },
@@ -289,7 +290,8 @@ export default function magazine({R, F, S, P, esc, img}){
           <li><b>아페롤 스프리츠 피처</b>: 아페롤만 피처에 담아 두고, 낼 때 얼음 · 프로세코 · 소다수를 차례로 부어요. 탄산은 마지막에.</li>
           <li><b>뱅쇼 한 냄비</b>: 추운 날 손님이 들어오자마자 건네기 좋아요. 약불에 올려 두면 따뜻하게 유지돼요.</li>
         </ul>
-        <p>레시피는 ${r('negroni')}, ${r('aperol-spritz')}, ${r('mulled-wine')}에서 잔 수에 맞춰 계량할 수 있어요.</p>`],
+        <p>레시피는 ${r('negroni')}, ${r('aperol-spritz')}, ${r('mulled-wine')}에서 잔 수에 맞춰 계량할 수 있어요.</p>
+        ${g(['c', 'negroni', '병째 섞어 두기'], ['c', 'aperol-spritz', '탄산은 마지막에'], ['c', 'mulled-wine', '약불에 올려 두기'])}`],
       ['안주는 든든한 메인 하나 + 집어 먹기', `
         <p>저녁을 겸하는 자리라면 든든한 메인 하나에 손으로 집어 먹는 메뉴 두세 가지가 적당해요.</p>
         ${g(['f', 'suyuk', '미리 삶아 두는 메인'], ['f', 'shrimp', '15분이면 완성'], ['f', 'cheese', '자르기만 하면'], ['f', 'garlic-bread', '오븐에 맡기기'])}`],
@@ -310,7 +312,7 @@ export default function magazine({R, F, S, P, esc, img}){
         </ol>
         <p>연말 분위기 준비물은 ${p('holiday')}, 수량 계산은 <a href="/party/plan/">내 파티 만들기</a>를 함께 보세요.</p>`]
     ],
-    cocktails:['aperol-spritz', 'mulled-wine', 'ginger-mule', 'old-fashioned'],
+    cocktails:['whisky-highball', 'hot-toddy', 'ginger-mule', 'old-fashioned'],
     foods:['jokbal', 'nuts', 'olives', 'karaage'],
     memo:''
   },
@@ -321,11 +323,12 @@ export default function magazine({R, F, S, P, esc, img}){
     h1:'크리스마스 홈파티 칵테일, 분위기별 12가지',
     desc:'따뜻한 뱅쇼와 핫 토디, 빨강 · 초록 칵테일, 디저트 칵테일, 아이와 함께 마시는 무알콜까지 크리스마스 메뉴 12가지.',
     lead:'크리스마스 파티 메뉴는 분위기로 고르면 쉬워요. 들어오자마자 건네는 따뜻한 한 잔, 사진이 예쁜 빨강 · 초록 칵테일, 케이크와 함께하는 디저트 칵테일, 아이와 함께 마실 무알콜까지 순서대로 골랐어요.',
-    cover:['cocktails', 'grasshopper'],
+    cover:['cocktails', 'mulled-wine'],
     keywords:['크리스마스 칵테일', '크리스마스 홈파티', '뱅쇼 만들기', '연말 칵테일'],
     sections:[
       ['들어오자마자 건네는 따뜻한 한 잔', `
         <p>추운 날 손님을 맞을 때는 따뜻한 술이 가장 반가워요. 와인으로 만드는 ${r('mulled-wine')}는 한 냄비 끓여 두면 여러 잔을 바로 낼 수 있고, 위스키에 꿀과 레몬을 넣은 ${r('hot-toddy')}는 한 잔씩 금방 만들 수 있어요.</p>
+        ${g(['c', 'mulled-wine', '한 냄비로 여러 잔'], ['c', 'hot-toddy', '위스키 · 꿀 · 레몬'])}
         <p class="note">뱅쇼는 끓이지 말고 김이 오를 정도로만 데우세요. 펄펄 끓이면 향이 날아가고 떫어져요.</p>`],
       ['사진이 예쁜 빨강 · 초록', `
         ${g(['c', 'cosmopolitan', '크랜베리 빨강'], ['c', 'kir', '와인빛 분홍'], ['c', 'grasshopper', '민트 초콜릿 초록'], ['c', 'apple-martini', '사과 초록'])}
@@ -342,7 +345,7 @@ export default function magazine({R, F, S, P, esc, img}){
         ${g(['f', 'steak', '파티의 메인'], ['f', 'salmon', '한입 카나페'], ['f', 'cheese', '와인과 함께'], ['f', 'garlic-bread', '모두가 좋아하는'])}
         <p>연말 홈파티 준비물과 순서는 ${p('holiday')}, 인원에 맞춘 장보기 계산은 <a href="/party/plan/">내 파티 만들기</a>에서 볼 수 있어요. 송년 모임이라면 <a href="/magazine/year-end-party/">송년회 홈파티 준비</a>도 참고하세요.</p>`]
     ],
-    cocktails:['hot-toddy', 'mulled-wine', 'shirley-temple', 'manhattan'],
+    cocktails:['shirley-temple', 'manhattan', 'old-fashioned', 'whisky-highball'],
     foods:['shrimp', 'prosciutto-melon', 'fruit-platter', 'nuts'],
     memo:''
   }

@@ -12,7 +12,7 @@ const ALIAS = {
   'singapore-sling':['싱가폴 슬링'], 'blue-hawaiian':['블루 하와이안'], seabreeze:['씨브리즈'], 'pousse-cafe':['푸즈카페','푸스 카페'], 'mai-tai':['마이 타이'],
   apricot:['애프리코트'], 'long-island-iced-tea':['롱 아일랜드 아이스티'], 'june-bug':['준벅'],
   cosmopolitan:['코즈모폴리턴'], sidecar:['사이드 카'], negroni:['니그로니'],
-  'whisky-highball':['하이볼','위스키하이볼','highball'], 'hot-toddy':['핫토디','핫 토디'], 'mulled-wine':['글뤼바인','멀드 와인','뱅쇼 만들기']
+  'whisky-highball':['하이볼','위스키하이볼','highball'], 'hot-toddy':['핫토디','핫 토디'], 'mulled-wine':['글뤼바인','멀드 와인']
 };
 
 /* ---------- 데이터 ---------- */
