@@ -48,6 +48,30 @@ vm.runInNewContext(rd('affiliate.js'), actx);
 const AFF = actx.window.AFFILIATE;
 
 const ALIAS = D.ALIAS;
+
+/* ---------- 게시일 · 최신순 ----------
+   페이지마다 처음 게시된 날짜를 scripts/published.json에 적어 둬요 (RSS와 최신순 정렬에 써요).
+   사이트를 열 때 한꺼번에 올린 레시피(LAUNCH 이전)는 날짜가 같은 것으로 보고 원래 순서를 유지해요.
+   그 뒤에 추가한 레시피는 added에 날짜가 들어가서 목록 맨 앞에 와요. 안주는 번호가 큰 것이 최신이에요. */
+const TODAY = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+const PUB_FILE = 'scripts/published.json';
+const published = fs.existsSync(path.join(ROOT, PUB_FILE)) ? JSON.parse(rd(PUB_FILE)) : {};
+const firstAdded = f => { try { return execFileSync('git', ['log', '--diff-filter=A', '--format=%aI', '--', f], {cwd: ROOT, encoding:'utf8'}).trim().split('\n').pop(); } catch (e) { return ''; } };
+let pubChanged = false;
+const LAUNCH = '2026-09-28', NEW_DAYS = 30;
+const addedOf = url => {
+  if (!published[url]) { published[url] = firstAdded(url.slice(1) + 'index.html') || new Date().toISOString(); pubChanged = true; }
+  const d = published[url].slice(0, 10);
+  return d < LAUNCH ? '' : d;
+};
+const ADDED = {cocktails:{}, food:{}};
+for (const r of D.RECIPES) { r.added = addedOf(`/cocktails/${r.id}/`); if (r.added) ADDED.cocktails[r.id] = r.added; }
+for (const f of D.FOOD) { f.added = addedOf(`/food/${f.id}/`); if (f.added) ADDED.food[f.id] = f.added; }
+const byNew = list => list.map((x, i)=>[x, i]).sort((a, b)=>b[0].added.localeCompare(a[0].added) || a[1] - b[1]).map(a=>a[0]);
+const isNew = x => !!x.added && (new Date(TODAY) - new Date(x.added)) / 864e5 <= NEW_DAYS;
+const RECIPES_NEW = byNew(D.RECIPES), FOOD_NEW = [...D.FOOD].sort((a, b)=>b.no - a.no);
+// 홈 화면도 같은 순서를 쓰도록 photos.js에 게시일을 함께 실어 보내요
+wr('photos.js', `/* scripts/build.mjs가 자동으로 만들어요. 직접 고치지 마세요. */\nwindow.PHOTOS = ${JSON.stringify(PHOTOS)};\nwindow.ADDED = ${JSON.stringify(ADDED)};\n`);
 const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보드카':['vodka'], '테킬라':['tequila'], '브랜디':['brandy'], '와인·리큐르':['wine','liqueur'], '우리술':['soju']};
 const MARK = ['①','②','③','④'];
 const CONTACT = {email:'jiggerbar.info@gmail.com'};
@@ -129,7 +153,7 @@ function cardText(en, ko){
   return `<span class="cbody"><span class="cname">${esc(en)}</span><span class="cko">${esc(ko)}</span></span>`;
 }
 function card(dir, item, alt){
-  return `<a class="card" href="/${dir}/${item.id}/"><span class="cthumb" style="--liq:${item.liquid||item.color}">${thumb(dir, item, alt)}${item.noLabel ? `<span class="cno">${item.noLabel}</span>` : ''}</span>
+  return `<a class="card" href="/${dir}/${item.id}/"><span class="cthumb" style="--liq:${item.liquid||item.color}">${thumb(dir, item, alt)}${item.noLabel ? `<span class="cno">${item.noLabel}</span>` : ''}${item.added && isNew(item) ? '<span class="cnew">NEW</span>' : ''}</span>
       ${cardText(item.en, item.ko)}</a>`;
 }
 // 설명 문구(meta description)는 네이버 권장대로 80자 안으로: 넘치면 목록을 앞의 몇 가지로 줄이고, 그래도 길면 목록을 빼요
@@ -513,7 +537,11 @@ function cocktailsIndex(){
     h1:'칵테일 레시피', title:fitTitle(`칵테일 레시피 ${D.RECIPES.length}가지 · 조주기능사 실기 ${exam}종 포함 | 지거바`, `칵테일 레시피 ${D.RECIPES.length}가지 | 지거바`),
     desc:`집에서 만드는 칵테일 레시피 ${D.RECIPES.length}가지를 베이스별로 모았어요. 조주기능사 실기 ${exam}가지 표준 레시피 포함.`,
     lead:`집에서 만드는 칵테일 ${D.RECIPES.length}가지를 베이스별로 모았어요. 조주기능사 실기 ${exam}가지는 시험 표준 레시피(조주법·글라스·가니시)도 함께 볼 수 있어요.`,
-    groups: D.BASES.map(b=>({name:`${b} ${b==='논알콜'?'칵테일':'베이스'}`, items:D.RECIPES.filter(r=>r.base===b)})).filter(g=>g.items.length),
+    groups: D.BASES.map(b=>({name:`${b} ${b==='논알콜'?'칵테일':'베이스'}`, items:RECIPES_NEW.filter(r=>r.base===b)})).filter(g=>g.items.length),
+    top: RECIPES_NEW.some(r=>r.added) ? `    <section class="more">
+      <div class="sec-h"><h2>새로 올라온 레시피</h2><span class="prog">최신순</span></div>
+      <div class="cards">${RECIPES_NEW.filter(r=>r.added).slice(0, 8).map(x=>card('cocktails', x, x.ko)).join('')}</div>
+    </section>` : '',
     extra:`    <section class="more">
       <div class="sec-h"><h2>조주기능사 실기 칵테일 ${exam}가지</h2><a class="prog" href="/quiz/">필기 예상문제 →</a></div>
       <ul class="alllinks">${D.RECIPES.filter(x=>x.exam).sort((a, b)=>a.exam.no-b.exam.no).map(x=>`<li><a href="/cocktails/${x.id}/">${esc(x.ko)}</a></li>`).join('')}</ul>
@@ -531,7 +559,7 @@ function foodIndex(){
     h1:'안주 레시피', title:fitTitle(`안주 레시피 ${D.FOOD.length}가지 · 술 종류별 어울리는 메뉴 | 지거바`, `안주 레시피 ${D.FOOD.length}가지 | 지거바`),
     desc:`맥주·소주·와인·위스키·막걸리에 어울리는 안주 레시피 ${D.FOOD.length}가지. 조리 시간·난이도·재료 정리.`,
     lead:`술 종류에 어울리는 안주 ${D.FOOD.length}가지를 모았어요. 안주마다 Jigger Bites 번호가 있어서 번호로 바로 찾을 수 있고, 요리별 · 술별로 골라 볼 수 있어요.`,
-    groups:[{name:'안주 레시피 전체', items:D.FOOD}], gridId:'foodCards',
+    groups:[{name:'안주 레시피 전체', items:FOOD_NEW}], gridId:'foodCards',
     cardAttr: f=>`data-pairs="${f.pairsWith.join(' ')}" data-kind="${KIND_SLUG[f.kind]}" data-q="${esc(f.hay)}"`,
     // 앱의 안주 탭처럼 맨 위에서 술을 고르면 이 페이지에서 바로 걸러 보여줘요 (카드는 모두 HTML에 남아 있어 검색엔진은 40개를 다 읽어요)
     top:`    <section class="sec">
@@ -947,7 +975,6 @@ const magImg = ([dir, id], sm) => {
 };
 // 예약 발행: date가 오늘(한국 시간)보다 뒤인 글은 검색에 안 잡히는 미리보기(noindex)로만 만들고,
 // 목록 · 사이트맵 · RSS · 다른 글의 링크에서는 빼요. 날짜가 지난 뒤 처음 빌드할 때 공개돼요.
-const TODAY = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
 const MAG_ALL = magazine({R:R_BY, F:F_BY, S:S_BY, P:Object.fromEntries(D.PARTIES.map(x=>[x.id, x])), esc, img:magImg});
 const MAG = MAG_ALL.filter(a=>a.date <= TODAY), MAG_DRAFT = MAG_ALL.filter(a=>a.date > TODAY);
 const MAG_LIVE = new Set(MAG.map(a=>a.id));
@@ -1086,11 +1113,7 @@ ${['/', '/tasting/', ...pages.map(p=>p.url)].map(u=>`  <url><loc>${SITE}${u}</lo
 </urlset>
 `);
 // RSS (네이버 서치어드바이저용): 페이지마다 처음 게시된 날짜를 scripts/published.json에 기록해 두고 최신순으로 내보내요
-const PUB_FILE = 'scripts/published.json';
-const published = fs.existsSync(path.join(ROOT, PUB_FILE)) ? JSON.parse(rd(PUB_FILE)) : {};
-const firstAdded = f => { try { return execFileSync('git', ['log', '--diff-filter=A', '--format=%aI', '--', f], {cwd: ROOT, encoding:'utf8'}).trim().split('\n').pop(); } catch (e) { return ''; } };
 const feedPages = pages.filter(p=>/^\/(cocktails|spirits|food|party|magazine)\/[^/]+\/$|^\/quiz\/$/.test(p.url));
-let pubChanged = false;
 for (const p of feedPages) if (!published[p.url]) { published[p.url] = firstAdded(p.url.slice(1) + 'index.html') || new Date().toISOString(); pubChanged = true; }
 if (pubChanged) wr(PUB_FILE, JSON.stringify(Object.fromEntries(Object.entries(published).sort()), null, 1) + '\n');
 const pick = (h, re) => (h.match(re) || [, ''])[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
@@ -1137,7 +1160,12 @@ if (!re.test(html)) throw new Error('index.html에 build:links 자리 표시가 
 
 // 홈 구조화 데이터: 사이트(WebSite)와 운영 주체(Organization). 설명은 홈의 meta description과 같게 맞춰요.
 // 홈 검색은 주소(?q=)로 동작하지 않아서 SearchAction은 넣지 않아요.
-const homeDesc = (html.match(/<meta name="description" content="([^"]*)">/) || [])[1];
+// 홈 문구 속 레시피 개수는 데이터에 맞춰 자동으로 고쳐요 (레시피를 추가해도 숫자가 옛날 값으로 남지 않게)
+const homeSynced = html
+  .replace(/홈칵테일 \d+가지와 안주 \d+가지/g, `홈칵테일 ${D.RECIPES.length}가지와 안주 ${D.FOOD.length}가지`)
+  .replace(/칵테일 \d+가지는 잔 수에/g, `칵테일 ${D.RECIPES.length}가지는 잔 수에`)
+  .replace(/(<span id="mastCount">)\d+ drinks/, `$1${D.RECIPES.length} drinks`);
+const homeDesc = (homeSynced.match(/<meta name="description" content="([^"]*)">/) || [])[1];
 if (!homeDesc) throw new Error('index.html에 meta description이 없어요');
 const homeLd = {'@context':'https://schema.org', '@graph':[
   {'@type':'WebSite', '@id':`${SITE}/#website`, url:`${SITE}/`, name:'지거바', alternateName:'Jigger', description:homeDesc, inLanguage:'ko-KR',
@@ -1150,7 +1178,7 @@ const jsonld = `<!-- build:jsonld (scripts/build.mjs가 자동으로 만들어�
 <!-- /build:jsonld -->`;
 const reLd = /<!-- build:jsonld[\s\S]*?<!-- \/build:jsonld -->/;
 if (!reLd.test(html)) throw new Error('index.html에 build:jsonld 자리 표시가 없어요');
-const next = html.replace(re, links).replace(reLd, jsonld);
+const next = homeSynced.replace(re, links).replace(reLd, jsonld);
 if (next !== html) { wr('index.html', next); console.log('updated index.html links'); }
 console.log(`built ${pages.length} pages + sitemap.xml`);
 // 네이버 권장 길이(제목 40자 · 설명 80자) 넘는 페이지 알림
