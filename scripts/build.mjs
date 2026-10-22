@@ -94,7 +94,28 @@ const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(
 const FONT = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
 // 구글 애널리틱스 태그: 구글이 안내한 코드 그대로 (설치 확인 도구가 이 모양을 찾아요). index.html에도 같은 태그가 있어서 바꿀 때는 둘 다 바꿔요.
 // 로컬(wrangler dev)에서는 Worker가 gtag.js를 빼서 테스트 방문이 집계되지 않아요
-const GA_TAG = `<!-- Google tag (gtag.js) -->
+const GA_TAG = `<script>
+  /* 운영자 기기 제외: 이 브라우저에서 jiggerbar.com/?notrack 을 한 번 열면 앞으로 구글 애널리틱스에 집계되지 않아요 (?track 으로 되돌려요) */
+  (function(){
+    var k = 'jigger.notrack', q = location.search, msg = '';
+    try {
+      if (/[?&]notrack(=|&|$)/.test(q)) { localStorage.setItem(k, '1'); msg = '이 브라우저는 이제 방문 통계에서 빠져요. 되돌리려면 jiggerbar.com/?track'; }
+      else if (/[?&]track(=|&|$)/.test(q)) { localStorage.removeItem(k); msg = '이 브라우저도 다시 방문 통계에 포함돼요.'; }
+      if (localStorage.getItem(k)) window['ga-disable-G-3HJ7R1DJXB'] = true;
+    } catch (e) {}
+    if (!msg) return;
+    try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
+    document.addEventListener('DOMContentLoaded', function(){
+      var d = document.createElement('div');
+      d.setAttribute('role', 'status');
+      d.textContent = msg;
+      d.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:9999;max-width:calc(100% - 32px);padding:12px 18px;background:#221D16;color:#F1E6D4;font:500 14px/1.5 sans-serif;border:1px solid #DFA35D';
+      document.body.appendChild(d);
+      setTimeout(function(){ d.remove(); }, 6000);
+    });
+  })();
+</script>
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];

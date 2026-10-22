@@ -3,6 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  /* 운영자 기기 제외: 이 브라우저에서 jiggerbar.com/?notrack 을 한 번 열면 앞으로 구글 애널리틱스에 집계되지 않아요 (?track 으로 되돌려요) */
+  (function(){
+    var k = 'jigger.notrack', q = location.search, msg = '';
+    try {
+      if (/[?&]notrack(=|&|$)/.test(q)) { localStorage.setItem(k, '1'); msg = '이 브라우저는 이제 방문 통계에서 빠져요. 되돌리려면 jiggerbar.com/?track'; }
+      else if (/[?&]track(=|&|$)/.test(q)) { localStorage.removeItem(k); msg = '이 브라우저도 다시 방문 통계에 포함돼요.'; }
+      if (localStorage.getItem(k)) window['ga-disable-G-3HJ7R1DJXB'] = true;
+    } catch (e) {}
+    if (!msg) return;
+    try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
+    document.addEventListener('DOMContentLoaded', function(){
+      var d = document.createElement('div');
+      d.setAttribute('role', 'status');
+      d.textContent = msg;
+      d.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:9999;max-width:calc(100% - 32px);padding:12px 18px;background:#221D16;color:#F1E6D4;font:500 14px/1.5 sans-serif;border:1px solid #DFA35D';
+      document.body.appendChild(d);
+      setTimeout(function(){ d.remove(); }, 6000);
+    });
+  })();
+</script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB"></script>
 <script>
