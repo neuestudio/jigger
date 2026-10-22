@@ -2,6 +2,18 @@
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) · 구글 애널리틱스. 실제 사이트(jiggerbar.com)에서만 불러와서 로컬 테스트 방문은 집계하지 않아요 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  if (location.hostname === 'jiggerbar.com') {
+    var gs = document.createElement('script'); gs.async = true;
+    gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB';
+    document.head.appendChild(gs);
+    gtag('js', new Date());
+    gtag('config', 'G-3HJ7R1DJXB');
+  }
+</script>
 <title>하이볼 만드는 법 · 위스키 비율과 편의점 재료 조합 | 지거바</title>
 <meta name="description" content="하이볼 황금비율 1:3~4, 맛있게 만드는 순서, 편의점 탄산 · 과일 조합 5가지와 위스키 고르는 법.">
 <link rel="canonical" href="https://jiggerbar.com/magazine/highball-at-home/">

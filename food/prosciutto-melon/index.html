@@ -2,6 +2,18 @@
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) · 구글 애널리틱스. 실제 사이트(jiggerbar.com)에서만 불러와서 로컬 테스트 방문은 집계하지 않아요 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  if (location.hostname === 'jiggerbar.com') {
+    var gs = document.createElement('script'); gs.async = true;
+    gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB';
+    document.head.appendChild(gs);
+    gtag('js', new Date());
+    gtag('config', 'G-3HJ7R1DJXB');
+  }
+</script>
 <title>프로슈토 멜론 만드는 법 · 와인·진 안주 레시피 | 지거바</title>
 <meta name="description" content="프로슈토 멜론 만드는 법. 재료: 멜론 ¼통, 프로슈토 6~8장, 후추 약간 외 1가지. 2~3인분, 10분, 난이도 쉬움. 와인·진 안주.">
 <link rel="canonical" href="https://jiggerbar.com/food/prosciutto-melon/">

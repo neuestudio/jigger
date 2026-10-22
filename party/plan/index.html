@@ -2,6 +2,18 @@
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) · 구글 애널리틱스. 실제 사이트(jiggerbar.com)에서만 불러와서 로컬 테스트 방문은 집계하지 않아요 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  if (location.hostname === 'jiggerbar.com') {
+    var gs = document.createElement('script'); gs.async = true;
+    gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB';
+    document.head.appendChild(gs);
+    gtag('js', new Date());
+    gtag('config', 'G-3HJ7R1DJXB');
+  }
+</script>
 <title>내 파티 만들기 · 홈파티 메뉴와 장보기 계산 | 지거바</title>
 <meta name="description" content="인원 · 예산 · 준비 시간을 입력하면 어울리는 칵테일과 안주, 수량, 예상 비용, 장보기 목록과 준비 순서를 알려줘요.">
 <link rel="canonical" href="https://jiggerbar.com/party/plan/">

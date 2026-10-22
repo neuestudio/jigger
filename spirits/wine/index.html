@@ -2,6 +2,18 @@
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) · 구글 애널리틱스. 실제 사이트(jiggerbar.com)에서만 불러와서 로컬 테스트 방문은 집계하지 않아요 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  if (location.hostname === 'jiggerbar.com') {
+    var gs = document.createElement('script'); gs.async = true;
+    gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB';
+    document.head.appendChild(gs);
+    gtag('js', new Date());
+    gtag('config', 'G-3HJ7R1DJXB');
+  }
+</script>
 <title>와인 도수 · 종류별 차이와 제조법 정리 | 지거바</title>
 <meta name="description" content="와인 도수는 9–15%. 레드, 화이트, 로제, 스파클링, 주정강화 종류별 도수 비교와 원료 · 제조법, 와인으로 만드는 칵테일.">
 <link rel="canonical" href="https://jiggerbar.com/spirits/wine/">

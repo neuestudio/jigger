@@ -2,6 +2,18 @@
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) · 구글 애널리틱스. 실제 사이트(jiggerbar.com)에서만 불러와서 로컬 테스트 방문은 집계하지 않아요 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  if (location.hostname === 'jiggerbar.com') {
+    var gs = document.createElement('script'); gs.async = true;
+    gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB';
+    document.head.appendChild(gs);
+    gtag('js', new Date());
+    gtag('config', 'G-3HJ7R1DJXB');
+  }
+</script>
 <title>테이스팅 노트 관리 | 지거바</title>
 <meta name="description" content="테이스팅 노트 관리자 화면">
 <meta name="robots" content="noindex">

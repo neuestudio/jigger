@@ -2,6 +2,18 @@
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) · 구글 애널리틱스. 실제 사이트(jiggerbar.com)에서만 불러와서 로컬 테스트 방문은 집계하지 않아요 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  if (location.hostname === 'jiggerbar.com') {
+    var gs = document.createElement('script'); gs.async = true;
+    gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB';
+    document.head.appendChild(gs);
+    gtag('js', new Date());
+    gtag('config', 'G-3HJ7R1DJXB');
+  }
+</script>
 <title>블루 하와이언 레시피 · 도수와 조주기능사 실기 표준 | 지거바</title>
 <meta name="description" content="블루 하와이언(Blue Hawaiian) 만드는 법. 라이트 럼 30 ml 외 3가지. 블렌드, 도수 약 11%. 조주기능사 실기 표준 수록.">
 <link rel="canonical" href="https://jiggerbar.com/cocktails/blue-hawaiian/">

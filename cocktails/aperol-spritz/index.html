@@ -2,6 +2,18 @@
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) · 구글 애널리틱스. 실제 사이트(jiggerbar.com)에서만 불러와서 로컬 테스트 방문은 집계하지 않아요 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  if (location.hostname === 'jiggerbar.com') {
+    var gs = document.createElement('script'); gs.async = true;
+    gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB';
+    document.head.appendChild(gs);
+    gtag('js', new Date());
+    gtag('config', 'G-3HJ7R1DJXB');
+  }
+</script>
 <title>아페롤 스프리츠 레시피 · 만드는 법, 비율과 도수 | 지거바</title>
 <meta name="description" content="아페롤 스프리츠(Aperol Spritz) 만드는 법. 프로세코 60 ml, 아페롤 40 ml, 소다수 20 ml. 빌드, 도수 약 8%.">
 <link rel="canonical" href="https://jiggerbar.com/cocktails/aperol-spritz/">

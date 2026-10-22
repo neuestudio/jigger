@@ -92,6 +92,19 @@ if (new Set(D.FOOD.map(f=>f.no)).size !== D.FOOD.length || D.FOOD.some(f=>!Numbe
 const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g,'\\u003c')}</script>`;
 const FONT = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
+// 구글 애널리틱스 태그 (index.html 맨 위에도 같은 태그가 있어요. 바꿀 때는 둘 다 바꿔요)
+const GA_TAG = `<!-- Google tag (gtag.js) · 구글 애널리틱스. 실제 사이트(jiggerbar.com)에서만 불러와서 로컬 테스트 방문은 집계하지 않아요 -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  if (location.hostname === 'jiggerbar.com') {
+    var gs = document.createElement('script'); gs.async = true;
+    gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB';
+    document.head.appendChild(gs);
+    gtag('js', new Date());
+    gtag('config', 'G-3HJ7R1DJXB');
+  }
+</script>`;
 const NAV = [['/cocktails/', '칵테일 레시피', 'cocktail'], ['/spirits/', '주류 상식', 'spirit'], ['/food/', '안주 레시피', 'food'], ['/party/', '홈파티 아이디어', 'party'], ['/magazine/', '매거진', 'magazine'], ['/quiz/', '조주기능사 필기', 'quiz'], ['/tasting/', '테이스팅 노트', 'tasting']];
 
 function crumbs(items){
@@ -106,6 +119,7 @@ function page({url, title, desc, image, section, body, jsonld}){
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${GA_TAG}
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
 ${url ? `<link rel="canonical" href="${SITE}${url}">` : '<meta name="robots" content="noindex">'}
@@ -636,7 +650,7 @@ function foodIndex(){
 }
 
 /* ---------- 문의하기 · 개인정보처리방침 ---------- */
-const POLICY_DATE = '2026년 10월 3일';
+const POLICY_DATE = '2026년 10월 22일';
 function contactPage(){
   const url = '/contact/';
   const title = '문의하기 | 지거바';
@@ -701,7 +715,7 @@ function contactPage(){
 function privacyPage(){
   const url = '/privacy/';
   const title = '개인정보처리방침 | 지거바';
-  const desc = '지거바가 수집하는 개인정보 항목과 이용 목적, 보관 기간, 쿠키와 광고(Google AdSense) 안내.';
+  const desc = '지거바가 수집하는 개인정보 항목과 이용 목적, 보관 기간, 쿠키 · 방문 통계(Google 애널리틱스) · 광고 안내.';
   const c = crumbs([['지거바','/'], ['개인정보처리방침', url]]);
   const ext = (href, text) => `<a href="${href}" rel="noopener" target="_blank">${text}</a>`;
   const sec = (h, inner) => `    <section class="sec">
@@ -719,11 +733,12 @@ ${sec('1. 수집하는 개인정보와 이용 목적', `<p class="lead">사이�
       <table class="ptable"><thead><tr><th>구분</th><th>항목</th><th>목적</th><th>보관 기간</th></tr></thead><tbody>
         <tr><td>문의하기</td><td>이름, 이메일, 문의 내용</td><td>문의 확인 및 답변</td><td>답변 완료 후 1년</td></tr>
         <tr><td>테이스팅 노트 리뷰</td><td>닉네임, 평점, 마신 날, 리뷰 내용(공개), 접속 IP의 해시값(비공개)</td><td>공개 리뷰 게시, 도배 방지</td><td>리뷰를 지울 때까지</td></tr>
-        <tr><td>자동 수집</td><td>접속 기록(IP 주소, 브라우저 정보, 접속 일시), 쿠키</td><td>서비스 보안과 안정성 확보, 광고 제공</td><td>아래 쿠키 항목 참고</td></tr>
+        <tr><td>자동 수집</td><td>접속 기록(IP 주소, 브라우저 정보, 접속 일시), 쿠키</td><td>서비스 보안과 안정성 확보, 방문 통계 분석, 광고 제공</td><td>아래 쿠키 항목 참고</td></tr>
       </tbody></table>`)}
 ${sec('2. 브라우저에만 저장되는 정보', `<p class="lead">즐겨찾기, 필기 테스트의 오답노트와 모의고사 기록, 나의 술 기록장에 쓴 기록은 이용자의 브라우저 저장소(localStorage)에만 저장되고 서버로 전송되지 않아요. 브라우저의 사이트 데이터를 지우면 함께 삭제돼요.</p>`)}
 ${sec('3. 테이스팅 노트 공개 리뷰', `<p class="lead">테이스팅 노트에 공개 리뷰를 남기면 닉네임, 평점, 마신 날, 리뷰 내용이 누구나 볼 수 있게 공개돼요. 회원가입은 없고 이메일 같은 연락처는 받지 않아요. 같은 사람이 짧은 시간에 리뷰를 너무 많이 남기는 것을 막기 위해 접속 IP를 그대로 저장하지 않고 되돌릴 수 없는 값(해시)으로 바꿔 리뷰와 함께 보관하며, 리뷰를 지우면 함께 삭제돼요. 리뷰를 쓴 브라우저에는 고치기 · 지우기용 열쇠가 저장돼요. 다른 사람을 불쾌하게 하거나 광고성인 리뷰는 운영자가 숨기거나 지울 수 있어요.</p>`)}
-${sec('4. 쿠키와 광고', `<p class="lead">사이트는 Google AdSense를 통해 광고를 게재할 수 있어요. Google을 포함한 제3자 광고 사업자는 쿠키를 사용해 이용자가 이 사이트나 다른 웹사이트를 방문한 기록을 바탕으로 광고를 제공해요.</p>
+${sec('4. 쿠키와 광고', `<p class="lead">사이트는 방문 통계를 보기 위해 Google 애널리틱스를 사용해요. Google 애널리틱스는 쿠키로 어떤 페이지를 얼마나 봤는지, 어떤 경로로 들어왔는지 같은 정보를 이름이나 연락처 없이 모아 Google에 전송하고, 운영자는 이를 합계로만 확인해요. 수집을 원하지 않으면 ${ext('https://tools.google.com/dlpage/gaoptout', 'Google 애널리틱스 차단 브라우저 부가기능')}을 설치하거나 브라우저에서 쿠키를 거부하면 돼요.</p>
+      <p class="lead">사이트는 Google AdSense를 통해 광고를 게재할 수 있어요. Google을 포함한 제3자 광고 사업자는 쿠키를 사용해 이용자가 이 사이트나 다른 웹사이트를 방문한 기록을 바탕으로 광고를 제공해요.</p>
       <ul class="plist">
         <li>Google은 광고 쿠키를 사용해 이 사이트와 인터넷의 다른 사이트 방문 기록에 기반한 광고를 이용자에게 제공할 수 있어요.</li>
         <li>이용자는 ${ext('https://adssettings.google.com', 'Google 광고 설정')}에서 맞춤 광고를 해제할 수 있어요.</li>
