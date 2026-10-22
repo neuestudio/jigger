@@ -159,6 +159,27 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
 .cspecs dd{margin:0;font-size:13px;text-align:right;color:var(--ink)}
 .seemore{pointer-events:none;display:flex;justify-content:flex-end;align-items:center;gap:6px;margin-top:10px;font:400 12.5px var(--sans);color:var(--mut)}
 .seemore svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6}
+/* 이번 주 지거바: 최신 글 · 새 레시피 · 시즌 D-day (scripts/build.mjs가 채워요) */
+.fresh{margin-top:22px}
+.fresh-h{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 18px}
+.fresh-h h2{margin:0;font:700 17px/1.4 var(--serif-ko)}
+.fstats{margin:0;font:400 12px var(--mono);letter-spacing:.04em;color:var(--mut)}
+.fstats b{font-weight:500;color:var(--ink)}
+.fstats time{white-space:nowrap}
+.fresh-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}
+.fcard{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:center;padding:10px;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-decoration:none;min-width:0}
+.fcard:hover{border-color:var(--ink)}
+.fcard img,.fcard .fsvg{width:64px;height:64px;object-fit:cover;display:block;background:var(--surface2)}
+.fcard .fsvg svg{width:100%;height:100%}
+.fcard span{display:block;min-width:0}
+.flabel{font:500 10.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.fcard b{display:block;margin-top:3px;font-size:14px;font-weight:600;line-height:1.4;word-break:keep-all;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.dday{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px}
+.dday a{display:inline-flex;align-items:baseline;gap:8px;font-size:14px;color:var(--ink);text-decoration:none}
+.dday a:hover span{text-decoration:underline;text-underline-offset:3px}
+.dday .dn{font:500 13px var(--mono);color:var(--accent)}
+@media (max-width:900px){.fresh-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.fresh-row{grid-template-columns:minmax(0,1fr);gap:8px}.fresh-row .fcard:nth-child(n+4){display:none}}
 .bitehit{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:16px 18px;background:var(--surface);border:1px solid var(--ink);color:var(--ink);text-decoration:none}
 .bitehit b{font:700 19px/1.3 var(--serif-ko)}
 .bitehit span:last-child{margin-left:auto;font-size:14px;color:var(--mut)}
@@ -338,6 +359,29 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
       <p class="legend"><span><b>1 oz ≈ 30 ml</b></span><span>지거 한 번 = 30 ml (1 oz) 또는 45 ml (1½ oz)</span></p>
     </div>
     <div class="ruler" aria-hidden="true"></div>
+    <!-- build:fresh (scripts/build.mjs가 자동으로 만들어요) -->
+    <section class="fresh" aria-labelledby="freshH">
+      <div class="fresh-h"><h2 id="freshH">이번 주 지거바</h2><p class="fstats">칵테일 <b>61</b> · 안주 <b>40</b> · 매거진 <b>4</b> · 마지막 업데이트 <time datetime="2026-10-20">10월 20일</time></p></div>
+      <div class="fresh-row">
+        <a class="fcard" href="/magazine/beaujolais-nouveau/"><img src="/images/spirits/sm/wine.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><span><span class="flabel">Magazine · 10.20</span><b>보졸레 누보, 올해 첫 와인을 집에서 맛있게</b></span></a>
+        <a class="fcard" href="/magazine/highball-at-home/"><img src="/images/cocktails/sm/whisky-highball.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><span><span class="flabel">Magazine · 10.08</span><b>집에서 만드는 하이볼, 비율 하나만 기억하세요</b></span></a>
+        <a class="fcard" href="/cocktails/whisky-highball/"><img src="/images/cocktails/sm/whisky-highball.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><span><span class="flabel">New Recipe · 10.12</span><b>위스키 하이볼</b></span></a>
+        <a class="fcard" href="/food/garlic-bread/"><img src="/images/food/sm/garlic-bread.webp" alt="" width="64" height="64" loading="lazy" decoding="async"><span><span class="flabel">Jigger Bites · No.040</span><b>마늘빵</b></span></a>
+      </div>
+      <p class="dday" id="dday"><a href="/magazine/halloween-party/" data-date="2026-10-31"><b class="dn">D-9</b><span>할로윈 · 할로윈 홈파티 보기 →</span></a><a href="/magazine/beaujolais-nouveau/" data-date="2026-11-19"><b class="dn">D-28</b><span>보졸레 누보 출시 · 맛있게 마시는 법 →</span></a><a href="/magazine/mocktail-party/" data-date="2026-11-19" hidden><b class="dn">D-28</b><span>수능 · 수능 끝 홈파티 →</span></a><a href="/party/holiday/" data-date="2026-12-25" hidden><b class="dn">D-64</b><span>크리스마스 · 크리스마스 칵테일 →</span></a><a href="/party/holiday/" data-date="2026-12-31" hidden><b class="dn">D-70</b><span>송년회 · 송년회 홈파티 준비 →</span></a><a href="/party/anniversary/" data-date="2027-02-14" hidden><b class="dn">D-115</b><span>발렌타인데이 · 기념일 디너 준비 →</span></a></p>
+      <script>
+      /* 시즌 D-day를 오늘 날짜로 다시 세고, 지난 날짜는 숨겨서 가까운 두 개만 보여줘요 */
+      (function(){
+        var now = new Date(); now.setHours(0,0,0,0); var shown = 0;
+        document.querySelectorAll('#dday a').forEach(function(a){
+          var p = a.getAttribute('data-date').split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]), n = Math.round((d - now) / 864e5);
+          a.hidden = n < 0 || shown >= 2; if (a.hidden) return;
+          shown++; a.querySelector('.dn').textContent = n === 0 ? 'D-DAY' : 'D-' + n;
+        });
+      })();
+      </script>
+    </section>
+    <!-- /build:fresh -->
     <div class="viewbar">
     <nav class="viewtabs" role="tablist">
       <button class="vtab" type="button" role="tab" id="tab-cocktail" aria-controls="main" data-view="cocktail" aria-selected="true">칵테일 레시피</button>

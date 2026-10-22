@@ -6,6 +6,7 @@
    데이터는 index.html의 데이터 구간과 quiz-questions.js에서 그대로 읽어요.
    도메인을 바꾸면 아래 SITE 한 줄만 고치면 돼요. */
 import fs from 'fs';
+import crypto from 'crypto';
 import path from 'path';
 import vm from 'vm';
 import {fileURLToPath} from 'url';
@@ -70,6 +71,11 @@ for (const f of D.FOOD) { f.added = addedOf(`/food/${f.id}/`); if (f.added) ADDE
 const byNew = list => list.map((x, i)=>[x, i]).sort((a, b)=>b[0].added.localeCompare(a[0].added) || a[1] - b[1]).map(a=>a[0]);
 const isNew = x => !!x.added && (new Date(TODAY) - new Date(x.added)) / 864e5 <= NEW_DAYS;
 const RECIPES_NEW = byNew(D.RECIPES), FOOD_NEW = [...D.FOOD].sort((a, b)=>b.no - a.no);
+const dot = d => d.replace(/-/g, '.');
+// 처음 올린 날 (레시피 페이지 아래 · 구조화 데이터 datePublished)
+const firstPub = url => (published[url] || new Date().toISOString()).slice(0, 10);
+// 페이지 아래 '처음 올린 날 · 업데이트' 줄. 업데이트 날짜는 빌드 마지막에 내용이 바뀐 날로 채워요 (@@MOD@@)
+const updLine = url => `<p class="upd">처음 올린 날 ${dot(firstPub(url))} · 업데이트 <time datetime="@@MODISO@@">@@MOD@@</time></p>`;
 // 홈 화면도 같은 순서를 쓰도록 photos.js에 게시일을 함께 실어 보내요
 wr('photos.js', `/* scripts/build.mjs가 자동으로 만들어요. 직접 고치지 마세요. */\nwindow.PHOTOS = ${JSON.stringify(PHOTOS)};\nwindow.ADDED = ${JSON.stringify(ADDED)};\n`);
 const BASE_SPIRIT = {'진':['gin'], '럼':['rum'], '위스키':['whisky'], '보드카':['vodka'], '테킬라':['tequila'], '브랜디':['brandy'], '와인·리큐르':['wine','liqueur'], '우리술':['soju']};
@@ -260,6 +266,7 @@ function cocktailPage(r){
           <p class="src">출처: ${esc(D.EXAM_SOURCE)}. 실기시험은 재료·조주법·글라스·가니시를 이 기준으로 채점해요.</p>
         </section>` : ''}
         <a class="cta" href="/#${r.id}">지거바에서 잔 수에 맞춰 계량하기 →</a>
+        ${updLine(url)}
       </div>
     </article>
     <section class="more">
@@ -275,7 +282,7 @@ function cocktailPage(r){
       <ul class="alllinks">${D.RECIPES.map(x=>`<li><a href="/cocktails/${x.id}/"${x.id===r.id?' aria-current="page"':''}>${esc(x.ko)}</a></li>`).join('')}</ul>
     </section>`;
 
-  const recipe = {'@context':'https://schema.org', '@type':'Recipe',
+  const recipe = {'@context':'https://schema.org', '@type':'Recipe', datePublished:firstPub(url), dateModified:'@@MODISO@@',
     name:`${r.ko} (${r.en})`, image:[image], description:r.note,
     author:{'@type':'Organization', name:'지거바', url:SITE+'/'},
     recipeCategory:zero ? '무알콜 칵테일' : '칵테일', recipeYield:'1잔',
@@ -483,6 +490,7 @@ function foodPage(f){
           <ol class="steps">${f.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
         </section>
         <a class="cta" href="/#${f.id}">지거바에서 재료 체크하며 만들기 →</a>
+        ${updLine(url)}
       </div>
     </article>
     ${cocktails.length ? `<section class="more">
@@ -498,7 +506,7 @@ function foodPage(f){
       <ul class="alllinks">${D.FOOD.map(x=>`<li><a href="/food/${x.id}/"${x.id===f.id?' aria-current="page"':''}>${esc(x.ko)}</a></li>`).join('')}</ul>
     </section>`;
   const mins = /^(\d+)분$/.exec(f.time);
-  const recipe = {'@context':'https://schema.org', '@type':'Recipe', name:`${f.ko} (${f.en})`, image:[image], description:f.note,
+  const recipe = {'@context':'https://schema.org', '@type':'Recipe', datePublished:firstPub(url), dateModified:'@@MODISO@@', name:`${f.ko} (${f.en})`, image:[image], description:f.note,
     author:{'@type':'Organization', name:'지거바', url:SITE+'/'}, recipeCategory:'안주', identifier:`Jigger Bites ${f.noLabel}`,
     ...(KIND_CUISINE[f.kind] ? {recipeCuisine:KIND_CUISINE[f.kind]} : {}),
     keywords:[`${f.ko} 만드는 법`, ...pairNames.map(n=>`${n} 안주`)].join(', '),
@@ -1059,7 +1067,21 @@ const pages = [
   partyIndex(), partyPlanPage(), ...D.PARTIES.map(partyPage),
   magazineIndex(), ...MAG.map(a=>magazinePage(a))
 ];
-for (const p of pages) wr(p.url.slice(1) + 'index.html', p.html);
+/* 수정일: 페이지 내용(<main>)이 바뀐 날을 scripts/modified.json에 기록해요.
+   사이트맵 lastmod, 레시피 페이지의 '업데이트' 날짜, 구조화 데이터 dateModified에 써요 */
+const MOD_FILE = 'scripts/modified.json';
+const modified = fs.existsSync(path.join(ROOT, MOD_FILE)) ? JSON.parse(rd(MOD_FILE)) : {};
+let modChanged = false;
+for (const p of pages) {
+  const main = (p.html.match(/<main>[\s\S]*<\/main>/) || [p.html])[0];
+  const h = crypto.createHash('sha1').update(main).digest('hex').slice(0, 16);
+  if (!modified[p.url] || modified[p.url].h !== h) { modified[p.url] = {h, d:TODAY}; modChanged = true; }
+  const d = modified[p.url].d;
+  p.lastmod = d;
+  wr(p.url.slice(1) + 'index.html', p.html.replace(/@@MODISO@@/g, d).replace(/@@MOD@@/g, dot(d)));
+}
+if (modChanged) wr(MOD_FILE, JSON.stringify(Object.fromEntries(Object.entries(modified).sort()), null, 1) + '\n');
+const LAST_UPDATE = pages.reduce((m, p)=>p.lastmod > m ? p.lastmod : m, '');
 for (const a of MAG_DRAFT) wr(`magazine/${a.id}/index.html`, magazinePage(a, true).html);
 if (MAG_DRAFT.length) console.log(`매거진 예약 ${MAG_DRAFT.length}편: ${MAG_DRAFT.map(a=>`${a.id}(${a.date})`).join(', ')}`);
 
@@ -1109,7 +1131,7 @@ for (const [dir, list] of [['cocktails', D.RECIPES], ['spirits', D.SPIRITS], ['f
 
 wr('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${['/', '/tasting/', ...pages.map(p=>p.url)].map(u=>`  <url><loc>${SITE}${u}</loc></url>`).join('\n')}
+${[['/', LAST_UPDATE], ['/tasting/', ''], ...pages.map(p=>[p.url, p.lastmod])].map(([u, d])=>`  <url><loc>${SITE}${u}</loc>${d ? `<lastmod>${d}</lastmod>` : ''}</url>`).join('\n')}
 </urlset>
 `);
 // RSS (네이버 서치어드바이저용): 페이지마다 처음 게시된 날짜를 scripts/published.json에 기록해 두고 최신순으로 내보내요
@@ -1178,7 +1200,52 @@ const jsonld = `<!-- build:jsonld (scripts/build.mjs가 자동으로 만들어�
 <!-- /build:jsonld -->`;
 const reLd = /<!-- build:jsonld[\s\S]*?<!-- \/build:jsonld -->/;
 if (!reLd.test(html)) throw new Error('index.html에 build:jsonld 자리 표시가 없어요');
-const next = homeSynced.replace(re, links).replace(reLd, jsonld);
+// 이번 주 지거바: 최신 매거진 2편 · 가장 최근에 추가한 칵테일 · 가장 최근 번호의 안주 + 시즌 D-day + 숫자 요약
+// 시즌 날짜는 해마다 바꿔 주세요 (수능 · 설 · 추석은 매년 달라요). 링크가 아직 공개 전이면 대신 fallback으로 가요
+const SEASONS = [
+  ['2026-10-31', '할로윈', '/magazine/halloween-party/', '할로윈 홈파티 보기'],
+  ['2026-11-19', '보졸레 누보 출시', '/magazine/beaujolais-nouveau/', '맛있게 마시는 법'],
+  ['2026-11-19', '수능', '/magazine/suneung-party/', '수능 끝 홈파티', '/magazine/mocktail-party/'],
+  ['2026-12-25', '크리스마스', '/magazine/christmas-cocktails/', '크리스마스 칵테일', '/party/holiday/'],
+  ['2026-12-31', '송년회', '/magazine/year-end-party/', '송년회 홈파티 준비', '/party/holiday/'],
+  ['2027-02-14', '발렌타인데이', '/party/anniversary/', '기념일 디너 준비']
+];
+const liveUrl = u => !u.startsWith('/magazine/') || u === '/magazine/' || MAG_LIVE.has(u.split('/')[2]);
+const seasons = SEASONS.filter(([d])=>d >= TODAY).map(([d, name, u, label, fb])=>({d, name, u:liveUrl(u) ? u : fb, label})).filter(x=>x.u);
+const dleft = d => Math.round((new Date(d) - new Date(TODAY)) / 864e5);
+const fthumb = (dir, item) => PHOTOS[dir].includes(item.id)
+  ? `<img src="/images/${dir}/${fs.existsSync(path.join(ROOT, 'images', dir, 'sm', item.id + '.webp')) ? 'sm/' : ''}${item.id}.webp" alt="" width="64" height="64" loading="lazy" decoding="async">`
+  : `<span class="fsvg">${dir === 'food' ? D.plateSVG(item, 'fr' + item.id) : D.glassSVG(item, 'fr' + item.id)}</span>`;
+const magNew = [...MAG].sort((a, b)=>b.date.localeCompare(a.date)).slice(0, 2);
+const newCk = RECIPES_NEW.find(r=>r.added) || RECIPES_NEW[0], newFood = FOOD_NEW[0];
+const contentDates = Object.values(published).map(v=>v.slice(0, 10)).concat(MAG.map(a=>a.updated || a.date)).filter(d=>d <= TODAY).sort();
+const lastContent = contentDates[contentDates.length - 1] || TODAY;
+const [, lm, lday] = lastContent.split('-').map(Number);
+const fresh = `<!-- build:fresh (scripts/build.mjs가 자동으로 만들어요) -->
+    <section class="fresh" aria-labelledby="freshH">
+      <div class="fresh-h"><h2 id="freshH">이번 주 지거바</h2><p class="fstats">칵테일 <b>${D.RECIPES.length}</b> · 안주 <b>${D.FOOD.length}</b> · 매거진 <b>${MAG.length}</b> · 마지막 업데이트 <time datetime="${lastContent}">${lm}월 ${lday}일</time></p></div>
+      <div class="fresh-row">
+        ${magNew.map(a=>`<a class="fcard" href="/magazine/${a.id}/"><img src="${magImg(a.cover, true)}" alt="" width="64" height="64" loading="lazy" decoding="async"><span><span class="flabel">Magazine · ${dot(a.date).slice(5)}</span><b>${esc(a.h1)}</b></span></a>`).join('\n        ')}
+        <a class="fcard" href="/cocktails/${newCk.id}/">${fthumb('cocktails', newCk)}<span><span class="flabel">${newCk.added ? `New Recipe · ${dot(newCk.added).slice(5)}` : 'Cocktail'}</span><b>${esc(newCk.ko)}</b></span></a>
+        <a class="fcard" href="/food/${newFood.id}/">${fthumb('food', newFood)}<span><span class="flabel">Jigger Bites · ${newFood.noLabel}</span><b>${esc(newFood.ko)}</b></span></a>
+      </div>
+      ${seasons.length ? `<p class="dday" id="dday">${seasons.map((x, i)=>`<a href="${x.u}" data-date="${x.d}"${i > 1 ? ' hidden' : ''}><b class="dn">D-${dleft(x.d) || 'DAY'}</b><span>${esc(x.name)} · ${esc(x.label)} →</span></a>`).join('')}</p>
+      <script>
+      /* 시즌 D-day를 오늘 날짜로 다시 세고, 지난 날짜는 숨겨서 가까운 두 개만 보여줘요 */
+      (function(){
+        var now = new Date(); now.setHours(0,0,0,0); var shown = 0;
+        document.querySelectorAll('#dday a').forEach(function(a){
+          var p = a.getAttribute('data-date').split('-'), d = new Date(+p[0], +p[1] - 1, +p[2]), n = Math.round((d - now) / 864e5);
+          a.hidden = n < 0 || shown >= 2; if (a.hidden) return;
+          shown++; a.querySelector('.dn').textContent = n === 0 ? 'D-DAY' : 'D-' + n;
+        });
+      })();
+      </script>` : ''}
+    </section>
+    <!-- /build:fresh -->`;
+const reFresh = /<!-- build:fresh[\s\S]*?<!-- \/build:fresh -->/;
+if (!reFresh.test(homeSynced)) throw new Error('index.html에 build:fresh 자리 표시가 없어요');
+const next = homeSynced.replace(re, links).replace(reLd, jsonld).replace(reFresh, fresh);
 if (next !== html) { wr('index.html', next); console.log('updated index.html links'); }
 console.log(`built ${pages.length} pages + sitemap.xml`);
 // 네이버 권장 길이(제목 40자 · 설명 80자) 넘는 페이지 알림
