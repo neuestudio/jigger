@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Google tag (gtag.js) · 구글 애널리틱스. 로컬 테스트 방문은 집계하지 않게 config는 jiggerbar.com에서만 보내요 -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  if (location.hostname === 'jiggerbar.com') gtag('config', 'G-3HJ7R1DJXB');
+  gtag('config', 'G-3HJ7R1DJXB');
 </script>
 <title>지거바 | 평범한 오늘을 작은 파티로 · 홈칵테일 레시피</title>
 <meta name="description" content="평범한 오늘을 작은 파티로. 홈칵테일 61가지와 안주 40가지, 홈파티 아이디어, 조주기능사 실기·필기까지 정확한 레시피로.">
@@ -359,6 +360,8 @@ select.btn{padding-inline:14px 8px;background:var(--surface);color:var(--ink)}
 </style>
 <noscript><style>body:not(.ready) main,body:not(.ready) .sitelinks,body:not(.ready) .foot{visibility:visible}.viewtabs,#main .controls,#main .status{display:none}</style></noscript>
 
+</head>
+<body>
 <div class="wrap" id="app">
   <header>
     <div class="mast-top"><span id="mastLabel">Cocktail Recipes</span><span id="mastCount">61 drinks</span></div>
@@ -1331,3 +1334,5 @@ try{
 document.body.classList.add('ready');
 });
 </script>
+</body>
+</html>

@@ -99,7 +99,11 @@ function secureHtml(res, local) {
   out.headers.delete('ETag');
   out.headers.delete('Last-Modified');
   return new HTMLRewriter()
-    .on('script', { element(el) { el.setAttribute('nonce', nonce); } })
+    .on('script', { element(el) {
+      // 로컬 테스트에서는 구글 애널리틱스 스크립트를 빼서 방문이 집계되지 않게 해요 (gtag()는 dataLayer에만 쌓이고 전송되지 않아요)
+      if (local && (el.getAttribute('src') || '').includes('googletagmanager.com')) { el.remove(); return; }
+      el.setAttribute('nonce', nonce);
+    } })
     .transform(out);
 }
 

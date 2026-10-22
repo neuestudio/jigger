@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Google tag (gtag.js) · 구글 애널리틱스. 로컬 테스트 방문은 집계하지 않게 config는 jiggerbar.com에서만 보내요 -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  if (location.hostname === 'jiggerbar.com') gtag('config', 'G-3HJ7R1DJXB');
+  gtag('config', 'G-3HJ7R1DJXB');
 </script>
 <title>테이스팅 노트 관리 | 지거바</title>
 <meta name="description" content="테이스팅 노트 관리자 화면">
@@ -36,6 +37,8 @@
 <link rel="stylesheet" href="/page.css">
 <link rel="alternate" type="application/rss+xml" title="지거바" href="https://jiggerbar.com/rss.xml">
 
+</head>
+<body>
 <div class="wrap">
   <header class="top">
     <a class="brand" href="/">Jigger</a>
@@ -57,3 +60,5 @@
     <span><a href="/about/">소개</a> · <a href="/contact/">문의하기</a> · <a href="/privacy/">개인정보처리방침</a> · 음주는 성인만, 적당히 즐겨요.</span>
   </footer>
 </div>
+</body>
+</html>

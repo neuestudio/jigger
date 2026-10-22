@@ -92,15 +92,16 @@ if (new Set(D.FOOD.map(f=>f.no)).size !== D.FOOD.length || D.FOOD.some(f=>!Numbe
 const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g,'\\u003c')}</script>`;
 const FONT = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
-// 구글 애널리틱스 태그 (index.html 맨 위에도 같은 태그가 있어요. 바꿀 때는 둘 다 바꿔요)
-const GA_TAG = `<!-- Google tag (gtag.js) · 구글 애널리틱스. 로컬 테스트 방문은 집계하지 않게 config는 jiggerbar.com에서만 보내요 -->
+// 구글 애널리틱스 태그: 구글이 안내한 코드 그대로 (설치 확인 도구가 이 모양을 찾아요). index.html에도 같은 태그가 있어서 바꿀 때는 둘 다 바꿔요.
+// 로컬(wrangler dev)에서는 Worker가 gtag.js를 빼서 테스트 방문이 집계되지 않아요
+const GA_TAG = `<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  if (location.hostname === 'jiggerbar.com') gtag('config', 'G-3HJ7R1DJXB');
+  gtag('config', 'G-3HJ7R1DJXB');
 </script>`;
 const NAV = [['/cocktails/', '칵테일 레시피', 'cocktail'], ['/spirits/', '주류 상식', 'spirit'], ['/food/', '안주 레시피', 'food'], ['/party/', '홈파티 아이디어', 'party'], ['/magazine/', '매거진', 'magazine'], ['/quiz/', '조주기능사 필기', 'quiz'], ['/tasting/', '테이스팅 노트', 'tasting']];
 
@@ -114,6 +115,7 @@ function crumbs(items){
 function page({url, title, desc, image, section, body, jsonld}){
   return `<!DOCTYPE html>
 <html lang="ko">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 ${GA_TAG}
@@ -142,6 +144,8 @@ ${url ? `<meta property="og:url" content="${SITE}${url}">\n` : ''}<meta property
 <link rel="stylesheet" href="/page.css">
 <link rel="alternate" type="application/rss+xml" title="지거바" href="${SITE}/rss.xml">
 ${jsonld.map(ld).join('\n')}
+</head>
+<body>
 <div class="wrap">
   <header class="top">
     <a class="brand" href="/">Jigger</a>
@@ -155,6 +159,8 @@ ${body}
     <span><a href="/about/">소개</a> · <a href="/contact/">문의하기</a> · <a href="/privacy/">개인정보처리방침</a> · 음주는 성인만, 적당히 즐겨요.</span>
   </footer>
 </div>
+</body>
+</html>
 `;
 }
 // 목록 카드는 작은 이미지(images/<dir>/sm/, scripts/optimize-images.py가 만들어요)를 써요. 아직 없으면 원본
