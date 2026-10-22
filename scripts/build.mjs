@@ -109,7 +109,7 @@ const GA_TAG = `<script>
       var d = document.createElement('div');
       d.setAttribute('role', 'status');
       d.textContent = msg;
-      d.style.cssText = 'position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:9999;max-width:calc(100% - 32px);padding:12px 18px;background:#221D16;color:#F1E6D4;font:500 14px/1.5 sans-serif;border:1px solid #DFA35D';
+      d.style.cssText = 'position:fixed;left:16px;right:16px;bottom:24px;margin:0 auto;z-index:9999;max-width:460px;padding:12px 18px;background:#221D16;color:#F1E6D4;font:500 14px/1.5 sans-serif;border:1px solid #DFA35D';
       document.body.appendChild(d);
       setTimeout(function(){ d.remove(); }, 6000);
     });
