@@ -2,17 +2,14 @@
 <html lang="ko">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Google tag (gtag.js) · 구글 애널리틱스. 실제 사이트(jiggerbar.com)에서만 불러와서 로컬 테스트 방문은 집계하지 않아요 -->
+<!-- Google tag (gtag.js) · 구글 애널리틱스. 로컬 테스트 방문은 집계하지 않게 config는 jiggerbar.com에서만 보내요 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  if (location.hostname === 'jiggerbar.com') {
-    var gs = document.createElement('script'); gs.async = true;
-    gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB';
-    document.head.appendChild(gs);
-    gtag('js', new Date());
-    gtag('config', 'G-3HJ7R1DJXB');
-  }
+  gtag('js', new Date());
+
+  if (location.hostname === 'jiggerbar.com') gtag('config', 'G-3HJ7R1DJXB');
 </script>
 <title>에스프레소 마티니 레시피 · 만드는 법, 비율과 도수 | 지거바</title>
 <meta name="description" content="에스프레소 마티니(Espresso Martini) 만드는 법. 보드카 50 ml, 커피 리큐르 10 ml 외 2가지. 셰이크, 도수 약 17%.">

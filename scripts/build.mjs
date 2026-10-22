@@ -93,17 +93,14 @@ const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 const ld = o => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g,'\\u003c')}</script>`;
 const FONT = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css';
 // 구글 애널리틱스 태그 (index.html 맨 위에도 같은 태그가 있어요. 바꿀 때는 둘 다 바꿔요)
-const GA_TAG = `<!-- Google tag (gtag.js) · 구글 애널리틱스. 실제 사이트(jiggerbar.com)에서만 불러와서 로컬 테스트 방문은 집계하지 않아요 -->
+const GA_TAG = `<!-- Google tag (gtag.js) · 구글 애널리틱스. 로컬 테스트 방문은 집계하지 않게 config는 jiggerbar.com에서만 보내요 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  if (location.hostname === 'jiggerbar.com') {
-    var gs = document.createElement('script'); gs.async = true;
-    gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB';
-    document.head.appendChild(gs);
-    gtag('js', new Date());
-    gtag('config', 'G-3HJ7R1DJXB');
-  }
+  gtag('js', new Date());
+
+  if (location.hostname === 'jiggerbar.com') gtag('config', 'G-3HJ7R1DJXB');
 </script>`;
 const NAV = [['/cocktails/', '칵테일 레시피', 'cocktail'], ['/spirits/', '주류 상식', 'spirit'], ['/food/', '안주 레시피', 'food'], ['/party/', '홈파티 아이디어', 'party'], ['/magazine/', '매거진', 'magazine'], ['/quiz/', '조주기능사 필기', 'quiz'], ['/tasting/', '테이스팅 노트', 'tasting']];
 
