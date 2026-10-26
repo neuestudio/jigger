@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://jiggerbar.com/</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://jiggerbar.com/</loc><lastmod>2026-10-27</lastmod></url>
   <url><loc>https://jiggerbar.com/tasting/</loc></url>
   <url><loc>https://jiggerbar.com/cocktails/</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://jiggerbar.com/spirits/</loc><lastmod>2026-10-22</lastmod></url>
@@ -133,9 +133,10 @@
   <url><loc>https://jiggerbar.com/party/anniversary/</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://jiggerbar.com/party/family/</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://jiggerbar.com/party/brunch/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/magazine/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/magazine/highball-at-home/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/magazine/halloween-party/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/magazine/mocktail-party/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/magazine/beaujolais-nouveau/</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://jiggerbar.com/magazine/</loc><lastmod>2026-10-27</lastmod></url>
+  <url><loc>https://jiggerbar.com/magazine/highball-at-home/</loc><lastmod>2026-10-27</lastmod></url>
+  <url><loc>https://jiggerbar.com/magazine/halloween-party/</loc><lastmod>2026-10-27</lastmod></url>
+  <url><loc>https://jiggerbar.com/magazine/mocktail-party/</loc><lastmod>2026-10-27</lastmod></url>
+  <url><loc>https://jiggerbar.com/magazine/beaujolais-nouveau/</loc><lastmod>2026-10-27</lastmod></url>
+  <url><loc>https://jiggerbar.com/magazine/suneung-party/</loc><lastmod>2026-10-27</lastmod></url>
 </urlset>
