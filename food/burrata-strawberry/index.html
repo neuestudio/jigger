@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  /* 운영자 기기 제외: 이 브라우저에서 jiggerbar.com/?notrack 을 한 번 열면 앞으로 구글 애널리틱스에 집계되지 않아요 (?track 으로 되돌려요) */
+  (function(){
+    var k = 'jigger.notrack', q = location.search, msg = '';
+    try {
+      if (/[?&]notrack(=|&|$)/.test(q)) { localStorage.setItem(k, '1'); msg = '이 브라우저는 이제 방문 통계에서 빠져요. 되돌리려면 jiggerbar.com/?track'; }
+      else if (/[?&]track(=|&|$)/.test(q)) { localStorage.removeItem(k); msg = '이 브라우저도 다시 방문 통계에 포함돼요.'; }
+      if (localStorage.getItem(k)) window['ga-disable-G-3HJ7R1DJXB'] = true;
+    } catch (e) {}
+    if (!msg) return;
+    try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
+    document.addEventListener('DOMContentLoaded', function(){
+      var d = document.createElement('div');
+      d.setAttribute('role', 'status');
+      d.textContent = msg;
+      d.style.cssText = 'position:fixed;left:16px;right:16px;bottom:24px;margin:0 auto;z-index:9999;max-width:460px;padding:12px 18px;background:#221D16;color:#F1E6D4;font:500 14px/1.5 sans-serif;border:1px solid #DFA35D';
+      document.body.appendChild(d);
+      setTimeout(function(){ d.remove(); }, 6000);
+    });
+  })();
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3HJ7R1DJXB');
+</script>
+<title>딸기 부라타 만드는 법 · 와인·진 안주 레시피 | 지거바</title>
+<meta name="description" content="딸기 부라타 만드는 법. 재료: 부라타 치즈 1개(약 125g) 외 7가지. 2~3인분, 10분, 난이도 쉬움. 와인·진 안주.">
+<link rel="canonical" href="https://jiggerbar.com/food/burrata-strawberry/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="지거바">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="딸기 부라타 만드는 법 · 와인·진 안주 레시피 | 지거바">
+<meta property="og:description" content="딸기 부라타 만드는 법. 재료: 부라타 치즈 1개(약 125g) 외 7가지. 2~3인분, 10분, 난이도 쉬움. 와인·진 안주.">
+<meta property="og:url" content="https://jiggerbar.com/food/burrata-strawberry/">
+<meta property="og:image" content="https://jiggerbar.com/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#E9E2D3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17110C" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/dm-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/dm-mono-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" id="fontKo">
+<script>(function(l){ function on(){ l.media='all'; } if(l.sheet) on(); else l.addEventListener('load', on); })(document.getElementById('fontKo'));</script>
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript>
+<link rel="stylesheet" href="/page.css">
+<link rel="alternate" type="application/rss+xml" title="지거바" href="https://jiggerbar.com/rss.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Recipe","datePublished":"2026-10-28","dateModified":"2026-10-29","name":"딸기 부라타 (Strawberry Burrata with Shine Muscat)","image":["https://jiggerbar.com/og.jpg"],"description":"부드러운 부라타의 우유 맛에 딸기의 산미와 샤인머스캣의 단맛이 어울려요. 스파클링 와인이나 산뜻한 화이트 와인, 진 토닉과 잘 맞아요.","author":{"@type":"Organization","name":"지거바","url":"https://jiggerbar.com/"},"recipeCategory":"안주","identifier":"Jigger Bites No.041","recipeCuisine":"양식","keywords":"딸기 부라타 만드는 법, 와인 안주, 진 안주","recipeYield":"2~3인분","totalTime":"PT10M","recipeIngredient":["부라타 치즈 1개(약 125g)","딸기 8~10개","샤인머스캣 10~12알","엑스트라 버진 올리브유 1큰술","꿀 1작은술(선택)","소금 한 꼬집 · 통후추 약간","타임이나 로즈마리 1줄기(선택)","방울토마토 · 석류알(선택)"],"recipeInstructions":[{"@type":"HowToStep","text":"부라타는 먹기 15~20분 전에 냉장고에서 꺼내 두어 차가운 기운을 빼요."},{"@type":"HowToStep","text":"딸기와 샤인머스캣을 씻어 키친타월로 물기를 완전히 닦아요. 물기가 남으면 맛이 묽어져요."},{"@type":"HowToStep","text":"딸기는 꼭지째 반으로 자르고, 샤인머스캣도 반으로 잘라요."},{"@type":"HowToStep","text":"넓은 접시 가운데에 부라타를 올리고 과일을 빙 둘러 담아요."},{"@type":"HowToStep","text":"올리브유와 꿀을 부라타 위에 두르고, 소금과 통후추를 갈아 뿌려요."},{"@type":"HowToStep","text":"허브를 올리고, 먹기 직전에 부라타를 갈라 크림이 흘러나오게 해요."}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"지거바","item":"https://jiggerbar.com/"},{"@type":"ListItem","position":2,"name":"안주 레시피","item":"https://jiggerbar.com/food/"},{"@type":"ListItem","position":3,"name":"딸기 부라타","item":"https://jiggerbar.com/food/burrata-strawberry/"}]}</script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/">Jigger</a>
+    <nav class="tabs" aria-label="주요 메뉴"><a href="/cocktails/">칵테일 레시피</a><a href="/spirits/">주류 상식</a><a href="/food/" aria-current="true">안주 레시피</a><a href="/party/">홈파티 아이디어</a><a href="/magazine/">매거진</a><a href="/quiz/">조주기능사 필기</a><a href="/tasting/">테이스팅 노트</a></nav>
+  </header>
+  <main>
+    <nav class="crumbs" aria-label="현재 위치"><a href="/">지거바</a><span aria-hidden="true">›</span><a href="/food/">안주 레시피</a><span aria-hidden="true">›</span><span aria-current="page">딸기 부라타</span></nav>
+    <article class="item">
+      <div class="media" style="--liq:#e2525a"><svg viewBox="0 0 80 80" role="img" aria-label="딸기 부라타">
+    <circle cx="40" cy="40" r="31" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <circle cx="40" cy="40" r="23" fill="none" stroke="currentColor" stroke-width="1" opacity=".45"/>
+    <circle cx="40" cy="40" r="14" fill="#e2525a"/>
+  </svg></div>
+      <div class="body">
+        <span class="eyebrow">Jigger Bites No.041 · 안주 레시피</span>
+        <h1 class="title"><span class="en">Strawberry Burrata with Shine Muscat</span> <span class="ko">딸기 부라타</span></h1>
+        <div class="tags"><a class="tag" href="/food/#western">양식</a><a class="tag" href="/spirits/wine/">와인</a><a class="tag" href="/spirits/gin/">진</a></div>
+        <p class="lead">부드러운 부라타의 우유 맛에 딸기의 산미와 샤인머스캣의 단맛이 어울려요. 스파클링 와인이나 산뜻한 화이트 와인, 진 토닉과 잘 맞아요.</p>
+        <dl class="spec s3">
+          <div><dt>분량</dt><dd>2~3인분</dd></div>
+          <div><dt>조리 시간</dt><dd>10분</dd></div>
+          <div><dt>난이도</dt><dd>쉬움</dd></div>
+          <div class="wide"><dt>어울리는 술</dt><dd><a href="/spirits/wine/">와인</a> · <a href="/spirits/gin/">진</a></dd></div>
+          <div class="wide"><dt>레시피 번호</dt><dd>No.041 <span class="bshort">jiggerbar.com/b/41</span></dd></div>
+        </dl>
+        <section class="sec">
+          <div class="sec-h"><h2>재료</h2></div>
+          <ul class="ings"><li><span class="sw none"></span><span>부라타 치즈 1개(약 125g)</span><span></span></li><li><span class="sw none"></span><span>딸기 8~10개</span><span></span></li><li><span class="sw none"></span><span>샤인머스캣 10~12알</span><span></span></li><li><span class="sw none"></span><span>엑스트라 버진 올리브유 1큰술</span><span></span></li><li><span class="sw none"></span><span>꿀 1작은술(선택)</span><span></span></li><li><span class="sw none"></span><span>소금 한 꼬집 · 통후추 약간</span><span></span></li><li><span class="sw none"></span><span>타임이나 로즈마리 1줄기(선택)</span><span></span></li><li><span class="sw none"></span><span>방울토마토 · 석류알(선택)</span><span></span></li></ul>
+        </section>
+        <section class="sec">
+          <div class="sec-h"><h2>만드는 법</h2></div>
+          <ol class="steps"><li>부라타는 먹기 15~20분 전에 냉장고에서 꺼내 두어 차가운 기운을 빼요.</li><li>딸기와 샤인머스캣을 씻어 키친타월로 물기를 완전히 닦아요. 물기가 남으면 맛이 묽어져요.</li><li>딸기는 꼭지째 반으로 자르고, 샤인머스캣도 반으로 잘라요.</li><li>넓은 접시 가운데에 부라타를 올리고 과일을 빙 둘러 담아요.</li><li>올리브유와 꿀을 부라타 위에 두르고, 소금과 통후추를 갈아 뿌려요.</li><li>허브를 올리고, 먹기 직전에 부라타를 갈라 크림이 흘러나오게 해요.</li></ol>
+        </section>
+        <a class="cta" href="/#burrata-strawberry">지거바에서 재료 체크하며 만들기 →</a>
+        <p class="upd">처음 올린 날 2026.10.28 · 업데이트 <time datetime="2026-10-29">2026.10.29</time></p>
+      </div>
+    </article>
+    <section class="more">
+      <div class="sec-h"><h2>함께 마시기 좋은 칵테일</h2></div>
+      <div class="cards"><a class="card" href="/cocktails/martini/"><span class="cthumb" style="--liq:#d3e6e3"><img src="/images/cocktails/sm/martini.webp" alt="마티니 칵테일" width="640" height="640" loading="lazy" decoding="async"></span>
+      <span class="cbody"><span class="cname">Dry Martini</span><span class="cko">마티니</span></span></a><a class="card" href="/cocktails/negroni/"><span class="cthumb" style="--liq:#b8232e"><img src="/images/cocktails/sm/negroni.webp" alt="네그로니 칵테일" width="640" height="640" loading="lazy" decoding="async"></span>
+      <span class="cbody"><span class="cname">Negroni</span><span class="cko">네그로니</span></span></a><a class="card" href="/cocktails/gin-tonic/"><span class="cthumb" style="--liq:#dcecf0"><img src="/images/cocktails/sm/gin-tonic.webp" alt="진 토닉 칵테일" width="640" height="640" loading="lazy" decoding="async"></span>
+      <span class="cbody"><span class="cname">Gin &amp; Tonic</span><span class="cko">진 토닉</span></span></a><a class="card" href="/cocktails/tom-collins/"><span class="cthumb" style="--liq:#eeeec4"><img src="/images/cocktails/sm/tom-collins.webp" alt="톰 콜린스 칵테일" width="640" height="640" loading="lazy" decoding="async"></span>
+      <span class="cbody"><span class="cname">Tom Collins</span><span class="cko">톰 콜린스</span></span></a></div>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>비슷한 술에 어울리는 안주</h2></div>
+      <div class="cards"><a class="card" href="/food/nuts/"><span class="cthumb" style="--liq:#b98a4a"><img src="/images/food/sm/nuts.webp" alt="허니 로스트 넛츠" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.006</span></span>
+      <span class="cbody"><span class="cname">Honey Roasted Nuts</span><span class="cko">허니 로스트 넛츠</span></span></a><a class="card" href="/food/cheese/"><span class="cthumb" style="--liq:#e8c96a"><img src="/images/food/sm/cheese.webp" alt="치즈 플래터" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.007</span></span>
+      <span class="cbody"><span class="cname">Cheese Platter</span><span class="cko">치즈 플래터</span></span></a><a class="card" href="/food/olives/"><span class="cthumb" style="--liq:#7a8c4a"><img src="/images/food/sm/olives.webp" alt="마리네이드 올리브" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.008</span></span>
+      <span class="cbody"><span class="cname">Marinated Olives</span><span class="cko">마리네이드 올리브</span></span></a><a class="card" href="/food/steak/"><span class="cthumb" style="--liq:#8a3a2a"><img src="/images/food/sm/steak.webp" alt="스테이크" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.010</span></span>
+      <span class="cbody"><span class="cname">Grilled Steak</span><span class="cko">스테이크</span></span></a></div>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>안주 레시피 전체</h2><span class="prog">41가지</span></div>
+      <ul class="alllinks"><li><a href="/food/french-fries/">감자튀김</a></li><li><a href="/food/wings/">양념 치킨윙</a></li><li><a href="/food/golbaengi/">골뱅이무침</a></li><li><a href="/food/pajeon/">김치파전</a></li><li><a href="/food/dried-snacks/">육포 &amp; 마른안주</a></li><li><a href="/food/nuts/">허니 로스트 넛츠</a></li><li><a href="/food/cheese/">치즈 플래터</a></li><li><a href="/food/olives/">마리네이드 올리브</a></li><li><a href="/food/nachos/">나초 &amp; 살사</a></li><li><a href="/food/steak/">스테이크</a></li><li><a href="/food/shrimp/">갈릭 버터 새우</a></li><li><a href="/food/dubukimchi/">두부김치</a></li><li><a href="/food/jokbal/">족발 플레이트</a></li><li><a href="/food/salmon/">훈제연어 카나페</a></li><li><a href="/food/chocolate/">다크초콜릿 &amp; 베리</a></li><li><a href="/food/rolled-omelette/">계란말이</a></li><li><a href="/food/fishcake-soup/">어묵탕</a></li><li><a href="/food/butter-squid/">오징어 버터구이</a></li><li><a href="/food/dried-pollock/">먹태구이</a></li><li><a href="/food/caprese/">카프레제</a></li><li><a href="/food/bruschetta/">브루스케타</a></li><li><a href="/food/prosciutto-melon/">프로슈토 멜론</a></li><li><a href="/food/guacamole/">과카몰리</a></li><li><a href="/food/karaage/">가라아게</a></li><li><a href="/food/edamame/">에다마메</a></li><li><a href="/food/sausage-stir-fry/">소시지 야채볶음</a></li><li><a href="/food/tteokbokki/">떡볶이</a></li><li><a href="/food/acorn-jelly/">도토리묵무침</a></li><li><a href="/food/beef-jeon/">육전</a></li><li><a href="/food/potato-pancake/">감자전</a></li><li><a href="/food/suyuk/">수육</a></li><li><a href="/food/octopus/">문어숙회</a></li><li><a href="/food/fruit-platter/">과일 플래터</a></li><li><a href="/food/affogato/">아포가토</a></li><li><a href="/food/smoked-duck/">훈제오리 부추무침</a></li><li><a href="/food/fish-tacos/">피시 타코</a></li><li><a href="/food/ceviche/">세비체</a></li><li><a href="/food/stuffed-mushrooms/">양송이 치즈구이</a></li><li><a href="/food/gizzards/">닭똥집 볶음</a></li><li><a href="/food/garlic-bread/">마늘빵</a></li><li><a href="/food/burrata-strawberry/" aria-current="page">딸기 부라타</a></li></ul>
+    </section>
+  </main>
+  <footer class="foot">
+    <span>지거바 · 평범한 오늘을 작은 파티로 · <a href="https://www.instagram.com/jiggerbarlog/" target="_blank" rel="noopener">Instagram @jiggerbarlog</a></span>
+    <span><a href="/about/">소개</a> · <a href="/contact/">문의하기</a> · <a href="/privacy/">개인정보처리방침</a> · 음주는 성인만, 적당히 즐겨요.</span>
+  </footer>
+</div>
+</body>
+</html>

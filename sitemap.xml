@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://jiggerbar.com/</loc><lastmod>2026-10-27</lastmod></url>
+  <url><loc>https://jiggerbar.com/</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://jiggerbar.com/tasting/</loc></url>
   <url><loc>https://jiggerbar.com/cocktails/</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://jiggerbar.com/spirits/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://jiggerbar.com/quiz/</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://jiggerbar.com/cocktails/martini/</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://jiggerbar.com/cocktails/negroni/</loc><lastmod>2026-10-22</lastmod></url>
@@ -79,47 +79,48 @@
   <url><loc>https://jiggerbar.com/spirits/yakju/</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://jiggerbar.com/spirits/soju/</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://jiggerbar.com/spirits/liqueur/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/french-fries/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/wings/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/golbaengi/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/pajeon/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/dried-snacks/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/nuts/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/cheese/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/olives/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/nachos/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/steak/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/shrimp/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/dubukimchi/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/jokbal/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/salmon/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/chocolate/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/rolled-omelette/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/fishcake-soup/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/butter-squid/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/dried-pollock/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/caprese/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/bruschetta/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/prosciutto-melon/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/guacamole/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/karaage/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/edamame/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/sausage-stir-fry/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/tteokbokki/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/acorn-jelly/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/beef-jeon/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/potato-pancake/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/suyuk/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/octopus/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/fruit-platter/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/affogato/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/smoked-duck/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/fish-tacos/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/ceviche/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/stuffed-mushrooms/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/gizzards/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/food/garlic-bread/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://jiggerbar.com/about/</loc><lastmod>2026-10-22</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/french-fries/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/wings/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/golbaengi/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/pajeon/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/dried-snacks/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/nuts/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/cheese/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/olives/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/nachos/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/steak/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/shrimp/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/dubukimchi/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/jokbal/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/salmon/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/chocolate/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/rolled-omelette/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/fishcake-soup/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/butter-squid/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/dried-pollock/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/caprese/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/bruschetta/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/prosciutto-melon/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/guacamole/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/karaage/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/edamame/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/sausage-stir-fry/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/tteokbokki/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/acorn-jelly/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/beef-jeon/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/potato-pancake/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/suyuk/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/octopus/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/fruit-platter/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/affogato/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/smoked-duck/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/fish-tacos/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/ceviche/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/stuffed-mushrooms/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/gizzards/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/garlic-bread/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/food/burrata-strawberry/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://jiggerbar.com/about/</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://jiggerbar.com/contact/</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://jiggerbar.com/privacy/</loc><lastmod>2026-10-22</lastmod></url>
   <url><loc>https://jiggerbar.com/tasting/my/</loc><lastmod>2026-10-22</lastmod></url>
