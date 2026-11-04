@@ -132,10 +132,10 @@ async function contact(request, env) {
   }
   if (!env.MAILER || !env.CONTACT_FROM || !env.CONTACT_TO) return json(503, { error: 'mail-not-configured' });
 
-  const subject = `[Jigger 문의] ${topic} - ${name}`;
+  const subject = `[지거바 문의] ${topic} - ${name}`;
   const text = [`이름: ${name}`, `이메일: ${email}`, `유형: ${topic}`, '', message].join('\n');
   const raw = [
-    `From: =?UTF-8?B?${b64('Jigger 문의폼')}?= <${env.CONTACT_FROM}>`,
+    `From: =?UTF-8?B?${b64('지거바 문의폼')}?= <${env.CONTACT_FROM}>`,
     `To: <${env.CONTACT_TO}>`,
     `Reply-To: <${email}>`,
     `Subject: =?UTF-8?B?${b64(subject)}?=`,

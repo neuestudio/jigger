@@ -169,7 +169,7 @@ ${jsonld.map(ld).join('\n')}
 <body>
 <div class="wrap">
   <header class="top">
-    <a class="brand" href="/">Jigger</a>
+    <a class="brand" href="/"><span class="vh">지거바 </span>Jigger</a>
     <nav class="tabs" aria-label="주요 메뉴">${NAV.map(([h, t, k])=>`<a href="${h}"${k===section?' aria-current="true"':''}>${t}</a>`).join('')}</nav>
   </header>
   <main>
@@ -801,13 +801,18 @@ ${sec('13. 방침의 변경', `<p class="lead">이 방침이 바뀌면 시행일
 function aboutPage(){
   const url = '/about/';
   const title = '지거바 소개 · 문의 | 칵테일 레시피와 조주기능사 필기';
-  const desc = `지거바 소개와 문의. 칵테일·주류 상식·안주 레시피와 조주기능사 문제의 콘텐츠 기준 안내.`;
+  const desc = `지거바를 만든 사람과 만든 이유, 칵테일·안주·홈파티 콘텐츠 기준과 문의 방법 안내.`;
   const c = crumbs([['지거바','/'], ['소개 · 문의', url]]);
   const body = `    ${c.nav}
     <section class="hero">
       <span class="eyebrow">About · Contact</span>
       <h1>지거바 소개</h1>
       <p class="lead">지거바(Jigger)는 집에서 칵테일을 만들고, 술을 조금 더 알고 싶은 사람을 위한 사이트예요. 칵테일은 잔 수에 맞춰 계량할 수 있게, 술은 원료와 제조 방식부터, 조주기능사 필기는 해설과 함께 풀어볼 수 있게 정리했어요.</p>
+    </section>
+    <section class="sec">
+      <div class="sec-h"><h2>만든 사람</h2></div>
+      <p class="lead">지거바는 해마다 송년회, 생일 파티, 브라이덜 샤워를 직접 준비해 온 운영자가 만들었어요. 셀프 파티를 열 때마다 술은 무엇을 얼마나 사야 할지, 안주와 케이크는 어떻게 준비할지, 공간은 어떻게 꾸밀지 매번 처음부터 찾아 헤맸던 경험이 시작이었어요.</p>
+      <p class="lead">파티는 특별한 날에만, 큰돈을 들여야만 할 수 있는 게 아니라고 생각해요. 집에서도 부담 없이 작은 파티를 열 수 있도록 정확한 칵테일 레시피와 안주, 파티별 준비물과 순서를 한곳에 모았어요. 평범한 오늘을 작은 파티로 만드는 일, 지거바가 함께할게요.</p>
     </section>
     <section class="sec">
       <div class="sec-h"><h2>무엇을 담았나요</h2></div>
@@ -840,7 +845,8 @@ function aboutPage(){
       <p class="note">레시피·문제 오류 제보, 제휴 문의 모두 환영해요.</p>
     </section>`;
   const about = {'@context':'https://schema.org', '@type':'AboutPage', name:title, url:SITE+url, inLanguage:'ko',
-    mainEntity:{'@type':'Organization', name:'지거바', url:SITE+'/', logo:SITE+'/apple-touch-icon.png',
+    mainEntity:{'@type':'Organization', name:'지거바', alternateName:'Jigger', url:SITE+'/', logo:SITE+'/apple-touch-icon.png',
+      description:'해마다 송년회와 생일 파티를 직접 준비해 온 운영자가 만든 홈칵테일 · 안주 · 홈파티 레시피 사이트', sameAs:['https://www.instagram.com/jiggerbarlog/'],
       email:CONTACT.email,
       contactPoint:{'@type':'ContactPoint', contactType:'customer support', email:CONTACT.email, availableLanguage:['Korean']}}};
   return {url, html:page({url, title, desc, image:`${SITE}/og.jpg`, section:null, body, jsonld:[about, c.list]})};

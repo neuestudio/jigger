@@ -293,7 +293,7 @@ function noneView(fails){
 
 /* 공유용 텍스트: 피해야 하는 음식 · 메모 같은 개인 입력은 넣지 않아요 */
 function planText(p){
-  var L = ['[' + p.party.ko + '] ' + p.people + '명 홈파티 준비안 — Jigger',
+  var L = ['[' + p.party.ko + '] ' + p.people + '명 홈파티 준비안 — 지거바 (jiggerbar.com)',
     '예상 비용 ' + range(p.cost.total[0], p.cost.total[1]) + ' (추정) · 준비 약 ' + minutes(p.minutes), '',
     '음료: ' + p.drinks.map(function(d){ return d.name; }).join(', '),
     '안주: ' + p.dishes.map(function(id){ return F[id].ko; }).join(', '), '', '장보기:'];

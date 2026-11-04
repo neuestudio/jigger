@@ -139,7 +139,7 @@ function importFile(file){
     if (!save()) throw new Error('save');
     flash = '가져오기 완료: 새 기록 ' + added + '개, 갱신 ' + updated + '개' + (list.length - ok.length ? ', 형식이 맞지 않아 건너뛴 기록 ' + (list.length - ok.length) + '개' : '') + '.';
     listView();
-  }).catch(function(){ listView(); root.insertAdjacentHTML('afterbegin', '<p class="form-status err" role="alert">가져오지 못했어요. Jigger에서 내보낸 JSON 파일인지 확인해 주세요.</p>'); });
+  }).catch(function(){ listView(); root.insertAdjacentHTML('afterbegin', '<p class="form-status err" role="alert">가져오지 못했어요. 지거바에서 내보낸 JSON 파일인지 확인해 주세요.</p>'); });
 }
 
 root.addEventListener('click', function(e){
