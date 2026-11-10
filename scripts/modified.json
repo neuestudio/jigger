@@ -424,28 +424,32 @@
   "d": "2026-10-29"
  },
  "/magazine/": {
-  "h": "3cb31fd2b7ffef73",
-  "d": "2026-10-27"
+  "h": "0a236cb2dff07574",
+  "d": "2026-11-10"
  },
  "/magazine/beaujolais-nouveau/": {
-  "h": "95f6cf546e59ff7e",
-  "d": "2026-10-27"
+  "h": "4f064e4f4de46e83",
+  "d": "2026-11-10"
  },
  "/magazine/halloween-party/": {
-  "h": "751b153388bdbc35",
-  "d": "2026-10-27"
+  "h": "a1b9e73e70514f07",
+  "d": "2026-11-10"
  },
  "/magazine/highball-at-home/": {
-  "h": "4f14729a61a56ab1",
-  "d": "2026-10-27"
+  "h": "609c80c315c9ebe4",
+  "d": "2026-11-10"
  },
  "/magazine/mocktail-party/": {
-  "h": "7e1b2cf3b6ab8cdd",
-  "d": "2026-10-27"
+  "h": "03fa683d43ec2d90",
+  "d": "2026-11-10"
  },
  "/magazine/suneung-party/": {
-  "h": "c38fe58fe4a8764b",
-  "d": "2026-10-27"
+  "h": "b6b6e3fd7a6567fb",
+  "d": "2026-11-10"
+ },
+ "/magazine/year-end-party/": {
+  "h": "9f1c5875981eadd5",
+  "d": "2026-11-10"
  },
  "/party/": {
   "h": "2b0d4f825a331fee",
