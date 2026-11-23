@@ -141,11 +141,11 @@ export default function magazine({R, F, S, P, esc, img}){
     memo:''
   },
   {
-    id:'mocktail-party', date:'2026-10-08', updated:'2026-10-08',
+    id:'mocktail-party', date:'2026-10-08', updated:'2026-11-23',
     eyebrow:'Zero-Proof Party',
-    title:'무알콜 칵테일 레시피 · 술 없이 즐기는 목테일 8가지 | 지거바',
+    title:'목테일 레시피 8가지 · 무알콜 칵테일 만드는 법 | 지거바',
     h1:'술 없이도 파티처럼, 무알콜 칵테일 8가지',
-    desc:'운전하는 친구, 임신 중인 손님도 함께 건배하는 무알콜 칵테일 8가지와 술 같은 맛을 내는 팁, 대량으로 만드는 법.',
+    desc:'목테일(무알콜 칵테일) 레시피 8가지. 버진 모히토, 셜리 템플 등 집에서 쉽게 만드는 법과 술 같은 맛을 내는 팁.',
     lead:'요즘은 술자리에서 무알콜 음료를 고르는 사람이 많아졌어요. 운전하는 친구, 임신 중인 손님, 술을 쉬고 있는 사람도 같은 잔으로 건배할 수 있게 집에서 쉽게 만드는 무알콜 칵테일(목테일)을 모았어요.',
     cover:['cocktails', 'virgin-mojito'],
     keywords:['무알콜 칵테일', '목테일 레시피', '논알콜 칵테일', '무알콜 음료 파티'],
@@ -347,6 +347,141 @@ export default function magazine({R, F, S, P, esc, img}){
     ],
     cocktails:['shirley-temple', 'manhattan', 'old-fashioned', 'whisky-highball'],
     foods:['shrimp', 'prosciutto-melon', 'fruit-platter', 'nuts'],
+    memo:''
+  },
+  {
+    id:'vodka-cocktails', date:'2026-11-23', updated:'2026-11-23',
+    eyebrow:'Vodka Cocktails',
+    title:'보드카 칵테일 추천 · 집에서 만드는 8가지 | 지거바',
+    h1:'보드카 한 병으로 만드는 칵테일 8가지',
+    desc:'모스코 뮬, 코스모폴리탄, 블랙 러시안까지 보드카 칵테일 8가지를 난이도와 도수별로 골랐어요. 편의점 조합도 함께.',
+    lead:'보드카는 향과 맛이 거의 없어서 무엇과 섞어도 재료 맛을 그대로 살려 줘요. 그래서 칵테일을 처음 만들 때 가장 실패가 적은 술이에요. 셰이커 없이 잔에 붓기만 하면 되는 것부터 홈파티에서 분위기를 내는 한 잔까지, 보드카 칵테일 8가지를 골랐어요.',
+    cover:['cocktails', 'moscow-mule'],
+    keywords:['보드카 칵테일', '보드카 칵테일 추천', '보드카 칵테일 레시피', '보드카 섞어 마시기'],
+    sections:[
+      ['잔에 붓기만 하면 되는 4가지', `
+        <p>셰이커가 없어도 괜찮아요. 얼음을 채운 잔에 재료를 차례로 붓고 저어 주면 끝이에요.</p>
+        ${g(['c', 'moscow-mule', '보드카 + 진저비어'], ['c', 'seabreeze', '크랜베리 · 자몽'], ['c', 'bloody-mary', '짭짤한 토마토'], ['c', 'black-russian', '커피 리큐르'])}
+        <table class="ptable"><thead><tr><th>칵테일</th><th>재료</th><th>도수</th></tr></thead><tbody>
+          <tr><th scope="row">${r('moscow-mule')}</th><td>${esc(ingLine('moscow-mule'))}</td><td>약 ${rec('moscow-mule').abv}%</td></tr>
+          <tr><th scope="row">${r('seabreeze')}</th><td>${esc(ingLine('seabreeze'))}</td><td>약 ${rec('seabreeze').abv}%</td></tr>
+          <tr><th scope="row">${r('bloody-mary')}</th><td>${esc(ingLine('bloody-mary'))}</td><td>약 ${rec('bloody-mary').abv}%</td></tr>
+          <tr><th scope="row">${r('black-russian')}</th><td>${esc(ingLine('black-russian'))}</td><td>약 ${rec('black-russian').abv}%</td></tr>
+        </tbody></table>
+        <p class="note">블랙 러시안은 도수가 약 ${rec('black-russian').abv}%로 높아요. 달콤해서 금방 마시게 되니 천천히 즐기세요.</p>`],
+      ['셰이커로 분위기 내는 3가지', `
+        <p>셰이커로 흔들어 마티니 잔에 따르면 바에서 마시는 것 같은 한 잔이 돼요. 셰이커가 없으면 뚜껑이 꽉 닫히는 텀블러나 잼 병으로 10초쯤 세게 흔들어도 돼요.</p>
+        ${g(['c', 'cosmopolitan', '크랜베리 빨강'], ['c', 'apple-martini', '새콤한 사과'], ['c', 'espresso-martini', '커피 한 잔처럼'])}
+        <ul class="plist">
+          <li><b>${r('cosmopolitan')}</b>: 크랜베리의 새콤한 맛과 예쁜 빨간색 덕분에 연말 파티 첫 잔으로 좋아요.</li>
+          <li><b>${r('apple-martini')}</b>: 초록빛 사과 맛이라 칵테일을 처음 마시는 사람도 편하게 마셔요.</li>
+          <li><b>${r('espresso-martini')}</b>: 식사 뒤 디저트 대신 내기 좋아요. 흔들어서 생긴 거품이 맛을 살려요.</li>
+        </ul>`],
+      ['파티의 센 한 잔', `
+        <p>${r('long-island-iced-tea')}는 이름과 달리 홍차가 들어가지 않아요. 보드카, 진, 럼, 테킬라를 조금씩 넣고 콜라로 색을 내서 아이스티처럼 보여요. 맛은 가볍지만 도수가 약 ${rec('long-island-iced-tea').abv}%라 한 잔으로 충분해요.</p>
+        ${g(['c', 'long-island-iced-tea', '아이스티처럼 보여요'])}`],
+      ['편의점 재료로 섞어 마시기', `
+        <p>레시피가 번거로우면 보드카 1, 음료 3~4 비율만 기억하세요. 얼음을 가득 채운 잔에 보드카를 먼저 붓고 음료를 채워요.</p>
+        <table class="ptable"><thead><tr><th>섞을 음료</th><th>맛</th></tr></thead><tbody>
+          <tr><th scope="row">오렌지 주스</th><td>스크루드라이버라고 부르는 가장 쉬운 보드카 칵테일이에요</td></tr>
+          <tr><th scope="row">토닉워터</th><td>쌉쌀하고 깔끔해요. 라임이나 레몬 한 조각을 꼭 넣으세요</td></tr>
+          <tr><th scope="row">자몽 에이드 · 자몽 주스</th><td>새콤쌉쌀한 맛이 시브리즈와 비슷해요</td></tr>
+          <tr><th scope="row">진저에일</th><td>모스코 뮬을 가볍게 즐기는 방법이에요</td></tr>
+          <tr><th scope="row">탄산수 + 레몬</th><td>달지 않아서 식사와 함께 마시기 좋아요</td></tr>
+        </tbody></table>
+        <p>보드카의 도수와 종류는 ${s('vodka', '보드카 주류 상식')}에, 스트레이트로 마시는 법과 보관법은 <a href="/magazine/how-to-drink-vodka/">보드카 마시는 법</a>에 정리했어요.</p>`],
+      ['보드카 칵테일과 어울리는 안주', `
+        <p>깔끔한 보드카 칵테일은 짭짤하고 산뜻한 안주와 잘 맞아요.</p>
+        ${g(['f', 'salmon', '훈제연어 카나페'], ['f', 'ceviche', '라임에 절인 해산물'], ['f', 'olives', '짭짤한 한입'])}`]
+    ],
+    cocktails:['gin-tonic', 'mojito', 'margarita', 'whisky-highball'],
+    foods:['shrimp', 'cheese', 'nachos', 'fruit-platter'],
+    memo:''
+  },
+  {
+    id:'how-to-drink-vodka', date:'2026-11-23', updated:'2026-11-23',
+    eyebrow:'How to Drink Vodka',
+    title:'보드카 마시는 법 · 스트레이트부터 섞어 마시기 | 지거바',
+    h1:'보드카 맛있게 마시는 법, 온도와 비율이 전부예요',
+    desc:'보드카는 냉동실에 차갑게 두고 마셔요. 스트레이트로 마시는 법, 섞어 마시는 비율, 어울리는 안주와 보관법.',
+    lead:'보드카는 도수가 40도 안팎이라 처음 마시면 독하게 느껴져요. 하지만 온도만 잘 맞추면 훨씬 부드러워지고, 섞는 비율만 알면 어떤 음료와도 잘 어울려요. 보드카를 맛있게 마시는 법을 차근차근 정리했어요.',
+    cover:['spirits', 'vodka'],
+    keywords:['보드카 마시는 법', '보드카 맛있게 먹는 법', '보드카 냉동실', '보드카 섞어 마시기'],
+    sections:[
+      ['먼저, 냉동실에 넣어 두세요', `
+        <p>보드카를 맛있게 마시는 첫 번째 방법은 차갑게 하는 거예요. 차가울수록 알코올의 톡 쏘는 맛이 줄고 질감이 살짝 걸쭉해져서 부드럽게 넘어가요.</p>
+        <ul class="plist">
+          <li><b>냉동실에 넣어도 얼지 않아요</b>: 도수 40도 보드카는 영하 25℃ 아래에서야 얼어요. 집 냉동실(영하 18℃ 안팎)에 병째 넣어 두면 돼요.</li>
+          <li><b>잔도 차갑게</b>: 작은 샷 잔이나 리큐르 잔을 함께 냉동실에 넣어 두면 끝까지 차갑게 마실 수 있어요.</li>
+          <li><b>플레이버드 보드카도 같아요</b>: 레몬 · 베리 향 보드카도 차갑게 마시면 향이 더 깔끔해요.</li>
+        </ul>`],
+      ['스트레이트로 마시는 법', `
+        <ol class="steps">
+          <li>차갑게 둔 보드카를 샷 잔에 20~30ml쯤 따라요.</li>
+          <li>마시기 전에 숨을 한 번 내쉬고, 한 모금에 마시거나 두세 번에 나눠 천천히 마셔요.</li>
+          <li>마신 뒤에 바로 안주를 먹거나 물, 탄산수를 한 모금 마셔 입안을 정리해요.</li>
+        </ol>
+        <p>러시아 같은 보드카 본고장에서는 피클, 절인 생선, 호밀빵처럼 짭짤하고 새콤한 안주를 곁들여 마셔요. 집에서는 ${f('olives')}, ${f('salmon')}, ${f('cheese')}로 비슷하게 차릴 수 있어요.</p>
+        ${g(['f', 'salmon', '짭짤한 훈제연어'], ['f', 'olives', '새콤 짭짤'], ['f', 'cheese', '천천히 곁들이기'])}
+        <p class="note">보드카 한 잔(30ml)은 알코올 양으로 소주 한 잔 반쯤이에요. 물을 함께 마시며 천천히 즐기세요.</p>`],
+      ['섞어 마시기: 1 대 3이 기본', `
+        <p>스트레이트가 부담스러우면 음료와 섞어 마시세요. <b>보드카 1, 음료 3~4</b>가 가장 무난한 비율이에요. 이렇게 섞으면 도수가 8~10% 정도로 맥주보다 조금 센 정도가 돼요.</p>
+        <ul class="plist">
+          <li><b>얼음은 가득</b>: 얼음이 적으면 빨리 녹아서 맛이 묽어져요. 잔 끝까지 채우세요.</li>
+          <li><b>보드카 먼저, 음료는 나중에</b>: 탄산 음료는 마지막에 잔 벽을 따라 부어야 탄산이 덜 빠져요.</li>
+          <li><b>시트러스 한 조각</b>: 레몬이나 라임을 짜 넣으면 맛이 훨씬 산뜻해져요.</li>
+        </ul>
+        ${g(['c', 'moscow-mule', '진저비어와 함께'], ['c', 'seabreeze', '과일 주스와 함께'], ['c', 'bloody-mary', '토마토 주스와 함께'])}
+        <p>어떤 음료와 섞으면 좋은지, 제대로 만드는 보드카 칵테일은 <a href="/magazine/vodka-cocktails/">보드카 칵테일 8가지</a>에 모았어요.</p>`],
+      ['보드카 고르는 법과 보관', `
+        <p>칵테일에 섞어 마실 거라면 비싼 보드카가 아니어도 괜찮아요. 스트레이트로 마실 때는 여러 번 증류하고 여과해 부드러운 제품을 고르면 좋아요. 도수와 종류별 차이는 ${s('vodka', '보드카 도수와 종류')}에서 볼 수 있어요.</p>
+        <p>보드카는 도수가 높아서 뚜껑을 연 뒤에도 오래 두고 마실 수 있어요. 뚜껑을 꼭 닫아 햇빛이 들지 않는 곳에 세워 두거나, 자주 마신다면 냉동실에 넣어 두세요.</p>`]
+    ],
+    cocktails:['moscow-mule', 'cosmopolitan', 'black-russian', 'espresso-martini'],
+    foods:['shrimp', 'prosciutto-melon', 'nuts', 'smoked-duck'],
+    memo:''
+  },
+  {
+    id:'convenience-store-mocktails', date:'2026-11-23', updated:'2026-11-23',
+    eyebrow:'Zero-Proof from the Store',
+    title:'편의점 무알콜 칵테일 · 음료 조합 6가지 | 지거바',
+    h1:'편의점 음료로 만드는 무알콜 칵테일 6가지',
+    desc:'사이다, 진저에일, 아이스티처럼 편의점에서 파는 음료만 섞어 만드는 무알콜 칵테일 6가지와 맛있게 섞는 요령.',
+    lead:'무알콜 칵테일을 만들려고 시럽과 재료를 따로 살 필요는 없어요. 편의점에서 파는 음료 두세 가지와 얼음컵만 있으면 충분해요. 연말 모임에서 운전하는 친구, 술을 쉬는 사람과 함께 마시기 좋은 조합 6가지를 골랐어요.',
+    cover:['cocktails', 'arnold-palmer'],
+    keywords:['편의점 무알콜 칵테일', '무알콜 칵테일 만들기', '편의점 음료 조합', '논알콜 칵테일'],
+    sections:[
+      ['준비물은 얼음컵 하나', `
+        <ul class="plist">
+          <li><b>얼음컵</b>: 편의점 얼음컵에 바로 섞으면 잔도 따로 필요 없어요. 집에서는 잔에 얼음을 가득 채우세요.</li>
+          <li><b>레몬즙</b>: 작은 병 레몬즙 하나가 있으면 어떤 조합이든 훨씬 칵테일다워져요.</li>
+          <li><b>차갑게</b>: 음료는 냉장 코너에서 차가운 것으로 고르세요. 미지근하면 얼음이 금방 녹아 맛이 묽어져요.</li>
+        </ul>`],
+      ['편의점 음료 조합 6가지', `
+        ${g(['c', 'virgin-mojito', '사이다 + 레몬 + 민트'], ['c', 'shirley-temple', '진저에일 + 석류'], ['c', 'arnold-palmer', '아이스티 + 레몬에이드'], ['c', 'cinderella', '오렌지 + 파인애플'])}
+        <table class="ptable"><thead><tr><th>이렇게 섞으면</th><th>편의점 조합</th><th>요령</th></tr></thead><tbody>
+          <tr><th scope="row">${r('virgin-mojito')}</th><td>사이다 + 레몬즙 + 민트(또는 라임)</td><td>제로 사이다를 쓰면 덜 달고 깔끔해요</td></tr>
+          <tr><th scope="row">${r('shirley-temple')}</th><td>진저에일 + 석류 · 체리 음료 조금</td><td>빨간 음료를 마지막에 부으면 층이 생겨요</td></tr>
+          <tr><th scope="row">${r('arnold-palmer')}</th><td>레몬 아이스티 + 레몬에이드 반반</td><td>복숭아 아이스티로 바꿔도 맛있어요</td></tr>
+          <tr><th scope="row">${r('cinderella')}</th><td>오렌지 주스 + 파인애플 주스 + 레몬즙</td><td>탄산수를 조금 더하면 가벼워져요</td></tr>
+          <tr><th scope="row">${r('virgin-mary')}</th><td>토마토 주스 + 레몬즙 + 후추 · 핫소스</td><td>달지 않아서 식사와 잘 어울려요</td></tr>
+          <tr><th scope="row">${r('virgin-colada')}</th><td>파인애플 주스 + 바닐라 아이스크림 한 스쿱</td><td>코코넛 크림 대신 아이스크림으로 부드럽게</td></tr>
+        </tbody></table>
+        <p class="note">레시피를 누르면 정확한 비율과 만드는 순서를 볼 수 있어요.</p>`],
+      ['더 맛있게 섞는 요령', `
+        <ul class="plist">
+          <li><b>탄산은 마지막에</b>: 주스나 시럽을 먼저 붓고 탄산 음료는 잔 벽을 따라 천천히 채워야 탄산이 오래가요.</li>
+          <li><b>단맛 줄이기</b>: 시판 음료는 생각보다 달아요. 제로 음료를 섞거나 탄산수를 3분의 1쯤 더하면 균형이 맞아요.</li>
+          <li><b>쌉쌀한 맛 한 방울</b>: 토닉워터나 자몽 음료를 조금 넣으면 단맛만 남지 않고 어른스러운 맛이 돼요.</li>
+          <li><b>가니시로 마무리</b>: 레몬 슬라이스나 민트 한 잎만 올려도 술 마시는 손님과 같은 칵테일처럼 보여요.</li>
+        </ul>
+        ${g(['c', 'virgin-mary', '짭짤한 토마토'], ['c', 'virgin-colada', '디저트처럼'])}`],
+      ['무알콜과 비알콜, 꼭 확인하세요', `
+        <p>시판 무알콜 맥주나 와인을 함께 낼 때는 표기를 확인하세요. <b>무알코올</b>은 알코올이 전혀 없는(0.00%) 제품이고, <b>비알코올</b>은 1% 미만의 알코올이 들어 있을 수 있어요. 임신 중이거나 운전해야 하는 사람에게는 무알코올 제품이나 직접 섞은 음료를 내세요.</p>
+        <p>직접 만드는 정식 레시피와 대량으로 만드는 법은 <a href="/magazine/mocktail-party/">목테일 레시피 8가지</a>에, 연말 모임 메뉴는 <a href="/magazine/year-end-party/">송년회 홈파티 준비</a>에 정리했어요.</p>`]
+    ],
+    cocktails:['ginger-mule', 'fresh-lemon-squash', 'virgin-fruit-punch'],
+    foods:['nachos', 'french-fries', 'fruit-platter', 'edamame'],
     memo:''
   }
   ];

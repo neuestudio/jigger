@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  /* 운영자 기기 제외: 이 브라우저에서 jiggerbar.com/?notrack 을 한 번 열면 앞으로 구글 애널리틱스에 집계되지 않아요 (?track 으로 되돌려요) */
+  (function(){
+    var k = 'jigger.notrack', q = location.search, msg = '';
+    try {
+      if (/[?&]notrack(=|&|$)/.test(q)) { localStorage.setItem(k, '1'); msg = '이 브라우저는 이제 방문 통계에서 빠져요. 되돌리려면 jiggerbar.com/?track'; }
+      else if (/[?&]track(=|&|$)/.test(q)) { localStorage.removeItem(k); msg = '이 브라우저도 다시 방문 통계에 포함돼요.'; }
+      if (localStorage.getItem(k)) window['ga-disable-G-3HJ7R1DJXB'] = true;
+    } catch (e) {}
+    if (!msg) return;
+    try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
+    document.addEventListener('DOMContentLoaded', function(){
+      var d = document.createElement('div');
+      d.setAttribute('role', 'status');
+      d.textContent = msg;
+      d.style.cssText = 'position:fixed;left:16px;right:16px;bottom:24px;margin:0 auto;z-index:9999;max-width:460px;padding:12px 18px;background:#221D16;color:#F1E6D4;font:500 14px/1.5 sans-serif;border:1px solid #DFA35D';
+      document.body.appendChild(d);
+      setTimeout(function(){ d.remove(); }, 6000);
+    });
+  })();
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3HJ7R1DJXB');
+</script>
+<title>편의점 무알콜 칵테일 · 음료 조합 6가지 | 지거바</title>
+<meta name="description" content="사이다, 진저에일, 아이스티처럼 편의점에서 파는 음료만 섞어 만드는 무알콜 칵테일 6가지와 맛있게 섞는 요령.">
+<link rel="canonical" href="https://jiggerbar.com/magazine/convenience-store-mocktails/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="지거바">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="편의점 무알콜 칵테일 · 음료 조합 6가지 | 지거바">
+<meta property="og:description" content="사이다, 진저에일, 아이스티처럼 편의점에서 파는 음료만 섞어 만드는 무알콜 칵테일 6가지와 맛있게 섞는 요령.">
+<meta property="og:url" content="https://jiggerbar.com/magazine/convenience-store-mocktails/">
+<meta property="og:image" content="https://jiggerbar.com/images/cocktails/arnold-palmer.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#E9E2D3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17110C" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/dm-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/dm-mono-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" id="fontKo">
+<script>(function(l){ function on(){ l.media='all'; } if(l.sheet) on(); else l.addEventListener('load', on); })(document.getElementById('fontKo'));</script>
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript>
+<link rel="stylesheet" href="/page.css">
+<link rel="alternate" type="application/rss+xml" title="지거바" href="https://jiggerbar.com/rss.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"편의점 음료로 만드는 무알콜 칵테일 6가지","description":"사이다, 진저에일, 아이스티처럼 편의점에서 파는 음료만 섞어 만드는 무알콜 칵테일 6가지와 맛있게 섞는 요령.","image":["https://jiggerbar.com/images/cocktails/arnold-palmer.webp"],"datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"지거바","url":"https://jiggerbar.com/"},"publisher":{"@type":"Organization","name":"지거바","url":"https://jiggerbar.com/","logo":{"@type":"ImageObject","url":"https://jiggerbar.com/apple-touch-icon.png"}},"mainEntityOfPage":"https://jiggerbar.com/magazine/convenience-store-mocktails/","keywords":"편의점 무알콜 칵테일, 무알콜 칵테일 만들기, 편의점 음료 조합, 논알콜 칵테일","inLanguage":"ko"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"지거바","item":"https://jiggerbar.com/"},{"@type":"ListItem","position":2,"name":"매거진","item":"https://jiggerbar.com/magazine/"},{"@type":"ListItem","position":3,"name":"편의점 음료로 만드는 무알콜 칵테일 6가지","item":"https://jiggerbar.com/magazine/convenience-store-mocktails/"}]}</script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/"><span class="vh">지거바 </span>Jigger</a>
+    <nav class="tabs" aria-label="주요 메뉴"><a href="/cocktails/">칵테일 레시피</a><a href="/spirits/">주류 상식</a><a href="/food/">안주 레시피</a><a href="/party/">홈파티 아이디어</a><a href="/magazine/" aria-current="true">매거진</a><a href="/quiz/">조주기능사 필기</a><a href="/tasting/">테이스팅 노트</a></nav>
+  </header>
+  <main>
+    <nav class="crumbs" aria-label="현재 위치"><a href="/">지거바</a><span aria-hidden="true">›</span><a href="/magazine/">매거진</a><span aria-hidden="true">›</span><span aria-current="page">편의점 음료로 만드는 무알콜 칵테일 6가지</span></nav>
+    <article class="mag">
+      <header class="hero">
+        <span class="eyebrow">Magazine · Zero-Proof from the Store</span>
+        <h1>편의점 음료로 만드는 무알콜 칵테일 6가지</h1>
+        <p class="lead">무알콜 칵테일을 만들려고 시럽과 재료를 따로 살 필요는 없어요. 편의점에서 파는 음료 두세 가지와 얼음컵만 있으면 충분해요. 연말 모임에서 운전하는 친구, 술을 쉬는 사람과 함께 마시기 좋은 조합 6가지를 골랐어요.</p>
+        
+        <p class="mby">글 지거바 · <time datetime="2026-11-23">2026.11.23</time></p>
+      </header>
+      <figure class="mcover"><img src="/images/cocktails/arnold-palmer.webp" alt="편의점 음료로 만드는 무알콜 칵테일 6가지" width="1000" height="1000" fetchpriority="high"></figure>
+      <section class="sec prose">
+        <div class="sec-h"><h2>준비물은 얼음컵 하나</h2></div>
+        <ul class="plist">
+          <li><b>얼음컵</b>: 편의점 얼음컵에 바로 섞으면 잔도 따로 필요 없어요. 집에서는 잔에 얼음을 가득 채우세요.</li>
+          <li><b>레몬즙</b>: 작은 병 레몬즙 하나가 있으면 어떤 조합이든 훨씬 칵테일다워져요.</li>
+          <li><b>차갑게</b>: 음료는 냉장 코너에서 차가운 것으로 고르세요. 미지근하면 얼음이 금방 녹아 맛이 묽어져요.</li>
+        </ul>
+      </section>
+      <section class="sec prose">
+        <div class="sec-h"><h2>편의점 음료 조합 6가지</h2></div>
+        <div class="mgrid n4"><figure><a href="/cocktails/virgin-mojito/"><img src="/images/cocktails/sm/virgin-mojito.webp" alt="버진 모히토" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/virgin-mojito/">버진 모히토</a><span>사이다 + 레몬 + 민트</span></figcaption></figure><figure><a href="/cocktails/shirley-temple/"><img src="/images/cocktails/sm/shirley-temple.webp" alt="셜리 템플" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/shirley-temple/">셜리 템플</a><span>진저에일 + 석류</span></figcaption></figure><figure><a href="/cocktails/arnold-palmer/"><img src="/images/cocktails/sm/arnold-palmer.webp" alt="아놀드 파머" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/arnold-palmer/">아놀드 파머</a><span>아이스티 + 레몬에이드</span></figcaption></figure><figure><a href="/cocktails/cinderella/"><img src="/images/cocktails/sm/cinderella.webp" alt="신데렐라" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/cinderella/">신데렐라</a><span>오렌지 + 파인애플</span></figcaption></figure></div>
+        <table class="ptable"><thead><tr><th>이렇게 섞으면</th><th>편의점 조합</th><th>요령</th></tr></thead><tbody>
+          <tr><th scope="row"><a href="/cocktails/virgin-mojito/">버진 모히토</a></th><td>사이다 + 레몬즙 + 민트(또는 라임)</td><td>제로 사이다를 쓰면 덜 달고 깔끔해요</td></tr>
+          <tr><th scope="row"><a href="/cocktails/shirley-temple/">셜리 템플</a></th><td>진저에일 + 석류 · 체리 음료 조금</td><td>빨간 음료를 마지막에 부으면 층이 생겨요</td></tr>
+          <tr><th scope="row"><a href="/cocktails/arnold-palmer/">아놀드 파머</a></th><td>레몬 아이스티 + 레몬에이드 반반</td><td>복숭아 아이스티로 바꿔도 맛있어요</td></tr>
+          <tr><th scope="row"><a href="/cocktails/cinderella/">신데렐라</a></th><td>오렌지 주스 + 파인애플 주스 + 레몬즙</td><td>탄산수를 조금 더하면 가벼워져요</td></tr>
+          <tr><th scope="row"><a href="/cocktails/virgin-mary/">버진 메리</a></th><td>토마토 주스 + 레몬즙 + 후추 · 핫소스</td><td>달지 않아서 식사와 잘 어울려요</td></tr>
+          <tr><th scope="row"><a href="/cocktails/virgin-colada/">버진 피냐 콜라다</a></th><td>파인애플 주스 + 바닐라 아이스크림 한 스쿱</td><td>코코넛 크림 대신 아이스크림으로 부드럽게</td></tr>
+        </tbody></table>
+        <p class="note">레시피를 누르면 정확한 비율과 만드는 순서를 볼 수 있어요.</p>
+      </section>
+      <section class="sec prose">
+        <div class="sec-h"><h2>더 맛있게 섞는 요령</h2></div>
+        <ul class="plist">
+          <li><b>탄산은 마지막에</b>: 주스나 시럽을 먼저 붓고 탄산 음료는 잔 벽을 따라 천천히 채워야 탄산이 오래가요.</li>
+          <li><b>단맛 줄이기</b>: 시판 음료는 생각보다 달아요. 제로 음료를 섞거나 탄산수를 3분의 1쯤 더하면 균형이 맞아요.</li>
+          <li><b>쌉쌀한 맛 한 방울</b>: 토닉워터나 자몽 음료를 조금 넣으면 단맛만 남지 않고 어른스러운 맛이 돼요.</li>
+          <li><b>가니시로 마무리</b>: 레몬 슬라이스나 민트 한 잎만 올려도 술 마시는 손님과 같은 칵테일처럼 보여요.</li>
+        </ul>
+        <div class="mgrid n2"><figure><a href="/cocktails/virgin-mary/"><img src="/images/cocktails/sm/virgin-mary.webp" alt="버진 메리" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/virgin-mary/">버진 메리</a><span>짭짤한 토마토</span></figcaption></figure><figure><a href="/cocktails/virgin-colada/"><img src="/images/cocktails/sm/virgin-colada.webp" alt="버진 피냐 콜라다" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/virgin-colada/">버진 피냐 콜라다</a><span>디저트처럼</span></figcaption></figure></div>
+      </section>
+      <section class="sec prose">
+        <div class="sec-h"><h2>무알콜과 비알콜, 꼭 확인하세요</h2></div>
+        <p>시판 무알콜 맥주나 와인을 함께 낼 때는 표기를 확인하세요. <b>무알코올</b>은 알코올이 전혀 없는(0.00%) 제품이고, <b>비알코올</b>은 1% 미만의 알코올이 들어 있을 수 있어요. 임신 중이거나 운전해야 하는 사람에게는 무알코올 제품이나 직접 섞은 음료를 내세요.</p>
+        <p>직접 만드는 정식 레시피와 대량으로 만드는 법은 <a href="/magazine/mocktail-party/">목테일 레시피 8가지</a>에, 연말 모임 메뉴는 <a href="/magazine/year-end-party/">송년회 홈파티 준비</a>에 정리했어요.</p>
+      </section>
+      
+    </article>
+    <section class="more">
+      <div class="sec-h"><h2>함께 보면 좋은 칵테일</h2></div>
+      <div class="cards"><a class="card" href="/cocktails/ginger-mule/"><span class="cthumb" style="--liq:#e6cc70"><img src="/images/cocktails/sm/ginger-mule.webp" alt="진저 뮬 칵테일" width="640" height="640" loading="lazy" decoding="async"></span>
+      <span class="cbody"><span class="cname">Ginger Mule</span><span class="cko">진저 뮬</span></span></a><a class="card" href="/cocktails/fresh-lemon-squash/"><span class="cthumb" style="--liq:#f3eeb0"><img src="/images/cocktails/sm/fresh-lemon-squash.webp" alt="프레시 레몬 스쿼시 칵테일" width="640" height="640" loading="lazy" decoding="async"></span>
+      <span class="cbody"><span class="cname">Fresh Lemon Squash</span><span class="cko">프레시 레몬 스쿼시</span></span></a><a class="card" href="/cocktails/virgin-fruit-punch/"><span class="cthumb" style="--liq:#f08a5a"><img src="/images/cocktails/sm/virgin-fruit-punch.webp" alt="버진 프루트 펀치 칵테일" width="640" height="640" loading="lazy" decoding="async"></span>
+      <span class="cbody"><span class="cname">Virgin Fruit Punch</span><span class="cko">버진 프루트 펀치</span></span></a></div>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>더 많은 안주</h2></div>
+      <div class="cards"><a class="card" href="/food/nachos/"><span class="cthumb" style="--liq:#d99a3a"><img src="/images/food/sm/nachos.webp" alt="나초 &amp; 살사" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.009</span></span>
+      <span class="cbody"><span class="cname">Nachos &amp; Salsa</span><span class="cko">나초 &amp; 살사</span></span></a><a class="card" href="/food/french-fries/"><span class="cthumb" style="--liq:#e0a83e"><img src="/images/food/sm/french-fries.webp" alt="감자튀김" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.001</span></span>
+      <span class="cbody"><span class="cname">French Fries</span><span class="cko">감자튀김</span></span></a><a class="card" href="/food/fruit-platter/"><span class="cthumb" style="--liq:#e05a6a"><img src="/images/food/sm/fruit-platter.webp" alt="과일 플래터" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.033</span></span>
+      <span class="cbody"><span class="cname">Fruit Platter</span><span class="cko">과일 플래터</span></span></a><a class="card" href="/food/edamame/"><span class="cthumb" style="--liq:#7cae4a"><img src="/images/food/sm/edamame.webp" alt="에다마메" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.025</span></span>
+      <span class="cbody"><span class="cname">Salted Edamame</span><span class="cko">에다마메</span></span></a></div>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>다른 매거진 글</h2><a class="prog" href="/magazine/">전체 보기 →</a></div>
+      <ul class="mlist"><li><a class="mrow" href="/magazine/highball-at-home/">
+        <img src="/images/cocktails/sm/whisky-highball.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Highball at Home</span><b>집에서 만드는 하이볼, 비율 하나만 기억하세요</b><span class="mdesc">하이볼 황금비율 1:3~4, 맛있게 만드는 순서, 편의점 탄산 · 과일 조합 5가지와 위스키 고르는 법.</span><time datetime="2026-10-08">2026.10.08</time></span>
+      </a></li><li><a class="mrow" href="/magazine/halloween-party/">
+        <img src="/images/cocktails/sm/bloody-mary.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Halloween at Home</span><b>집에서 즐기는 할로윈 파티, 색으로 고르는 칵테일과 안주</b><span class="mdesc">핏빛 · 검정 · 초록 칵테일 고르는 법, 무알콜 메뉴, 손 덜 가는 할로윈 안주와 일주일 전부터의 준비 순서.</span><time datetime="2026-10-08">2026.10.08</time></span>
+      </a></li><li><a class="mrow" href="/magazine/mocktail-party/">
+        <img src="/images/cocktails/sm/virgin-mojito.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Zero-Proof Party</span><b>술 없이도 파티처럼, 무알콜 칵테일 8가지</b><span class="mdesc">목테일(무알콜 칵테일) 레시피 8가지. 버진 모히토, 셜리 템플 등 집에서 쉽게 만드는 법과 술 같은 맛을 내는 팁.</span><time datetime="2026-10-08">2026.10.08</time></span>
+      </a></li><li><a class="mrow" href="/magazine/beaujolais-nouveau/">
+        <img src="/images/spirits/sm/wine.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Beaujolais Nouveau</span><b>보졸레 누보, 올해 첫 와인을 집에서 맛있게</b><span class="mdesc">2026년 보졸레 누보는 11월 19일 출시. 살짝 차게 마시는 온도, 잔 고르기, 치즈부터 족발까지 어울리는 안주.</span><time datetime="2026-10-20">2026.10.20</time></span>
+      </a></li><li><a class="mrow" href="/magazine/suneung-party/">
+        <img src="/images/cocktails/sm/shirley-temple.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">After the Exam</span><b>수능 끝난 날, 술 없이 신나는 홈파티</b><span class="mdesc">수능 끝난 수험생을 위한 무알콜 칵테일 4가지와 분식 · 튀김 메뉴, 영화 · 게임 홈파티 준비 순서.</span><time datetime="2026-10-27">2026.10.27</time></span>
+      </a></li><li><a class="mrow" href="/magazine/year-end-party/">
+        <img src="/images/cocktails/sm/negroni.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Year-End Party</span><b>집에서 하는 송년회, 술 한 병으로 칵테일 네 가지</b><span class="mdesc">진 한 병으로 만드는 칵테일 4가지, 미리 섞어 두는 피처 칵테일, 든든한 안주와 손님 귀가까지 챙기는 송년회 준비.</span><time datetime="2026-11-10">2026.11.10</time></span>
+      </a></li><li><a class="mrow" href="/magazine/christmas-cocktails/">
+        <img src="/images/cocktails/sm/mulled-wine.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Christmas at Home</span><b>크리스마스 홈파티 칵테일, 분위기별 12가지</b><span class="mdesc">따뜻한 뱅쇼와 핫 토디, 빨강 · 초록 칵테일, 디저트 칵테일, 아이와 함께 마시는 무알콜까지 크리스마스 메뉴 12가지.</span><time datetime="2026-11-17">2026.11.17</time></span>
+      </a></li><li><a class="mrow" href="/magazine/vodka-cocktails/">
+        <img src="/images/cocktails/sm/moscow-mule.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Vodka Cocktails</span><b>보드카 한 병으로 만드는 칵테일 8가지</b><span class="mdesc">모스코 뮬, 코스모폴리탄, 블랙 러시안까지 보드카 칵테일 8가지를 난이도와 도수별로 골랐어요. 편의점 조합도 함께.</span><time datetime="2026-11-23">2026.11.23</time></span>
+      </a></li><li><a class="mrow" href="/magazine/how-to-drink-vodka/">
+        <img src="/images/spirits/sm/vodka.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">How to Drink Vodka</span><b>보드카 맛있게 마시는 법, 온도와 비율이 전부예요</b><span class="mdesc">보드카는 냉동실에 차갑게 두고 마셔요. 스트레이트로 마시는 법, 섞어 마시는 비율, 어울리는 안주와 보관법.</span><time datetime="2026-11-23">2026.11.23</time></span>
+      </a></li></ul>
+    </section>
+  </main>
+  <footer class="foot">
+    <span>지거바 · 평범한 오늘을 작은 파티로 · <a href="https://www.instagram.com/jiggerbarlog/" target="_blank" rel="noopener">Instagram @jiggerbarlog</a></span>
+    <span><a href="/about/">소개</a> · <a href="/contact/">문의하기</a> · <a href="/privacy/">개인정보처리방침</a> · 음주는 성인만, 적당히 즐겨요.</span>
+  </footer>
+</div>
+</body>
+</html>

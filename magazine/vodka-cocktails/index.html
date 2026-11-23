@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+  /* 운영자 기기 제외: 이 브라우저에서 jiggerbar.com/?notrack 을 한 번 열면 앞으로 구글 애널리틱스에 집계되지 않아요 (?track 으로 되돌려요) */
+  (function(){
+    var k = 'jigger.notrack', q = location.search, msg = '';
+    try {
+      if (/[?&]notrack(=|&|$)/.test(q)) { localStorage.setItem(k, '1'); msg = '이 브라우저는 이제 방문 통계에서 빠져요. 되돌리려면 jiggerbar.com/?track'; }
+      else if (/[?&]track(=|&|$)/.test(q)) { localStorage.removeItem(k); msg = '이 브라우저도 다시 방문 통계에 포함돼요.'; }
+      if (localStorage.getItem(k)) window['ga-disable-G-3HJ7R1DJXB'] = true;
+    } catch (e) {}
+    if (!msg) return;
+    try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) {}
+    document.addEventListener('DOMContentLoaded', function(){
+      var d = document.createElement('div');
+      d.setAttribute('role', 'status');
+      d.textContent = msg;
+      d.style.cssText = 'position:fixed;left:16px;right:16px;bottom:24px;margin:0 auto;z-index:9999;max-width:460px;padding:12px 18px;background:#221D16;color:#F1E6D4;font:500 14px/1.5 sans-serif;border:1px solid #DFA35D';
+      document.body.appendChild(d);
+      setTimeout(function(){ d.remove(); }, 6000);
+    });
+  })();
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HJ7R1DJXB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3HJ7R1DJXB');
+</script>
+<title>보드카 칵테일 추천 · 집에서 만드는 8가지 | 지거바</title>
+<meta name="description" content="모스코 뮬, 코스모폴리탄, 블랙 러시안까지 보드카 칵테일 8가지를 난이도와 도수별로 골랐어요. 편의점 조합도 함께.">
+<link rel="canonical" href="https://jiggerbar.com/magazine/vodka-cocktails/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="지거바">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="보드카 칵테일 추천 · 집에서 만드는 8가지 | 지거바">
+<meta property="og:description" content="모스코 뮬, 코스모폴리탄, 블랙 러시안까지 보드카 칵테일 8가지를 난이도와 도수별로 골랐어요. 편의점 조합도 함께.">
+<meta property="og:url" content="https://jiggerbar.com/magazine/vodka-cocktails/">
+<meta property="og:image" content="https://jiggerbar.com/images/cocktails/moscow-mule.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#E9E2D3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17110C" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/dm-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/dm-mono-500.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" id="fontKo">
+<script>(function(l){ function on(){ l.media='all'; } if(l.sheet) on(); else l.addEventListener('load', on); })(document.getElementById('fontKo'));</script>
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript>
+<link rel="stylesheet" href="/page.css">
+<link rel="alternate" type="application/rss+xml" title="지거바" href="https://jiggerbar.com/rss.xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"보드카 한 병으로 만드는 칵테일 8가지","description":"모스코 뮬, 코스모폴리탄, 블랙 러시안까지 보드카 칵테일 8가지를 난이도와 도수별로 골랐어요. 편의점 조합도 함께.","image":["https://jiggerbar.com/images/cocktails/moscow-mule.webp"],"datePublished":"2026-11-23","dateModified":"2026-11-23","author":{"@type":"Organization","name":"지거바","url":"https://jiggerbar.com/"},"publisher":{"@type":"Organization","name":"지거바","url":"https://jiggerbar.com/","logo":{"@type":"ImageObject","url":"https://jiggerbar.com/apple-touch-icon.png"}},"mainEntityOfPage":"https://jiggerbar.com/magazine/vodka-cocktails/","keywords":"보드카 칵테일, 보드카 칵테일 추천, 보드카 칵테일 레시피, 보드카 섞어 마시기","inLanguage":"ko"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"지거바","item":"https://jiggerbar.com/"},{"@type":"ListItem","position":2,"name":"매거진","item":"https://jiggerbar.com/magazine/"},{"@type":"ListItem","position":3,"name":"보드카 한 병으로 만드는 칵테일 8가지","item":"https://jiggerbar.com/magazine/vodka-cocktails/"}]}</script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/"><span class="vh">지거바 </span>Jigger</a>
+    <nav class="tabs" aria-label="주요 메뉴"><a href="/cocktails/">칵테일 레시피</a><a href="/spirits/">주류 상식</a><a href="/food/">안주 레시피</a><a href="/party/">홈파티 아이디어</a><a href="/magazine/" aria-current="true">매거진</a><a href="/quiz/">조주기능사 필기</a><a href="/tasting/">테이스팅 노트</a></nav>
+  </header>
+  <main>
+    <nav class="crumbs" aria-label="현재 위치"><a href="/">지거바</a><span aria-hidden="true">›</span><a href="/magazine/">매거진</a><span aria-hidden="true">›</span><span aria-current="page">보드카 한 병으로 만드는 칵테일 8가지</span></nav>
+    <article class="mag">
+      <header class="hero">
+        <span class="eyebrow">Magazine · Vodka Cocktails</span>
+        <h1>보드카 한 병으로 만드는 칵테일 8가지</h1>
+        <p class="lead">보드카는 향과 맛이 거의 없어서 무엇과 섞어도 재료 맛을 그대로 살려 줘요. 그래서 칵테일을 처음 만들 때 가장 실패가 적은 술이에요. 셰이커 없이 잔에 붓기만 하면 되는 것부터 홈파티에서 분위기를 내는 한 잔까지, 보드카 칵테일 8가지를 골랐어요.</p>
+        
+        <p class="mby">글 지거바 · <time datetime="2026-11-23">2026.11.23</time></p>
+      </header>
+      <figure class="mcover"><img src="/images/cocktails/moscow-mule.webp" alt="보드카 한 병으로 만드는 칵테일 8가지" width="1000" height="1000" fetchpriority="high"></figure>
+      <section class="sec prose">
+        <div class="sec-h"><h2>잔에 붓기만 하면 되는 4가지</h2></div>
+        <p>셰이커가 없어도 괜찮아요. 얼음을 채운 잔에 재료를 차례로 붓고 저어 주면 끝이에요.</p>
+        <div class="mgrid n4"><figure><a href="/cocktails/moscow-mule/"><img src="/images/cocktails/sm/moscow-mule.webp" alt="모스코 뮬" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/moscow-mule/">모스코 뮬</a><span>보드카 + 진저비어</span></figcaption></figure><figure><a href="/cocktails/seabreeze/"><img src="/images/cocktails/sm/seabreeze.webp" alt="시브리즈" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/seabreeze/">시브리즈</a><span>크랜베리 · 자몽</span></figcaption></figure><figure><a href="/cocktails/bloody-mary/"><img src="/images/cocktails/sm/bloody-mary.webp" alt="블러디 메리" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/bloody-mary/">블러디 메리</a><span>짭짤한 토마토</span></figcaption></figure><figure><a href="/cocktails/black-russian/"><img src="/images/cocktails/sm/black-russian.webp" alt="블랙 러시안" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/black-russian/">블랙 러시안</a><span>커피 리큐르</span></figcaption></figure></div>
+        <table class="ptable"><thead><tr><th>칵테일</th><th>재료</th><th>도수</th></tr></thead><tbody>
+          <tr><th scope="row"><a href="/cocktails/moscow-mule/">모스코 뮬</a></th><td>보드카 45ml · 라임주스 15ml · 진저비어 120ml</td><td>약 9%</td></tr>
+          <tr><th scope="row"><a href="/cocktails/seabreeze/">시브리즈</a></th><td>보드카 45ml · 크랜베리 주스 90ml · 자몽 주스 15ml</td><td>약 11%</td></tr>
+          <tr><th scope="row"><a href="/cocktails/bloody-mary/">블러디 메리</a></th><td>보드카 45ml · 토마토 주스 90ml · 레몬주스 15ml · 우스터 소스 2 dash · 타바스코 2 dash · 소금·후추 한 꼬집</td><td>약 10%</td></tr>
+          <tr><th scope="row"><a href="/cocktails/black-russian/">블랙 러시안</a></th><td>보드카 30ml · 커피 리큐르 15ml</td><td>약 30%</td></tr>
+        </tbody></table>
+        <p class="note">블랙 러시안은 도수가 약 30%로 높아요. 달콤해서 금방 마시게 되니 천천히 즐기세요.</p>
+      </section>
+      <section class="sec prose">
+        <div class="sec-h"><h2>셰이커로 분위기 내는 3가지</h2></div>
+        <p>셰이커로 흔들어 마티니 잔에 따르면 바에서 마시는 것 같은 한 잔이 돼요. 셰이커가 없으면 뚜껑이 꽉 닫히는 텀블러나 잼 병으로 10초쯤 세게 흔들어도 돼요.</p>
+        <div class="mgrid n3"><figure><a href="/cocktails/cosmopolitan/"><img src="/images/cocktails/sm/cosmopolitan.webp" alt="코스모폴리탄" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/cosmopolitan/">코스모폴리탄</a><span>크랜베리 빨강</span></figcaption></figure><figure><a href="/cocktails/apple-martini/"><img src="/images/cocktails/sm/apple-martini.webp" alt="애플 마티니" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/apple-martini/">애플 마티니</a><span>새콤한 사과</span></figcaption></figure><figure><a href="/cocktails/espresso-martini/"><img src="/images/cocktails/sm/espresso-martini.webp" alt="에스프레소 마티니" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/espresso-martini/">에스프레소 마티니</a><span>커피 한 잔처럼</span></figcaption></figure></div>
+        <ul class="plist">
+          <li><b><a href="/cocktails/cosmopolitan/">코스모폴리탄</a></b>: 크랜베리의 새콤한 맛과 예쁜 빨간색 덕분에 연말 파티 첫 잔으로 좋아요.</li>
+          <li><b><a href="/cocktails/apple-martini/">애플 마티니</a></b>: 초록빛 사과 맛이라 칵테일을 처음 마시는 사람도 편하게 마셔요.</li>
+          <li><b><a href="/cocktails/espresso-martini/">에스프레소 마티니</a></b>: 식사 뒤 디저트 대신 내기 좋아요. 흔들어서 생긴 거품이 맛을 살려요.</li>
+        </ul>
+      </section>
+      <section class="sec prose">
+        <div class="sec-h"><h2>파티의 센 한 잔</h2></div>
+        <p><a href="/cocktails/long-island-iced-tea/">롱아일랜드 아이스티</a>는 이름과 달리 홍차가 들어가지 않아요. 보드카, 진, 럼, 테킬라를 조금씩 넣고 콜라로 색을 내서 아이스티처럼 보여요. 맛은 가볍지만 도수가 약 17%라 한 잔으로 충분해요.</p>
+        <div class="mgrid n1"><figure><a href="/cocktails/long-island-iced-tea/"><img src="/images/cocktails/sm/long-island-iced-tea.webp" alt="롱아일랜드 아이스티" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><a href="/cocktails/long-island-iced-tea/">롱아일랜드 아이스티</a><span>아이스티처럼 보여요</span></figcaption></figure></div>
+      </section>
+      <section class="sec prose">
+        <div class="sec-h"><h2>편의점 재료로 섞어 마시기</h2></div>
+        <p>레시피가 번거로우면 보드카 1, 음료 3~4 비율만 기억하세요. 얼음을 가득 채운 잔에 보드카를 먼저 붓고 음료를 채워요.</p>
+        <table class="ptable"><thead><tr><th>섞을 음료</th><th>맛</th></tr></thead><tbody>
+          <tr><th scope="row">오렌지 주스</th><td>스크루드라이버라고 부르는 가장 쉬운 보드카 칵테일이에요</td></tr>
+          <tr><th scope="row">토닉워터</th><td>쌉쌀하고 깔끔해요. 라임이나 레몬 한 조각을 꼭 넣으세요</td></tr>
+          <tr><th scope="row">자몽 에이드 · 자몽 주스</th><td>새콤쌉쌀한 맛이 시브리즈와 비슷해요</td></tr>
+          <tr><th scope="row">진저에일</th><td>모스코 뮬을 가볍게 즐기는 방법이에요</td></tr>
+          <tr><th scope="row">탄산수 + 레몬</th><td>달지 않아서 식사와 함께 마시기 좋아요</td></tr>
+        </tbody></table>
+        <p>보드카의 도수와 종류는 <a href="/spirits/vodka/">보드카 주류 상식</a>에, 스트레이트로 마시는 법과 보관법은 <a href="/magazine/how-to-drink-vodka/">보드카 마시는 법</a>에 정리했어요.</p>
+      </section>
+      <section class="sec prose">
+        <div class="sec-h"><h2>보드카 칵테일과 어울리는 안주</h2></div>
+        <p>깔끔한 보드카 칵테일은 짭짤하고 산뜻한 안주와 잘 맞아요.</p>
+        <div class="mgrid n3"><figure><a href="/food/salmon/"><img src="/images/food/sm/salmon.webp" alt="훈제연어 카나페" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><i class="cnum">No.014</i><a href="/food/salmon/">훈제연어 카나페</a><span>훈제연어 카나페</span></figcaption></figure><figure><a href="/food/ceviche/"><img src="/images/food/sm/ceviche.webp" alt="세비체" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><i class="cnum">No.037</i><a href="/food/ceviche/">세비체</a><span>라임에 절인 해산물</span></figcaption></figure><figure><a href="/food/olives/"><img src="/images/food/sm/olives.webp" alt="마리네이드 올리브" width="640" height="640" loading="lazy" decoding="async"></a>
+          <figcaption><i class="cnum">No.008</i><a href="/food/olives/">마리네이드 올리브</a><span>짭짤한 한입</span></figcaption></figure></div>
+      </section>
+      
+    </article>
+    <section class="more">
+      <div class="sec-h"><h2>함께 보면 좋은 칵테일</h2></div>
+      <div class="cards"><a class="card" href="/cocktails/gin-tonic/"><span class="cthumb" style="--liq:#dcecf0"><img src="/images/cocktails/sm/gin-tonic.webp" alt="진 토닉 칵테일" width="640" height="640" loading="lazy" decoding="async"></span>
+      <span class="cbody"><span class="cname">Gin &amp; Tonic</span><span class="cko">진 토닉</span></span></a><a class="card" href="/cocktails/mojito/"><span class="cthumb" style="--liq:#d6e8ac"><img src="/images/cocktails/sm/mojito.webp" alt="모히토 칵테일" width="640" height="640" loading="lazy" decoding="async"></span>
+      <span class="cbody"><span class="cname">Mojito</span><span class="cko">모히토</span></span></a><a class="card" href="/cocktails/margarita/"><span class="cthumb" style="--liq:#e4ecb0"><img src="/images/cocktails/sm/margarita.webp" alt="마가리타 칵테일" width="640" height="640" loading="lazy" decoding="async"></span>
+      <span class="cbody"><span class="cname">Margarita</span><span class="cko">마가리타</span></span></a><a class="card" href="/cocktails/whisky-highball/"><span class="cthumb" style="--liq:#e3c27a"><img src="/images/cocktails/sm/whisky-highball.webp" alt="위스키 하이볼 칵테일" width="640" height="640" loading="lazy" decoding="async"></span>
+      <span class="cbody"><span class="cname">Whisky Highball</span><span class="cko">위스키 하이볼</span></span></a></div>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>더 많은 안주</h2></div>
+      <div class="cards"><a class="card" href="/food/shrimp/"><span class="cthumb" style="--liq:#d97a5a"><img src="/images/food/sm/shrimp.webp" alt="갈릭 버터 새우" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.011</span></span>
+      <span class="cbody"><span class="cname">Garlic Butter Shrimp</span><span class="cko">갈릭 버터 새우</span></span></a><a class="card" href="/food/cheese/"><span class="cthumb" style="--liq:#e8c96a"><img src="/images/food/sm/cheese.webp" alt="치즈 플래터" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.007</span></span>
+      <span class="cbody"><span class="cname">Cheese Platter</span><span class="cko">치즈 플래터</span></span></a><a class="card" href="/food/nachos/"><span class="cthumb" style="--liq:#d99a3a"><img src="/images/food/sm/nachos.webp" alt="나초 &amp; 살사" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.009</span></span>
+      <span class="cbody"><span class="cname">Nachos &amp; Salsa</span><span class="cko">나초 &amp; 살사</span></span></a><a class="card" href="/food/fruit-platter/"><span class="cthumb" style="--liq:#e05a6a"><img src="/images/food/sm/fruit-platter.webp" alt="과일 플래터" width="640" height="640" loading="lazy" decoding="async"><span class="cno">No.033</span></span>
+      <span class="cbody"><span class="cname">Fruit Platter</span><span class="cko">과일 플래터</span></span></a></div>
+    </section>
+    <section class="more">
+      <div class="sec-h"><h2>다른 매거진 글</h2><a class="prog" href="/magazine/">전체 보기 →</a></div>
+      <ul class="mlist"><li><a class="mrow" href="/magazine/highball-at-home/">
+        <img src="/images/cocktails/sm/whisky-highball.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Highball at Home</span><b>집에서 만드는 하이볼, 비율 하나만 기억하세요</b><span class="mdesc">하이볼 황금비율 1:3~4, 맛있게 만드는 순서, 편의점 탄산 · 과일 조합 5가지와 위스키 고르는 법.</span><time datetime="2026-10-08">2026.10.08</time></span>
+      </a></li><li><a class="mrow" href="/magazine/halloween-party/">
+        <img src="/images/cocktails/sm/bloody-mary.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Halloween at Home</span><b>집에서 즐기는 할로윈 파티, 색으로 고르는 칵테일과 안주</b><span class="mdesc">핏빛 · 검정 · 초록 칵테일 고르는 법, 무알콜 메뉴, 손 덜 가는 할로윈 안주와 일주일 전부터의 준비 순서.</span><time datetime="2026-10-08">2026.10.08</time></span>
+      </a></li><li><a class="mrow" href="/magazine/mocktail-party/">
+        <img src="/images/cocktails/sm/virgin-mojito.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Zero-Proof Party</span><b>술 없이도 파티처럼, 무알콜 칵테일 8가지</b><span class="mdesc">목테일(무알콜 칵테일) 레시피 8가지. 버진 모히토, 셜리 템플 등 집에서 쉽게 만드는 법과 술 같은 맛을 내는 팁.</span><time datetime="2026-10-08">2026.10.08</time></span>
+      </a></li><li><a class="mrow" href="/magazine/beaujolais-nouveau/">
+        <img src="/images/spirits/sm/wine.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Beaujolais Nouveau</span><b>보졸레 누보, 올해 첫 와인을 집에서 맛있게</b><span class="mdesc">2026년 보졸레 누보는 11월 19일 출시. 살짝 차게 마시는 온도, 잔 고르기, 치즈부터 족발까지 어울리는 안주.</span><time datetime="2026-10-20">2026.10.20</time></span>
+      </a></li><li><a class="mrow" href="/magazine/suneung-party/">
+        <img src="/images/cocktails/sm/shirley-temple.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">After the Exam</span><b>수능 끝난 날, 술 없이 신나는 홈파티</b><span class="mdesc">수능 끝난 수험생을 위한 무알콜 칵테일 4가지와 분식 · 튀김 메뉴, 영화 · 게임 홈파티 준비 순서.</span><time datetime="2026-10-27">2026.10.27</time></span>
+      </a></li><li><a class="mrow" href="/magazine/year-end-party/">
+        <img src="/images/cocktails/sm/negroni.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Year-End Party</span><b>집에서 하는 송년회, 술 한 병으로 칵테일 네 가지</b><span class="mdesc">진 한 병으로 만드는 칵테일 4가지, 미리 섞어 두는 피처 칵테일, 든든한 안주와 손님 귀가까지 챙기는 송년회 준비.</span><time datetime="2026-11-10">2026.11.10</time></span>
+      </a></li><li><a class="mrow" href="/magazine/christmas-cocktails/">
+        <img src="/images/cocktails/sm/mulled-wine.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Christmas at Home</span><b>크리스마스 홈파티 칵테일, 분위기별 12가지</b><span class="mdesc">따뜻한 뱅쇼와 핫 토디, 빨강 · 초록 칵테일, 디저트 칵테일, 아이와 함께 마시는 무알콜까지 크리스마스 메뉴 12가지.</span><time datetime="2026-11-17">2026.11.17</time></span>
+      </a></li><li><a class="mrow" href="/magazine/how-to-drink-vodka/">
+        <img src="/images/spirits/sm/vodka.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">How to Drink Vodka</span><b>보드카 맛있게 마시는 법, 온도와 비율이 전부예요</b><span class="mdesc">보드카는 냉동실에 차갑게 두고 마셔요. 스트레이트로 마시는 법, 섞어 마시는 비율, 어울리는 안주와 보관법.</span><time datetime="2026-11-23">2026.11.23</time></span>
+      </a></li><li><a class="mrow" href="/magazine/convenience-store-mocktails/">
+        <img src="/images/cocktails/sm/arnold-palmer.webp" alt="" width="640" height="640" loading="lazy" decoding="async">
+        <span><span class="eyebrow">Zero-Proof from the Store</span><b>편의점 음료로 만드는 무알콜 칵테일 6가지</b><span class="mdesc">사이다, 진저에일, 아이스티처럼 편의점에서 파는 음료만 섞어 만드는 무알콜 칵테일 6가지와 맛있게 섞는 요령.</span><time datetime="2026-11-23">2026.11.23</time></span>
+      </a></li></ul>
+    </section>
+  </main>
+  <footer class="foot">
+    <span>지거바 · 평범한 오늘을 작은 파티로 · <a href="https://www.instagram.com/jiggerbarlog/" target="_blank" rel="noopener">Instagram @jiggerbarlog</a></span>
+    <span><a href="/about/">소개</a> · <a href="/contact/">문의하기</a> · <a href="/privacy/">개인정보처리방침</a> · 음주는 성인만, 적당히 즐겨요.</span>
+  </footer>
+</div>
+</body>
+</html>

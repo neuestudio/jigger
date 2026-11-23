@@ -428,36 +428,48 @@
   "d": "2026-11-16"
  },
  "/magazine/": {
-  "h": "a935d2b866a99dd1",
-  "d": "2026-11-18"
+  "h": "8cb048d8bb889781",
+  "d": "2026-11-23"
  },
  "/magazine/beaujolais-nouveau/": {
-  "h": "c040cf9adfc60118",
-  "d": "2026-11-18"
+  "h": "bb4c79b9c8267f90",
+  "d": "2026-11-23"
  },
  "/magazine/christmas-cocktails/": {
-  "h": "c47924140084d503",
-  "d": "2026-11-18"
+  "h": "8891e7bd9ef59ac6",
+  "d": "2026-11-23"
+ },
+ "/magazine/convenience-store-mocktails/": {
+  "h": "9b4f84448edcb62e",
+  "d": "2026-11-23"
  },
  "/magazine/halloween-party/": {
-  "h": "e3f9b9ccb33fad37",
-  "d": "2026-11-18"
+  "h": "7734d0a711b0a809",
+  "d": "2026-11-23"
  },
  "/magazine/highball-at-home/": {
-  "h": "2ba073c510fd149e",
-  "d": "2026-11-18"
+  "h": "33724177c2ab63bb",
+  "d": "2026-11-23"
+ },
+ "/magazine/how-to-drink-vodka/": {
+  "h": "16ea1f824ee442aa",
+  "d": "2026-11-23"
  },
  "/magazine/mocktail-party/": {
-  "h": "7967e9176b4b0ebd",
-  "d": "2026-11-18"
+  "h": "c64170ed6e048246",
+  "d": "2026-11-23"
  },
  "/magazine/suneung-party/": {
-  "h": "a7152dc2fc56af70",
-  "d": "2026-11-18"
+  "h": "ee2ab02ab98d952e",
+  "d": "2026-11-23"
+ },
+ "/magazine/vodka-cocktails/": {
+  "h": "d9c6e5277dd0ea8b",
+  "d": "2026-11-23"
  },
  "/magazine/year-end-party/": {
-  "h": "87f863baca90af95",
-  "d": "2026-11-18"
+  "h": "1dc21410d69cdeb9",
+  "d": "2026-11-23"
  },
  "/party/": {
   "h": "2b0d4f825a331fee",

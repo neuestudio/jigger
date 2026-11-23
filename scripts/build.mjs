@@ -204,6 +204,15 @@ function card(dir, item, alt){
 const DESC_MAX = 80;
 // 제목(title · og:title)도 네이버 권장대로 40자 안으로: 후보를 긴 것부터 주면 40자 안에 드는 첫 번째를 써요
 const TITLE_MAX = 40;
+// 검색 데이터(네이버 검색어 · 클릭률)를 보고 직접 정한 제목 · 설명. 자동 제목 대신 이걸 써요.
+const SEO = {
+  '/spirits/vodka/': {title:'보드카 도수 40도 · 종류별 차이와 제조법 | 지거바',
+    desc:'보드카 도수는 40도 내외(37.5~40%). 플레인 · 플레이버드 종류별 도수 비교와 제조법, 보드카 칵테일.'},
+  '/cocktails/pina-colada/': {title:'피냐 콜라다 도수 10% · 레시피와 만드는 법 | 지거바',
+    desc:'피냐 콜라다 도수는 약 10%. 화이트 럼 · 코코넛 크림 · 파인애플 주스 1:1:1 비율로 블렌더에 갈아 만드는 법.'},
+  '/cocktails/cosmopolitan/': {title:'코스모폴리탄 칵테일 레시피 · 도수 18% | 지거바',
+    desc:'코스모폴리탄 칵테일 도수는 약 18%. 보드카 · 쿠앵트로 · 크랜베리 주스 · 라임주스 비율과 셰이크로 만드는 법.'},
+};
 function fitTitle(...cands){ return cands.find(t=>t.length <= TITLE_MAX) || cands[cands.length - 1]; }
 function fitDesc(make, list){
   for (let n = list.length; n >= 1; n--) {
@@ -250,10 +259,12 @@ function cocktailPage(r){
   const photo = PHOTOS.cocktails.includes(r.id);
   const image = photo ? `${SITE}/images/cocktails/${r.id}.webp` : `${SITE}/og.jpg`;
   // 칵테일 검색은 "진토닉 도수"처럼 도수를 함께 찾는 경우가 많아 제목에 도수를 넣어요
-  const title = e ? fitTitle(`${r.ko} 레시피 · 도수와 조주기능사 실기 표준 | 지거바`, `${r.ko} 레시피 · 도수, 조주기능사 실기 | 지거바`, `${r.ko} 레시피 · 조주기능사 실기 | 지거바`, `${r.ko} 레시피 | 지거바`)
+  let title = e ? fitTitle(`${r.ko} 레시피 · 도수와 조주기능사 실기 표준 | 지거바`, `${r.ko} 레시피 · 도수, 조주기능사 실기 | 지거바`, `${r.ko} 레시피 · 조주기능사 실기 | 지거바`, `${r.ko} 레시피 | 지거바`)
     : zero ? fitTitle(`${r.ko} 레시피 · 무알콜 칵테일 만드는 법 | 지거바`, `${r.ko} · 무알콜 칵테일 레시피 | 지거바`, `${r.ko} 레시피 | 지거바`)
     : fitTitle(`${r.ko} 레시피 · 만드는 법, 비율과 도수 | 지거바`, `${r.ko} 레시피 · 비율과 도수 | 지거바`, `${r.ko} 레시피 | 지거바`);
-  const desc = fitDesc(ings=>`${r.ko}(${r.en}) 만드는 법.${ings ? ` ${ings}.` : ''} ${r.method}, 도수 ${abv}.${e ? ' 조주기능사 실기 표준 수록.' : ''}`, r.ing.map(ingText));
+  if (SEO[url]) title = SEO[url].title;
+  let desc = fitDesc(ings=>`${r.ko}(${r.en}) 만드는 법.${ings ? ` ${ings}.` : ''} ${r.method}, 도수 ${abv}.${e ? ' 조주기능사 실기 표준 수록.' : ''}`, r.ing.map(ingText));
+  if (SEO[url]) desc = SEO[url].desc;
   const c = crumbs([['지거바','/'], ['칵테일 레시피','/cocktails/'], [r.ko, url]]);
 
   const same = D.RECIPES.filter(x=>x.base===r.base && x.id!==r.id);
@@ -429,11 +440,11 @@ function spiritPage(sp){
   const image = photo ? `${SITE}/images/spirits/${sp.id}.webp` : `${SITE}/og.jpg`;
   // 사람들이 실제로 찾는 말("럼 도수")로 시작하고, 설명문에는 답과 함께 페이지에 더 있는 내용을 알려줘요
   const nm = spiritNames(sp)[0];
-  const title = fitTitle(`${sp.ko} 도수 · 종류별 차이와 제조법 정리 | 지거바`, `${sp.ko} 도수 · 종류와 제조법 | 지거바`, `${sp.ko} 도수 | 지거바`);
+  const title = SEO[url]?.title || fitTitle(`${sp.ko} 도수 · 종류별 차이와 제조법 정리 | 지거바`, `${sp.ko} 도수 · 종류와 제조법 | 지거바`, `${sp.ko} 도수 | 지거바`);
   const c = crumbs([['지거바','/'], ['주류 상식','/spirits/'], [sp.ko, url]]);
   const bases = Object.entries(BASE_SPIRIT).filter(([, ids])=>ids.includes(sp.id)).map(([b])=>b);
   const cocktails = D.RECIPES.filter(r=>bases.includes(r.base)).slice(0, 4);
-  const desc = fitDesc(t=>`${nm} 도수는 ${sp.abv}.${t ? ` ${t}` : ''} 종류별 도수 비교와 원료 · 제조법${cocktails.length ? `, ${nm}${euro(nm)} 만드는 칵테일` : ''}.`, sp.types.split(' · ').map(t=>t.replace(/\(.*?\)/g, '').trim()));
+  const desc = SEO[url]?.desc || fitDesc(t=>`${nm} 도수는 ${sp.abv}.${t ? ` ${t}` : ''} 종류별 도수 비교와 원료 · 제조법${cocktails.length ? `, ${nm}${euro(nm)} 만드는 칵테일` : ''}.`, sp.types.split(' · ').map(t=>t.replace(/\(.*?\)/g, '').trim()));
   const foods = D.FOOD.filter(f=>f.pairsWith.includes(sp.id)).slice(0, 4);
   const qs = relatedQuiz(sp);
   const same = D.SPIRITS.filter(x=>x.cat===sp.cat && x.id!==sp.id);

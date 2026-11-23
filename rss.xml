@@ -6,7 +6,28 @@
   <description>평범한 오늘을 작은 파티로. 홈칵테일 · 안주 · 홈파티 아이디어와 조주기능사 실기 · 필기 레시피</description>
   <language>ko</language>
   <atom:link href="https://jiggerbar.com/rss.xml" rel="self" type="application/rss+xml"/>
-  <lastBuildDate>Mon, 16 Nov 2026 12:58:43 GMT</lastBuildDate>
+  <lastBuildDate>Thu, 19 Nov 2026 10:06:49 GMT</lastBuildDate>
+  <item>
+    <title>편의점 무알콜 칵테일 · 음료 조합 6가지</title>
+    <link>https://jiggerbar.com/magazine/convenience-store-mocktails/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/magazine/convenience-store-mocktails/</guid>
+    <description>사이다, 진저에일, 아이스티처럼 편의점에서 파는 음료만 섞어 만드는 무알콜 칵테일 6가지와 맛있게 섞는 요령.</description>
+    <pubDate>Thu, 19 Nov 2026 10:06:49 GMT</pubDate>
+  </item>
+  <item>
+    <title>보드카 마시는 법 · 스트레이트부터 섞어 마시기</title>
+    <link>https://jiggerbar.com/magazine/how-to-drink-vodka/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/magazine/how-to-drink-vodka/</guid>
+    <description>보드카는 냉동실에 차갑게 두고 마셔요. 스트레이트로 마시는 법, 섞어 마시는 비율, 어울리는 안주와 보관법.</description>
+    <pubDate>Thu, 19 Nov 2026 10:06:49 GMT</pubDate>
+  </item>
+  <item>
+    <title>보드카 칵테일 추천 · 집에서 만드는 8가지</title>
+    <link>https://jiggerbar.com/magazine/vodka-cocktails/</link>
+    <guid isPermaLink="true">https://jiggerbar.com/magazine/vodka-cocktails/</guid>
+    <description>모스코 뮬, 코스모폴리탄, 블랙 러시안까지 보드카 칵테일 8가지를 난이도와 도수별로 골랐어요. 편의점 조합도 함께.</description>
+    <pubDate>Thu, 19 Nov 2026 10:06:49 GMT</pubDate>
+  </item>
   <item>
     <title>뵈프 부르기뇽 만드는 법 · 와인·브랜디 안주 레시피</title>
     <link>https://jiggerbar.com/food/beef-bourguignon/</link>
@@ -71,10 +92,10 @@
     <pubDate>Mon, 12 Oct 2026 07:32:07 GMT</pubDate>
   </item>
   <item>
-    <title>무알콜 칵테일 레시피 · 술 없이 즐기는 목테일 8가지</title>
+    <title>목테일 레시피 8가지 · 무알콜 칵테일 만드는 법</title>
     <link>https://jiggerbar.com/magazine/mocktail-party/</link>
     <guid isPermaLink="true">https://jiggerbar.com/magazine/mocktail-party/</guid>
-    <description>운전하는 친구, 임신 중인 손님도 함께 건배하는 무알콜 칵테일 8가지와 술 같은 맛을 내는 팁, 대량으로 만드는 법.</description>
+    <description>목테일(무알콜 칵테일) 레시피 8가지. 버진 모히토, 셜리 템플 등 집에서 쉽게 만드는 법과 술 같은 맛을 내는 팁.</description>
     <pubDate>Thu, 08 Oct 2026 07:38:24 GMT</pubDate>
   </item>
   <item>
@@ -554,10 +575,10 @@
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>코스모폴리탄 레시피 · 도수와 조주기능사 실기 표준</title>
+    <title>코스모폴리탄 칵테일 레시피 · 도수 18%</title>
     <link>https://jiggerbar.com/cocktails/cosmopolitan/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/cosmopolitan/</guid>
-    <description>코스모폴리탄(Cosmopolitan) 만드는 법. 보드카 40 ml 외 3가지. 셰이크, 도수 약 18%. 조주기능사 실기 표준 수록.</description>
+    <description>코스모폴리탄 칵테일 도수는 약 18%. 보드카 · 쿠앵트로 · 크랜베리 주스 · 라임주스 비율과 셰이크로 만드는 법.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
@@ -673,10 +694,10 @@
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>피냐 콜라다 레시피 · 도수와 조주기능사 실기 표준</title>
+    <title>피냐 콜라다 도수 10% · 레시피와 만드는 법</title>
     <link>https://jiggerbar.com/cocktails/pina-colada/</link>
     <guid isPermaLink="true">https://jiggerbar.com/cocktails/pina-colada/</guid>
-    <description>피냐 콜라다(Piña Colada) 만드는 법. 화이트 럼 50 ml 외 2가지. 블렌드, 도수 약 10%. 조주기능사 실기 표준 수록.</description>
+    <description>피냐 콜라다 도수는 약 10%. 화이트 럼 · 코코넛 크림 · 파인애플 주스 1:1:1 비율로 블렌더에 갈아 만드는 법.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
@@ -904,10 +925,10 @@
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
-    <title>보드카 도수 · 종류별 차이와 제조법 정리</title>
+    <title>보드카 도수 40도 · 종류별 차이와 제조법</title>
     <link>https://jiggerbar.com/spirits/vodka/</link>
     <guid isPermaLink="true">https://jiggerbar.com/spirits/vodka/</guid>
-    <description>보드카 도수는 40% 내외. 플레인, 플레이버드 종류별 도수 비교와 원료 · 제조법, 보드카로 만드는 칵테일.</description>
+    <description>보드카 도수는 40도 내외(37.5~40%). 플레인 · 플레이버드 종류별 도수 비교와 제조법, 보드카 칵테일.</description>
     <pubDate>Sat, 26 Sep 2026 09:16:33 GMT</pubDate>
   </item>
   <item>
