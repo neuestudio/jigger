@@ -123,7 +123,8 @@ const GA_TAG = `<script>
   gtag('js', new Date());
 
   gtag('config', 'G-3HJ7R1DJXB');
-</script>`;
+</script>
+<meta name="google-adsense-account" content="ca-pub-1704342756411700">`;
 const NAV = [['/cocktails/', '칵테일 레시피', 'cocktail'], ['/spirits/', '주류 상식', 'spirit'], ['/food/', '안주 레시피', 'food'], ['/party/', '홈파티 아이디어', 'party'], ['/magazine/', '매거진', 'magazine'], ['/quiz/', '조주기능사 필기', 'quiz'], ['/tasting/', '테이스팅 노트', 'tasting']];
 
 function crumbs(items){

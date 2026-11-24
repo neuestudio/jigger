@@ -22,7 +22,7 @@
       "!/images/*", "!/fonts/*", "!/tasting/assets/*", "!/party/assets/*",
       "!/page.css", "!/data.js", "!/photos.js", "!/affiliate.js", "!/quiz-questions.js",
       "!/favicon.svg", "!/favicon.ico", "!/apple-touch-icon.png", "!/og.jpg",
-      "!/robots.txt", "!/sitemap.xml", "!/rss.xml"
+      "!/robots.txt", "!/ads.txt", "!/sitemap.xml", "!/rss.xml"
     ]
   },
   "vars": {
